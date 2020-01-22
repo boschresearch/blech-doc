@@ -98,6 +98,20 @@ From time to time update the Docsy submodule
 git submodule update --remote
 ```
 
+#### Generate the manuals with Asciidoctor
+
+From the top of your repository run the `asciidoctor` toolchain for the three - currently draft - manuals
+
+```
+asciidoctor -D website/static/asciidoc documentation/blech-user-manual.adoc 
+asciidoctor -D website/static/asciidoc documentation/blech-evolution-proposals.adoc 
+asciidoctor -D website/static/asciidoc documentation/blechc-development-guide.adoc
+```
+
+Find the files `blech-user-manual.html`, `blech-evolution-proposals.html`, and `blechc-development-guide.html` in directory `./website/static/asciidoc`.
+
+If you use Visual Studio Code, you can build the AsciiDoc documentation by running the task `asciidoctor build` defined in `./.vscode/tasks.json`
+
 #### Preview the website
 
 Change to the `./website` subdirectory.
@@ -124,10 +138,11 @@ rm -r docs
 
 You can create the static website content by running the build-in VSCode tasks. First run the task `asciidoctor build`, after that run the task `hugo build`.
 
-The content can also be generated from the commandline.
+The content can also be generated from the commandline. First generated the static content as with Asciidoctor, as described above.
+
+Then change to subfolder `./website` and generated the static website content using Hugo.
+
 ```
-asciidoctor -D website/static/asciidoc user-manual/blech-user-manual.adoc
-...
 cd website
 ...
 hugo
