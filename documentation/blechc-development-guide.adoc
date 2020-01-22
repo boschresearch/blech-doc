@@ -1,0 +1,18 @@
+:revdate: January, 2020
+:revremark: (Pre-Release)
+
+:source: blech
+:source-highlighter: rouge
+
+:icons: font
+:toc: left
+:sectnums:
+:sectnumlevels: 1
+:sectanchors: 
+
+= Guide to Blech compiler development
+
+== Branches
+
+include::guidelines/branches.adoc[]
+

@@ -1,0 +1,8 @@
+ifdef::env-github[]
+:toc:
+:sectnums:
+:sectnumlevels: 1
+:sectanchors: 
+
+== <Repeat proosal name here, for better visualization in GitHub>
+endif::[]
