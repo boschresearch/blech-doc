@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>The Blech language</title>
+<title>Guide to Blech compiler development</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,210 +435,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>The Blech language</h1>
+<h1>Guide to Blech compiler development</h1>
 <div class="details">
-<span id="revdate">December, 2019</span>
+<span id="revdate">January, 2020</span>
 <br><span id="revremark">(Pre-Release)</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_embedded_realtime_programming">Embedded realtime programming</a></li>
-<li><a href="#_user_manual">User Manual</a>
-<ul class="sectlevel2">
-<li><a href="#_annotations_pragmas_and_doc_comments">Annotations, pragmas and doc comments</a></li>
-<li><a href="#_blechs_c_interface">Blech&#8217;s C interface</a></li>
-</ul>
-</li>
+<li><a href="#_branches">1. Branches</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_embedded_realtime_programming">Embedded realtime programming</h2>
+<h2 id="_branches"><a class="anchor" href="#_branches"></a>1. Branches</h2>
 <div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_user_manual">User Manual</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_annotations_pragmas_and_doc_comments">Annotations, pragmas and doc comments</h3>
 <div class="paragraph">
-<p>As explained before Blech allows annotations to declarations.
-In principle every declaration can have one or more annotations.</p>
+<p>For the Blech compiler development we use branches and roughly follow the <a href="https://gist.github.com/digitaljhelms/4287848">Git/Github branching standards &amp; conventions</a></p>
 </div>
 <div class="paragraph">
-<p>Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">@[EntryPoint]
-activity ... end
-
-@[CConst(binding="A_C_CONST")]
-extern const ABlechConst</code></pre>
-</div>
+<p>The contained <a href="https://gist.github.com/digitaljhelms/4287848#workflow-diagram">workflow diagram</a> visualizes this in a nice way.</p>
 </div>
 <div class="paragraph">
-<p>C bindings have an optional header parameter where the necessary header file can be defined.</p>
-</div>
-<div class="paragraph">
-<p>In order to prevent repetition we also allow pragmas which are annotations to the current scope.
-Pragmas can occur where members or statements are allowed.
-Pragmas are similar to annotations but start with <code>@@</code>.</p>
-</div>
-<div class="paragraph">
-<p>Currently we use pragmas for central C include file definitions in order to prevent repitition of header definitions in annotations.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">@@[CInclude(header="myheader.h")]
-
-@[CConst(binding="A_C_CONST")]
-extern const ABlechConst
-
-@[CConst(binding="ANOTHER_C_CONST")]
-extern const AnotherBlechConst</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Pragmas can be used in order to define metadata for a whole compilation unit or to give directives to the compiler - valid to the scope where they occur.
-Imagine the following - which is currently not implemented.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">@@[Link(lib="myclib.a")]
-
-function f(x: int32)
-    if x &gt; 10 then
-        @@[AllowShadowing]
-        var x: float32
-        x = 42.0
-    end
-end</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Annotations also allow to attach doc comments to the abstract syntax tree.
-Line doc comments and block doc comments are stored as annotations.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">/// a line doc comment
-const myConst = 11
-
-/**
-    a block doc comment
-*/
-function myDocumentedFunc()
-end</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Parsed doc comments allow to reproduce documentation in <code>.blh</code> signature files and in generated code.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_blechs_c_interface">Blech&#8217;s C interface</h3>
-<div class="paragraph">
-<p>C can be bound to Blech via annotations.</p>
-</div>
-<div class="paragraph">
-<p>In principal every Blech declarable entity can be implemented in C.
-Via an annotation a Blech <code>extern</code> declaration can be bound to a C implementation.
-It is the responsibility of the programmer to make sure that the C implementation provides what the Blech definition guarantees.</p>
-</div>
-<div class="paragraph">
-<p>Currently we support <code>extern const</code> and <code>extern function</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">@[CConst(binding = "5 * A_C_CONST", header = "myconsts.h")]
-extern const blech_const</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>blech_const</code> is implemented as a C constant.
-Assume we have the following macro in <code>myconsts.h</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="c"><span class="cp">#define A_C_CONST 42</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The generated code for the above extern Blech constant is also a macro that requires the include of the appropriate .h-file.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="c"><span class="c1">// C headers for extern declarations</span>
-<span class="cp">#include "myconsts.h"
-</span>
-<span class="c1">// extern Blech constants</span>
-<span class="cp">#define blc_blech_const (5 * A_C_CONST)</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>An extern Blech function comes in two flavours.
-- 1. As a direct binding too a C function and its .h-file
-- 2. As a wrapper to be written in C.</p>
-</div>
-<div class="paragraph">
-<p>The first case is easy</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">@[CFunction (binding = "ceil", header = "math.h")]
-extern function ceiling(i: float64) returns float64</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The generated code is again simply a macro.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="c"><span class="c1">// C headers for extern declarations</span>
-<span class="cp">#include "math.h"
-</span>
-<span class="c1">// extern Blech functions</span>
-<span class="cp">#define blc_ceiling(blc_i) (ceil(blc_i))</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The second case defines an extern function without a direct C binding.
-Assume the following code in a Blech module <code>wrapper.blc</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">extern function myCFunction(i: float64) returns float64</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In this case only a prototype is generated in the module&#8217;s header file <code>blech/wrapper.h</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="blech">// extern functions to be implemented in C
-
-blc_float64 blc_wrapper_myCFunction (const blc_float64 blc_i);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The implementation suitable to the generated prototype has to be provided by the programmer.
-To guarantee the interface the generated .h-file has to be included.</p>
-</div>
-<div class="paragraph">
-<p>Extern declarations could also be used for <code>type, typealias, param, var, let, activity</code> and will be incrementally added.</p>
-</div>
-<div class="paragraph">
-<p>Since Blech does not allow global variables the local usage of <code>extern var</code> and <code>extern let</code> creates a "static" local - in the sense of C - and requires the surrounding subprogram or struct declaration to be classified as a <code>singleton</code>.
-The same should be necessary for activities written in C that only can represent the state from step to step in global variables which make these activities <code>singleton</code> too.</p>
-</div>
+<p>Since we did not release a stable version until now, we do not have stable branch but only a master branch that reflects the evolution of the language and get tagged from time to time.</p>
 </div>
 </div>
 </div>
@@ -648,216 +472,5 @@ The same should be necessary for activities written in C that only can represent
 Last updated 2020-01-22 22:29:07 +0100
 </div>
 </div>
-<style>
-pre.rouge table td { padding: 5px; }
-pre.rouge table pre { margin: 0; }
-pre.rouge .cm {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cp {
-  color: #999999;
-  font-weight: bold;
-}
-pre.rouge .c1 {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .cs {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic;
-}
-pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
-  color: #999988;
-  font-style: italic;
-}
-pre.rouge .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
-pre.rouge .gd {
-  color: #000000;
-  background-color: #ffdddd;
-}
-pre.rouge .ge {
-  color: #000000;
-  font-style: italic;
-}
-pre.rouge .gr {
-  color: #aa0000;
-}
-pre.rouge .gh {
-  color: #999999;
-}
-pre.rouge .gi {
-  color: #000000;
-  background-color: #ddffdd;
-}
-pre.rouge .go {
-  color: #888888;
-}
-pre.rouge .gp {
-  color: #555555;
-}
-pre.rouge .gs {
-  font-weight: bold;
-}
-pre.rouge .gu {
-  color: #aaaaaa;
-}
-pre.rouge .gt {
-  color: #aa0000;
-}
-pre.rouge .kc {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kd {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kn {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kp {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kr {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .kt {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .k, pre.rouge .kv {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .mf {
-  color: #009999;
-}
-pre.rouge .mh {
-  color: #009999;
-}
-pre.rouge .il {
-  color: #009999;
-}
-pre.rouge .mi {
-  color: #009999;
-}
-pre.rouge .mo {
-  color: #009999;
-}
-pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
-  color: #009999;
-}
-pre.rouge .sb {
-  color: #d14;
-}
-pre.rouge .sc {
-  color: #d14;
-}
-pre.rouge .sd {
-  color: #d14;
-}
-pre.rouge .s2 {
-  color: #d14;
-}
-pre.rouge .se {
-  color: #d14;
-}
-pre.rouge .sh {
-  color: #d14;
-}
-pre.rouge .si {
-  color: #d14;
-}
-pre.rouge .sx {
-  color: #d14;
-}
-pre.rouge .sr {
-  color: #009926;
-}
-pre.rouge .s1 {
-  color: #d14;
-}
-pre.rouge .ss {
-  color: #990073;
-}
-pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
-  color: #d14;
-}
-pre.rouge .na {
-  color: #008080;
-}
-pre.rouge .bp {
-  color: #999999;
-}
-pre.rouge .nb {
-  color: #0086B3;
-}
-pre.rouge .nc {
-  color: #445588;
-  font-weight: bold;
-}
-pre.rouge .no {
-  color: #008080;
-}
-pre.rouge .nd {
-  color: #3c5d5d;
-  font-weight: bold;
-}
-pre.rouge .ni {
-  color: #800080;
-}
-pre.rouge .ne {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nf, pre.rouge .fm {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nl {
-  color: #990000;
-  font-weight: bold;
-}
-pre.rouge .nn {
-  color: #555555;
-}
-pre.rouge .nt {
-  color: #000080;
-}
-pre.rouge .vc {
-  color: #008080;
-}
-pre.rouge .vg {
-  color: #008080;
-}
-pre.rouge .vi {
-  color: #008080;
-}
-pre.rouge .nv, pre.rouge .vm {
-  color: #008080;
-}
-pre.rouge .ow {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .o {
-  color: #000000;
-  font-weight: bold;
-}
-pre.rouge .w {
-  color: #bbbbbb;
-}
-pre.rouge {
-  background-color: #f8f8f8;
-}
-</style>
 </body>
 </html>
