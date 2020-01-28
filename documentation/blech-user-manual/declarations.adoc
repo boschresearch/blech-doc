@@ -1,0 +1,103 @@
+ifdef::env-github[]
+:toc:
+:sectnums:
+:sectnumlevels: 1
+:sectanchors: 
+
+== Declarations
+endif::[]
+
+=== Data
+
+Data declarations consist of an access and placement qualifier, a name, a data type and an initialisation.
+
+ DataDeclaration -> Qualifier Name : Type = Init
+
+Example:
+
+ var x: int32 = 17
+
+There are four possible qualifiers.
+
+ Qualifier -> const | param | let | var
+ 
+`const` qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
+Typical use cases for `const` are sizes of data structures, addresses in memory, ... 
+In C, these are represented by `#define` macros, which, too, have no representation after the preprocessor finishes.
+Hence *using const on arrays (or structs containing arrays), albeit possible, is not advisable* and produces highly inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
+Instead consider `param`.
+
+`param` qualified data has a representation in memory at run time but cannot be changed by the running program for its entire lifetime (it can only be reflashed).
+Typical use cases for `param` are characteristics maps or other immutable lookup data structures.
+The name "param" indicates that such data is a parameter of the final compilation result.
+Tools exist to customise such parameters in a binary file directly in order to adapt the given software to a variant of a product.
+Like with `const` data, the `param` value must be initialised with constant expressions.
+You cannot write the following
+
+ function f(input: int32)
+    param x: int32 = input // error!
+ end
+
+This is because the value of `input` is determined at *runtime* but `x` must be initialised at *compile time*.
+// TODO: the following was meant to distinguish param from let but maybe more misleading in its current formulation
+//Note, that `param` will occupy global static memory even when defined inside a function.
+//This goes to say that, albeit possible, not all immutable data should be declared using `param`. Instead, data that is local to an activity or function should be declared using `let`.
+
+`const` and `param` data may be declared at top level as well as inside functions or activities.
+The other two qualifiers `let` and `var` indicate local data and may *only* be used inside functions or activities.
+
+`let` declares immutable data in the control flow of a program.
+Finally, 'var' declares the usual mutable variable.
+Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type's default value.
+The type annotation may be omitted if the type may be unambiguously determined from the initialisation expression.
+
+Example:
+[source]
+----
+const LEN: int32 = 8
+param lut: [LEN]float64 = {1.0, 0.5, 0.25, 0.125} // LEN is constant and may be used here
+                                                  // the array literal will be filled with additional 0's up to length LEN.
+function f()
+    let i = LEN - 7 // i is deduced to be int32
+    var x = lut[i] // x is deduced to be float64
+                   // and equals 0.5 in this case
+end
+----
+
+[IMPORTANT]
+We deliberately prohibit the use of `let` and `var` outside subprogram scopes ("no global variables in Blech!").
+
+[CAUTION]
+Confusion may arise about the difference between `param` and `let`.
+They both qualify immutable data in memory.
+They could be even stored in the same way which however is a compiler implementation detail and none of the concerns of the programmer.
+The crucial difference is that `let` takes values at runtime.
+It is immutable throughout the scope where it has been declared.
+Once the scope is left and re-entered, the value of that `let` variable may be re-initialised. (In the literature this is sometimes dramatically referred to as "re-incarnation".)
+As stated above, ```param``` data cannot be changed by the running program at all, it is completely static.
+
+[CAUTION]
+The word "parameter" appears in two notions. One is "formal parameter" of a function or activity.
+The other is "param" qualifier for immutable data.
+The first parametrises a function (ar activity), the second parametrises a whole binary.
+We try to make clear which one we mean throughout this document. Usually it should be apparent from context however.
+
+=== User defined types
+
+ StructDeclaration -> struct Name Fields end
+ Fields            -> DataDeclaration (let and var only)
+
+In the let case the initialisation may omitted.
+The value is assigned by the initialiser.
+
+=== Subprograms
+
+ ProgramDeclaration -> ProgramType Name ParamList ParamList returns Type Body end
+ ProgramType        -> function | activity
+ ParamList          -> () | ( NonEmptyList )
+ NonEmptyList       -> Name : Type | NonEmptyList, NonEmptyList
+
+=== External Declarations
+
+ ExternFunctionDeclaration -> extern function Name ParamList ParamList returns Type
+ ExternDataDeclaration -> extern Qualifier Name : Type
