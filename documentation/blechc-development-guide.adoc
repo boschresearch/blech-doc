@@ -1,8 +1,9 @@
 :revdate: January, 2020
 :revremark: (Pre-Release)
 
-:source: blech
-:source-highlighter: rouge
+:source-highlighter: highlightjs
+:highlightjsdir: _includes/highlight
+:source-language: blech
 
 :icons: font
 :toc: left

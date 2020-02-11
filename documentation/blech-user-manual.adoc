@@ -1,7 +1,10 @@
 :revdate: December, 2019
 :revremark: (Pre-Release)
 :toc: left
-:source-highlighter: rouge
+
+:source-highlighter: highlightjs
+:highlightjsdir: _includes/highlight
+:source-language: blech
 
 = The Blech language - Reactive embedded realtime programming
 
@@ -9,8 +12,20 @@ A general introduction, design criteria and choices, ... (todo)
 
 = User Reference Manual
 
+== Notation
+include::blech-user-manual/notation.adoc[]
+
+== Lexical Elements
+include::blech-user-manual/lexical.adoc[]
+
 == Declarations
 include::blech-user-manual/declarations.adoc[]
+
+== Types
+
+== Expressions
+
+== Statements
 
 == Annotations, pragmas and doc comments
 include::blech-user-manual/annotations.adoc[]

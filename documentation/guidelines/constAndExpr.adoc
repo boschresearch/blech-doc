@@ -1,3 +1,7 @@
+:source-highlighter: highlightjs
+:highlightjsdir: ../_includes/highlight
+:source-language: blech
+
 ifdef::env-github[]
 :toc:
 :sectnums:

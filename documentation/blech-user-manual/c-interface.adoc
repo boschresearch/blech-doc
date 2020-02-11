@@ -4,6 +4,10 @@ ifdef::env-github[]
 :sectnumlevels: 1
 :sectanchors: 
 
+:source-highlighter: highlightjs
+:highlightjsdir: ../_includes/highlight
+:source-language: blech
+
 == Blech's C interface
 endif::[]
 
@@ -73,7 +77,7 @@ extern function myCFunction(i: float64) returns float64
 
 In this case only a prototype is generated in the module's header file `blech/wrapper.h`.
 
-[source, blech]
+[source, c]
 ----
 // extern functions to be implemented in C
 

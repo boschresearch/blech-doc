@@ -4,5 +4,9 @@ ifdef::env-github[]
 :sectnumlevels: 1
 :sectanchors: 
 
+:source-highlighter: highlightjs
+:highlightjsdir: ../_includes/highlight
+:source-language: blech
+
 == <Repeat Section title here, for better visualization in GitHub>
 endif::[]

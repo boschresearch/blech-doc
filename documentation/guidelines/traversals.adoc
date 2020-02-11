@@ -18,12 +18,6 @@ let rec private stmtType stmt
 ----
 
 ----
-/// Checks whether the lists of statements does not contain any synchronous
-/// statements. This check is required for function bodies.
-let private checkAbsenceOfSyncStmts stmts
-----
-
-----
 /// An activity must have some synchronous delay statement on every possible 
 /// execution path through its body.
 /// This can be an await or a run statement.
@@ -39,6 +33,12 @@ let private determineGlobalOutputs lut bodyRes
 ----
 
 ==== Traversing expressions and statements
+----
+/// Checks whether the lists of statements does not contain any synchronous
+/// statements. This check is required for function bodies.
+let private checkAbsenceOfSyncStmts stmts
+----
+
 ----
 let private determineCalledSingletons lut bodyRes =
 ----

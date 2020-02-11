@@ -4,27 +4,78 @@ ifdef::env-github[]
 :sectnumlevels: 1
 :sectanchors: 
 
+:source-highlighter: highlightjs
+:highlightjsdir: ../_includes/highlight
+:source-language: blech
+
 == Declarations
 endif::[]
 
+Declarations introduce new names for entities in the program.
+Declarable entities include
+
+* activities
+* functions
+* types
+* data storage
+
+In the future more of such entities may be added to the language such as clocks and physical units.
+
+Every declaration exists in a _lexical scope_.
+Scopes define the visibility of a name.
+The top-level or file scope is the most global scope in Blech.
+Functions, activities and types are defined here.
+Entities in the top-level scope are visible everywhere in the file.
+Every block introduces a sub-scope.
+For example, a function body is a local scope.
+Variables defined in this scope are visible in this function but not outside of it.
+Composite statements, such as the `repeat` loop introduce their statement-local scope. This allows to introduce a variable that is visible during the iteration through this loop and not outside of it.
+
+[NOTE]
+Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
+
+In Blech, declarations not only introduce a name but also _define_ what this name represents. For example, a function declaration will specify a function body.
+That is the block of statements that are executed when this functions is called.
+The definition may refer to names that were previously declared.
+
+[IMPORTANT]
+Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
+
+In the following we discuss the various entities that can be defined in a Blech program.
+
 === Data
 
-Data declarations consist of an access and placement qualifier, a name, a data type and an initialisation.
+Data declarations consist of an access and placement qualifier, an identifier, a data type and an initialisation.
 
- DataDeclaration -> Qualifier Name : Type = Init
+[source,abnf]
+----
+DataDeclaration ::= Qualifier Identifier ":" Type "=" Init
+----
 
 Example:
+[source]
+----
+var x: int32 = 17
+----
 
- var x: int32 = 17
+The type is either a built-in type or a name of a user defined type.
+Built-in types are discussed in the next chapter.
+Type declarations are discussed in the next section.
 
+Initialisers are expressions that evaluate to a value that matches this declaration's data type. Expressions (including literals) will be discussed in a later chapter.
+
+==== Qualifiers
 There are four possible qualifiers.
 
- Qualifier -> const | param | let | var
- 
+[source,abnf]
+---- 
+Qualifier ::= "const" | "param" | "let" | "var"
+----
+
 `const` qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
 Typical use cases for `const` are sizes of data structures, addresses in memory, ... 
 In C, these are represented by `#define` macros, which, too, have no representation after the preprocessor finishes.
-Hence *using const on arrays (or structs containing arrays), albeit possible, is not advisable* and produces highly inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
+Hence *using const on arrays (or structs containing arrays), albeit possible, is not advisable* and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
 Instead consider `param`.
 
 `param` qualified data has a representation in memory at run time but cannot be changed by the running program for its entire lifetime (it can only be reflashed).
@@ -34,14 +85,14 @@ Tools exist to customise such parameters in a binary file directly in order to a
 Like with `const` data, the `param` value must be initialised with constant expressions.
 You cannot write the following
 
- function f(input: int32)
-    param x: int32 = input // error!
- end
+[source]
+----
+function f (input: int32)
+   param x: int32 = input // error!
+end
+----
 
 This is because the value of `input` is determined at *runtime* but `x` must be initialised at *compile time*.
-// TODO: the following was meant to distinguish param from let but maybe more misleading in its current formulation
-//Note, that `param` will occupy global static memory even when defined inside a function.
-//This goes to say that, albeit possible, not all immutable data should be declared using `param`. Instead, data that is local to an activity or function should be declared using `let`.
 
 `const` and `param` data may be declared at top level as well as inside functions or activities.
 The other two qualifiers `let` and `var` indicate local data and may *only* be used inside functions or activities.
@@ -49,10 +100,10 @@ The other two qualifiers `let` and `var` indicate local data and may *only* be u
 `let` declares immutable data in the control flow of a program.
 Finally, 'var' declares the usual mutable variable.
 Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type's default value.
-The type annotation may be omitted if the type may be unambiguously determined from the initialisation expression.
+The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.
 
 Example:
-[source]
+[source,blech]
 ----
 const LEN: int32 = 8
 param lut: [LEN]float64 = {1.0, 0.5, 0.25, 0.125} // LEN is constant and may be used here
@@ -65,7 +116,8 @@ end
 ----
 
 [IMPORTANT]
-We deliberately prohibit the use of `let` and `var` outside subprogram scopes ("no global variables in Blech!").
+No global variables in Blech!
+We deliberately prohibit the use of `let` and `var` outside subprogram scopes because we believe this leads to better understandable, easier to integrate and unit-testable programs.
 
 [CAUTION]
 Confusion may arise about the difference between `param` and `let`.
@@ -77,27 +129,142 @@ Once the scope is left and re-entered, the value of that `let` variable may be r
 As stated above, ```param``` data cannot be changed by the running program at all, it is completely static.
 
 [CAUTION]
-The word "parameter" appears in two notions. One is "formal parameter" of a function or activity.
-The other is "param" qualifier for immutable data.
+The word "parameter" appears in two notions. One is the "formal parameter" of a function or activity.
+The other is the "param" qualifier for immutable data.
 The first parametrises a function (ar activity), the second parametrises a whole binary.
 We try to make clear which one we mean throughout this document. Usually it should be apparent from context however.
 
 === User defined types
+The programmer may define a data structure using the `struct` keyword.
+A structure has a list of data declarations which are called _fields_.
+Fields may only be `var` or `let` declarations of some type.
 
- StructDeclaration -> struct Name Fields end
- Fields            -> DataDeclaration (let and var only)
+[source,abnf]
+----
+StructDeclaration ::= "struct" Identifier Fields "end"
+Fields            ::= ("var" | "let") Identifier ":" Type ["=" Init]
+----
 
-In the let case the initialisation may omitted.
-The value is assigned by the initialiser.
+If an initialiser is given for a field this value is taken as the default value when constructing an instance of this structure.
+Of course, the default value may be overruled by the initialiser given at the instantiation.
+`let` fields cannot be changed once the structure is instantiated.
+
+Example:
+[source]
+----
+struct S
+   let a: int32 = 7
+   var b: int32
+end
+
+/* ... somewhere in a local scope ... */
+var s1: S    // s1 == {a = 7, b = 0}
+s1.b = 17    // ok, now s1 == {a = 7, b = 17}
+s1.a = 42    // error! Cannot change a let field
+s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
+
+let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
+s2.b = 17                     // error! Cannot change the let variable s2
+----
 
 === Subprograms
+Blech discerns two type of subprograms: `activity` and `function`.
+Their behaviour is different. Activities must pause at least once whereas functions need to terminate within one reaction. Functions are therefore called "instantaneous".
+The precise differences will be worked out in the chapter on Blech statements.
+From a syntactic declaration point of view there is hardly any difference.
 
- ProgramDeclaration -> ProgramType Name ParamList ParamList returns Type Body end
- ProgramType        -> function | activity
- ParamList          -> () | ( NonEmptyList )
- NonEmptyList       -> Name : Type | NonEmptyList, NonEmptyList
+[source,abnf]
+----
+ProgramDeclaration ::= ProgramType Identifier ParamList [ParamList] ["returns" Type] Body "end"
+ProgramType        ::= "function" | "activity"
+ParamList          ::= "()" | "(" ParamDeclaration ("," ParamDeclaration)* ")"
+ParamDeclaration   ::= Identifier ":" Type
+----
+
+There are two parameter lists. 
+The first lists declares formal parameters that may only be read (like `let` variables), the second list declares formal parameters that may be both read and written (like `var` variables).
+In particular the two lists are useful for activities which, in every reaction, receive a list of read-only _inputs_, perform some calculation and set the list of read-write _outputs_.
+We will therefore often refer to these two parameter lists as "input list" and "output list".
+
+The programming model is that all variables are passed by reference (even though in reality the compiler will optimise this into by-value for simple value typed inputs).
+
+Example:
+[source]
+----
+function add (x: int32, y: int32) returns int32
+   return x + y
+end
+
+@[EntryPoint]
+activity A (in: int32)(out: int32)
+   repeat
+      out = add(in, out)
+      await true
+   end
+end
+----
+The example above is a valid Blech program that sums all inputs over all time steps.
+Note that `add` omits an output list and `A` does not declare any return type.
+We call functions or activities that do not return anything "void" but unlike C we do not have a void type in the language.
+
+The `@[EntryPoint]` annotation tells the compiler that `A` is the main program of this file. Every Blech file must have precisely one entry point activity.
+_(That is until we have a module system that allows to write libraries that may have no single entry point at all)._
 
 === External Declarations
+It is sometimes useful to access global variables or functions of a C program.
+This allows for example to make use of existing libraries.
+Such variables and functions are _external_ from the point of view of a Blech program.
+Annotations are required to tell the compiler how to code-generate access to these external entities.
 
- ExternFunctionDeclaration -> extern function Name ParamList ParamList returns Type
- ExternDataDeclaration -> extern Qualifier Name : Type
+Formally, we have the following syntax.
+[source,abnf]
+----
+ExternFunctionDeclaration ::= "extern" ["singleton"] "function" Identifier ParamList [ParamList] [returns Type]
+ExternDataDeclaration     ::= "extern" Qualifier Identifier ":" Type
+----
+
+Obviously, external functions have no body and external variables cannot be initialised.
+
+We introduce the necessary annotations by example.
+
+[IMPORTANT]
+Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We'll point out a few caveats in the following.
+
+==== Top-level external constants
+==== Local external variables
+==== External functions
+There are two ways to link to external functions in Blech.
+
+- 1. Via direct binding to function name declared in an .h file
+- 2. Via a wrapper to be implemented in some .c file.
+
+In the first case we annotate what is the name of the C function and where is that name declared.
+
+[source, blech]
+----
+@[CFunction (binding = "ceil", header = "math.h")]
+extern function ceiling(i: float64) returns float64
+----
+
+Inside the Blech program this function is now available through name `ceiling`.
+
+In the second case we annotate in which file we intend to implement the C function.
+Actually this information is irrelevant for the Blech compilation itself.
+However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for compilation of the whole project.
+
+[source, blech]
+----
+extern function myCFunction(i: float64) returns float64
+----
+
+Assume the above declaration is written in a Blech file called `MyFile.blc`, then the code generator will produce a header file `MyFile.h` with the following entry:
+
+[source, c]
+----
+// extern functions to be implemented in C
+blc_float64 blc_MyFile_myCFunction (const blc_float64 blc_i);
+----
+
+It is up to the C programmer now to include this header in his implementation and provide an actual definition of this function.
+
+//TODO: explain caveats with types, singleton, annotations
