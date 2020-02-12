@@ -12,6 +12,17 @@ A general introduction, design criteria and choices, ... (todo)
 
 = User Reference Manual
 
+This is the user reference manual.
+It explains in detail the various elements of the Blech language and what they mean.
+This text may be regarded as specification of how the language looks syntactically and how the programs written in it shall behave.
+
+The Blech language is still evolving and its compiler to C is being implemented.
+Thus this manual reflects the subset of the language that is implemented in the master branch of the https://github.com/boschresearch/blech[compiler repository].
+A mismatch between this documentation and the implementation is possible and indicates that either this text needs to be updated or that there is a bug in the implementation.
+
+The manual assumes that the reader is basically familiar with the language.
+Even though we try to make the chapters as independent as possible it is unavoidable that earlier chapters refer to notions which are explained in detail only in subsequent chapters.
+
 == Notation
 include::blech-user-manual/notation.adoc[]
 
@@ -25,7 +36,8 @@ include::blech-user-manual/declarations.adoc[]
 
 == Expressions
 
-== Statements
+== Control-flow
+include::blech-user-manual/controlflow.adoc[]
 
 == Annotations, pragmas and doc comments
 include::blech-user-manual/annotations.adoc[]

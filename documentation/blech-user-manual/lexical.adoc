@@ -100,7 +100,7 @@ An identifier is any token that is not a keyword and starts with a letter or und
 The precise definition is given by the following grammar rule
 [source,abnf]
 ----
-Identifier      ::=  "_"* ["a"..."z" "A"..."Z"]+ ["_" "a"..."z" "A"..."Z" "0"..."9"]*
+Identifier ::=  "_"* ["a"..."z" "A"..."Z"]+ ["_" "a"..."z" "A"..."Z" "0"..."9"]*
 ----
 Note that identifiers have an infix of at least one letter.
 

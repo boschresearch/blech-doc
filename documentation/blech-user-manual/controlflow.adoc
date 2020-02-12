@@ -1,0 +1,12 @@
+ifdef::env-github[]
+:toc:
+:sectnums:
+:sectnumlevels: 1
+:sectanchors: 
+
+:source-highlighter: highlightjs
+:highlightjsdir: ../_includes/highlight
+:source-language: blech
+
+== Control-flow
+endif::[]
