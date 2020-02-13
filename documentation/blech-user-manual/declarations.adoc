@@ -167,6 +167,7 @@ let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
 s2.b = 17                     // error! Cannot change the let variable s2
 ----
 
+[[decl:subprogs]]
 === Subprograms
 Blech discerns two type of subprograms: `activity` and `function`.
 Their behaviour is different. Activities must pause at least once whereas functions need to terminate within one reaction. Functions are therefore called "instantaneous".
@@ -175,7 +176,7 @@ From a syntactic declaration point of view there is hardly any difference.
 
 [source,abnf]
 ----
-ProgramDeclaration ::= ["singleton"] ProgramType Identifier ParamList [ParamList] ["returns" Type] Body "end"
+ProgramDeclaration ::= ["singleton"] ProgramType Identifier ParamList [ParamList] ["returns" Type] StmtBlock "end"
 ProgramType        ::= "function" | "activity"
 ParamList          ::= "()" | "(" ParamDeclaration ("," ParamDeclaration)* ")"
 ParamDeclaration   ::= Identifier ":" Type

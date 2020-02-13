@@ -29,15 +29,15 @@ include::blech-user-manual/notation.adoc[]
 == Lexical Elements
 include::blech-user-manual/lexical.adoc[]
 
+== Control-flow
+include::blech-user-manual/controlflow.adoc[]
+
 == Declarations
 include::blech-user-manual/declarations.adoc[]
 
 == Types
 
 == Expressions
-
-== Control-flow
-include::blech-user-manual/controlflow.adoc[]
 
 == Annotations, pragmas and doc comments
 include::blech-user-manual/annotations.adoc[]
