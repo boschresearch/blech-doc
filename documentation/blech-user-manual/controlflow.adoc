@@ -8,7 +8,7 @@ ifdef::env-github[]
 :highlightjsdir: ../_includes/highlight
 :source-language: blech
 
-== Control-flow
+== Control flow
 endif::[]
 
 === Model of execution
@@ -101,6 +101,7 @@ Functions however can only call other functions.
 Here we discuss statements that are specific to the synchronous paradigm of Blech.
 These statements control the reactive behaviour of the program and hence may only appear inside activities, not in functions.
 
+===== Await
 The aforementioned "pause" is denoted as follows.
 [source,abnf]
 ----
@@ -116,6 +117,7 @@ Example:
 [IMPORTANT]
 TODO
 
+===== Run
 An activity call is given by the following grammar.
 [source,abnf]
 ----
@@ -139,33 +141,321 @@ Example:
 [IMPORTANT]
 TODO
 
+===== Cobegin
 Concurrent composition is done with the `cobegin` statement.
 [source,abnf]
 ----
 ForkJoin ::= "cobegin" ["weak"] StmtBlock ("with" ["weak"] StmtBlock)+ "end"
 ----
-[IMPORTANT]
-TODO
+Using `cobegin` it is possible to compose arbitrary pieces of code.
+The goal is not to parallelise to gain execution speed.
+Rather this the language construct to express that two (or more) functionalities should be computed within the same reaction.
+As such concurrency is rather a modelling concept in Blech.
+The code generator will actually sequentialise the code in a causally correct order.
 
+[NOTE]
+In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
+
+.Concurrent composition
+====
+[source]
+----
+activity P ()
+    var x: int32
+    var y: int32
+    var z: int32
+    cobegin
+        run A(x)(z)
+    with
+        run B(y)(x)
+    end
+end
+----
+Assume the activities `A` and `B` have already been implemented.
+In lines 5 -- 9 they are composed concurrently.
+This means the control flow of `P` is forked into two control flow points.
+One resides in `A` (line 6) and one in `B` (line 8).
+With every tick both, `A` and `B`, will perform one reaction.
+When both subprograms terminate, `P` regains control in line 9 and, in this example, terminates too.
+Of course, more than two branches can be combined using more `with` branches.
+Note that the reaction of `B` will be carried out before the reaction of `A` due to causality:
+First the unique value of `x` needs to be set by writer `B` before the reader `A` may use it.
+====
+The `cobegin` statement is a composite statement like a `repeat` loop or an `if` statement.
+Control flow can remain within the `cobegin` branches for multiple reactions.
+However in general the various branches can perform a different number of reactions, possibly infinitely many.
+We therefore need to control the termination of `cobegin` as a whole using the `weak` qualifiers.
+
+Formally, a `cobegin` statement terminates in the reaction in which all strong branches have terminated.
+If all branches are weak, the `cobegin` statement terminates in the reaction in which some branch terminates.
+
+In the above example no branch is `weak`.
+We say all branches are "strong".
+This means the `cobegin` statement terminates when _all_ of its branches have terminated.
+Branches that finish earlier (have fewer reaction to do) will simply do nothing until the last strong branch has terminated.
+The following two examples illustrate the usage of the `weak` qualifier.
+
+.Weak and strong branches
+====
+[source]
+----
+/* ... inside some activity ... */
+var res: nat8
+cobegin weak
+    // non-terminating branch
+    repeat
+        await true
+        out1 = (out1 + 1) % 100
+    end
+with
+    // terminates once a key is pressed
+    res = run ReadKeyStroke()
+end
+----
+The first branch contains an infinite loop in the sense that every iteration ends in a pause but the number of reactions is unbounded.
+The loop is placed into a weak branch that allows to terminate the loop at the end of some reaction.
+The second branch contains an activity call that is expected to return some value eventually.
+In the reaction in which the result is returned the weak branch will be aborted (after it has done one iteration) and the control flow continues with the next statement following the `cobegin`.
+====
+
+.All branches weak
+====
+[source]
+----
+cobegin weak
+    await isButtonPressed
+with weak
+    await hasReceivedSignal
+end
+----
+In this example there are no strong branches.
+The first branch to terminate will abort all others.
+In this example it means as soon as `isButtonPressed` or `hasReceivedSignal` is true (or both are true!) the `cobegin` statement terminates and control flow continues with the next statement.
+====
+
+===== Abort and reset
 There are two kinds of synchronous preemptions built into Blech.
 [source,abnf]
 ----
 Preemption ::= "when" Condition ("abort" | "reset") StmtBlock "end"
 ----
+When control flow enters a preemption the statements in its body, denoted by `StmtBlock` in the grammar, are executed until the reaction ends in an `await` or `run` statement.
+Subsequently, when a reaction resumes execution inside the body, first the `when` condition is checked.
+If it is false, the execution starts as usual.
+Otherwise the body is preempted _before_ any statement is executed or expression is evaluated inside the body.
+There are two variants of preemptions.
+`abort` means that control flow jumps to the `end` of the preemption statement.
+`reset` means that control flow restarts at the beginning of `StmtBlock`.
+
+Note that
+[source]
+----
+when Condition reset P end
+----
+is syntactic sugar for
+[source]
+----
+var hasTerminated = false
+repeat
+    when Condition abort
+        P
+        hasTerminated = true
+    end
+until hasTerminated end
+----
+where `hasTerminated` is a fresh boolean variable.
+
+It is, of course, possible that the body is left instantaneously within one reaction.
+In this case the preemption is irrelevant for the flow of control.
+
 [IMPORTANT]
-TODO
+The preemption condition is *not* checked when the control flow enters the body.
+The `when` condition is only checked when control flow resumes from within the body.
+Wrap the preemption inside an `if` statement in case you want to check the condition before entering the body.
+
+.Abort and Reset
+====
+[source]
+----
+activity A (in1: bool) (out1: uint8)
+    // do something ...
+    
+    when in1 abort
+        out1 = 1     // line 5
+        await true   // line 6
+        out1 = 2     // line 7
+        await true   // line 8
+        out1 = 3     // line 9
+    end
+    
+    // do something else ...
+end
+----
+The statement in line 4 says that `when` a reaction _starts_ in the block lines 5 -- 9, it is checked whether `in1` is true and in that case the control flow skips to line 10.
+Thus when control flow reaches line 4 it will immediately proceed to line 5, set `out1` accordingly and finish this reaction in line 6 (regardless of the value of `in1`).
+The next reaction starts by checking the abort condition `in1`.
+If it is true we skip the rest of the block and proceed to line 10.
+Otherwise, we check the condition of the `await` statement which here is vacuously true and the reaction proceeds to line 7 and finishes in line 8.
+The same reasoning applies in line 8: the execution is possibly aborted before setting `out1` to 3.
+In any case, the block is left in line 10.
+
+The `abort` statement is useful whenever we want to skip over a sequence of reactions when we detect some issue at the beginning of a reaction.
+Sometimes instead of skipping ahead we would like to restart a sequence of reactions.
+For this we may use the `reset` statement.
+[source]
+----
+activity MyAct (in1: bool) (out1: uint8)
+    // do something ...
+    
+    when in1 reset // reset instead of abort
+        out1 = 1
+        await true
+        out1 = 2
+        await true
+        out1 = 3
+    end
+    
+    // do something else ...
+end
+----
+It behaves just like the `abort` statement except it jumps to line 4 if `in1` is true.
+====
+
+[IMPORTANT]
+TODO:
+Use Asciidoc's built-in mechanisms for referencing individual source code lines in previous examples!
 
 ==== Imperative control flow
 All of the following statements are known from mainstream imperative programming languages.
 They may be used inside both, activities and functions.
 
-* assignment
-* do...end
-* if...then...elseif...end
-* while...repeat...end
-* repeat...until...end
-* return
-* function call
+===== Assignment
+[source,abnf]
+----
+Assignment ::= LhsExpr "=" RhsExpr
+----
 
-[IMPORTANT]
-TODO
+===== Do block
+[source,abnf]
+----
+DoBlock ::= "do" StmtBlock "end"
+----
+The `do` block may be used to define local scopes.
+
+.Local scopes
+====
+[source]
+----
+function f ()
+    do
+        var x: int8 = 5
+    end
+    // x is out of scope here
+end
+----
+====
+
+===== If
+[source,abnf]
+----
+IfStmt ::= "if" Condition "then" StmtBlock ["elseif" Condition "then" StmtBlock]* ["else" StmtBlock] "end"
+----
+
+===== While
+[source,abnf]
+----
+WhileLoop ::= "while" Condition "repeat" StmtBlock "end"
+----
+When using a loop in an activity, there must be some pause on every control flow path through the loop body.
+This is not necessary for loops inside functions.
+Note that using `while` loops in activities may lead to unexpected error messages because we deliberately *do not* evaluate the condition at compile time even if it is trivially true or false.
+For example:
+[source]
+----
+activity Toggle()(out:bool)
+    while true repeat
+        out = not out
+        await true
+    end
+end
+----
+This program will not compile because the compiler thinks there is a control flow path that does not enter the loop and immediately terminates the activity.
+Since activities must not be instantaneous this program is rejected.
+Use `repeat` loops instead to avoid this spurious control flow paths that possibly skip the loop.
+
+===== Repeat
+[source,abnf]
+----
+RepeatLoop ::= "repeat" StmtBlock ["until" Condition] "end"
+----
+`repeat` loops guarantee that control flow does enter the loop body at least once.
+Endless loops (without the `until` condition) may only be used in activities.
+Again, when using a loop in an activity, there must be some pause on every control flow path through the loop body.
+This is not necessary for loops inside functions.
+
+===== Return
+[source,abnf]
+----
+ReturnStmt ::= "return" [RhsExpr]
+----
+Void activities and functions can use `return` without an expression to terminate at some point before control flow reaches the last statement.
+
+.Return from void function
+====
+====
+
+Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.
+
+Activities may only return from their main thread.
+In other words `return` must not occur inside any branch of a `cobegin` statement.
+
+Mind the difference between activity return values and activity output values.
+Outputs are set in every reaction of the activity.
+A return value is returned precisely once in the reaction that terminates the activity.
+
+.Return from activity
+====
+[source]
+----
+activity A (in: int32) (out: int32) returns nat8
+    var retcode: nat8
+    var x: int32
+    cobegin weak
+        run B(in)(x)
+    with
+        retcode = run C(x)(out)
+    end
+    return retcode
+end
+----
+In every reaction `in` is propagated to `B` and `out` is propagated from `C` to the caller.
+Only when `C` terminates the variable `retcode` is updated, the `cobegin` statement is terminated and the `retcode` is returned to the caller.
+====
+
+===== Function call
+[source,abnf]
+----
+FunctionCallStmt ::= Identifier RhsArgList [LhsArgList]
+----
+Blech distinguishes between a function call statement and a function call expression.
+On the statement level only void functions may be called.
+
+In summary, a block of statements in Blech is given by the following grammar.
+
+Depending on whether statements are used in an activity or a function their use may be restricted or prohibited (see above).
+The optional semicolons in the grammar indicate that it is possible to separate statements in a sequence using semicolons.
+We suggest to avoid writing any semicolons unless two (or more) statements are written in one line.
+
+.Semicolons in Blech
+====
+[source]
+----
+function f()
+    var x: int8 = 0; // do not clutter your code with superfluous ";"
+    var y: int8 = 1  // preferred semicolon free style
+
+    x = 7; y = y + x // ok, but usually it is better to write two lines
+    x = 7 y = y + x  // compiles but is hardly readable, do not do that
+end
+----
+====

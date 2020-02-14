@@ -8,7 +8,7 @@ ifdef::env-github[]
 :highlightjsdir: ../_includes/highlight
 :source-language: blech
 
-== Lexical Elements
+== Lexical elements
 endif::[]
 
 === Comments

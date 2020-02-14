@@ -52,11 +52,13 @@ Data declarations consist of an access and placement qualifier, an identifier, a
 DataDeclaration ::= Qualifier Identifier ":" Type "=" Init
 ----
 
-Example:
+.A variable declaration
+====
 [source]
 ----
 var x: int32 = 17
 ----
+====
 
 The type is either a built-in type or a name of a user defined type.
 Built-in types are discussed in the next chapter.
@@ -102,7 +104,8 @@ Finally, 'var' declares the usual mutable variable.
 Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type's default value.
 The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.
 
-Example:
+.Usage of different storage qualifiers
+====
 [source,blech]
 ----
 const LEN: int32 = 8
@@ -114,6 +117,7 @@ function f()
                    // and equals 0.5 in this case
 end
 ----
+====
 
 [IMPORTANT]
 No global variables in Blech!
@@ -149,7 +153,8 @@ If an initialiser is given for a field this value is taken as the default value 
 Of course, the default value may be overruled by the initialiser given at the instantiation.
 `let` fields cannot be changed once the structure is instantiated.
 
-Example:
+.Mutable and immutable fields in a structure
+====
 [source]
 ----
 struct S
@@ -166,6 +171,7 @@ s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
 let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
 s2.b = 17                     // error! Cannot change the let variable s2
 ----
+====
 
 [[decl:subprogs]]
 === Subprograms
@@ -189,7 +195,8 @@ We will therefore often refer to these two parameter lists as "input list" and "
 
 The programming model is that all variables are passed by reference (even though in reality the compiler will optimise this into by-value for simple value typed inputs).
 
-Example:
+.Functions and activities
+====
 [source]
 ----
 function add (x: int32, y: int32) returns int32
@@ -204,6 +211,7 @@ activity A (in: int32)(out: int32)
    end
 end
 ----
+====
 The example above is a valid Blech program that sums all inputs over all time steps.
 Note that `add` omits an output list and `A` does not declare any return type.
 We call functions or activities that do not return anything "void" but unlike C we do not have a void type in the language.

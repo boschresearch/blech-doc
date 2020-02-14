@@ -26,10 +26,10 @@ Even though we try to make the chapters as independent as possible it is unavoid
 == Notation
 include::blech-user-manual/notation.adoc[]
 
-== Lexical Elements
+== Lexical elements
 include::blech-user-manual/lexical.adoc[]
 
-== Control-flow
+== Control flow
 include::blech-user-manual/controlflow.adoc[]
 
 == Declarations
@@ -39,8 +39,8 @@ include::blech-user-manual/declarations.adoc[]
 
 == Expressions
 
-== Annotations, pragmas and doc comments
-include::blech-user-manual/annotations.adoc[]
+// == Annotations, pragmas and doc comments
+// include::blech-user-manual/annotations.adoc[]
 
-== Blech's C interface
-include::blech-user-manual/c-interface.adoc[]
+// == Blech's C interface
+// include::blech-user-manual/c-interface.adoc[]
