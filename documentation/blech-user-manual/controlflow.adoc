@@ -442,6 +442,23 @@ On the statement level only void functions may be called.
 
 In summary, a block of statements in Blech is given by the following grammar.
 
+[source,abnf]
+----
+StmtBlock ::= 
+      Pause
+    | ActivityCall
+    | ForkJoin
+    | Preemption
+    | Assignment
+    | DoBlock
+    | IfStmt
+    | WhileLoop
+    | RepeatLoop
+    | ReturnStmt
+    | FunctionCallStmt
+    | StmtBlock ";"* StmtBlock
+----
+
 Depending on whether statements are used in an activity or a function their use may be restricted or prohibited (see above).
 The optional semicolons in the grammar indicate that it is possible to separate statements in a sequence using semicolons.
 We suggest to avoid writing any semicolons unless two (or more) statements are written in one line.
