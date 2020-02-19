@@ -113,9 +113,26 @@ Once an activity resumes its execution at an `await` statement the condition is 
 If it is true, the control flow proceeds to the next statement.
 Otherwise, the reaction ends immediately and the control flow remains at the same location.
 
-Example:
-[IMPORTANT]
-TODO
+.Simple reactive control flow
+====
+[source%linenums]
+----
+activity MyAct (in1: bool, in2: float32) (out1: uint8)
+    repeat
+        await in1
+        out1 = (out1 + 1) % 100 // count from 0 to 99
+    until in2 < 0.0 end
+end
+----
+Initially, `MyAct` is entered and the control flow proceeds to line 3 and stops (regardless of the inputs).
+In the next tick, `MyAct` resumes its execution at the `await` statement in line 3.
+It checks the boolean input variable `in1`.
+If it is false, the reaction ends immediately, the control flow does not advance.
+Otherwise, if `in1` is true, the calculation is carried out in line 4.
+This updates `out1` to a new value.
+Finally, if input `in2` is indeed less than 0 the activity terminates its execution.
+Otherwise the control flow loops around from line 5 back to line 2 and finally the reaction ends again in line 3.
+====
 
 ===== Run
 An activity call is given by the following grammar.
@@ -138,8 +155,21 @@ In every reaction inputs are passed though to the callee and its outputs are pro
 Should the callee terminate, the control flow returns to the caller and proceeds with the next statement.
 
 Example:
-[IMPORTANT]
-TODO
+[source]
+----
+// declaration
+activity A (a: [8]int32, b: int32) (c: int32) returns bool
+    /* some code */
+    ...
+end
+
+/* ... inside another activity ... */
+var result: bool
+var array: [8]int32 = {1, 2, 3, 4, 5, 6, 7, 8}
+var output: int32
+// usage
+result = run A(array, 7)(output)
+----
 
 ===== Cobegin
 Concurrent composition is done with the `cobegin` statement.
@@ -321,9 +351,6 @@ end
 It behaves just like the `abort` statement except it jumps to line 4 if `in1` is true.
 ====
 
-[IMPORTANT]
-TODO:
-Use Asciidoc's built-in mechanisms for referencing individual source code lines in previous examples!
 
 ==== Imperative control flow
 All of the following statements are known from mainstream imperative programming languages.
@@ -402,6 +429,22 @@ Void activities and functions can use `return` without an expression to terminat
 
 .Return from void function
 ====
+[source]
+----
+function setSpeed (velocity: float32) ()
+    if velocity < 0 then
+        return
+    end
+
+    if not isMotorReady() then
+        return
+    end
+    
+    halSetSpeed(velocity) // call device driver
+end
+----
+This simple example assumes we implement a wrapper for calling a hardware device driver.
+In order to avoid an if-then-else cascade `setSpeed` tests the prerequisites individually and returns in case some of them is not met.
 ====
 
 Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.

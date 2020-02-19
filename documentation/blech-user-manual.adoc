@@ -36,8 +36,10 @@ include::blech-user-manual/controlflow.adoc[]
 include::blech-user-manual/declarations.adoc[]
 
 == Types
+include::blech-user-manual/types.adoc[]
 
 == Expressions
+include::blech-user-manual/expressions.adoc[]
 
 // == Annotations, pragmas and doc comments
 // include::blech-user-manual/annotations.adoc[]

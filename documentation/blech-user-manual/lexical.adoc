@@ -100,7 +100,7 @@ An identifier is any token that is not a keyword and starts with a letter or und
 The precise definition is given by the following grammar rule
 [source,abnf]
 ----
-Identifier ::=  "_"* ["a"..."z" "A"..."Z"]+ ["_" "a"..."z" "A"..."Z" "0"..."9"]*
+Identifier ::=  "_"* ("a"..."z" | "A"..."Z")+ ("_" | "a"..."z" | "A"..."Z" | "0"..."9")*
 ----
 Note that identifiers have an infix of at least one letter.
 
@@ -112,3 +112,24 @@ We call this the "wildcard". Wildcards are useful when you want to discard the r
 _ = f()
 ----
 In this example you cannot just call `f` like in C because the Blech compiler will complain that `f` is declared to return a value but there is no location to store this value in. The wildcard makes the intention to discard the returned value *explicit*.
+
+==== Literals
+[source,abnf]
+----
+Digit = "0"..."9"
+NonZeroDigit = "1"..."9"
+
+BinInteger ::= "0b" ( ["_"] ( "0" | "1" ) )+
+OctInteger ::= "0o" ( ["_"] "0"..."7" )+
+HexInteger ::= "0x" ( ["_"] "0"..."7" ["_"] (Digit | "a"..."f" | "A"..."F") )+  
+DecInteger ::= NonZeroDigit (["_"] Digit)* | "0" (["_"] "0")*
+
+Integer ::= DecInteger | BinInteger | OctInteger | HexInteger
+
+FloatNumber   ::=  PointFloat | ExponentFloat
+PointFloat    ::=  [DigitPart] Fraction | DigitPart "."
+DigitPart     ::=  Digit (["_"] Digit)*
+Fraction      ::=  "." DigitPart
+ExponentFloat ::=  (DigitPart | PointFloat) exponent
+Exponent      ::=  ("e" | "E") ["+" | "-"] DigitPart
+----

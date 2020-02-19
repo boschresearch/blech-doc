@@ -140,38 +140,7 @@ We try to make clear which one we mean throughout this document. Usually it shou
 
 === User defined types
 The programmer may define a data structure using the `struct` keyword.
-A structure has a list of data declarations which are called _fields_.
-Fields may only be `var` or `let` declarations of some type.
-
-[source,abnf]
-----
-StructDeclaration ::= "struct" Identifier Fields "end"
-Fields            ::= ("var" | "let") Identifier ":" Type ["=" Init]
-----
-
-If an initialiser is given for a field this value is taken as the default value when constructing an instance of this structure.
-Of course, the default value may be overruled by the initialiser given at the instantiation.
-`let` fields cannot be changed once the structure is instantiated.
-
-.Mutable and immutable fields in a structure
-====
-[source]
-----
-struct S
-   let a: int32 = 7
-   var b: int32
-end
-
-/* ... somewhere in a local scope ... */
-var s1: S    // s1 == {a = 7, b = 0}
-s1.b = 17    // ok, now s1 == {a = 7, b = 17}
-s1.a = 42    // error! Cannot change a let field
-s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
-
-let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
-s2.b = 17                     // error! Cannot change the let variable s2
-----
-====
+See the chapter on <<types.adoc#types:struct,types>> for more details.
 
 [[decl:subprogs]]
 === Subprograms
