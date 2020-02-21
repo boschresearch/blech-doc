@@ -43,6 +43,7 @@ It would contradict the synchronous semantics if a program's state changed altho
 The same reasoning applies to other synchronous control flow statements such as `abort` and `reset`.
 Other imperative control flow statements such as loops or the `if` statement follow the same logic for consistency and clarity of the program text.
 
+[[types:arithmetic]]
 === Integer types
 Integer types are divided into three categories: natural numbers, signed integer numbers and "bits".
 Each one exist in four sizes that indicate the number of bits needed in a machine to represent a value of this type: 8, 16, 32, 64.

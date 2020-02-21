@@ -116,8 +116,10 @@ In this example you cannot just call `f` like in C because the Blech compiler wi
 ==== Literals
 [source,abnf]
 ----
-Digit = "0"..."9"
-NonZeroDigit = "1"..."9"
+BoolLiteral ::= "true" | "false"
+
+Digit        ::= "0"..."9"
+NonZeroDigit ::= "1"..."9"
 
 BinInteger ::= "0b" ( ["_"] ( "0" | "1" ) )+
 OctInteger ::= "0o" ( ["_"] "0"..."7" )+
