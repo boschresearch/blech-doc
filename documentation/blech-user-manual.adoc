@@ -10,7 +10,7 @@
 
 A general introduction, design criteria and choices, ... (todo)
 
-= User Reference Manual
+== User Reference Manual
 
 This is the user reference manual.
 It explains in detail the various elements of the Blech language and what they mean.

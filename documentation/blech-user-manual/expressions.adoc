@@ -107,7 +107,7 @@ _Decimal integers_ may be interpreted as any kind of numeric type as long as the
 ----
 -2: nat16     // error! Outside range of natural numbers
 -200: int8    // error! Outside range [-128..127]
--2: bits8     // 1 byte word with value 253
+-2: bits8     // 1 byte word with value 254
 -200: float32 // single precision floating point number
 ----
 Float literals may only be interpreted as either single or double precision floating point numbers even if their fraction part is zero as in `10.0`.

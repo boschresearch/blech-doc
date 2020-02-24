@@ -15,6 +15,7 @@ The necessary tool chain to build the documentation and the website consists of
 On windows we recommend [Chocolatey](https://chocolatey.org/) for the installation of Hugo and Asciidoctor.
 
 For chocolatey we recommend the [non-administrative install](https://chocolatey.org/docs/installation#non-administrative-install).
+In a corporate setup behind a proxy use the [corresponding options](https://chocolatey.org/docs/installation#installing-behind-a-proxy).
 
 From time to time run an upgrade.
 ```
