@@ -150,7 +150,7 @@ x = {}    // now x == {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
 ----
 The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
 The same is true for arrays with struct payloads.
-See the chapter on <<types.adoc#,types>> for more details.
+See the section on <<types:struct,struct types>> for more details.
 
 ===== Array literals
 [source,abnf]
@@ -370,7 +370,7 @@ Either `a` or `b` need to be explicitly cast using the `as` operator to resolve 
 ====
 
 The arithmetic operations work as expected on all arithmetic types.
-See the sections on <<types.adoc#types:arithmetic,arithmetic types>> for details regarding overflow handling.
+See the sections on <<types:arithmetic,arithmetic types>> for details regarding overflow handling.
 
 ===== Shifting operations
 // TODO

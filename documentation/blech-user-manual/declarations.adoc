@@ -140,7 +140,7 @@ We try to make clear which one we mean throughout this document. Usually it shou
 
 === User defined types
 The programmer may define a data structure using the `struct` keyword.
-See the chapter on <<types.adoc#types:struct,types>> for more details.
+See the chapter on <<types:struct,types>> for more details.
 
 [[decl:subprogs]]
 === Subprograms
