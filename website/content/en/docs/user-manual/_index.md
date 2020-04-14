@@ -1,7 +1,7 @@
 ---
 title: "User manual"
 linkTitle: "User manual"
-weight: 3
+weight: 1
 description: >
   User manual for the Blech language.
 ---
