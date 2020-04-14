@@ -1,4 +1,5 @@
 ---
+toc_hide: true
 title: "Old proposals"
 linkTitle: "Old proposals"
 weight: 4

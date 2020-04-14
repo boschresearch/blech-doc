@@ -2,6 +2,7 @@
 title: "User manual"
 linkTitle: "User manual"
 weight: 1
+toc_hide: true
 description: >
   User manual for the Blech language.
 ---

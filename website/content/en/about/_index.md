@@ -3,7 +3,7 @@ title: About
 linkTitle: About
 menu:
   main:
-    weight: 50
+    weight: 10
 layout: docs
 ---
 
