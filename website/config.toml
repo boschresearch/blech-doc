@@ -151,12 +151,22 @@ no = 'Sorry to hear that. Please <a href="https://github.com/USERNAME/REPOSITORY
     url = "https://twitter.com/BlechLanguage"
     icon = "fab fa-twitter"
     desc = "Follow us on Twitter to get the latest news!"
+[[params.links.user]]
+    name ="Documentation on GitHub"
+    url = "https://github.com/boschresearch/blech-doc"
+    icon = "fas fa-book-open"
+    desc = "Documentation is collected here!"
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
-    name = "Blech sources on Github"
+    name = "Blech compiler on Github"
     url = "https://github.com/boschresearch/blech"
     icon = "fab fa-github"
-        desc = "Development takes place here!"
+        desc = "Compiler development takes place here!"
+[[params.links.developer]]
+    name = "Blech tools on Github"
+    url = "https://github.com/boschresearch/blech-tools"
+    icon = "fas fa-tools"
+        desc = "Tool development takes place here!"
 [[params.links.developer]]
     name = "Collaborate on Slack"
     url = "https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I"
