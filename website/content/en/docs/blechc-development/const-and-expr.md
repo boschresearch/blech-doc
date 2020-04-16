@@ -23,7 +23,7 @@ Consequently, the comparison operator for structured data may not be used at run
 
 *Reference types are not implemented yet but in principle they will have the same behaviour: compare (dereferenced) values for simple types, and disallow comparison for complex types.*
 
-### Using constants
+## Using constants
 In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent. 
 Thus at the end of the type check phase the declarations of the consts do exist and can be translated to C but all their usages disappear (being substituted by the value).
 This has the drawback of less readable C code but still allows to export constants as #defines and use them in foreign code by including the relevant `.h` file.
@@ -34,7 +34,7 @@ Additionally, when calling functions the arguments need to be pointers to memory
 In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls. 
 In summary, literals occur only on the right hand side of initialisation in the generated C code.
 
-### Side effects in conditions are not allowed
+## Side effects in conditions are not allowed
 
 It is obvious that testing an `await` condition may not have any impact on the state to implement a synchronous program. 
 Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements. 

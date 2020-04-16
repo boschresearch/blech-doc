@@ -1,4 +1,4 @@
-baseURL = "https://schorg.github.io/blech-doc/"  
+baseURL = "https://boschresearch.github.io/blech-doc/"  
 title = "The Blech language"
 
 publishDir = "../docs"
@@ -8,8 +8,8 @@ enableRobotsTXT = true
 # Hugo allows theme composition (and inheritance). The precedence is from left to right.
 # theme = ["docsy"]
 # Customization in themes/blech-lang
-theme = ["blech-lang", "docsy"]
-# theme = ["docsy"]
+# theme = ["blech-lang", "docsy"]
+theme = ["docsy"]
 
 # Will give values to .Lastmod etc.
 enableGitInfo = true
@@ -32,6 +32,9 @@ pygmentsUseClassic = false
 # See https://help.farbox.com/pygments.html
 pygmentsStyle = "tango"
 
+[context.production.environment]
+HUGO_ENV = "production"
+
 # Configure how URLs look like per section.
 [permalinks]
 blog = "/:section/:year/:month/:day/:slug/"
@@ -52,7 +55,7 @@ anchor = "smart"
 [services]
 [services.googleAnalytics]
 # Comment out the next line to disable GA tracking. Also disables the feature described in [params.ui.feedback].
-# id = "UA-00000000-0"
+id = "UA-163758392-1"
 
 # Language configuration
 
@@ -85,7 +88,9 @@ weight = 1
 
 [params]
 copyright = "The Blech authors"
-privacy_policy = "https://www.bosch.com/data-protection-notice/"
+privacy_policy = "/about/data-protection-notice"
+blech-doc_license = "https://github.com/boschresearch/blech-doc/LICENSE"
+blech_license = "https://github.com/boschresearch/blech/LICENSE"
 
 # First one is picked as the Twitter card image if not set on page.
 # images = ["images/project-illustration.png"]
@@ -103,7 +108,7 @@ github_project_repo = "https://github.com/boschresearch/blech"
 github_subdir = "website"
 
 # Google Custom Search Engine ID. Remove or comment out to disable search.
-gcs_engine_id = "011737558837375720776:fsdu1nryfng"
+gcs_engine_id = "017078177779977946282:lf6fgveweei"
 
 # Enable Algolia DocSearch
 algolia_docsearch = false
@@ -118,7 +123,7 @@ sidebar_menu_compact = false
 #  Set to true to disable breadcrumb navigation.
 breadcrumb_disable = false
 #  Set to true to hide the sidebar search box (the top nav search box will still be displayed if search is enabled)
-sidebar_search_disable = false
+sidebar_search_disable = true
 #  Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top nav bar
 navbar_logo = true
 # Set to true to disable the About link in the site footer
@@ -131,8 +136,8 @@ footer_about_disable = true
 [params.ui.feedback]
 enable = true
 # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
-yes = 'Glad to hear it! Please <a href="https://github.com/USERNAME/REPOSITORY/issues/new">tell us how we can improve</a>.'
-no = 'Sorry to hear that. Please <a href="https://github.com/USERNAME/REPOSITORY/issues/new">tell us how we can improve</a>.'
+yes = 'Glad to hear it! Please <a href="https://github.com/boschresearch/blech-doc/issues/new">tell us how we can improve</a>.'
+no = 'Sorry to hear that. Please <a href="https://github.com/boschresearch/blech-doc/issues/new">tell us how we can improve</a>.'
 
 [params.links]
 # End user relevant links. These will show up on left side of footer and in the community page if you have one.
@@ -186,6 +191,9 @@ no = 'Sorry to hear that. Please <a href="https://github.com/USERNAME/REPOSITORY
         disable = true
     [privacy.googleAnalytics]
         disable = true
+        anonymizeIP = true
+        respectDoNotTrack = true
+        useSessionStorage = true
     [privacy.instagram]
         disable = true
     [privacy.twitter]

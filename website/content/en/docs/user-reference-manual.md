@@ -6,4 +6,4 @@ description: >
   User reference manual for the Blech language.
 ---
 
-<a href="/blech-doc/asciidoc/blech-user-manual.html">User manual as html page</a>
+<a href="/asciidoc/blech-user-manual.html">User manual as html page</a>
