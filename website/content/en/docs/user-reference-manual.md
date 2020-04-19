@@ -1,7 +1,7 @@
 ---
 title: "User reference manual"
 linkTitle: "User reference manual"
-weight: 4
+weight: 40
 description: >
   User reference manual for the Blech language.
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Examples"
-weight: 10
+weight: 100
 description: >
   Some examples of Blech in use.
 ---

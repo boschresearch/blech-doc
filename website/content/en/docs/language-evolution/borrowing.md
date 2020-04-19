@@ -1,7 +1,7 @@
 ---
 title: "Borrowing"
 linkTitle: "Borrowing"
-weight: 2
+weight: 20
 description: >
     Adopt the ideas of borrowing in Rust to Blech
 ---

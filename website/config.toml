@@ -66,6 +66,7 @@ description = "The Blech language site"
 languageName ="English"
 # Weight used for sorting.
 weight = 1
+
 # [languages.no]
 # title = "Goldydocs"
 # description = "Docsy er operativsystem for skyen"
@@ -89,8 +90,6 @@ weight = 1
 [params]
 copyright = "The Blech authors"
 privacy_policy = "/about/data-protection-notice"
-blech-doc_license = "https://github.com/boschresearch/blech-doc/LICENSE"
-blech_license = "https://github.com/boschresearch/blech/LICENSE"
 
 # First one is picked as the Twitter card image if not set on page.
 # images = ["images/project-illustration.png"]
@@ -123,7 +122,7 @@ sidebar_menu_compact = false
 #  Set to true to disable breadcrumb navigation.
 breadcrumb_disable = false
 #  Set to true to hide the sidebar search box (the top nav search box will still be displayed if search is enabled)
-sidebar_search_disable = true
+sidebar_search_disable = false
 #  Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top nav bar
 navbar_logo = true
 # Set to true to disable the About link in the site footer
@@ -134,7 +133,7 @@ footer_about_disable = true
 # If you want this feature, but occasionally need to remove the "Feedback" section from a single page,
 # add "hide_feedback: true" to the page's front matter.
 [params.ui.feedback]
-enable = true
+enable = false
 # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
 yes = 'Glad to hear it! Please <a href="https://github.com/boschresearch/blech-doc/issues/new">tell us how we can improve</a>.'
 no = 'Sorry to hear that. Please <a href="https://github.com/boschresearch/blech-doc/issues/new">tell us how we can improve</a>.'
@@ -161,6 +160,7 @@ no = 'Sorry to hear that. Please <a href="https://github.com/boschresearch/blech
     url = "https://github.com/boschresearch/blech-doc"
     icon = "fas fa-book-open"
     desc = "Documentation is collected here!"
+
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
     name = "Blech compiler on Github"
@@ -177,6 +177,7 @@ no = 'Sorry to hear that. Please <a href="https://github.com/boschresearch/blech
     url = "https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I"
     icon = "fab fa-slack"
         desc = "Collaborate on Blech development!"
+
 # [[params.links.developer]]
 # 	name = "Developer mailing list"
 # 	url = "https://example.org/mail"

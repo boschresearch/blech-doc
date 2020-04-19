@@ -1,10 +1,9 @@
 ---
-title: "Data protection notice of blech-lang.org"
-linkTitle: "Data protection notice"
-type: "single"
+title: "Privacy notice of this website"
+linkTitle: "Privacy"
+type: "docs"
 ---
 
-{{% blocks/section type="section" color="primary" %}}
 
 # Data protection notice of blech-lang.org
 
@@ -76,4 +75,3 @@ control cookie usage in your web browser are available at:
 
 [Mozilla Firefox](https://support.mozilla.org/en-US/kb/block-websites-storing-cookies-site-data-firefox?redirectlocale=en-US&redirectslug=Blocking+cookies)
 
-{{% /blocks/section %}}

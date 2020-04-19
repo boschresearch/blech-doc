@@ -1,0 +1,32 @@
+{{ if (in .Dir "releases") }}
+{{ $.Scratch.Set "blogsection" "Blech releases"}}
+{{ else if (in .Dir "articles") }}
+{{ $.Scratch.Set "blogsection" "Blech posts"}}
+{{ else if (in .Dir "events") }}
+{{ $.Scratch.Set "blogsection" "Blech social events"}}
+{{ else }}
+{{ $.Scratch.Set "blogsection" "Welcome to the Blech blog"}}
+{{ end }}
+
+<h1>{{ $.Scratch.Get "blogsection" }}</h1>
+{{ if eq .Dir "blog/" }}
+<p>Follow this blog to keep up-to-date on Blech.</p>
+<ul>
+<li><a href="./releases"><b>Release and feature announcements</b></a>: <br>{{ end }}
+{{ if or (in .Dir "releases") (eq .Dir "blog/") }}Learn about each Blech release, what's new and changed, and how to get started with the latest and greatest.{{ end }}
+
+{{ if eq .Dir "blog/" }}</li>
+<li><a href="./articles"><b>Articles</b></a>: <br>{{ end }}
+{{ if or (in .Dir "articles") (eq .Dir "blog/") }}Read about Blech features, tools, and related topics.{{ end }}
+
+{{ if eq .Dir "blog/" }}</li>
+<li><a href="./events"><b>Future and past social events</b></a>: <br>{{ end }}
+{{ if or (in .Dir "events") (eq .Dir "blog/") }}Find out where the Blech team will be talking next, and where they've been.{{ end }}
+
+{{ if eq .Dir "blog/" }}</li>
+</ul>
+<hr>
+<p><b>Browse all Blech blog posts by date:</b></p>
+{{ else }}
+<hr>
+{{ end }}

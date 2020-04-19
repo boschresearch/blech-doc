@@ -2,7 +2,7 @@
 toc_hide: true
 title: "Old proposals"
 linkTitle: "Old proposals"
-weight: 4
+weight: 40
 description: >
   Old evolution proposals for the Blech language.
 ---
