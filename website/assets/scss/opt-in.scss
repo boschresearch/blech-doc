@@ -1,0 +1,35 @@
+
+// Use for partial analytics-optin.html
+.analytics-opt-in {
+    display: none; 
+    overflow: hidden;
+    outline: 0; 
+    position: fixed;
+    padding-top: 15px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: $info; 
+    z-index: 1000;
+    text-align: center;
+    .buttons{
+      position: fixed;
+      right: 0;
+      float: right;
+      .close{
+        margin-right: 15px;
+        // top: 0;
+        color: $black;
+      }
+      .ok {
+        margin-right: 15px;
+        cursor: pointer;
+        color: $white !important;
+      }
+    }
+    .text{
+      float: left;
+      margin-left: 15px;
+      margin-right: 100px;
+    }
+  }

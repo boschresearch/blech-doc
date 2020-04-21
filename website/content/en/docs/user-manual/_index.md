@@ -1,11 +1,12 @@
 ---
-title: "User manual"
+title: "The Blech language - user manual"
 linkTitle: "User manual"
-weight: 30
+weight: 20
 description: >
   User manual for the Blech language.
 ---
-# The Blech language - Reactive embedded realtime programming
+
+## Reactive embedded realtime programming
 
 A general introduction, design criteria and choices, ... (todo)
 

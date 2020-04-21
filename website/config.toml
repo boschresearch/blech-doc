@@ -192,9 +192,9 @@ no = 'Sorry to hear that. Please <a href="https://github.com/boschresearch/blech
         disable = true
     [privacy.googleAnalytics]
         disable = true
-        anonymizeIP = true
-        respectDoNotTrack = true
-        useSessionStorage = true
+        # anonymizeIP = true
+        # respectDoNotTrack = true
+        # useSessionStorage = false
     [privacy.instagram]
         disable = true
     [privacy.twitter]

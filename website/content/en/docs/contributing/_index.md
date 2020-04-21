@@ -1,7 +1,7 @@
 ---
 title: "Contributing to Blech development"
 linkTitle: "Contributing"
-weight: 120
+weight: 60
 description: >
     How to contribute to Blech development
 ---

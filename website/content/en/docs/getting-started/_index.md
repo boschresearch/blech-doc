@@ -2,7 +2,7 @@
 ---
 title: "Getting Started"
 linkTitle: "Getting Started"
-weight: 20
+weight: 10
 description: >
   This page tells you how to get started with the Blech compiler and the other Blech tools.
 ---

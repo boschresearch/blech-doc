@@ -7,12 +7,13 @@ description: >
 ---
 
 
-### Comments
+## Comments
 Single line comments are C++ style. They begin with `//` and end with the end of line.
 
-Multi-line comments are C style. They begin with `+/*+` and end with the first `+*/+`. This means comment nesting is not supported.
+Multi-line comments are C style. They begin with `/*` and end with `*/`. 
+Comment nesting is supported.
 
-#### Declaration Comments
+### Declaration Comments
 A special comment syntax allows to write comments for declarations (functions, activities, types, variables, ...) which will be transported over to the generated C code.
 This allows to document the API and make this documentation available to the C programmer who integrates generated code in a larger scope.
 
@@ -21,7 +22,7 @@ Java style multi-line comments `/** */` and .Net style single line comments `///
 
 Note that using declaration comments before something that is not a declaration, e.g. an assignment, is a syntax error.
 
-### Built-in Operators and Separators
+## Built-in Operators and Separators
 
 | Operators and Separators | |
 | --- | --- |
@@ -33,7 +34,7 @@ Note that using declaration comments before something that is not a declaration,
 | Separators | `(` `)` `[` `]` `{` `}` `.` `,` `;` `:` 
 
 
-### Keywords
+## Keywords
 
 `abort`
 `activity`
@@ -90,7 +91,7 @@ Note that using declaration comments before something that is not a declaration,
 Note that the current compiler implementation may reserve more keywords than listed here.
 This is because the language is still growing and there are concepts that are yet to be fully implemented but already exist on the syntactical level.
 
-### Identifiers
+## Identifiers
 An identifier is any token that is not a keyword and starts with a letter or underscore and continues with an arbitrary number of letters, digits or underscores.
 The precise definition is given by the following grammar rule
 
@@ -99,7 +100,7 @@ Identifier ::=  "_"* ("a"..."z" | "A"..."Z")+ ("_" | "a"..."z" | "A"..."Z" | "0"
 ```
 Note that identifiers have an infix of at least one letter.
 
-#### Wildcard
+## Wildcard
 Additionally we reserve a token that consists of underscores only.
 We call this the "wildcard". Wildcards are useful when you want to discard the result of a computation without declaring a dummy variable.
 
@@ -108,7 +109,7 @@ _ = f()
 ```
 In this example you cannot just call `f` like in C because the Blech compiler will complain that `f` is declared to return a value but there is no location to store this value in. The wildcard makes the intention to discard the returned value *explicit*.
 
-#### Literals
+## Literals
 
 ```abnf
 BoolLiteral ::= "true" | "false"

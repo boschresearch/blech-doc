@@ -1,5 +1,5 @@
 ---
 title: "Blech releases, concering language, compiler and tools."
 linkTitle: "Releases"
-weight: 30
+weight: 10
 ---
