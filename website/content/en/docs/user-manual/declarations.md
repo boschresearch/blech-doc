@@ -5,6 +5,7 @@ weight: 40
 description: >
 
 ---
+
 Declarations introduce new names for entities in the program.
 Declarable entities include
 

@@ -1,21 +1,25 @@
-// Locally saved from https://github.com/js-cookie/js-cookie/blob/latest/src/js.cookie.js
-// JavaScript Cookie v2.2.1 (latest stable version)
 import("/js/js.cookie.js");
 
 // Wait for page to fully load before checking
-$(window).on('load', setprivacy);
+$(window).on('load', setPrivacy);
 
 // Show Google Analytics Opt-in notice, if not decided before
-function setprivacy() {
+function setPrivacy() {
     console.log("on load started");
     // If the cookie expired or does not exist
-    if ( typeof(Cookies) == 'undefined' || Cookies.get('site_cookie') == null ){
-        $(".analytics-opt-in").show();
-    } else {
-        console.log("Already decided on analytics usage");
-        if (Cookies.get('opt_in')) {
-            console.log("Optin consented");
-            loadGAonOptIn();
+    if (doNoTrack()) {
+        console.log ("Do not show opt-in notice, do not load GA")
+    }
+    else {
+        if ( typeof(Cookies) == 'undefined' || Cookies.get('site_cookie') == null ){
+            console.log("Show opt-in notice")
+            $(".analytics-opt-in").show();
+        } else {
+            console.log("Already decided on analytics usage");
+            if (Cookies.get('opt_in')) {
+                console.log("Optin consented");
+                loadGAonOptIn();
+            }
         }
     }    
 }
@@ -38,21 +42,21 @@ function closeNotice(){
 }
 
 
-// Respect do not track
-// Anonymize IP
-// Use cookies, not session or local storage
-function loadGAonOptIn(){
+function doNoTrack() {
     var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-    var doNotTrack = (dnt == "1" || dnt == "yes");
-    if (!doNotTrack) {
-        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-        ga('create', 'UA-163758392-1', 'auto');
-	    ga('set', 'anonymizeIp', true);
-        ga('send', 'pageview');
-        var gascript = document.createElement("script");
-        gascript.async = true;
-        gascript.src = "https://www.google-analytics.com/analytics.js";
-        document.getElementsByTagName("head")[0].appendChild(gascript, document.getElementsByTagName("head")[0]);
-    }
+    var res = dnt == "1" || dnt == "yes";
+    console.log(res)
+    return res
 }
-   
+
+function loadGAonOptIn(){
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-163758392-1', 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');
+    var gascript = document.createElement("script");
+    gascript.async = true;
+    gascript.src = "https://www.google-analytics.com/analytics.js";
+    document.getElementsByTagName("head")[0].appendChild(gascript, document.getElementsByTagName("head")[0]);
+}
+    

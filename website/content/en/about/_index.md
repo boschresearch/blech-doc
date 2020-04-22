@@ -1,5 +1,5 @@
 ---
-title: About
+title: About this website
 linkTitle: About
 menu:
   main:
@@ -8,21 +8,27 @@ type: "docs"
 ---
 
 {{% pageinfo %}}
-This is a placeholder page that shows you how to use this template site.
+All content of this page is preliminary
 {{% /pageinfo %}}
 
-## This website
+This website makes the Blech language documentation and the Blech compiler and the Blech tools accessible.
 
-## Built-in integration with common tools
+* The website is a [**GitHub project page**](https://help.github.com/en/github/working-with-github-pages/about-github-pages) [`boschresearch.github.io/blech-doc`](https://boschresearch.github.io/blech-doc). 
+* The [**GitHub organization**](https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/about-organizations) is [`boschresearch`](https://github.com/boschresearch)
+* The GitHub project for this website is [`blech-doc`](https://github.com/boschresearch/blech-doc).
+* The website is hosted on GitHub's [`github.io`](https://github.io) domain.
 
-The Docsy template currently includes built-in integration with the following tools:
+The website is accessible via
+1. The GitHub pages site https://boschresearch.github.io/blech-doc
+2. The apex domain http://blech-lang.org
+3. The subdomain http://www.blech-lang.org
 
-* [**GitHub**](https://github.com): Get in-page links directly to your GitHub repo and provide your users with a
-   convenient pathway to providing feedback, opening issues, and even suggesting changes through Pull Requests.
-* [**Google Analytics**](https://analytics.google.com/analytics/web/): Easily connect your Google Analytics account to your 
-   site.
-* [**Google Custom Search**](https://cse.google.com/cse/): Use Google Custom Search for in-site search queries, or 
-  configure your site to search the web.
-* [**Algolia DocSearch**](https://community.algolia.com/docsearch/): Let your users search your site with Algolia DocSearch.
-* [**Lunr**](https://lunrjs.com/): Local indexing and search for your site without the need for external search services.
+Apex domain and subdomain redirect to the GitHub pages site.
 
+
+The website uses 
+* [**GitHub**](https://github.com): for hosting and direct access to documentation and the Blech project repositories.
+* [**Google Analytics**](https://marketingplatform.google.com/about/analytics/): on the basis of your opt-in consent, for improving your experience on our website.
+* [**Google Custom Search**](https://cse.google.com/cse/): for in-site search queries.
+
+Using this services has consequences for your privacy explained below.
