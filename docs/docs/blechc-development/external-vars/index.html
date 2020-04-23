@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.68.3" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/blech-doc/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-192x192.png" sizes="192x192">
+
+<title>Local and external variables | Blech</title><meta property="og:title" content="Local and external variables" />
+<meta property="og:description" content="This explains the difference between local and external variables in code generation.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/" />
+<meta property="article:modified_time" content="2020-04-15T12:52:05+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Local and external variables">
+<meta itemprop="description" content="This explains the difference between local and external variables in code generation.
+">
+<meta itemprop="dateModified" content="2020-04-15T12:52:05&#43;02:00" />
+<meta itemprop="wordCount" content="887">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Local and external variables"/>
+<meta name="twitter:description" content="This explains the difference between local and external variables in code generation.
+"/>
+
+
+
+
+
+
+
+<link rel="preload" href="/blech-doc/scss/main.min.162fb2630369386fc871fafe50fe8396e3fd63f450e038c334522d15b4399393.css" as="style">
+<link href="/blech-doc/scss/main.min.162fb2630369386fc871fafe50fe8396e3fd63f450e038c334522d15b4399393.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src="/js/opt-in.js"></script>
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/blech-doc/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/blech-doc/docs/" ><span class="active">Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/blech-doc/blog/" ><span>Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/blech-doc/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/blech-doc/about/" ><span>About</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Documentation</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blech-docdocs">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/getting-started/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Getting Started</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsgetting-started">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">User manual</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsuser-manual">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualnotation" href="/blech-doc/docs/user-manual/notation/">Notation</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manuallexical" href="/blech-doc/docs/user-manual/lexical/">Lexical elements</a>
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsuser-manualcontrolflow">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualcontrolflowmoc" href="/blech-doc/docs/user-manual/controlflow/moc/">Model of execution</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualcontrolflowstatements" href="/blech-doc/docs/user-manual/controlflow/statements/">Statements</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualdeclarations" href="/blech-doc/docs/user-manual/declarations/">Declarations</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualtypes" href="/blech-doc/docs/user-manual/types/">Types</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualexpressions" href="/blech-doc/docs/user-manual/expressions/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualold" href="/blech-doc/docs/user-manual/old/"></a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocslanguage-evolution">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocslanguage-evolutionborrowing" href="/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blech-docdocsblechc-development">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsblechc-developmentconst-and-expr" href="/blech-doc/docs/blechc-development/const-and-expr/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blech-docdocsblechc-developmentexternal-vars" href="/blech-doc/docs/blechc-development/external-vars/">Variables</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsblechc-developmentgit-workflow" href="/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsexamples">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/contributing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Contributing</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocscontributing">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/external-vars.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Local%20and%20external%20variables" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#local-variables">Local variables</a></li>
+    <li><a href="#externa-variables">Externa Variables</a></li>
+    <li><a href="#effects-on-compilation-contexts">Effects on compilation contexts</a></li>
+    <li><a href="#effects-on-c-code-generation">Effects on C-code generation</a></li>
+    <li><a href="#effects-on-json-trace-printing">Effects on JSON trace printing</a></li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/">Documentation</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/">Blechc development</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/">Variables</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<h1>Local and external variables</h1>
+    <div class="lead">This explains the difference between local and external variables in code generation.</div>
+	       
+	<h2 id="local-variables">Local variables</h2>
+<p>Variables declared with the scope of an activity are persistent.
+They keep their value over multiple reactions.
+Hence, in the generated code, they are stored outside the step-function of the given activity.
+Instead they are passed as a context with every call of the step-function.</p>
+<p>Previous values however need not be stored in this static context.
+In the generated code, they can be automatic variables (stack allocated variables) of the generated step-function.
+The step-function itself will create the prev variables (where needed) and fill them before the actual step is carried out.</p>
+<p>Special attention has to be given to the reaction in which the declaration of the local variable takes place.
+Here the local variable assumes its first value.
+This is defined to be the prev value and thus the prev variable has to be reset here once.</p>
+<pre><code class="language-blech" data-lang="blech">...
+var x: int32 = 7 // prev x = 7
+cobegin
+    run B(prev y)(x) // x may have changed
+with
+    run A(prev x)(y) // prev x is guaranteed to be 7 in the first reaction
+end
+...
+</code></pre><h2 id="externa-variables">Externa Variables</h2>
+<p>External variables (inside the activity scope) are dual to local variables in terms of code generation.
+We do not need to store external variables in the static context which is passed to the step-function.
+Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
+At the end of the reaction, the final value is written back to the external C-variable (if it is a <code>var</code>).</p>
+<p>Previous values of external variables on the other hand must be persisted in static memory.
+This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with
+(while the value of the external variable is volatile and may have changed arbitrarily between reactions).
+The code generator will create an extra local activity variable and add it to the list of local variables that are stored in the context.
+The value of the prev variable will be set <em>at the end</em> of each reaction, so it can be used in the next reaction.</p>
+<p>Again, special treatment is required in the code block that represents the reaction in which the declaration of the external variable becomes active.
+Here, as before, the prev value has to be set once so it is defined in the case that the prev value is used in the same reaction.</p>
+<h2 id="effects-on-compilation-contexts">Effects on compilation contexts</h2>
+<p>If necessary, the function <code>ActivityTranslator.cpAction</code> adds the external variable with a <code>prev_</code> infix in its name to the <code>Compilation.iface.locals</code> of the current activity.</p>
+<p><code>ActivityTranslator.makeActCall</code> transports the locals of the called activity to the interface of the current one which includes the prev&rsquo;ed version of external variables.
+In order to be able to print this interface as C code, the variables are added to the dictionary of known declarations in the type check context (<code>ctx.tcc.nameToDecl</code>).</p>
+<p>Since the entry point activity is never called from within the Blech program the above mechanism of adding variables to the type check context is repeated in <code>ActivityTranslator.translate</code> (for the entry point activity only).</p>
+<h2 id="effects-on-c-code-generation">Effects on C-code generation</h2>
+<p>Printing external constants or params does not require any additional modifications. The given binding is simply inserted. For <code>extern let</code> and <code>extern var</code> additional effort is required.</p>
+<ol>
+<li>
+<p>External variables</p>
+<p>Whenever an external variable is accessed as a right-hand-side, left-hand-side or the input or output argument to a call, it needs to be rendered differently than local activity variables.
+This is because external variables are generated as automatic variables in the scope of the step-function (instead of being passed in with the context).
+Thus they need to be rendered like local variables in Blech functions.
+This is achieved by hooking in the <code>isExtCurVar</code> function in the call of the <code>cpRenderData</code>.
+It will set the <code>subProgDecl</code> to <code>Function</code> if the variable name to be rendered is an access to the current memory location of an external variable.</p>
+</li>
+<li>
+<p>Access to previous locations of external variables</p>
+<p>Usually the previous value is stored in an automatic variable of the step-function and is accessed accordingly. The name is mangled by prepending a <code>prev_</code> to the QName of the variable.
+However previous values of external variables are stored in the context. Thus they need to be accessed like a local variable. The <code>prev_</code> infix is already mangled into the QName that is stored in the context.
+Thus <code>cpRenderData</code> will change <code>timepoint</code> to <code>Current</code> and add the <code>prev_</code> infix into the name to be rendered.</p>
+</li>
+<li>
+<p>Copy-in / copy-out</p>
+<p>The function <code>ActivityTranslator.translate</code> generates code for</p>
+<ul>
+<li>
+<p>Copying the values from the bound external C-variables to the local memory inside the step-function at the beginning of the reaction.</p>
+</li>
+<li>
+<p>Copying back the final results back to the bound external C-variables at the end of the reaction.</p>
+</li>
+<li>
+<p>(If necessary,) setting the previous memory to the final current value of the external variable such that in the next reaction the prev value can be used.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="effects-on-json-trace-printing">Effects on JSON trace printing</h2>
+<p>Since prev locations of external variables become local activity variables and are added to the type check context, they are printed in the trace along with the normal variables.
+Note however that the value shown in the trace is the prev value for the <em>next</em> reaction.</p>
+
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/c3c0282d5ef5e171fc8371f61e44e80dc7efa547">Move guides from ascidoc to markdown. Added more community links. (c3c0282)</a>
+</div>
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="/about/privacy">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book-open"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech authors</small>
+        
+        <small class="ml-1"><a href="/about/privacy" target="_blank">Privacy Policy</a></small>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="/blech-doc/js/main.min.21de55dfa9224e53cf629c8a81b4419ee28c5ab4ffc4ba39994bb1410adc2603.js" integrity="sha256-Id5V36kiTlPPYpyKgbRBnuKMWrT/xLo5mUuxQQrcJgM=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

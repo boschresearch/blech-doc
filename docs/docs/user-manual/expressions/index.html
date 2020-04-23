@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.68.3" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/blech-doc/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/blech-doc/favicons/android-192x192.png" sizes="192x192">
+
+<title>Expressions | Blech</title><meta property="og:title" content="Expressions" />
+<meta property="og:description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does allow to create function references and thus we have no designators.
+Operator precedence The expression grammar below will not specify the precedence of operators. This allows for a concise presentation. Therefore this section specifies the precedence separately.
+All operators are left associative in Blech." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/" />
+<meta property="article:modified_time" content="2020-04-21T20:26:37+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Expressions">
+<meta itemprop="description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does allow to create function references and thus we have no designators.
+Operator precedence The expression grammar below will not specify the precedence of operators. This allows for a concise presentation. Therefore this section specifies the precedence separately.
+All operators are left associative in Blech.">
+<meta itemprop="dateModified" content="2020-04-21T20:26:37&#43;02:00" />
+<meta itemprop="wordCount" content="2770">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Expressions"/>
+<meta name="twitter:description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does allow to create function references and thus we have no designators.
+Operator precedence The expression grammar below will not specify the precedence of operators. This allows for a concise presentation. Therefore this section specifies the precedence separately.
+All operators are left associative in Blech."/>
+
+
+
+
+
+
+
+<link rel="preload" href="/blech-doc/scss/main.min.162fb2630369386fc871fafe50fe8396e3fd63f450e038c334522d15b4399393.css" as="style">
+<link href="/blech-doc/scss/main.min.162fb2630369386fc871fafe50fe8396e3fd63f450e038c334522d15b4399393.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src="/js/opt-in.js"></script>
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/blech-doc/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/blech-doc/docs/" ><span class="active">Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/blech-doc/blog/" ><span>Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/blech-doc/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/blech-doc/about/" ><span>About</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Documentation</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blech-docdocs">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/getting-started/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Getting Started</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsgetting-started">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">User manual</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blech-docdocsuser-manual">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualnotation" href="/blech-doc/docs/user-manual/notation/">Notation</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manuallexical" href="/blech-doc/docs/user-manual/lexical/">Lexical elements</a>
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsuser-manualcontrolflow">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualcontrolflowmoc" href="/blech-doc/docs/user-manual/controlflow/moc/">Model of execution</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualcontrolflowstatements" href="/blech-doc/docs/user-manual/controlflow/statements/">Statements</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualdeclarations" href="/blech-doc/docs/user-manual/declarations/">Declarations</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualtypes" href="/blech-doc/docs/user-manual/types/">Types</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blech-docdocsuser-manualexpressions" href="/blech-doc/docs/user-manual/expressions/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsuser-manualold" href="/blech-doc/docs/user-manual/old/"></a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocslanguage-evolution">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocslanguage-evolutionborrowing" href="/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsblechc-development">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsblechc-developmentconst-and-expr" href="/blech-doc/docs/blechc-development/const-and-expr/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsblechc-developmentexternal-vars" href="/blech-doc/docs/blechc-development/external-vars/">Variables</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blech-docdocsblechc-developmentgit-workflow" href="/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocsexamples">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blech-doc/docs/contributing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Contributing</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blech-docdocscontributing">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/expressions.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Expressions" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#operator-precedence">Operator precedence</a></li>
+    <li><a href="#atoms">Atoms</a>
+      <ul>
+        <li><a href="#identifiers">Identifiers</a></li>
+        <li><a href="#literals">Literals</a></li>
+        <li><a href="#complex-literals">Complex literals</a></li>
+      </ul>
+    </li>
+    <li><a href="#parenthesised-form">Parenthesised form</a></li>
+    <li><a href="#primaries">Primaries</a></li>
+    <li><a href="#field-selection">Field selection</a></li>
+    <li><a href="#subscriptions">Subscriptions</a></li>
+    <li><a href="#calls">Calls</a></li>
+    <li><a href="#all-computation-expressions">All computation expressions</a>
+      <ul>
+        <li><a href="#unary-operations">Unary operations</a></li>
+        <li><a href="#binary-arithmetic-operations">Binary arithmetic operations</a></li>
+        <li><a href="#bitwise-operations">Bitwise operations</a></li>
+        <li><a href="#comparison-operations">Comparison operations</a></li>
+        <li><a href="#logical-operatorions">Logical operatorions</a></li>
+        <li><a href="#representation-annotation-and-change">Representation annotation and change</a></li>
+        <li><a href="#evaluation-order">Evaluation order</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/">Documentation</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/">User manual</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/">Expressions</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<h1>Expressions</h1>
+    
+	       
+	<p>The nomenclature in Blech is similar to that in C.
+There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues).
+Blech does allow to create function references and thus we have no designators.</p>
+<h2 id="operator-precedence">Operator precedence</h2>
+<p>The expression grammar below will not specify the precedence of operators.
+This allows for a concise presentation.
+Therefore this section specifies the precedence separately.</p>
+<p>All operators are left associative in Blech.
+The following table summarizes the operator precedence in Blech, from lowest precedence (least binding) to highest precedence (most binding). Operators in the same box have the same precedence. Unless the syntax is explicitly given, operators are binary.</p>
+<p>Operator precedence low to high:</p>
+<table>
+<thead>
+<tr>
+<th>Operators</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:</code>, <code>as</code>, <code>as!</code></td>
+<td>Type annotation and type cast</td>
+</tr>
+<tr>
+<td><code>or</code></td>
+<td>Boolean disjunction</td>
+</tr>
+<tr>
+<td><code>and</code></td>
+<td>Boolean conjunction</td>
+</tr>
+<tr>
+<td><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>, <code>!=</code></td>
+<td>Comparisons</td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>Bitwise OR</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>Bitwise XOR</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>Bitwise AND</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code>, <code>&lt;&lt;</code>, <code>&lt;&gt;&gt;</code>, <code>&lt;&lt;&gt;</code>, <code>+&gt;&gt;</code></td>
+<td>Shifts, rotations and signed right shift</td>
+</tr>
+<tr>
+<td><code>+</code>, <code>-</code></td>
+<td>Addition and subtraction</td>
+</tr>
+<tr>
+<td><code>*</code>, <code>/</code>, <code>+</code></td>
+<td>Multiplication, division and remainder</td>
+</tr>
+<tr>
+<td><code>not</code> x, <code>-</code>x, <code>~</code>x</td>
+<td>Negation, unary minus, bit inversion</td>
+</tr>
+</tbody>
+</table>
+<h2 id="atoms">Atoms</h2>
+<p>Atoms are the building blocks of expressions.
+They are composed using operators.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Atom</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> | <span style="color:#000">Literal</span> | <span style="color:#000">&#34;{}&#34;</span> | <span style="color:#000">ArrayLiteral</span> | <span style="color:#000">StructLiteral</span> | <span style="color:#000">ParenthForm</span>
+</code></pre></div><p>Note that the term &ldquo;atom&rdquo; is not to be taken too literally because array and structure literals may contain arbitrary expressions themselves.</p>
+<h3 id="identifiers">Identifiers</h3>
+<p>An identifier occurring as an atom is a name. See section Identifiers and keywords for lexical definition.</p>
+<h3 id="literals">Literals</h3>
+<p>Blech supports various numeric literals:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Literal</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">BoolLiteral</span> | <span style="color:#000">Integer</span> | <span style="color:#000">FloatNumber</span>
+</code></pre></div><p>Evaluation of a literal yields an object of the given type (bytes, natural number, signed integer, floating point number) with the given value.
+The value may be approximated in the case of floating point literals.</p>
+<p>Numeric literals are untyped on their own.
+This makes their use more flexible and permits writing more generic code.
+Of course, before code generation every expression (and thus every literal) must be assigned a type which is the task of the type checker.
+This section explains how to use literals and what type errors may happen.</p>
+<p>Literals are assigned a type either explicitly using a <em>type annotation</em> expression or implicitly when a unique type can be deduced from the context.</p>
+<h4 id="annotated-literals">Annotated literals</h4>
+<p>For example, the literal <code>1</code> could represent a natural number, a signed integer or a byte word of some size. It could even be a floating point number.
+It can be explicitly annotated using a type annotation.</p>
+<pre><code class="language-blech" data-lang="blech">1: nat16    // 2 bytes long natural number
+1: int8     // 1 byte signed integer
+1: bits32   // 4 bytes long word
+1: float32  // single precision floating point number
+</code></pre><p>====</p>
+<p>The lexical analysis of <code>Literal</code> above suggests there are three kinds of literals.
+In fact, we distinguish two kinds of integers.
+Binary, octal and hexadecimal integer literals form the group of <em>bits literals</em>.
+They may be interpreted as a byte word of some length or as a natural number of some length.</p>
+<pre><code class="language-blech" data-lang="blech">0xFF: nat32    // 4 byte natural number with value 255
+0b101: bit8    // 1 byte word with value 5
+</code></pre><p>They cannot be treated as a signed integer because depending on the length and the machine&rsquo;s representation of negative numbers they might yield a negative or positive value.</p>
+<pre><code class="language-blech" data-lang="blech">0xFF: int8    // error! Would be -1 if represented in two's complement
+0xFF: int16   // error! Would be 255 in a two byte word
+</code></pre><p>Also, bits literals cannot be interpreted as floating point numbers.
+For the exact specification of floating point numbers a hexadecimal float literal will be introduced.</p>
+<p><em>Decimal integers</em> may be interpreted as any kind of numeric type as long as the value fits the domain. The example above shows the straightforward use case with the literal <code>1</code>. Below some corner cases are exemplified:</p>
+<pre><code class="language-blech" data-lang="blech">-2: nat16     // error! Outside range of natural numbers
+-200: int8    // error! Outside range [-128..127]
+-2: bits8     // 1 byte word with value 254
+-200: float32 // single precision floating point number
+</code></pre><p>Float literals may only be interpreted as either single or double precision floating point numbers even if their fraction part is zero as in <code>10.0</code>.</p>
+<p>In summary: annotations may only be used where they do not change the value of the expression and the value fits into the domain of the type.</p>
+<h4 id="type-deduction-for-literals">Type deduction for literals</h4>
+<p>When a literal occurs as part of a binary expression where one side is already fully typed, the literal&rsquo;s type may be automatically deduced.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">var a: int32 = 9
+let b = a + 17    
+</code></pre></td></tr></table>
+</div>
+</div><p>In line 1, the 9 is deduced to have type <code>int32</code> because the left hand side is already typed.
+Note that a bits literal cannot be used to initialise an integer for reasons explained &laquo;expr:bitsliterals,above&raquo;.</p>
+<p>In line 2, the literal <code>17</code> is deduced to be <code>int32</code>, then a signed 32-bit addition is performed and <code>b</code> is also deduced to be an <code>int32</code>.</p>
+<h3 id="complex-literals">Complex literals</h3>
+<h4 id="reset-literal">Reset literal</h4>
+<p>Empty braces <code>{}</code> have a special meaning.
+They represent the default value for any struct or literal.
+Using the reset literal in a declaration has the same effect as leaving out the initialisation:</p>
+<pre><code class="language-blech" data-lang="blech">var x: [8]float32 = {}
+var y: [8]float32
+</code></pre><p>Both <code>x</code> and <code>y</code> will be initialised with zeros in all cells.
+The reset literal, as the name suggests, is most useful to set a modified data structure back to its default values:</p>
+<pre><code class="language-blech" data-lang="blech">var x: [8]float32 = {1, 2, 3, 4, 5, 6, 7, 8}
+x = {}    // now x == {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
+</code></pre><p>The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
+The same is true for arrays with struct payloads.
+See the section on &laquo;types:struct,struct types&raquo; for more details.</p>
+<h4 id="array-literals">Array literals</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ArrayLiteral</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;{&#34;</span> <span style="color:#000">CellInit</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;,&#34;</span> <span style="color:#000">CellInit</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">&#34;}&#34;</span>
+<span style="color:#000">CellInit</span>     ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">IndexExpr</span> <span style="color:#000">&#34;=&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">Expr</span>
+<span style="color:#000">IndexExpr</span>    ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;[&#34;</span> <span style="color:#000">Expr</span> <span style="color:#000">&#34;]&#34;</span>
+</code></pre></div><p>The array literal has to fit the shape of the array it is assigned to.
+That is, the <code>Expr</code> in <code>IndexExpr</code> must evaluate to a non-negative number within array bounds.
+It is however permitted to specify fewer values than the number given by the array dimensions.
+The missing values are implicitly set to the data type&rsquo;s default value.
+It is possible to set specific array cells by also specifying an index for a value.
+Subsequent unindexed values will be set for the next array cells in order.</p>
+<p>The <code>Expr</code> in <code>CellInit</code> must match the array&rsquo;s data type.</p>
+<h5 id="example-setting-array-values">Example: Setting array values</h5>
+<pre><code class="language-blech" data-lang="blech">var x: [2][3]nat8 = {{1, 2, 3},{4, 5, 6}} // all explicit
+// x is
+// 1  2  3
+// 4  5  6
+
+x[1] = {7, 8}                             // third value implicitly 0
+// x is
+// 1  2  3
+// 7  8  0
+
+x[1] = {[1] = 9, 10}                      // first value implicitly 0
+// x is                                   // the index of `10` implicitly 2
+// 1  2  3
+// 0  9  10
+
+x = {{[1] = 11},{[0] = 12, [2] = 13}}
+// x is
+// 0  11  0
+// 12  0  13
+
+x = { {[2]=14} }                          // second row implicitly zeroed out
+// x is
+// 0  0  14
+// 0  0  0
+</code></pre><h4 id="struct-literals">Struct literals</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">StructLiteral</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;{&#34;</span> <span style="color:#000">FieldInit</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;,&#34;</span> <span style="color:#000">FieldInit</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">&#34;}&#34;</span>
+<span style="color:#000">FieldInit</span>     ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;=&#34;</span> <span style="color:#000">Expr</span>
+</code></pre></div><p>The identifiers must match the field names of the struct to be assigned.
+The <code>Expr</code> must match the corresponding field&rsquo;s data type.
+Immutable (<code>let</code> declared) fields may only be set in the initialisation of the structure.
+Fields that are not specified in the literal are implicitly set to their data type&rsquo;s default value.</p>
+<h5 id="example-setting-struct-values">Example: Setting struct values</h5>
+<p>Assume the following declarations:</p>
+<pre><code class="language-blech" data-lang="blech">struct S
+    var a: int8
+    var b: int8
+end
+
+struct T
+    let x: bool
+    var y: S
+end
+</code></pre><p>The following code may be written (in some local scope):</p>
+<pre><code class="language-blech" data-lang="blech">var t: T = {x = true, y = {a = 1, b = 2}}
+// t is
+// t.x == true
+// t.y.a == 1
+// t.y.b == 2
+
+t = {y = {a = 7}} // error! Cannot assign immutable field t.x
+
+t.y = {a = 7}     // implicitly b = 0
+// t is
+// t.x == true
+// t.y.a == 7
+// t.y.b == 0
+</code></pre><h2 id="parenthesised-form">Parenthesised form</h2>
+<p>A parenthesised form is an expression enclosed in parentheses:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ParenthForm</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>  <span style="color:#000">&#34;(&#34;</span> <span style="color:#000">Expr</span> <span style="color:#000">&#34;)&#34;</span>
+</code></pre></div><p>A parenthesised expression yields whatever that expression yields.</p>
+<h2 id="primaries">Primaries</h2>
+<p>Primaries represent the most tightly bound operations of the language. Their syntax is:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Primary</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>  <span style="color:#000">Atom</span> | <span style="color:#000">Selection</span> | <span style="color:#000">Subscription</span> | <span style="color:#000">FunctionCallExpr</span>
+</code></pre></div><h2 id="field-selection">Field selection</h2>
+<p>A field selection is a primary expression followed by a period and a name:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Selection</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>  <span style="color:#000">Primary</span> <span style="color:#000">&#34;.&#34;</span> <span style="color:#000">Identifier</span>
+</code></pre></div><p><code>Primary</code> must evaluate to a struct instance that contains a field with the name given by <code>Identifier</code>.</p>
+<h2 id="subscriptions">Subscriptions</h2>
+<p>A subscripting expression selects an item of an array:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Subscription</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>  <span style="color:#000">Primary</span> <span style="color:#000">&#34;[&#34;</span> <span style="color:#000">Expression</span> <span style="color:#000">&#34;]&#34;</span>
+</code></pre></div><p>The index expression must return a value that is non-negative an smaller than the array length.
+Otherwise the program will crash in debug build mode and saturate to array index bounds in release mode.</p>
+<p>[IMPORTANT]
+The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.</p>
+<h2 id="calls">Calls</h2>
+<p>A call calls a function with a possibly empty series of arguments:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">FunctionCallExpr</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000">RhsArgList</span> <span style="color:#000">LhsArgList</span>
+</code></pre></div><p>[IMPORTANT]
+TODO: Currently the Rhs/LhsArgLists are defined in controlflow.adoc. Restructure?!</p>
+<h2 id="all-computation-expressions">All computation expressions</h2>
+<p>All expressions above are concerned with retrieving a single value from some data structure. (With the exception of function calls).
+Now all expressions are presented which take a value (or two) and produce a new value from it (those).
+The following rule gives an overview of the remaining expression syntax.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Expr</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>
+    <span style="color:#000">Primary</span>                                            <span style="color:#000;font-weight:bold">(</span><span style="color:#000">highest</span> <span style="color:#000">precedence</span><span style="color:#000;font-weight:bold">)</span> 
+    | <span style="color:#000">&#34;-&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">&#34;~&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">&#34;not&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;*&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;/&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;%&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;+&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;-&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&gt;&gt;&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&lt;&lt;&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&lt;&gt;&gt;&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&lt;&lt;&gt;&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;+&gt;&gt;&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&amp;&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;^&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;|&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&lt;&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&gt;&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&lt;=&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;&gt;=&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;==&#34;</span> <span style="color:#000">Expr</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;!=&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;and&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;or&#34;</span> <span style="color:#000">Expr</span>
+    | <span style="color:#000">Expr</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;as&#34;</span> <span style="color:#000">Type</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;as!&#34;</span> <span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">lowest</span> <span style="color:#000">precedence</span><span style="color:#000;font-weight:bold">)</span>
+</code></pre></div><p>Operator precedence has been discussed &laquo;expr:precedence,above&raquo;.</p>
+<h3 id="unary-operations">Unary operations</h3>
+<p>The unary <code>-</code> (minus) operator yields the negation of its numeric argument.
+If the argument is a literal without an annotation, it may not be a binary, octal or hexadecimal number because these are supposed to be some <code>bitX</code> type without a known length (yet) and the result of a minus cannot be defined.</p>
+<p>The unary <code>~</code> (invert) operator yields the bitwise inversion of its <code>bitsX</code> argument.
+It cannot be applied to a literal without a type annotation.</p>
+<p>The unary <code>not</code> operator yields the opposite of its Boolean argument.</p>
+<h3 id="binary-arithmetic-operations">Binary arithmetic operations</h3>
+<p>The binary arithmetic operations require that the arguments are of some numeric type.</p>
+<p>The arithmetic operations work as expected on all arithmetic types.
+See the sections on &laquo;types:arithmetic,arithmetic types&raquo; for details regarding overflow handling.</p>
+<p>The arguments&rsquo; types may differ only in size.
+When they differ, the smaller size value is lifted implicitly to the larger size.
+The operation is then carried out on (possibly lifted) arguments of the same type.</p>
+<h4 id="lifting-types">Lifting types</h4>
+<pre><code class="language-blech" data-lang="blech">var x: int8 = 7
+var y: int16 = 300
+var z = x + y
+var u = x + 1
+</code></pre><p><code>x</code> and <code>y</code> are both signed integers but have different sizes.
+In the context of the addition in line 3, the smaller type is lifted to the larger, effectively making <code>x</code> an <code>int16</code>.
+Then, 16-bit signed addition is carried out producing an <code>int16</code> typed result.
+This result is stored into <code>z</code> making it a <code>int16</code> variable, too.</p>
+<p>In line 4, the literal <code>1</code> is deduced to be of type <code>int8</code> in the context of this expression (cf. paragraph on &laquo;expr:deduction,type deduction&raquo; for literals).
+Then, 8-bit signed addition is carried out producing an <code>int8</code> typed result.
+This result is stored into <code>u</code> making it a <code>int8</code> variable, too.</p>
+<p>The following snippet shows typical caveats.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">var x: int32 = 49 - 7    // error! Cannot determine type of &#39;49&#39; and &#39;7&#39;
+
+var y: int8 = (49: int8) - 128 // error 128 does not fit into int8
+
+var a: bits8 = 0x1
+var b: nat8 = 2
+var c = a + b            // error! Type mismatch
+</code></pre></td></tr></table>
+</div>
+</div><p>In line 1, the context of <code>49</code> is <code>7</code> and vice versa.
+Both do not have a concrete type.
+It is therefore not clear which implementation of <code>-</code> should be invoked.
+The code only specifies that the result will be stored in an <code>int32</code> memory location but several different types (<code>int8</code>, <code>int16</code>, <code>int32</code>) would fit in there.</p>
+<p>In line 3, the previous issue was resolved by specifying that <code>49</code> should be treated as an <code>int8</code>.
+Thus the other operand must be an <code>int8</code> as well but the given literal is outside the <code>int8</code> domain.
+(In this particular case, writing <code>(49: int8) + (-128)</code> would solve the problem due to the asymmetry of signed integers.)</p>
+<p>The last line shows on operation on different types (of the same size).
+Addition for natural numbers must not overflow while addition for bits will wrap around.
+It is not clear which one should be used here.
+Either <code>a</code> or <code>b</code> need to be explicitly cast using the <code>as</code> operator to resolve this issue.</p>
+<h3 id="bitwise-operations">Bitwise operations</h3>
+<p>// TODO</p>
+<h3 id="comparison-operations">Comparison operations</h3>
+<p>Unlike C, in Blech equality and inequality have the same priority as the ordering operators.
+Furthermore the precedence of comparison operators is lower than that of any arithmetic, shifting or bitwise operation.</p>
+<p>Note that all operators are left associative.
+Hence chaining comparisons is possible syntactically but makes little sense.</p>
+<h4 id="comparison-chaining">Comparison chaining</h4>
+<pre><code class="language-blech" data-lang="blech">var b = 4 &lt; 5 &lt;= false // evaluates to true &lt;= false which is false
+var c = 4 &lt; 5 &lt;= 6 // type error: cannot compare true &lt;= 6
+</code></pre><p>This is different to C because in Blech booleans and numbers are incomparable.</p>
+<h4 id="comparison-lifting">Comparison lifting</h4>
+<p>Comparison operators lift their arguments to a common sized type like arithmetic operators do (see above).
+Additionally, comparisons permit using literals that would require a larger domain.
+This allows writing (in)equalities without cluttering the code with trivial type casts.</p>
+<h5 id="example-comparison-with-literals-outside-the-domain">Example: Comparison with literals outside the domain</h5>
+<pre><code class="language-blech" data-lang="blech">var x: int8 = 7
+var y = x &lt; 1000
+</code></pre><p>The literal <code>1000</code> is a (signed) integral number and would fit into an <code>int16</code>.
+Therefore we allow to implicitly lift <code>x</code> to <code>int16</code> and carry out the comparison.
+This makes sense because the result of all comparison operators is always a Boolean value.
+There are no &ldquo;surprises&rdquo; about the outcome.</p>
+<h3 id="logical-operatorions">Logical operatorions</h3>
+<p>The operators <code>and</code> and <code>or</code> may only be applied to Boolean typed arguments.</p>
+<p>The expression <code>a and b</code> is true if and only if <code>a</code> is true and <code>b</code> is true.
+The evaluation is performed lazily: first <code>a</code> is evaluated. If it is false, the expression returns <code>false</code> without evaluating <code>b</code>.</p>
+<p>The expression <code>a or b</code> is true unless both <code>a</code> is false and <code>b</code> is false.
+The evaluation is performed lazily: first <code>a</code> is evaluated. If it is true, the expression returns <code>true</code> without evaluating <code>b</code>.</p>
+<h3 id="representation-annotation-and-change">Representation annotation and change</h3>
+<p>Type annotations specify a concrete type for a literal which may represent values from different types.</p>
+<p>Type casts <em>change</em> the type of an already typed expression.
+Casts are only permitted where the (machine) representation of a value will not change and casts assume that the value fits into the target type&rsquo;s domain.</p>
+<h4 id="safe-casts">Safe casts</h4>
+<pre><code class="language-blech" data-lang="blech">var x: int16 = 100
+let y = x as nat8    // ok, y == 100 of type nat8
+
+x = x * 3
+let z = x as nat8    // runtime error: 300 outside nat8 domain 0..255
+
+x = -256             // assuming 2's complement on the machine:
+                     // x == 0xb_1111_1111_0000_0000
+let u = x as bits8   // runtime error
+let v = x as bits16  // ok, v == 65280
+
+let f: float = 1
+x = f as int16       // error! impossible to cast floating point to integral types
+</code></pre><p>The restrictions on the casts do not rule out runtime errors.
+At the same time they prevent some manipulations that are possible in C.
+For example, it is not possible to interpret a floating point as a bits type and change individual bits.</p>
+<p>// TODO is the description of <code>as</code> correct. Are the restrictions bugs, features?</p>
+<h3 id="evaluation-order">Evaluation order</h3>
+<p>Undefined at the moment. Evaluated by the C compiler.</p>
+
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+</div>
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="/about/privacy">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book-open"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech authors</small>
+        
+        <small class="ml-1"><a href="/about/privacy" target="_blank">Privacy Policy</a></small>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="/blech-doc/js/main.min.21de55dfa9224e53cf629c8a81b4419ee28c5ab4ffc4ba39994bb1410adc2603.js" integrity="sha256-Id5V36kiTlPPYpyKgbRBnuKMWrT/xLo5mUuxQQrcJgM=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>
