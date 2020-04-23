@@ -1,4 +1,4 @@
-import("/js/js.cookie.js");
+import("../js/js.cookie.js");
 
 // Wait for page to fully load before checking
 $(window).on('load', setPrivacy);
