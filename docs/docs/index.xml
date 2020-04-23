@@ -162,8 +162,7 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
       <description>
         
         
-        &lt;base href=&#34;{{ .Site.BaseURL }}&#34;&gt;
-
+        
 
 &lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
 &lt;p&gt;All content of this page is preliminary&lt;/p&gt;

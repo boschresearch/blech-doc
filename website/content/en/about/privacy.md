@@ -4,7 +4,6 @@ linkTitle: "Privacy"
 type: "docs"
 weight: 10
 ---
-<base href="{{ .Site.BaseURL }}">
 
 {{% pageinfo %}}
 All content of this page is preliminary
