@@ -162,7 +162,8 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
       <description>
         
         
-        
+        &lt;base href=&#34;{{ .Site.BaseURL }}&#34;&gt;
+
 
 &lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
 &lt;p&gt;All content of this page is preliminary&lt;/p&gt;
@@ -177,10 +178,10 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
 &lt;/ul&gt;
 &lt;h2 id=&#34;opt-in-for-google-analytics&#34;&gt;Opt-in for Google Analytics&lt;/h2&gt;
 &lt;p&gt;You can opt-in for site analytics, in this opt-in notice&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://boschresearch.github.io/blech-doc/images/opt-in-notice.png&#34; alt=&#34;Opt-in notice&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/opt-in-notice.png&#34; alt=&#34;Opt-in notice&#34;&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;If you &lt;code&gt;Opt-in&lt;/code&gt; we use site analytics to collect your anonymous usage data.&lt;/li&gt;
-&lt;li&gt;If you close &lt;code&gt;x&lt;/code&gt; this notice, no data will be collected.&lt;/li&gt;
+&lt;li&gt;If you &lt;code&gt;Opt-in&lt;/code&gt; we use site analytics to collect your anonymous {&amp;lt; resource usage data.&lt;/li&gt;
+&lt;li&gt;If you close &lt;code&gt;x&lt;/code&gt; &amp;gt;}} this notice, no data will be collected.&lt;/li&gt;
 &lt;li&gt;We use a cookie to remember your decision.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;After your opt-in we use &lt;a href=&#34;https://marketingplatform.google.com/about/analytics/features/&#34; target=&#34;_blank&#34;&gt;Google Analytics&lt;/a&gt;
