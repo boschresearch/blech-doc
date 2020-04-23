@@ -1,9 +1,9 @@
 
 ---
-title: "The second blog post"
-linkTitle: "Second blog post"
-date: 2019-10-06
+title: "Dummy blog post"
+linkTitle: "Dummy"
+date: 2020-04-01
 description: >
-  A short lead descripton about this content page. Text here can also be **bold** or _italic_ and can even be split over multiple paragraphs.
+  This is a dummy blog post.
 ---
 

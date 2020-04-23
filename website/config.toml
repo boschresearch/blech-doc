@@ -32,8 +32,8 @@ pygmentsUseClassic = false
 # See https://help.farbox.com/pygments.html
 pygmentsStyle = "tango"
 
-[context.production.environment]
-HUGO_ENV = "production"
+# [context.production.environment]
+# HUGO_ENV = "production"
 
 # Configure how URLs look like per section.
 [permalinks]
@@ -81,11 +81,6 @@ weight = 1
       unsafe = true
 
 # Everything below this are Site Params
-# [[menu.main]]
-#     name = "Language manual"
-#     weight = "20"
-#     url = "asciidoc/blech-user-manual.html"
-
 
 [params]
 copyright = "The Blech authors"

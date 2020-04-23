@@ -21,7 +21,7 @@ In order to improve the content and the experience on the website we kindly ask 
 
 You can opt-in for site analytics, in this opt-in notice
 
-![](/images/opt-in-notice.png)
+![Opt-in notice](/images/opt-in-notice.png)
 
 - If you `Opt-in` we use site analytics to collect your anonymous usage data.
 - If you close `x` this notice, no data will be collected.
@@ -40,7 +40,7 @@ Your IP-Adress is anonymized, so we do **not** store wether you have been to the
 
 ## Do not track
 
-We respect your [Do-Not-Track](https://en.wikipedia.org/wiki/Do_Not_Track) settings if your browser supports this.
+We respect your [Do-Not-Track](https://en.wikipedia.org/wiki/Do_Not_Track) settings if your browser requests this.
 
 This means, you will never see the above opt-in notice, if you configured your browser for Do-Not-Track.
 No cookies will be set. Google Analytics will not be used.
@@ -48,7 +48,7 @@ No cookies will be set. Google Analytics will not be used.
 
 ## Hosting
 
-This website is hosted by GitHub Pages. When you access the website, GitHub collects usage data.
+This website is hosted by GitHub Pages. When you access the website, GitHub collects logging and usage data.
 See the [GitHub Privacy Statement](https://help.github.com/en/github/site-policy/github-privacy-statement) for details.
 
 ## Linked services
@@ -56,23 +56,30 @@ See the [GitHub Privacy Statement](https://help.github.com/en/github/site-policy
 This website contains links to other services. If you follow these links you should become aware of their terms of service.
 
 We link to:
+
 - [GitHub](https://help.github.com/en/github/site-policy/github-terms-of-service) for documentation, compiler and tools repositories.
-- [Slack](https://slack.com/terms-of-service) for Blech developer discussions.
+
 - [Google Groups](https://policies.google.com/terms) for Blech user questions.
-- [Twitter](https://twitter.com/tos) for anouncements.
+
+- [Slack](https://slack.com/terms-of-service) for Blech developer discussions.
+
+- [Twitter](https://twitter.com/tos) for announcements.
 
 Additional links might occur in the documentation and the blog posts.
 
 ## Manage cookies
 
-You can manually delete and restrict the use of cookies in your web browser. General details about how to
-control cookie usage in your web browser are available at:
+You can manually delete and restrict the use of cookies in your web browser. 
 
-[Apple Safari](https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac)
+Learn how to manage cookies for:
 
-[Google Chrome](https://support.google.com/chrome/bin/answer.py?hl=en-GB&answer=95647&p=cpn_cookies)
+- [Apple Safari](https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac)
 
-[Microsoft Internet Explorer](https://support.microsoft.com/en-us/help/17442/windows-internet-explorer-delete-manage-cookies)
+- [Google Chrome](https://support.google.com/chrome/bin/answer.py?hl=en-GB&answer=95647&p=cpn_cookies)
 
-[Mozilla Firefox](https://support.mozilla.org/en-US/products/firefox/protect-your-privacy/cookies)
+- [Microsoft Edge](https://support.microsoft.com/help/4027947/microsoft-edge-delete-cookies)
+
+- [Microsoft Internet Explorer](https://support.microsoft.com/help/17442/windows-internet-explorer-delete-manage-cookies)
+
+- [Mozilla Firefox](https://support.mozilla.org/products/firefox/protect-your-privacy/cookies)
 

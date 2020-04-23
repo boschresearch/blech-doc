@@ -12,16 +12,22 @@
 {{ if eq .Dir "blog/" }}
 <p>Follow this blog to keep up-to-date on Blech.</p>
 <ul>
-<li><a href="./releases"><b>Release and feature announcements</b></a>: <br>{{ end }}
-{{ if or (in .Dir "releases") (eq .Dir "blog/") }}Learn about each Blech release, what's new and changed, and how to get started with the latest and greatest.{{ end }}
+<li><a href="./releases"><b>Release and feature announcements</b></a>: <br>
+{{ end }}
+
+{{ if or (in .Dir "releases") (eq .Dir "blog/") }} Learn about Blech releases, what is new and what has changed. {{ end }}
 
 {{ if eq .Dir "blog/" }}</li>
-<li><a href="./articles"><b>Articles</b></a>: <br>{{ end }}
-{{ if or (in .Dir "articles") (eq .Dir "blog/") }}Read about Blech features, tools, and related topics.{{ end }}
+<li><a href="./articles"><b>Blech posts</b></a>: <br>
+{{ end }}
+
+{{ if or (in .Dir "articles") (eq .Dir "blog/") }} Read about Blech features, tools, and related topics. {{ end }}
 
 {{ if eq .Dir "blog/" }}</li>
-<li><a href="./events"><b>Future and past social events</b></a>: <br>{{ end }}
-{{ if or (in .Dir "events") (eq .Dir "blog/") }}Find out where the Blech team will be talking next, and where they've been.{{ end }}
+<li><a href="./events"><b>Future and past social events</b></a>: <br> 
+{{ end }}
+
+{{ if or (in .Dir "events") (eq .Dir "blog/") }} Find out where Blech has been and will be presented.{{ end }}
 
 {{ if eq .Dir "blog/" }}</li>
 </ul>
