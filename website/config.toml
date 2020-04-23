@@ -1,5 +1,6 @@
 baseURL = "https://boschresearch.github.io/blech-doc/"  
 
+# This is neccesary because of the github projects page, for correct relative URLs
 canonifyURLs = true
 
 title = "The Blech language"
@@ -87,8 +88,7 @@ weight = 1
 
 [params]
 copyright = "The Blech authors"
-privacy_policy = "/about/privacy.html"
-
+privacy_policy = "/about/privacy/"
 # First one is picked as the Twitter card image if not set on page.
 # images = ["images/project-illustration.png"]
 
