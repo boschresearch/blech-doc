@@ -1,0 +1,18 @@
+{{ define "main" }}
+
+<a class="td-offset-anchor"></a>
+<section class="row td-box td-box--1 position-relative td-box--gradient td-box--height-auto">
+	<div class="container text-center td-arrow-down">
+		<span class="h4 mb-0">
+<h1>Join the {{ .Site.Title }} community</h1>
+
+<p>{{ .Site.Title }} is an open source project.  Anyone in the community can use and improve it. Here are few ways to learn about the community, and how to join.</span>
+	</div>
+</section>
+{{ partial "community-links.html" . }}
+
+<div class="td-content">
+{{ .Content }}
+</div>
+
+{{ end }}

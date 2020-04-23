@@ -1,0 +1,17 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blech – Contributing to Blech development</title>
+    <link>https://boschresearch.github.io/blech-doc/docs/contributing/</link>
+    <description>Recent content in Contributing to Blech development on Blech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/contributing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+  </channel>
+</rss>

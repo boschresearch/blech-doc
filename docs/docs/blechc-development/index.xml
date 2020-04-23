@@ -1,0 +1,169 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blech – Guide to blechc development</title>
+    <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/</link>
+    <description>Recent content in Guide to blechc development on Blech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/blechc-development/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Expressions, conditions, initialisers, constants</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;equality-expressions&#34;&gt;Equality expressions&lt;/h2&gt;
+&lt;p&gt;Theoretically, every type supports some notion of equality (and inequality).
+This is straightforward for &lt;strong&gt;simple (or primitive) value types&lt;/strong&gt; that consist of one memory cell only (booleans and all numeric types of all sizes):
+&lt;code&gt;a == b&lt;/code&gt; holds iff the value of &lt;code&gt;a&lt;/code&gt; is the same as the value of &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For &lt;strong&gt;structured (complex) value types&lt;/strong&gt; we can decide equality by comparing every element of data structures recursively.
+At compile time the result of a comparison can be evaluated if the arguments are compile time constants.
+Thus it is technically no problem to compare compile time constants of any value type.&lt;/p&gt;
+&lt;p&gt;At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure.
+An optimisation of runtime - not changing the run-time complexity but providing better factors - could be achieved by comparing the data structures byte-wise (&lt;code&gt;memcmp&lt;/code&gt;).
+But this requires to fix padding in structs and then fails in special cases:
+floating point elements may use different bit representations for the same numerical value, e.g. &lt;code&gt;+0.0&lt;/code&gt; and &lt;code&gt;-0.0&lt;/code&gt;.
+Consequently, the comparison operator for structured data may not be used at runtime (like in C) and results in a type check error.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Reference types are not implemented yet but in principle they will have the same behaviour: compare (dereferenced) values for simple types, and disallow comparison for complex types.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;using-constants&#34;&gt;Using constants&lt;/h2&gt;
+&lt;p&gt;In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent.
+Thus at the end of the type check phase the declarations of the consts do exist and can be translated to C but all their usages disappear (being substituted by the value).
+This has the drawback of less readable C code but still allows to export constants as #defines and use them in foreign code by including the relevant &lt;code&gt;.h&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals.
+The same is true for arrays in all versions of C.
+Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data.
+In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls.
+In summary, literals occur only on the right hand side of initialisation in the generated C code.&lt;/p&gt;
+&lt;h2 id=&#34;side-effects-in-conditions-are-not-allowed&#34;&gt;Side effects in conditions are not allowed&lt;/h2&gt;
+&lt;p&gt;It is obvious that testing an &lt;code&gt;await&lt;/code&gt; condition may not have any impact on the state to implement a synchronous program.
+Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements.
+This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation.
+The common programming practice of C where conditions&amp;rsquo; side effects are used to also advance computation is regarded as bad practice in Blech until proven otherwise.&lt;/p&gt;
+&lt;h2 id=&#34;side-effects-are-allowed-in-initialisers&#34;&gt;Side effects are allowed in initialisers&lt;/h2&gt;
+&lt;p&gt;Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable.
+Otherwise the following code that declares an immutable variable cannot be written:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let status = f()(x)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Instead, we would have to write&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var status: typeOfF
+status = f()(x)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;which not only is longer and less readable but makes &lt;code&gt;status&lt;/code&gt; a mutable variable which is not the intention of the programmer.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Local and external variables</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;local-variables&#34;&gt;Local variables&lt;/h2&gt;
+&lt;p&gt;Variables declared with the scope of an activity are persistent.
+They keep their value over multiple reactions.
+Hence, in the generated code, they are stored outside the step-function of the given activity.
+Instead they are passed as a context with every call of the step-function.&lt;/p&gt;
+&lt;p&gt;Previous values however need not be stored in this static context.
+In the generated code, they can be automatic variables (stack allocated variables) of the generated step-function.
+The step-function itself will create the prev variables (where needed) and fill them before the actual step is carried out.&lt;/p&gt;
+&lt;p&gt;Special attention has to be given to the reaction in which the declaration of the local variable takes place.
+Here the local variable assumes its first value.
+This is defined to be the prev value and thus the prev variable has to be reset here once.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;...
+var x: int32 = 7 // prev x = 7
+cobegin
+    run B(prev y)(x) // x may have changed
+with
+    run A(prev x)(y) // prev x is guaranteed to be 7 in the first reaction
+end
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;externa-variables&#34;&gt;Externa Variables&lt;/h2&gt;
+&lt;p&gt;External variables (inside the activity scope) are dual to local variables in terms of code generation.
+We do not need to store external variables in the static context which is passed to the step-function.
+Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
+At the end of the reaction, the final value is written back to the external C-variable (if it is a &lt;code&gt;var&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Previous values of external variables on the other hand must be persisted in static memory.
+This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with
+(while the value of the external variable is volatile and may have changed arbitrarily between reactions).
+The code generator will create an extra local activity variable and add it to the list of local variables that are stored in the context.
+The value of the prev variable will be set &lt;em&gt;at the end&lt;/em&gt; of each reaction, so it can be used in the next reaction.&lt;/p&gt;
+&lt;p&gt;Again, special treatment is required in the code block that represents the reaction in which the declaration of the external variable becomes active.
+Here, as before, the prev value has to be set once so it is defined in the case that the prev value is used in the same reaction.&lt;/p&gt;
+&lt;h2 id=&#34;effects-on-compilation-contexts&#34;&gt;Effects on compilation contexts&lt;/h2&gt;
+&lt;p&gt;If necessary, the function &lt;code&gt;ActivityTranslator.cpAction&lt;/code&gt; adds the external variable with a &lt;code&gt;prev_&lt;/code&gt; infix in its name to the &lt;code&gt;Compilation.iface.locals&lt;/code&gt; of the current activity.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ActivityTranslator.makeActCall&lt;/code&gt; transports the locals of the called activity to the interface of the current one which includes the prev&amp;rsquo;ed version of external variables.
+In order to be able to print this interface as C code, the variables are added to the dictionary of known declarations in the type check context (&lt;code&gt;ctx.tcc.nameToDecl&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Since the entry point activity is never called from within the Blech program the above mechanism of adding variables to the type check context is repeated in &lt;code&gt;ActivityTranslator.translate&lt;/code&gt; (for the entry point activity only).&lt;/p&gt;
+&lt;h2 id=&#34;effects-on-c-code-generation&#34;&gt;Effects on C-code generation&lt;/h2&gt;
+&lt;p&gt;Printing external constants or params does not require any additional modifications. The given binding is simply inserted. For &lt;code&gt;extern let&lt;/code&gt; and &lt;code&gt;extern var&lt;/code&gt; additional effort is required.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;External variables&lt;/p&gt;
+&lt;p&gt;Whenever an external variable is accessed as a right-hand-side, left-hand-side or the input or output argument to a call, it needs to be rendered differently than local activity variables.
+This is because external variables are generated as automatic variables in the scope of the step-function (instead of being passed in with the context).
+Thus they need to be rendered like local variables in Blech functions.
+This is achieved by hooking in the &lt;code&gt;isExtCurVar&lt;/code&gt; function in the call of the &lt;code&gt;cpRenderData&lt;/code&gt;.
+It will set the &lt;code&gt;subProgDecl&lt;/code&gt; to &lt;code&gt;Function&lt;/code&gt; if the variable name to be rendered is an access to the current memory location of an external variable.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access to previous locations of external variables&lt;/p&gt;
+&lt;p&gt;Usually the previous value is stored in an automatic variable of the step-function and is accessed accordingly. The name is mangled by prepending a &lt;code&gt;prev_&lt;/code&gt; to the QName of the variable.
+However previous values of external variables are stored in the context. Thus they need to be accessed like a local variable. The &lt;code&gt;prev_&lt;/code&gt; infix is already mangled into the QName that is stored in the context.
+Thus &lt;code&gt;cpRenderData&lt;/code&gt; will change &lt;code&gt;timepoint&lt;/code&gt; to &lt;code&gt;Current&lt;/code&gt; and add the &lt;code&gt;prev_&lt;/code&gt; infix into the name to be rendered.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy-in / copy-out&lt;/p&gt;
+&lt;p&gt;The function &lt;code&gt;ActivityTranslator.translate&lt;/code&gt; generates code for&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Copying the values from the bound external C-variables to the local memory inside the step-function at the beginning of the reaction.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copying back the final results back to the bound external C-variables at the end of the reaction.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;(If necessary,) setting the previous memory to the final current value of the external variable such that in the next reaction the prev value can be used.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;effects-on-json-trace-printing&#34;&gt;Effects on JSON trace printing&lt;/h2&gt;
+&lt;p&gt;Since prev locations of external variables become local activity variables and are added to the type check context, they are printed in the trace along with the normal variables.
+Note however that the value shown in the trace is the prev value for the &lt;em&gt;next&lt;/em&gt; reaction.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Git workflow</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;branches&#34;&gt;Branches&lt;/h2&gt;
+&lt;p&gt;For the Blech compiler development we use branches and roughly follow the &lt;a href=&#34;https://gist.github.com/digitaljhelms/4287848&#34; target=&#34;_blank&#34;&gt;Git/Github branching standards &amp;amp; conventions&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;The contained &lt;a href=&#34;https://gist.github.com/digitaljhelms/4287848#workflow-diagram&#34; target=&#34;_blank&#34;&gt;workflow diagram&lt;/a&gt;
+ visualizes this in a nice way.&lt;/p&gt;
+&lt;p&gt;Since we did not release a stable version until now, we do not have stable branch but only a master branch that reflects the evolution of the language and gets tagged from time to time.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
