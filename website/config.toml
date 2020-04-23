@@ -1,4 +1,7 @@
 baseURL = "https://boschresearch.github.io/blech-doc/"  
+
+canonifyURLs = true
+
 title = "The Blech language"
 
 publishDir = "../docs"
@@ -84,7 +87,7 @@ weight = 1
 
 [params]
 copyright = "The Blech authors"
-privacy_policy = "../about/privacy"
+privacy_policy = "/about/privacy.html"
 
 # First one is picked as the Twitter card image if not set on page.
 # images = ["images/project-illustration.png"]
