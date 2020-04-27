@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -23,14 +23,14 @@
 <title>Blech</title><meta property="og:title" content="" />
 <meta property="og:description" content="Embedded realtime programming User Manual Annotations, pragmas and doc comments As explained before Blech allows annotations to declarations. In principle every declaration can have one or more annotations.
 Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.
-@[EntryPoint] activity ... end @[CConst(binding=&quot;A_C_CONST&quot;)] extern const ABlechConst C bindings have an optional header parameter where the necessary header file can be defined." />
+@[EntryPoint]activity ... end@[CConst(binding=&quot;A_C_CONST&quot;)]extern const ABlechConstC bindings have an optional header parameter where the necessary header file can be defined." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/user-manual/old/" />
 <meta property="article:modified_time" content="2020-04-19T17:45:00+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="">
 <meta itemprop="description" content="Embedded realtime programming User Manual Annotations, pragmas and doc comments As explained before Blech allows annotations to declarations. In principle every declaration can have one or more annotations.
 Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.
-@[EntryPoint] activity ... end @[CConst(binding=&quot;A_C_CONST&quot;)] extern const ABlechConst C bindings have an optional header parameter where the necessary header file can be defined.">
+@[EntryPoint]activity ... end@[CConst(binding=&quot;A_C_CONST&quot;)]extern const ABlechConstC bindings have an optional header parameter where the necessary header file can be defined.">
 <meta itemprop="dateModified" content="2020-04-19T17:45:00&#43;02:00" />
 <meta itemprop="wordCount" content="611">
 
@@ -40,7 +40,7 @@ Currently we use annotations for the entry point of a Blech program and for the 
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="Embedded realtime programming User Manual Annotations, pragmas and doc comments As explained before Blech allows annotations to declarations. In principle every declaration can have one or more annotations.
 Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.
-@[EntryPoint] activity ... end @[CConst(binding=&quot;A_C_CONST&quot;)] extern const ABlechConst C bindings have an optional header parameter where the necessary header file can be defined."/>
+@[EntryPoint]activity ... end@[CConst(binding=&quot;A_C_CONST&quot;)]extern const ABlechConstC bindings have an optional header parameter where the necessary header file can be defined."/>
 
 
 
@@ -492,7 +492,7 @@ Currently we use annotations for the entry point of a Blech program and for the 
 	<h1 id="embedded-realtime-programming">Embedded realtime programming</h1>
 <h2 id="user-manual">User Manual</h2>
 <h3 id="annotations-pragmas-and-doc-comments">Annotations, pragmas and doc comments</h3>
-<p>As explained before Blech allows annotations to declarations.
+<p>As explained before Blech allows annotations to declarations. 
 In principle every declaration can have one or more annotations.</p>
 <p>Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.</p>
 <pre><code class="language-blech" data-lang="blech">@[EntryPoint]
@@ -501,7 +501,7 @@ activity ... end
 @[CConst(binding=&quot;A_C_CONST&quot;)]
 extern const ABlechConst
 </code></pre><p>C bindings have an optional header parameter where the necessary header file can be defined.</p>
-<p>In order to prevent repetition we also allow pragmas which are annotations to the current scope.
+<p>In order to prevent repetition we also allow pragmas which are annotations to the current scope. 
 Pragmas can occur where members or statements are allowed.
 Pragmas are similar to annotations but start with <code>@@</code>.</p>
 <p>Currently we use pragmas for central C include file definitions in order to prevent repitition of header definitions in annotations.</p>
@@ -536,8 +536,8 @@ end
 </code></pre><p>Parsed doc comments allow to reproduce documentation in <code>.blh</code> signature files and in generated code.</p>
 <h3 id="blechs-c-interface">Blech&rsquo;s C interface</h3>
 <p>C can be bound to Blech via annotations.</p>
-<p>In principal every Blech declarable entity can be implemented in C.
-Via an annotation a Blech <code>extern</code> declaration can be bound to a C implementation.
+<p>In principal every Blech declarable entity can be implemented in C. 
+Via an annotation a Blech <code>extern</code> declaration can be bound to a C implementation. 
 It is the responsibility of the programmer to make sure that the C implementation provides what the Blech definition guarantees.</p>
 <p>Currently we support <code>extern const</code> and <code>extern function</code>.</p>
 <pre><code class="language-blech" data-lang="blech">@[CConst(binding = &quot;5 * A_C_CONST&quot;, header = &quot;myconsts.h&quot;)]
@@ -580,10 +580,10 @@ Assume the following code in a Blech module <code>wrapper.blc</code></p>
 <pre><code class="language-blech" data-lang="blech">// extern functions to be implemented in C
 
 blc_float64 blc_wrapper_myCFunction (const blc_float64 blc_i);
-</code></pre><p>The implementation suitable to the generated prototype has to be provided by the programmer.
+</code></pre><p>The implementation suitable to the generated prototype has to be provided by the programmer. 
 To guarantee the interface the generated .h-file has to be included.</p>
 <p>Extern declarations could also be used for <code>type, typealias, param, var, let, activity</code> and will be incrementally added.</p>
-<p>Since Blech does not allow global variables the local usage of <code>extern var</code> and <code>extern let</code> creates a &ldquo;static&rdquo; local - in the sense of C - and requires the surrounding subprogram or struct declaration to be classified as a <code>singleton</code>.
+<p>Since Blech does not allow global variables the local usage of <code>extern var</code> and <code>extern let</code> creates a &ldquo;static&rdquo; local - in the sense of C - and requires the surrounding subprogram or struct declaration to be classified as a <code>singleton</code>. 
 The same should be necessary for activities written in C that only can represent the state from step to step in global variables which make these activities <code>singleton</code> too.</p>
 
 	

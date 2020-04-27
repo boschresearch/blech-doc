@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -510,7 +510,7 @@ We do not need to store external variables in the static context which is passed
 Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
 At the end of the reaction, the final value is written back to the external C-variable (if it is a <code>var</code>).</p>
 <p>Previous values of external variables on the other hand must be persisted in static memory.
-This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with
+This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with 
 (while the value of the external variable is volatile and may have changed arbitrarily between reactions).
 The code generator will create an extra local activity variable and add it to the list of local variables that are stored in the context.
 The value of the prev variable will be set <em>at the end</em> of each reaction, so it can be used in the next reaction.</p>

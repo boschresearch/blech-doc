@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -535,7 +535,7 @@ Each one exist in four sizes that indicate the number of bits needed in a machin
 |===</p>
 <p>The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length <code>N</code> with a range of <code>0</code> to <code>2^N -1</code> from integer numbers centred around 0 with a range of <code>2^(N-1)</code> to <code>2^(N-1) -1</code>.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain.
+However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
 Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the <code>bitsX</code> type is introduced.
 The bits type of length <code>N</code> have the same value range as the natural numbers of the same length.</p>

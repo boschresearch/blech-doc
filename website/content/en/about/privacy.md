@@ -10,7 +10,16 @@ All content of this page is preliminary
 {{% /pageinfo %}}
 
 
-This website does **not** collect data or use cookies **by default**.
+## GitHub Pages Service
+
+This Website is hosted as a GitHub Pages website. 
+GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service. 
+See the [GitHub Privacy Statement](https://help.github.com/en/github/site-policy/github-privacy-statement) for details.
+
+
+## This Website
+
+This Website does **not** collect data or use cookies **by default**.
 
 In order to improve the content and the experience on the website we kindly ask you to allow the usage of site analytics. If you opt-in to this service we use cookies to collect anonymous usage data.
 
@@ -44,12 +53,6 @@ We respect your [Do-Not-Track](https://en.wikipedia.org/wiki/Do_Not_Track) setti
 
 This means, you will never see the above opt-in notice, if you configured your browser for Do-Not-Track.
 No cookies will be set. Google Analytics will not be used.
-
-
-## Hosting
-
-This website is hosted by GitHub Pages. When you access the website, GitHub collects logging and usage data.
-See the [GitHub Privacy Statement](https://help.github.com/en/github/site-policy/github-privacy-statement) for details.
 
 ## Linked services
 

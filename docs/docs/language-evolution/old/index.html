@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -494,7 +494,7 @@
 <p>Environment variables are either read-only inputs or read-write outputs.
 Every environment variables has a counterpart in the Blech environment.
 Therefore, they are annotated as <code>@[CInput ...]</code> or <code>@[COutput ...]</code>.
-Environment variables are classified by the keyword <code>extern</code>.
+Environment variables are classified by the keyword <code>extern</code>. 
 A <code>extern let</code> definition must be annotated with a <code>@[CInput ...]</code>.
 An <code>extern var</code> definition must be annotated with a <code>@[COutput ...]</code>.</p>
 <pre><code class="language-blech" data-lang="blech">@[CInput (binding = &quot;theSensor&quot;, header = &quot;sensors.h&quot;)]
@@ -502,8 +502,8 @@ extern let sensor: uint8
 
 @[COutput (binding = &quot;spiIsReady&quot;, header = &quot;spi.h&quot;)]
 extern var spiReady: bool
-</code></pre><p>Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics.
-They might be <code>volatile</code> changing their value during a reaction.
+</code></pre><p>Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics. 
+They might be <code>volatile</code> changing their value during a reaction. 
 They might be read or written asynchronously by the environment.</p>
 <p>In order to synchronize these C variables, the Blech program holds a buffered value of the external value in the environment variable.</p>
 <p>The Blech runtime system takes care of the synchronisation.
@@ -542,7 +542,7 @@ Two or more <code>extern let</code> declarations are allowed to have the same an
 The signature for the above activity <code>handleCVariables</code> looks like the following</p>
 <pre><code class="language-blech" data-lang="blech">singleton handleCVariables.spiReady 
 activity handleCVariables()
-</code></pre><p>It shows the activities prototype, exposes the unique names of the singletons and shows their annotations.
+</code></pre><p>It shows the activities prototype, exposes the unique names of the singletons and shows their annotations. 
 Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.</p>
 <h3 id="the-diamond-call-problem">The diamond call problem</h3>
 <p>If an activity declares a singleton, it still can be called from several activities.</p>

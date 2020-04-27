@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -586,7 +586,7 @@ end
    |                      ^ Input argument.
 
   If this usage is intended, consider using the &#34;shares&#34; keyword when declaring the formal parameters of the subprogram.
-</code></pre></div><p>Blech automatically takes refencences and de-references if necessary. It decides on mutability through the occurence in the input or output parameter list. Input parameters in Blech are semantically passed by-value for functions and passed by-reference for activities.
+</code></pre></div><p>Blech automatically takes refencences and de-references if necessary. It decides on mutability through the occurence in the input or output parameter list. Input parameters in Blech are semantically passed by-value for functions and passed by-reference for activities. 
 Therefore the activity <code>outIsInPlus1</code> has semantically the following form:</p>
 <pre><code class="language-blech" data-lang="blech">activity outIsInPlus1(&lt;let ref&gt; a: int32)(&lt;var ref&gt;b: int32)
     &lt;*&gt; b = 1       
@@ -858,7 +858,7 @@ We can regard both blocks of the <code>cobegin</code> as partially sequentialise
     ...
 </code></pre><p>Note: Non-mutable borrowing does not imply additional causal constraints. It is simply write before read. But it helps clarifying the program semantics as explained in the introduction.</p>
 <h2 id="dismiss-shares">Dismiss <code>shares</code></h2>
-<p>Blech currently proposes to use a <code>shares</code> if this an intended behaviour.
+<p>Blech currently proposes to use a <code>shares</code> if this an intended behaviour. 
 We think this is no longer necessary with borrowing, causality and passing inputs to functions by-reference and by-value.</p>
 <h2 id="todo">Todo</h2>
 <h3 id="borrow-spitting">Borrow spitting</h3>

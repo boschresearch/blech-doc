@@ -36,7 +36,7 @@ DE811128135
 
 Robert Bosch GmbH    
 Corporate Research    
-Dr. Carsten Tschamber    
+Franz-Josef Grosch  
 Robert-Bosch-Campus 1   
 71272 Renningen    
 GERMANY

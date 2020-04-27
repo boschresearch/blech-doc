@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -499,7 +499,7 @@ It interacts with a so-called <em>environment</em> that triggers a <em>reaction<
 <p>Typically, the environment provides a set of <em>inputs</em> to a Blech program. These inputs may, for example, be sensor readings.
 The environment then expects the Blech program to perform some computations and finally return a set of updated <em>outputs</em>.
 Outputs can be interpreted by the environment, for example, as set points for actuators.</p>
-<p>We deliberately use the generic word &ldquo;environment&rdquo; because depending on the use case it may have a different form.
+<p>We deliberately use the generic word &ldquo;environment&rdquo; because depending on the use case it may have a different form. 
 It ranges from just a loop that calls the Blech application as soon as the last reaction has finished to a sophisticated real-time operating system which manages several tasks, timers and event queues.</p>
 <p>The Blech program maintains its state from one reaction to the next.
 Thus a reaction does not merely depend on the given inputs but also on the state of the program itself.</p>
@@ -522,7 +522,7 @@ It is the single most crucial distinctive feature of synchronous programming lan
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
 the distinction of individual reactions; and the distinction of a thread-local view and a global view on a shared memory.</p>
-<p>Synchronous languages differ in what programs they admit such that strict consistency is guaranteed.
+<p>Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
 Such programs are called causally correct or simply <em>causal</em>.
 The next section explains what this means for Blech.</p>
 <h2 id="causality">Causality</h2>

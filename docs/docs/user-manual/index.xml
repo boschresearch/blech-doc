@@ -49,7 +49,7 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
         
         &lt;h2 id=&#34;comments&#34;&gt;Comments&lt;/h2&gt;
 &lt;p&gt;Single line comments are C++ style. They begin with &lt;code&gt;//&lt;/code&gt; and end with the end of line.&lt;/p&gt;
-&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;.
+&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;. 
 Comment nesting is supported.&lt;/p&gt;
 &lt;h3 id=&#34;declaration-comments&#34;&gt;Declaration Comments&lt;/h3&gt;
 &lt;p&gt;A special comment syntax allows to write comments for declarations (functions, activities, types, variables, &amp;hellip;) which will be transported over to the generated C code.
@@ -96,10 +96,10 @@ Java style multi-line comments &lt;code&gt;/** */&lt;/code&gt; and .Net style si
 &lt;p&gt;&lt;code&gt;abort&lt;/code&gt;
 &lt;code&gt;activity&lt;/code&gt;
 &lt;code&gt;and&lt;/code&gt;
-&lt;code&gt;as&lt;/code&gt;
+&lt;code&gt;as&lt;/code&gt; 
 &lt;code&gt;await&lt;/code&gt;
 &lt;code&gt;bits8&lt;/code&gt;
-&lt;code&gt;bits16&lt;/code&gt;
+&lt;code&gt;bits16&lt;/code&gt; 
 &lt;code&gt;bits32&lt;/code&gt;
 &lt;code&gt;bits64&lt;/code&gt;
 &lt;code&gt;blech&lt;/code&gt;
@@ -249,8 +249,8 @@ Type declarations are discussed in the next section.&lt;/p&gt;
 &lt;h3 id=&#34;qualifiers&#34;&gt;Qualifiers&lt;/h3&gt;
 &lt;p&gt;There are four possible qualifiers.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;const&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;param&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time.
-Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
+Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip; 
 In C, these are represented by &lt;code&gt;#define&lt;/code&gt; macros, which, too, have no representation after the preprocessor finishes.
 Hence &lt;em&gt;using const on arrays (or structs containing arrays), albeit possible, is not advisable&lt;/em&gt; and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
 Instead consider &lt;code&gt;param&lt;/code&gt;.&lt;/p&gt;
@@ -328,7 +328,7 @@ From a syntactic declaration point of view there is hardly any difference.&lt;/p
 &lt;span style=&#34;color:#000&#34;&gt;ProgramType&lt;/span&gt;        ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;function&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;activity&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamList&lt;/span&gt;          ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;   ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists. 
 The first lists declares formal parameters that may only be read (like &lt;code&gt;let&lt;/code&gt; variables), the second list declares formal parameters that may be both read and written (like &lt;code&gt;var&lt;/code&gt; variables).
 In particular the two lists are useful for activities which, in every reaction, receive a list of read-only &lt;em&gt;inputs&lt;/em&gt;, perform some calculation and set the list of read-write &lt;em&gt;outputs&lt;/em&gt;.
 We will therefore often refer to these two parameter lists as &amp;ldquo;input list&amp;rdquo; and &amp;ldquo;output list&amp;rdquo;.&lt;/p&gt;
@@ -350,7 +350,7 @@ Note that &lt;code&gt;add&lt;/code&gt; omits an output list and &lt;code&gt;A&lt
 We call functions or activities that do not return anything &amp;ldquo;void&amp;rdquo; but unlike C we do not have a void type in the language.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;@[EntryPoint]&lt;/code&gt; annotation tells the compiler that &lt;code&gt;A&lt;/code&gt; is the main program of this file. Every Blech file must have precisely one entry point activity.
 &lt;em&gt;(That is until we have a module system that allows to write libraries that may have no single entry point at all).&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context.
+&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
 For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.
 The caller of a singleton callee automatically becomes a singleton, too.&lt;/p&gt;
 &lt;h2 id=&#34;external-declarations&#34;&gt;External Declarations&lt;/h2&gt;
@@ -445,8 +445,8 @@ However, it may become useful in the future once a build system can make sense o
 &lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
 &lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
 &lt;h4 id=&#34;parameter-lists&#34;&gt;Parameter lists&lt;/h4&gt;
-&lt;p&gt;In Blech, functions have two parameter lists as explained above.
-The Blech compiler ensures that inputs will only be read.
+&lt;p&gt;In Blech, functions have two parameter lists as explained above. 
+The Blech compiler ensures that inputs will only be read. 
 However the Blech compiler has no chance to check that the external code adheres to this contract.&lt;/p&gt;
 &lt;p&gt;For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:&lt;/p&gt;
@@ -521,7 +521,7 @@ Each one exist in four sizes that indicate the number of bits needed in a machin
 |===&lt;/p&gt;
 &lt;p&gt;The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length &lt;code&gt;N&lt;/code&gt; with a range of &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;2^N -1&lt;/code&gt; from integer numbers centred around 0 with a range of &lt;code&gt;2^(N-1)&lt;/code&gt; to &lt;code&gt;2^(N-1) -1&lt;/code&gt;.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain.
+However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
 Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the &lt;code&gt;bitsX&lt;/code&gt; type is introduced.
 The bits type of length &lt;code&gt;N&lt;/code&gt; have the same value range as the natural numbers of the same length.&lt;/p&gt;
@@ -1038,7 +1038,7 @@ For example, it is not possible to interpret a floating point as a bits type and
         &lt;h1 id=&#34;embedded-realtime-programming&#34;&gt;Embedded realtime programming&lt;/h1&gt;
 &lt;h2 id=&#34;user-manual&#34;&gt;User Manual&lt;/h2&gt;
 &lt;h3 id=&#34;annotations-pragmas-and-doc-comments&#34;&gt;Annotations, pragmas and doc comments&lt;/h3&gt;
-&lt;p&gt;As explained before Blech allows annotations to declarations.
+&lt;p&gt;As explained before Blech allows annotations to declarations. 
 In principle every declaration can have one or more annotations.&lt;/p&gt;
 &lt;p&gt;Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[EntryPoint]
@@ -1047,7 +1047,7 @@ activity ... end
 @[CConst(binding=&amp;quot;A_C_CONST&amp;quot;)]
 extern const ABlechConst
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;C bindings have an optional header parameter where the necessary header file can be defined.&lt;/p&gt;
-&lt;p&gt;In order to prevent repetition we also allow pragmas which are annotations to the current scope.
+&lt;p&gt;In order to prevent repetition we also allow pragmas which are annotations to the current scope. 
 Pragmas can occur where members or statements are allowed.
 Pragmas are similar to annotations but start with &lt;code&gt;@@&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Currently we use pragmas for central C include file definitions in order to prevent repitition of header definitions in annotations.&lt;/p&gt;
@@ -1082,8 +1082,8 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Parsed doc comments allow to reproduce documentation in &lt;code&gt;.blh&lt;/code&gt; signature files and in generated code.&lt;/p&gt;
 &lt;h3 id=&#34;blechs-c-interface&#34;&gt;Blech&amp;rsquo;s C interface&lt;/h3&gt;
 &lt;p&gt;C can be bound to Blech via annotations.&lt;/p&gt;
-&lt;p&gt;In principal every Blech declarable entity can be implemented in C.
-Via an annotation a Blech &lt;code&gt;extern&lt;/code&gt; declaration can be bound to a C implementation.
+&lt;p&gt;In principal every Blech declarable entity can be implemented in C. 
+Via an annotation a Blech &lt;code&gt;extern&lt;/code&gt; declaration can be bound to a C implementation. 
 It is the responsibility of the programmer to make sure that the C implementation provides what the Blech definition guarantees.&lt;/p&gt;
 &lt;p&gt;Currently we support &lt;code&gt;extern const&lt;/code&gt; and &lt;code&gt;extern function&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CConst(binding = &amp;quot;5 * A_C_CONST&amp;quot;, header = &amp;quot;myconsts.h&amp;quot;)]
@@ -1126,10 +1126,10 @@ Assume the following code in a Blech module &lt;code&gt;wrapper.blc&lt;/code&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;// extern functions to be implemented in C
 
 blc_float64 blc_wrapper_myCFunction (const blc_float64 blc_i);
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The implementation suitable to the generated prototype has to be provided by the programmer.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The implementation suitable to the generated prototype has to be provided by the programmer. 
 To guarantee the interface the generated .h-file has to be included.&lt;/p&gt;
 &lt;p&gt;Extern declarations could also be used for &lt;code&gt;type, typealias, param, var, let, activity&lt;/code&gt; and will be incrementally added.&lt;/p&gt;
-&lt;p&gt;Since Blech does not allow global variables the local usage of &lt;code&gt;extern var&lt;/code&gt; and &lt;code&gt;extern let&lt;/code&gt; creates a &amp;ldquo;static&amp;rdquo; local - in the sense of C - and requires the surrounding subprogram or struct declaration to be classified as a &lt;code&gt;singleton&lt;/code&gt;.
+&lt;p&gt;Since Blech does not allow global variables the local usage of &lt;code&gt;extern var&lt;/code&gt; and &lt;code&gt;extern let&lt;/code&gt; creates a &amp;ldquo;static&amp;rdquo; local - in the sense of C - and requires the surrounding subprogram or struct declaration to be classified as a &lt;code&gt;singleton&lt;/code&gt;. 
 The same should be necessary for activities written in C that only can represent the state from step to step in global variables which make these activities &lt;code&gt;singleton&lt;/code&gt; too.&lt;/p&gt;
 
       </description>

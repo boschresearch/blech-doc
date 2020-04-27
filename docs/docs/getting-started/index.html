@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -531,7 +531,7 @@ This will generate a file <code>blech.c</code> in the same folder which contains
 </code></pre>Run through all compilation phases but do not write any C files. This is useful to check for problems without actually touching anything on the file system.</li>
 </ul>
 <h3 id="compile-generated-c-files">Compile generated C files</h3>
-<p>By default the compiler produces a main program in <code>blech.c</code> which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in <code>&lt;path-to&gt;/blech/src/blechc/include</code>.
+<p>By default the compiler produces a main program in <code>blech.c</code> which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in <code>&lt;path-to&gt;/blech/src/blechc/include</code>. 
 On Windows C compilation may look like this.</p>
 <pre><code>mingw32-cc.exe -I. -I&lt;path-to&gt;/blech/src/blechc/include blech.c
 </code></pre><p>Note that the current folder <code>.</code> is explicitly added as a path to be included.

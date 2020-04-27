@@ -110,7 +110,7 @@ end
    |                      ^ Input argument.
 
   If this usage is intended, consider using the &amp;#34;shares&amp;#34; keyword when declaring the formal parameters of the subprogram.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Blech automatically takes refencences and de-references if necessary. It decides on mutability through the occurence in the input or output parameter list. Input parameters in Blech are semantically passed by-value for functions and passed by-reference for activities.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Blech automatically takes refencences and de-references if necessary. It decides on mutability through the occurence in the input or output parameter list. Input parameters in Blech are semantically passed by-value for functions and passed by-reference for activities. 
 Therefore the activity &lt;code&gt;outIsInPlus1&lt;/code&gt; has semantically the following form:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity outIsInPlus1(&amp;lt;let ref&amp;gt; a: int32)(&amp;lt;var ref&amp;gt;b: int32)
     &amp;lt;*&amp;gt; b = 1       
@@ -382,7 +382,7 @@ We can regard both blocks of the &lt;code&gt;cobegin&lt;/code&gt; as partially s
     ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note: Non-mutable borrowing does not imply additional causal constraints. It is simply write before read. But it helps clarifying the program semantics as explained in the introduction.&lt;/p&gt;
 &lt;h2 id=&#34;dismiss-shares&#34;&gt;Dismiss &lt;code&gt;shares&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Blech currently proposes to use a &lt;code&gt;shares&lt;/code&gt; if this an intended behaviour.
+&lt;p&gt;Blech currently proposes to use a &lt;code&gt;shares&lt;/code&gt; if this an intended behaviour. 
 We think this is no longer necessary with borrowing, causality and passing inputs to functions by-reference and by-value.&lt;/p&gt;
 &lt;h2 id=&#34;todo&#34;&gt;Todo&lt;/h2&gt;
 &lt;h3 id=&#34;borrow-spitting&#34;&gt;Borrow spitting&lt;/h3&gt;
@@ -412,7 +412,7 @@ We think this is no longer necessary with borrowing, causality and passing input
 &lt;p&gt;Environment variables are either read-only inputs or read-write outputs.
 Every environment variables has a counterpart in the Blech environment.
 Therefore, they are annotated as &lt;code&gt;@[CInput ...]&lt;/code&gt; or &lt;code&gt;@[COutput ...]&lt;/code&gt;.
-Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;.
+Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;. 
 A &lt;code&gt;extern let&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[CInput ...]&lt;/code&gt;.
 An &lt;code&gt;extern var&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[COutput ...]&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CInput (binding = &amp;quot;theSensor&amp;quot;, header = &amp;quot;sensors.h&amp;quot;)]
@@ -420,8 +420,8 @@ extern let sensor: uint8
 
 @[COutput (binding = &amp;quot;spiIsReady&amp;quot;, header = &amp;quot;spi.h&amp;quot;)]
 extern var spiReady: bool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics.
-They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics. 
+They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction. 
 They might be read or written asynchronously by the environment.&lt;/p&gt;
 &lt;p&gt;In order to synchronize these C variables, the Blech program holds a buffered value of the external value in the environment variable.&lt;/p&gt;
 &lt;p&gt;The Blech runtime system takes care of the synchronisation.
@@ -460,7 +460,7 @@ Two or more &lt;code&gt;extern let&lt;/code&gt; declarations are allowed to have
 The signature for the above activity &lt;code&gt;handleCVariables&lt;/code&gt; looks like the following&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;singleton handleCVariables.spiReady 
 activity handleCVariables()
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the singletons and shows their annotations.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the singletons and shows their annotations. 
 Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.&lt;/p&gt;
 &lt;h3 id=&#34;the-diamond-call-problem&#34;&gt;The diamond call problem&lt;/h3&gt;
 &lt;p&gt;If an activity declares a singleton, it still can be called from several activities.&lt;/p&gt;
