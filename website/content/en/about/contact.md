@@ -32,7 +32,7 @@ Registration Court: District Court Stuttgart HRB 14000
 
 DE811128135
 
-## Responsible
+## Responsible for the content
 
 Robert Bosch GmbH    
 Corporate Research    

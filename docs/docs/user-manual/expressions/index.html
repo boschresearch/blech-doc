@@ -26,13 +26,13 @@ Operator precedence The expression grammar below will not specify the precedence
 All operators are left associative in Blech." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/" />
-<meta property="article:modified_time" content="2020-04-21T20:26:37+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-04-28T14:43:48+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Expressions">
 <meta itemprop="description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does allow to create function references and thus we have no designators.
 Operator precedence The expression grammar below will not specify the precedence of operators. This allows for a concise presentation. Therefore this section specifies the precedence separately.
 All operators are left associative in Blech.">
-<meta itemprop="dateModified" content="2020-04-21T20:26:37&#43;02:00" />
-<meta itemprop="wordCount" content="2770">
+<meta itemprop="dateModified" content="2020-04-28T14:43:48&#43;02:00" />
+<meta itemprop="wordCount" content="2771">
 
 
 
@@ -266,12 +266,6 @@ All operators are left associative in Blech."/>
       <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsuser-manualexpressions" href="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/">Expressions</a>
       
       
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualold" href="https://boschresearch.github.io/blech-doc/docs/user-manual/old/"></a>
-      
-      
     </li>
   </ul>
 </ul>
@@ -293,6 +287,41 @@ All operators are left associative in Blech."/>
   <ul>
     <li class="collapse " id="docslanguage-evolution">
       
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docslanguage-evolutionblech-c-interface">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionblech-c-interfaceenv-variables" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/">Environment variables</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionblech-c-interfacec-bindings" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/">C bindings</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
       
       
       
@@ -666,7 +695,7 @@ x[1] = {7, 8}                             // third value implicitly 0
 // 7  8  0
 
 x[1] = {[1] = 9, 10}                      // first value implicitly 0
-// x is                                   // the index of `10` implicitly 2
+// x is                                   // the index of `10` implicitly is 2
 // 1  2  3
 // 0  9  10
 
@@ -853,18 +882,18 @@ x = -256             // assuming 2's complement on the machine:
 let u = x as bits8   // runtime error
 let v = x as bits16  // ok, v == 65280
 
-let f: float = 1
+let f: float32 = 1
 x = f as int16       // error! impossible to cast floating point to integral types
 </code></pre><p>The restrictions on the casts do not rule out runtime errors.
 At the same time they prevent some manipulations that are possible in C.
 For example, it is not possible to interpret a floating point as a bits type and change individual bits.</p>
-<p>// TODO is the description of <code>as</code> correct. Are the restrictions bugs, features?</p>
+<p>// TODO is the description of <code>as</code> correct? Are there restrictions, bugs, features?</p>
 <h3 id="evaluation-order">Evaluation order</h3>
 <p>Undefined at the moment. Evaluated by the C compiler.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/b8a28b28e472fd89b28d51fc3d378c17f498f363">Updated Markdown version of user manual. Removed obsolete files (b8a28b2)</a>
 </div>
 </div>
 

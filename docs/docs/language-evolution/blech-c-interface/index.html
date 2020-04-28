@@ -7,6 +7,7 @@
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
+<link rel="alternate" type="application/rss&#43;xml" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/index.xml">
 
 
 <link rel="shortcut icon" href="https://boschresearch.github.io/blech-doc/favicons/favicon.ico" >
@@ -20,23 +21,17 @@
 <link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
 
-<title>Git workflow | Blech</title><meta property="og:title" content="Git workflow" />
-<meta property="og:description" content="This explains how we use branches to enable our git workflow.
+<title>Blech&#39;s interface to C | Blech</title><meta property="og:title" content="Blech&#39;s interface to C" />
+<meta property="og:description" content="This proposals describe the interface between Blech and C.
 " />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/" />
-<meta property="article:modified_time" content="2020-04-15T12:52:05+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Git workflow">
-<meta itemprop="description" content="This explains how we use branches to enable our git workflow.
-">
-<meta itemprop="dateModified" content="2020-04-15T12:52:05&#43;02:00" />
-<meta itemprop="wordCount" content="63">
-
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Git workflow"/>
-<meta name="twitter:description" content="This explains how we use branches to enable our git workflow.
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/" />
+<meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Blech&#39;s interface to C">
+<meta itemprop="description" content="This proposals describe the interface between Blech and C.
+"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Blech&#39;s interface to C"/>
+<meta name="twitter:description" content="This proposals describe the interface between Blech and C.
 "/>
 
 
@@ -58,7 +53,7 @@
 
 
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -279,10 +274,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Language Evolution</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolution">
+    <li class="collapse show" id="docslanguage-evolution">
       
       
       
@@ -296,10 +291,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolutionblech-c-interface">
+    <li class="collapse show" id="docslanguage-evolutionblech-c-interface">
       
       
       
@@ -343,10 +338,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsblechc-development">
+    <li class="collapse " id="docsblechc-development">
       
       
       
@@ -365,7 +360,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
       
       
     </li>
@@ -445,8 +440,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/git-workflow.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Git%20workflow" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/blech-C-interface/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blech&amp;#39;s%20interface%20to%20C" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -486,14 +481,14 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/">Blechc development</a>
+	<a href="https://boschresearch.github.io/blech-doc/docs/language-evolution/">Language Evolution</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+	<a href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/">Blech-C interface</a>
 </li>
 
 	</ol>
@@ -501,22 +496,83 @@
 
             
 <div class="td-content">
-	<h1>Git workflow</h1>
-    <div class="lead">This explains how we use branches to enable our git workflow.</div>
-	       
-	<h2 id="branches">Branches</h2>
-<p>For the Blech compiler development we use branches and roughly follow the <a href="https://gist.github.com/digitaljhelms/4287848" target="_blank">Git/Github branching standards &amp; conventions</a>
-</p>
-<p>The contained <a href="https://gist.github.com/digitaljhelms/4287848#workflow-diagram" target="_blank">workflow diagram</a>
- visualizes this in a nice way.</p>
-<p>Since we did not release a stable version until now, we do not have stable branch but only a master branch that reflects the evolution of the language and gets tagged from time to time.</p>
+	<h1>Blech&#39;s interface to C</h1>
+        <div class="lead">This proposals describe the interface between Blech and C.</div>
+	
+	
+        <div class="section-index">
+    
+    
+    
+    
+    <hr class="panel-line">
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/">Accessing variables in the Blech environment</a>
+                    </h5>
+                    <p>Access to C variables in the environment creates singleton sub-programs.</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/">C bindings</a>
+                    </h5>
+                    <p>Allow C bindings with the expressiveness of C macros.</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+</div>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/c3c0282d5ef5e171fc8371f61e44e80dc7efa547">Move guides from ascidoc to markdown. Added more community links. (c3c0282)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified January 1, 0001
 </div>
 </div>
-
 
           </main>
         </div>

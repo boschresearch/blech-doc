@@ -20,23 +20,23 @@
 <link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
 
-<title>Git workflow | Blech</title><meta property="og:title" content="Git workflow" />
-<meta property="og:description" content="This explains how we use branches to enable our git workflow.
+<title>Accessing variables in the Blech environment | Blech</title><meta property="og:title" content="Accessing variables in the Blech environment" />
+<meta property="og:description" content="Access to C variables in the environment creates singleton sub-programs.
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/" />
-<meta property="article:modified_time" content="2020-04-15T12:52:05+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Git workflow">
-<meta itemprop="description" content="This explains how we use branches to enable our git workflow.
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/" />
+<meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Accessing variables in the Blech environment">
+<meta itemprop="description" content="Access to C variables in the environment creates singleton sub-programs.
 ">
-<meta itemprop="dateModified" content="2020-04-15T12:52:05&#43;02:00" />
-<meta itemprop="wordCount" content="63">
+
+<meta itemprop="wordCount" content="987">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Git workflow"/>
-<meta name="twitter:description" content="This explains how we use branches to enable our git workflow.
+<meta name="twitter:title" content="Accessing variables in the Blech environment"/>
+<meta name="twitter:description" content="Access to C variables in the environment creates singleton sub-programs.
 "/>
 
 
@@ -279,10 +279,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Language Evolution</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolution">
+    <li class="collapse show" id="docslanguage-evolution">
       
       
       
@@ -296,17 +296,17 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolutionblech-c-interface">
+    <li class="collapse show" id="docslanguage-evolutionblech-c-interface">
       
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionblech-c-interfaceenv-variables" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/">Environment variables</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionblech-c-interfaceenv-variables" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/">Environment variables</a>
       
       
       
@@ -343,10 +343,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsblechc-development">
+    <li class="collapse " id="docsblechc-development">
       
       
       
@@ -365,7 +365,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
       
       
     </li>
@@ -445,8 +445,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/git-workflow.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Git%20workflow" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/blech-C-interface/env-variables.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Accessing%20variables%20in%20the%20Blech%20environment" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -457,6 +457,16 @@
 
 
 
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#environment-variables">Environment variables</a></li>
+    <li><a href="#external-read-write-c-variables-create-singletons">External read-write C variables create singletons</a></li>
+    <li><a href="#singletons-and-separate-compilation">Singletons and separate compilation</a></li>
+    <li><a href="#the-diamond-call-problem">The diamond call problem</a></li>
+    <li><a href="#structured-access-to-external-variables">Structured access to external variables</a></li>
+  </ul>
+</nav>
 
 
 
@@ -478,6 +488,9 @@
 
 
 
+
+
+
 <li class="breadcrumb-item" >
 	<a href="https://boschresearch.github.io/blech-doc/docs/">Documentation</a>
 </li>
@@ -486,14 +499,21 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/">Blechc development</a>
+	<a href="https://boschresearch.github.io/blech-doc/docs/language-evolution/">Language Evolution</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/">Blech-C interface</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+	<a href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/">Environment variables</a>
 </li>
 
 	</ol>
@@ -501,19 +521,142 @@
 
             
 <div class="td-content">
-	<h1>Git workflow</h1>
-    <div class="lead">This explains how we use branches to enable our git workflow.</div>
+	<h1>Accessing variables in the Blech environment</h1>
+    <div class="lead">Access to C variables in the environment creates singleton sub-programs.</div>
 	       
-	<h2 id="branches">Branches</h2>
-<p>For the Blech compiler development we use branches and roughly follow the <a href="https://gist.github.com/digitaljhelms/4287848" target="_blank">Git/Github branching standards &amp; conventions</a>
-</p>
-<p>The contained <a href="https://gist.github.com/digitaljhelms/4287848#workflow-diagram" target="_blank">workflow diagram</a>
- visualizes this in a nice way.</p>
-<p>Since we did not release a stable version until now, we do not have stable branch but only a master branch that reflects the evolution of the language and gets tagged from time to time.</p>
+	<h2 id="environment-variables">Environment variables</h2>
+<p>Environment variables are either read-only inputs or read-write outputs.
+Every environment variables has a counterpart in the Blech environment.
+Therefore, they are annotated as <code>@[CInput ...]</code> or <code>@[COutput ...]</code>.
+Environment variables are classified by the keyword <code>extern</code>. 
+A <code>extern let</code> definition must be annotated with a <code>@[CInput ...]</code>.
+An <code>extern var</code> definition must be annotated with a <code>@[COutput ...]</code>.</p>
+<pre><code class="language-blech" data-lang="blech">@[CInput (binding = &quot;theSensor&quot;, header = &quot;sensors.h&quot;)]
+extern let sensor: uint8 
+
+@[COutput (binding = &quot;spiIsReady&quot;, header = &quot;spi.h&quot;)]
+extern var spiReady: bool
+</code></pre><p>Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics. 
+They might be <code>volatile</code> changing their value during a reaction. 
+They might be read or written asynchronously by the environment.</p>
+<p>In order to synchronize these C variables, the Blech program holds a buffered value of the external value in the environment variable.</p>
+<p>The Blech runtime system takes care of the synchronisation.
+Before the reaction, the values of all external C variables are copied into the environment variable.
+After the reaction, the values of the <code>extern var</code> variables are copied into the external C variables.</p>
+<p>The implementation is allowed to distribute these copying operations into the code generated for each activity, that defines <code>extern</code> variables.</p>
+<p>Environment variables can only be declared in an <code>activity</code>.
+Functions can only access environment variables via the parameter list.</p>
+<h2 id="external-read-write-c-variables-create-singletons">External read-write C variables create singletons</h2>
+<p>An external C variable is a global variable, which is in danger to be accessed concurrently via the environment variable.
+While Blech in general prevents this danger by not allowing the declaration of global variables at all, it needs more effort to guarantee this for external C variables.</p>
+<pre><code class="language-blech" data-lang="blech">activity handleCVariables()
+    
+    @[CInput (binding = &quot;theSensor&quot;, header = &quot;sensors.h&quot;)]
+    extern let sensor: uint8
+    @[COutput (binding = &quot;spiIsReady&quot;, header = &quot;spi.h&quot;)]
+    extern var spiReady: bool
+
+    repeat
+        if sensor &gt; 10 then
+            spiReady = true
+        end
+        await true
+    end
+end
+</code></pre><p>In order to comply to the single-writer principle, declaring an <code>extern var</code> variable in an activity restricts this activity to be instantiated only once.
+The declared activity is a <code>singleton</code> and does not allow multiple instances.
+An singleton activity cannot be called concurrently, but only sequentially.
+Note that this is only necessary for <code>extern var</code> declarations.
+An <code>extern let</code> variable does <em>not</em> create a <code>singleton</code>.
+Different instances of such an activity can have separate buffers of the external C variable, which might have different values in the same reaction if the external C variable is <code>volatile</code>.
+It is the responsibility of the programmer not to share external C variables in different <code>extern var</code> declarations.
+Two or more <code>extern let</code> declarations are allowed to have the same annotation <code>@[CInput ...]</code>.</p>
+<h2 id="singletons-and-separate-compilation">Singletons and separate compilation</h2>
+<p>If a module exports a singleton activity, the signature needs to reflect this in order to enable a correct causality analysis.
+The signature for the above activity <code>handleCVariables</code> looks like the following</p>
+<pre><code class="language-blech" data-lang="blech">singleton handleCVariables.spiReady 
+activity handleCVariables()
+</code></pre><p>It shows the activities prototype, exposes the unique names of the external variables and shows their annotations. 
+Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.</p>
+<h2 id="the-diamond-call-problem">The diamond call problem</h2>
+<p>If an activity is a singleton, it still can be called from several activities.</p>
+<pre><code class="language-blech" data-lang="blech">activity firstUsage()
+    run handleCVariables()
+end
+
+activity secondUsage()
+    run handleCVariables()
+end
+</code></pre><p>Again <code>firstUsage</code> and <code>secondUsage</code> can not be called concurrently.</p>
+<p>In order to check this via the signature, the calling activities, inherits the singletons from the called activity.
+In a module signature these activities occur as follows</p>
+<pre><code class="language-blech" data-lang="blech">singleton handleCVariables.spiReady
+activity firstUsage()
+
+singleton handleCVariables.spiReady
+activity secondUsage()
+
+</code></pre><p>If we combine activities with different singletons, they must not be called concurrently, if they share common singletons.
+For example assume the following module signature.</p>
+<pre><code class="language-blech" data-lang="blech">signature Module 
+
+singleton handleOtherCVariable.theExternVar
+activity handleOtherCVariable()
+</code></pre><p>A calling activity might inherit all singletons</p>
+<pre><code class="language-blech" data-lang="blech">import Module
+
+activity thirdUsage()
+    cobegin
+        run handleCVariables()
+    with
+        run handleOtherCVariable()
+    end
+end
+</code></pre><p>The deduced signature is</p>
+<pre><code class="language-blech" data-lang="blech">import Module
+
+singleton handleCVariables.spiReady, 
+          Module.handleOtherCVariable.theExternVar
+activity thirdUsage()
+</code></pre><p>Activity <code>thirdUsage</code> cannot be called concurrently to <code>firstUsage</code> or <code>secondUsage</code> because their singletons overlap.</p>
+<h2 id="structured-access-to-external-variables">Structured access to external variables</h2>
+<p>Environment variables can also be referenced from a <code>struct</code> type, like normal Blech variables.</p>
+<pre><code class="language-blech" data-lang="blech">struct MyCVariables
+    var x: int32
+    let ref sensor: nat8
+    var ref spiReady: bool
+end
+</code></pre><pre><code class="language-blech" data-lang="blech">activity referToCVariables()
+    @[CInput (binding = &quot;theSensor&quot;, header = &quot;sensors.h&quot;)]
+    extern let sensor: nat8 
+
+    @[COutput (binding = &quot;spiIsReady&quot;, header = &quot;spi.h&quot;)]
+    extern var spiReady: bool
+
+    var mcvs: MyCVariables = { x = 0, sensor = sensor, spiReady = spiReady }
+end
+</code></pre><p>If we use both activities <code>referToCVariables</code> and <code>handleCVariables</code> in a Blech program we obviously made a mistake.
+Both activities write to the same external C Variable <code>&quot;spiIsReady&quot;</code>.
+The single-writer principle is broken.
+The semantics of the program is undefined concerning the environment access.
+In general working with externals is unsafe.
+In this particular case, it is the responsibility of the programmer to take care, not to share the same <code>COutput</code> between different <code>extern var</code> declarations.</p>
+<p>The signatures of both activities cannot reveal this error.</p>
+<pre><code class="language-blech" data-lang="blech">singleton referToCVariables.spiReady
+activity referToCVariables()
+
+singleton handleCVariables.spiReady
+activity handleCVariables()
+</code></pre><p>Idea: It should be the responsibility. of the compiler to collect the environment of a Blech program across all modules in order to allow for a code review supported by such a description file.</p>
+<p>Hints: <code>extern var</code> and <code>extern let</code> declarations cannot be declared inside functions.
+Use <code>extern let</code> declarations when possible in order to prevent the propagation of the singleton property.</p>
+<p>Since signatures are deduced by the compiler, the whole checking of singletons and the generation of appropriate signatures is done by the compiler.</p>
+<p>Note: A conventional embedded program is full of singletons, not only created by <code>extern var</code> declarations, but especially by global variables.
+In order to maintain the single-writer principle by programming discipline it is almost inevitable, that all functions are only called once in a task list. This makes reuse and testing extremely difficult. Only the rather small number of services is reusable and rather easily testable.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/c3c0282d5ef5e171fc8371f61e44e80dc7efa547">Move guides from ascidoc to markdown. Added more community links. (c3c0282)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified January 1, 0001
 </div>
 </div>
 

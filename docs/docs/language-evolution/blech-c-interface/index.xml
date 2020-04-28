@@ -1,0 +1,217 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blech – Blech&#39;s interface to C</title>
+    <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/</link>
+    <description>Recent content in Blech&#39;s interface to C on Blech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Accessing variables in the Blech environment</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;environment-variables&#34;&gt;Environment variables&lt;/h2&gt;
+&lt;p&gt;Environment variables are either read-only inputs or read-write outputs.
+Every environment variables has a counterpart in the Blech environment.
+Therefore, they are annotated as &lt;code&gt;@[CInput ...]&lt;/code&gt; or &lt;code&gt;@[COutput ...]&lt;/code&gt;.
+Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;. 
+A &lt;code&gt;extern let&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[CInput ...]&lt;/code&gt;.
+An &lt;code&gt;extern var&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[COutput ...]&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CInput (binding = &amp;quot;theSensor&amp;quot;, header = &amp;quot;sensors.h&amp;quot;)]
+extern let sensor: uint8 
+
+@[COutput (binding = &amp;quot;spiIsReady&amp;quot;, header = &amp;quot;spi.h&amp;quot;)]
+extern var spiReady: bool
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics. 
+They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction. 
+They might be read or written asynchronously by the environment.&lt;/p&gt;
+&lt;p&gt;In order to synchronize these C variables, the Blech program holds a buffered value of the external value in the environment variable.&lt;/p&gt;
+&lt;p&gt;The Blech runtime system takes care of the synchronisation.
+Before the reaction, the values of all external C variables are copied into the environment variable.
+After the reaction, the values of the &lt;code&gt;extern var&lt;/code&gt; variables are copied into the external C variables.&lt;/p&gt;
+&lt;p&gt;The implementation is allowed to distribute these copying operations into the code generated for each activity, that defines &lt;code&gt;extern&lt;/code&gt; variables.&lt;/p&gt;
+&lt;p&gt;Environment variables can only be declared in an &lt;code&gt;activity&lt;/code&gt;.
+Functions can only access environment variables via the parameter list.&lt;/p&gt;
+&lt;h2 id=&#34;external-read-write-c-variables-create-singletons&#34;&gt;External read-write C variables create singletons&lt;/h2&gt;
+&lt;p&gt;An external C variable is a global variable, which is in danger to be accessed concurrently via the environment variable.
+While Blech in general prevents this danger by not allowing the declaration of global variables at all, it needs more effort to guarantee this for external C variables.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity handleCVariables()
+    
+    @[CInput (binding = &amp;quot;theSensor&amp;quot;, header = &amp;quot;sensors.h&amp;quot;)]
+    extern let sensor: uint8
+    @[COutput (binding = &amp;quot;spiIsReady&amp;quot;, header = &amp;quot;spi.h&amp;quot;)]
+    extern var spiReady: bool
+
+    repeat
+        if sensor &amp;gt; 10 then
+            spiReady = true
+        end
+        await true
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In order to comply to the single-writer principle, declaring an &lt;code&gt;extern var&lt;/code&gt; variable in an activity restricts this activity to be instantiated only once.
+The declared activity is a &lt;code&gt;singleton&lt;/code&gt; and does not allow multiple instances.
+An singleton activity cannot be called concurrently, but only sequentially.
+Note that this is only necessary for &lt;code&gt;extern var&lt;/code&gt; declarations.
+An &lt;code&gt;extern let&lt;/code&gt; variable does &lt;em&gt;not&lt;/em&gt; create a &lt;code&gt;singleton&lt;/code&gt;.
+Different instances of such an activity can have separate buffers of the external C variable, which might have different values in the same reaction if the external C variable is &lt;code&gt;volatile&lt;/code&gt;.
+It is the responsibility of the programmer not to share external C variables in different &lt;code&gt;extern var&lt;/code&gt; declarations.
+Two or more &lt;code&gt;extern let&lt;/code&gt; declarations are allowed to have the same annotation &lt;code&gt;@[CInput ...]&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;singletons-and-separate-compilation&#34;&gt;Singletons and separate compilation&lt;/h2&gt;
+&lt;p&gt;If a module exports a singleton activity, the signature needs to reflect this in order to enable a correct causality analysis.
+The signature for the above activity &lt;code&gt;handleCVariables&lt;/code&gt; looks like the following&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;singleton handleCVariables.spiReady 
+activity handleCVariables()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the external variables and shows their annotations. 
+Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.&lt;/p&gt;
+&lt;h2 id=&#34;the-diamond-call-problem&#34;&gt;The diamond call problem&lt;/h2&gt;
+&lt;p&gt;If an activity is a singleton, it still can be called from several activities.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity firstUsage()
+    run handleCVariables()
+end
+
+activity secondUsage()
+    run handleCVariables()
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Again &lt;code&gt;firstUsage&lt;/code&gt; and &lt;code&gt;secondUsage&lt;/code&gt; can not be called concurrently.&lt;/p&gt;
+&lt;p&gt;In order to check this via the signature, the calling activities, inherits the singletons from the called activity.
+In a module signature these activities occur as follows&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;singleton handleCVariables.spiReady
+activity firstUsage()
+
+singleton handleCVariables.spiReady
+activity secondUsage()
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If we combine activities with different singletons, they must not be called concurrently, if they share common singletons.
+For example assume the following module signature.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;signature Module 
+
+singleton handleOtherCVariable.theExternVar
+activity handleOtherCVariable()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A calling activity might inherit all singletons&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;import Module
+
+activity thirdUsage()
+    cobegin
+        run handleCVariables()
+    with
+        run handleOtherCVariable()
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The deduced signature is&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;import Module
+
+singleton handleCVariables.spiReady, 
+          Module.handleOtherCVariable.theExternVar
+activity thirdUsage()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Activity &lt;code&gt;thirdUsage&lt;/code&gt; cannot be called concurrently to &lt;code&gt;firstUsage&lt;/code&gt; or &lt;code&gt;secondUsage&lt;/code&gt; because their singletons overlap.&lt;/p&gt;
+&lt;h2 id=&#34;structured-access-to-external-variables&#34;&gt;Structured access to external variables&lt;/h2&gt;
+&lt;p&gt;Environment variables can also be referenced from a &lt;code&gt;struct&lt;/code&gt; type, like normal Blech variables.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct MyCVariables
+    var x: int32
+    let ref sensor: nat8
+    var ref spiReady: bool
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity referToCVariables()
+    @[CInput (binding = &amp;quot;theSensor&amp;quot;, header = &amp;quot;sensors.h&amp;quot;)]
+    extern let sensor: nat8 
+
+    @[COutput (binding = &amp;quot;spiIsReady&amp;quot;, header = &amp;quot;spi.h&amp;quot;)]
+    extern var spiReady: bool
+
+    var mcvs: MyCVariables = { x = 0, sensor = sensor, spiReady = spiReady }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If we use both activities &lt;code&gt;referToCVariables&lt;/code&gt; and &lt;code&gt;handleCVariables&lt;/code&gt; in a Blech program we obviously made a mistake.
+Both activities write to the same external C Variable &lt;code&gt;&amp;quot;spiIsReady&amp;quot;&lt;/code&gt;.
+The single-writer principle is broken.
+The semantics of the program is undefined concerning the environment access.
+In general working with externals is unsafe.
+In this particular case, it is the responsibility of the programmer to take care, not to share the same &lt;code&gt;COutput&lt;/code&gt; between different &lt;code&gt;extern var&lt;/code&gt; declarations.&lt;/p&gt;
+&lt;p&gt;The signatures of both activities cannot reveal this error.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;singleton referToCVariables.spiReady
+activity referToCVariables()
+
+singleton handleCVariables.spiReady
+activity handleCVariables()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Idea: It should be the responsibility. of the compiler to collect the environment of a Blech program across all modules in order to allow for a code review supported by such a description file.&lt;/p&gt;
+&lt;p&gt;Hints: &lt;code&gt;extern var&lt;/code&gt; and &lt;code&gt;extern let&lt;/code&gt; declarations cannot be declared inside functions.
+Use &lt;code&gt;extern let&lt;/code&gt; declarations when possible in order to prevent the propagation of the singleton property.&lt;/p&gt;
+&lt;p&gt;Since signatures are deduced by the compiler, the whole checking of singletons and the generation of appropriate signatures is done by the compiler.&lt;/p&gt;
+&lt;p&gt;Note: A conventional embedded program is full of singletons, not only created by &lt;code&gt;extern var&lt;/code&gt; declarations, but especially by global variables.
+In order to maintain the single-writer principle by programming discipline it is almost inevitable, that all functions are only called once in a task list. This makes reuse and testing extremely difficult. Only the rather small number of services is reusable and rather easily testable.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: C bindings</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;problem&#34;&gt;Problem&lt;/h2&gt;
+&lt;p&gt;Re-arranging parameters in C function calls is currently not possible.&lt;/p&gt;
+&lt;p&gt;Output parameters in C are not always at the end of the parameter list.
+For example, a function like &lt;code&gt;strcpy&lt;/code&gt; can not be used from Blech via a simple &lt;code&gt;extern function&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;strcpy&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;restrict&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;s1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;char&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;restrict&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;s2&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The C function &lt;code&gt;strcpy&lt;/code&gt; copies &lt;code&gt;s2&lt;/code&gt; to &lt;code&gt;s1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;extern&lt;/code&gt; function declaration in Blech would put the target &lt;code&gt;toString&lt;/code&gt; in the output parameter list.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding =&amp;quot;strcpy&amp;quot;, header = &amp;quot;string.h&amp;quot;)]
+extern function stringCopy (fromString: string)(toString: string)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Given that we currently do not support strings, which is another future topic, 
+the order of input and output parameters cannot be rearranged for the bound C function.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[EntryPoint]
+activity Main () ()
+    let s2 = &amp;quot;hello&amp;quot;
+    var s1: string
+    stringCopy(s2)(s1)
+
+    await true
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When we call &lt;code&gt;stringCopy&lt;/code&gt; from Blech we actually we like to call &lt;code&gt;strcpy&lt;/code&gt; in C directly.
+This is currently not possible.&lt;/p&gt;
+&lt;h2 id=&#34;proposal&#34;&gt;Proposal&lt;/h2&gt;
+&lt;p&gt;Specifiy the full C function by indexing Blech identifiers&lt;/p&gt;
+&lt;p&gt;This could be done by using the parameter names in a macro-like fashion.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;strcpy($2, $1)&amp;quot; , header = &amp;quot;string.h&amp;quot;)]
+extern function stringCopy (formString: string)(toString: string)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The Blech identifiers in the extern declaration can be addressed via &lt;code&gt;$i&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$0&lt;/code&gt; is &lt;code&gt;stringCopy&lt;/code&gt;, &lt;code&gt;$1&lt;/code&gt; is &lt;code&gt;fromString&lt;/code&gt;, &lt;code&gt;$2&lt;/code&gt; is &lt;code&gt;toString&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For code generation we would create the C macro by subsituting the Blech parameter names.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&amp;lt;string.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define blc_stringCopy(blc_fromString, blc_toString) strcpy(blc_toString, blc_fromString)
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As usual it is the reponsibility of the programmer to guarantee correct types, additionially the indexing of identifiers must be correct.&lt;/p&gt;
+&lt;p&gt;If &lt;code&gt;strings&lt;/code&gt; will become &lt;code&gt;structs&lt;/code&gt; with &lt;code&gt;len&lt;/code&gt; field and a &lt;code&gt;buf&lt;/code&gt; reference.
+The extern declaration could look like the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;do { strcpy($2.buf, $1.buf); $2.len = $1.len; } while (0)&amp;quot; , header = &amp;quot;string.h&amp;quot;)]
+extern function stringCopy (formString: string)(toString: string)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;which would create the following macro&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&amp;lt;string.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define blc_stringCopy(blc_fromString, blc_toString) \ 
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;strcpy&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;blc_toString&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_fromString&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_toString&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_fromString&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As always with C code, this code is unsafe, because Blech cannot check the buffer sizes - actually the compiler does not know anything about copying or the semantics of the function call.&lt;/p&gt;
+&lt;p&gt;Perhaps we should also allow multi-line strings in attributes and later on in string literals, for better formatting of long strings.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,16 +1,13 @@
 ---
-toc_hide: true
-title: "Old proposals"
-linkTitle: "Old proposals"
-weight: 40
+title: "Accessing variables in the Blech environment"
+linkTitle: "Environment variables"
+weight: 10
 description: >
-  Old evolution proposals for the Blech language.
+    Access to C variables in the environment creates singleton sub-programs.
 ---
 
 
-## Accessing the Blech environment
-
-### Environment variables
+## Environment variables
 
 Environment variables are either read-only inputs or read-write outputs.
 Every environment variables has a counterpart in the Blech environment.
@@ -42,7 +39,7 @@ The implementation is allowed to distribute these copying operations into the co
 Environment variables can only be declared in an `activity`.
 Functions can only access environment variables via the parameter list.
 
-### External read-write C variables are singletons
+## External read-write C variables create singletons
 
 An external C variable is a global variable, which is in danger to be accessed concurrently via the environment variable.
 While Blech in general prevents this danger by not allowing the declaration of global variables at all, it needs more effort to guarantee this for external C variables.
@@ -67,17 +64,17 @@ end
 
 
 In order to comply to the single-writer principle, declaring an `extern var` variable in an activity restricts this activity to be instantiated only once.
-The declared variable is a `singleton` and does not allow multiple instances.
-An activity that declares a singleton cannot be called concurrently, but only sequentially.
+The declared activity is a `singleton` and does not allow multiple instances.
+An singleton activity cannot be called concurrently, but only sequentially.
 Note that this is only necessary for `extern var` declarations.
-An `extern let` variable is *not* a `singleton`.
+An `extern let` variable does *not* create a `singleton`.
 Different instances of such an activity can have separate buffers of the external C variable, which might have different values in the same reaction if the external C variable is `volatile`.
 It is the responsibility of the programmer not to share external C variables in different `extern var` declarations.
 Two or more `extern let` declarations are allowed to have the same annotation `@[CInput ...]`.
 
-### Singletons and separate compilation
+## Singletons and separate compilation
 
-If a module exports an activity that contains a singleton, the signature needs to reflect this in order to enable a correct causality analysis.
+If a module exports a singleton activity, the signature needs to reflect this in order to enable a correct causality analysis.
 The signature for the above activity `handleCVariables` looks like the following
 
 ```blech
@@ -85,12 +82,12 @@ singleton handleCVariables.spiReady
 activity handleCVariables()
 ```
 
-It shows the activities prototype, exposes the unique names of the singletons and shows their annotations. 
+It shows the activities prototype, exposes the unique names of the external variables and shows their annotations. 
 Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.
 
-### The diamond call problem
+## The diamond call problem
 
-If an activity declares a singleton, it still can be called from several activities.
+If an activity is a singleton, it still can be called from several activities.
 
 ```blech
 activity firstUsage()
@@ -152,7 +149,7 @@ activity thirdUsage()
 
 Activity `thirdUsage` cannot be called concurrently to `firstUsage` or `secondUsage` because their singletons overlap.
 
-### Structured access to external variables
+## Structured access to external variables
 
 
 Environment variables can also be referenced from a `struct` type, like normal Blech variables.
@@ -160,7 +157,7 @@ Environment variables can also be referenced from a `struct` type, like normal B
 ```blech
 struct MyCVariables
     var x: int32
-    let ref sensor: uint8
+    let ref sensor: nat8
     var ref spiReady: bool
 end
 ```
@@ -169,7 +166,7 @@ end
 ```blech
 activity referToCVariables()
     @[CInput (binding = "theSensor", header = "sensors.h")]
-    extern let sensor: uint8 
+    extern let sensor: nat8 
 
     @[COutput (binding = "spiIsReady", header = "spi.h")]
     extern var spiReady: bool
@@ -198,7 +195,7 @@ Idea: It should be the responsibility. of the compiler to collect the environmen
 
 
 Hints: `extern var` and `extern let` declarations cannot be declared inside functions.
-Use `extern let` declarations when possible in order to prevent the propagation of the singletons.
+Use `extern let` declarations when possible in order to prevent the propagation of the singleton property.
 
 Since signatures are deduced by the compiler, the whole checking of singletons and the generation of appropriate signatures is done by the compiler.
 

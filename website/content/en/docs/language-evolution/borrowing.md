@@ -5,6 +5,9 @@ weight: 20
 description: >
     Adopt the ideas of borrowing in Rust to Blech
 ---
+{{% pageinfo %}}
+The borrowing proposal is work in progress.
+{{% /pageinfo %}}
 
 ## Borrowing in Rust and Blech
 
@@ -18,62 +21,60 @@ end
 
 activity main()
     var i = 42: int32
-    incr(i)(i) // --> 43
+    var j: int32
+    outIsInPlus1(i)(j) // 43 --> j
     await true
 end
 ```
 
-A similar program in Rust.
+So far so good, but the following program
 
-```rust
-fn outIsInPlus1(a: i32, b: &mut i32) {
-    *b = a + 1;
-}
-
-fn main() {}
-    let mut i = 42;
-    outIsInPlus1(i, &mut i);
-    println!("{}", i);  // --> 43
-}
+```txt {linenos=true}
+activity main()
+    var i = 42: int32
+    outIsInPlus1(i)(i) //  
+    await true
+end
 ```
-No problem with this. Because the input parameter `a` has value/copy semantics.
+
+leads to a causality error during compilation.
+
+```txt
+error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
+  --> incr.blc:3:5 [causality]
+
+3  |     outIsInPlus1(i)(i)
+   |                     - Output argument.
+3  |     outIsInPlus1(i)(i)
+   |                  ^ Input argument.
+```
+
+The reason is that all parameters conceptually are passed by reference. 
+For pure functions - which do not have output parameters, passing actual parameters by reference can be implemented with pass-by-value which makes parameter passing of simple-types an optimisation.
+For impure functions - which have output parameters, the compiler forbids references to overlapping memory regions, as in the example above.
+
+
 
 Blech automatically takes references and de-references them if necessary. It decides on mutability through the occurence in the input or output parameter list. Semantically the Blech program has the following form:
 
 ```blech
-function outIsInPlus1(<let> a: int32)(<var ref> b: int32)
+function outIsInPlus1(<let ref> a: int32)(<var ref> b: int32)
     <*> b = 1
     <*> b = <*> a + <*> b 
 end
 
 activity main()
     var i = 42: int32
-    outIsInPlus1(i)(<&> i) // --> 43
+    outIsInPlus1(<&> i)(<&mut> i)  // &mut a reference that can be changed
     await true
 end
-```
+``` 
+which is, as explained before, rejected by the compiler.
 
-This is semantically very close to Rust.
+This non-pure function is semantically very close to Rust.
+Rust also does not allow this call. 
+The borrow checker detects an error.
 
-We would change the function in Blech if the input `a` should be passed by reference.
-Note that references are not implemented in the current compiler.
-
-```blech
-function outIsInPlus1(ref a: int32)(b: int32)
-    b = 1       // b = 1
-    b = a + b   // b = 1 + a
-end
-
-activity main()
-    var i = 42: int32
-    outIsInPlus1(i)(i) // --> 2
-    await true
-end
-```
-
-The value of output `i` becomes `2`, which is not input `i` plus `1`. For functions in Blech this could be allowed, because they do not contain `cobegin`, but it is dangerous and unexpected, especially at the caller side, where you can't see this behaviour by reading the code.
-
-Rust does not allow this call. The borrow checker detects an error.
 ```rust
 fn outIsInPlus1(a: &i32, b: &mut i32) {
     *b = 1;
@@ -98,7 +99,7 @@ error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immuta
 
 ```
 
-This behavior is similar to the use of parameters in Blech activities. Blech does not allow the following `run outIsInPlus1(i)(i)` statement. The causality checker detects an error.
+For activities in Blech the causality rules for parameter are the same. The causality checker detects an error in the following example
 
 ```blech
 activity outIsInPlus1(a: int32)(b: int32)
@@ -122,12 +123,9 @@ error: Read-write conflict. i or an alias thereof occurs both in the input and o
    |                         - Output argument.
 11 |     run outIsInPlus1(i)(i)
    |                      ^ Input argument.
-
-  If this usage is intended, consider using the "shares" keyword when declaring the formal parameters of the subprogram.
 ```
 
-Blech automatically takes refencences and de-references if necessary. It decides on mutability through the occurence in the input or output parameter list. Input parameters in Blech are semantically passed by-value for functions and passed by-reference for activities. 
-Therefore the activity `outIsInPlus1` has semantically the following form:
+Similar to the function above the activity `outIsInPlus1` has semantically the following form:
 
 ```blech
 activity outIsInPlus1(<let ref> a: int32)(<var ref>b: int32)
@@ -142,19 +140,150 @@ activity main()
     await true
 end
 ```
-Actually the above causality error is almost equivalent to Rust's borrowing error.
 
-We would argue, that the above function with an input parameter passed by-reference should be marked as an error if called with identical references.
-
-```blech
-function outIsInPlus1(ref a: int32)(b: int32)
-...
-    var i = 42: int32
-    outIsInPlus1(i)(i)  // causality error or borrowing error
-...
-```
+There is no such thing as a pure activity.
 
 If we have more uses for borrowing and a **borrowing checker** this could become a **borrowing error** instead of a causality error.
+
+
+## Call-by-value and return values
+
+The Blech compiler guarantees that we do not pass a `let ref` and `var ref` to the same memory location
+at the same time.
+
+Writing a pure function is still possible
+
+```blech
+function incr(i: int32) returns int32
+    return i + 1
+end
+activity main()
+    var i = 42: int32
+    i = incr(i)  
+    await true
+end
+```
+
+Semantically this is 
+
+```blech
+function incr(<let ref> i: int32) returns <let> int32
+    return <*>i + 1
+end
+
+activity main()
+    var i = 42: int32
+    i = incr(<&> i)  
+    await true
+end
+```
+
+In a pure function call-by-reference is equivalent to call-by-value since the Blech compiler guarantees, that `i` is read-only. The absence of side effects prevents changes on the memory location of the actual parameter.
+
+Therefore we can compile it with call-by-value, which semantically equivalent to call-by-refernce.
+This is an optimisation for simple types, which makes sense.
+
+```blech
+function incr(<let> i: int32) returns <let> int32
+    return i + 1
+end
+
+activity main()
+    var i = 42: int32
+    i = incr(i)  
+    await true
+end
+```
+
+All build-in operators are pure functions.
+
+On the other hand structured value types returned by a function can be implemented with the help
+of a reference:
+
+```blech
+struct S end
+function initS() returns S
+    return {}
+end
+
+activity main()
+    var s: S = initS()
+    await true
+end
+```
+
+This can be compiled as
+
+```blech
+struct S end
+
+function initS()(<var ref> result: S)
+    *result = {}
+    return 
+end
+
+activity main()
+    var s: S
+    initS()(<&>s)
+    await true
+end
+```
+
+## Returning a reference
+
+A function might also return a reference. This is mainly necessary to initialize references.
+
+```blech 
+function oneOutOfTwo(a: int32, b: int32) returns ref int32
+    if a > b then 
+        return a
+    else 
+        return b
+    end
+end
+
+// use
+    var x: int32
+    var y: int32
+    var ref z = oneOutOfTwo(x, y)
+```
+The compiler conservatively can deduce for causality analysis, that `z` shares memory with `x` or `y`.
+
+Semantically this gets compile to
+
+```blech 
+function oneOutOfTwo(<let ref> a: int32, <let ref> b: int32) returns ref int32
+    if <*>a > <*>b then 
+        return a
+    else 
+        return b
+    end
+end
+
+// use
+    var x: int32
+    var y: int32
+    var ref z = oneOutOfTwo(<&> x, <&> y)
+```
+Note that the call-by-value optimisation is not possible here, because a reference is returned as result.
+
+Returning references should also be possible with external variables.
+
+```blech 
+function localOrExternal(a: int32) returns ref int32
+    @[CInput(...)]
+    extern let external: int32
+    if a > external then 
+        return a
+    else 
+        return external
+    end
+end
+
+// use
+    var x: int32
+    let ref z = localOrExternal(x)
+```
 
 ## Borrowing
 
@@ -164,18 +293,17 @@ There are several combinations
 
 | Blech | Semantics | Blech call | Call semantics |
 | --- | --- | --- | --- |
-| function f (a: T) | function f (let a: T) | f(x) | f(x) |
-| function f (ref a: T) | function f (let ref a: T) | f(x) | f(&x) |
+| function f (a: T)() | function f (let ref a: T) | f(x)() | f(&x)() |
 | function f ()(b: T) | function f ()(var ref b: T) | f()(x) | f()(&x) |
-| activity a (a: T) | activity a (let ref a: T) | run a(x) | run a(&x) |
+| activity a (a: T)() | activity a (let ref a: T) | run a(x) | run a(&x) |
 | activity a ()(b: T) | activity a ()(var ref b: T) | run a()(x) | run a()(&x) |
 
-In case of an input parameter it is a non-mutable borrowing. In case of an output parameter it a mutable borrowing.
+In case of an input parameter it is a non-mutable borrowing. In case of an output parameter it is a mutable borrowing.
 
 ## Borrowing via reference declarations
 
 Borrowing not only occurs when passing parameters, but also when declaring references.
-We also planned this for Blech.
+We also plan this for Blech.
 
 ```blech
 activity main()
@@ -217,7 +345,7 @@ We propose to adopt the ideas of borrowing from Rust to Blech, in order to benef
 
 A good overview of how borrowing restricts the usage of variables and references can be found in a [Graphical depiction of ownership and borrowing in Rust](https://rufflewind.com/2017-02-15/rust-move-copy-borrow#comments).
 
-Move semantics can be neglected for the moment since currently only have value types which all allow copying, which in Rust terminology means, they implement the copy trait. Nevertheless move semantics might become important in for Blech's planned reference types.
+Move semantics can be neglected for the moment since currently only have value types which all allow copying, which in Rust terminology means, they implement the copy trait. Nevertheless move semantics might become important for Blech's planned reference types.
 
 For borrowing it distinguishes between *frozen* and *locked* behaviour.
 
@@ -298,8 +426,6 @@ As shown before, passing parameters can be explained as borrowing
 
 * Passing a parameter to an output list essentially is a borrowing as mutable reference.
 * Passing an input parameter in an activity essentially is borrowing as a non-mutable reference. 
-* Passing an input parameter to a function is copying.
-* Passing an input parameter to a formal reference parameter is borrowing.
 
 As shown here, taking references in various forms can also be explained as borrowing.
 
@@ -330,19 +456,6 @@ What is the semantics?
 In every step the activity `controlValue` writes to `original`. We can understand borrowing as a sequential chaining. In every step of the second thread `updated` borrows `original`, which in turn is updated in every step. `original` is locked here and cannot be used. The borrowing defines a sequential write order.  
 We can regard both blocks of the `cobegin` as partially sequentialised.
 
-Of course we can switch the blocks with the same semantics.
-
-```blech
-...
-    var original: int32
-    cobegin
-        var ref updated = original // mutable borrow, original is locked
-        run updateValue()(updated)
-    with
-        run controlValue()(original)
-    end
-    ...
-```
 
 The borrowing `var ref update = original` defines an "update `original` from `updated` edge" for causality analysis. Every writeable location must not have more than 1 incoming update edge. 
 
@@ -445,7 +558,7 @@ Note: Non-mutable borrowing does not imply additional causal constraints. It is 
 ## Dismiss `shares`
 
 Blech currently proposes to use a `shares` if this an intended behaviour. 
-We think this is no longer necessary with borrowing, causality and passing inputs to functions by-reference and by-value.
+We think this is no longer necessary with borrowing and causality.
 
 
 ## Todo
