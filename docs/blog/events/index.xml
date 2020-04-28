@@ -1,0 +1,54 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blech – Future and past Blech events</title>
+    <link>https://boschresearch.github.io/blech-doc/blog/events/</link>
+    <description>Recent content in Future and past Blech events on Blech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://boschresearch.github.io/blech-doc/blog/events/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Blog: Synchron 2019</title>
+      <link>https://boschresearch.github.io/blech-doc/blog/2019/12/01/synchron-2019/</link>
+      <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/blog/2019/12/01/synchron-2019/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Blech has been presented at &lt;a href=&#34;http://synchron19.org/&#34; target=&#34;_blank&#34;&gt;Synchron 2019&lt;/a&gt;
+ the 26th International Open Workshop on Synchronous Programming in Aussois, November 25-29 2019.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://synchron19.org/participants/&#34; target=&#34;_blank&#34;&gt;On Tuesday, 2019-11-16 Friedrich Gretz&lt;/a&gt;
+ talked about &lt;a href=&#34;http://synchron19.org/wp-content/uploads/sites/7/2019/11/Gretz-Synchron19.pdf&#34; target=&#34;_blank&#34;&gt;Programming Blech&lt;/a&gt;
+.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Blog: WCET 2019 Keynote</title>
+      <link>https://boschresearch.github.io/blech-doc/blog/2019/07/10/wcet-2019-keynote/</link>
+      <pubDate>Wed, 10 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/blog/2019/07/10/wcet-2019-keynote/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The keynote of &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wcet/&#34; target=&#34;_blank&#34;&gt;WCET 2019&lt;/a&gt;
+ the 19th International Open Workshop on Worst-Case Execution Time Analysis, presented &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wcet/wcet-2019-program/index.html&#34; target=&#34;_blank&#34;&gt;Blech - a synchronous language for embedded real-time programming&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;The talk was given by Franz-Josef Grosch, &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wcet/&#34; target=&#34;_blank&#34;&gt;abstract&lt;/a&gt;
+ and &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wp-content/uploads/2019/07/WCET19-Keynote.pdf&#34; target=&#34;_blank&#34;&gt;slides&lt;/a&gt;
+ are available.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

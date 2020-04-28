@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.69.2" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="https://boschresearch.github.io/blech-doc/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="https://boschresearch.github.io/blech-doc/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
+
+<title>Blech</title><meta property="og:title" content="" />
+<meta property="og:description" content="Embedded realtime programming User Manual Annotations, pragmas and doc comments As explained before Blech allows annotations to declarations. In principle every declaration can have one or more annotations.
+Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.
+@[EntryPoint]activity ... end@[CConst(binding=&quot;A_C_CONST&quot;)]extern const ABlechConstC bindings have an optional header parameter where the necessary header file can be defined." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/user-manual/old/" />
+<meta property="article:modified_time" content="2020-04-19T17:45:00+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Embedded realtime programming User Manual Annotations, pragmas and doc comments As explained before Blech allows annotations to declarations. In principle every declaration can have one or more annotations.
+Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.
+@[EntryPoint]activity ... end@[CConst(binding=&quot;A_C_CONST&quot;)]extern const ABlechConstC bindings have an optional header parameter where the necessary header file can be defined.">
+<meta itemprop="dateModified" content="2020-04-19T17:45:00&#43;02:00" />
+<meta itemprop="wordCount" content="611">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Embedded realtime programming User Manual Annotations, pragmas and doc comments As explained before Blech allows annotations to declarations. In principle every declaration can have one or more annotations.
+Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.
+@[EntryPoint]activity ... end@[CConst(binding=&quot;A_C_CONST&quot;)]extern const ABlechConstC bindings have an optional header parameter where the necessary header file can be defined."/>
+
+
+
+
+
+
+
+<link rel="preload" href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" as="style">
+<link href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src=https://boschresearch.github.io/blech-doc/js/opt-in.js></script>
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="https://boschresearch.github.io/blech-doc/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="https://boschresearch.github.io/blech-doc/docs/" ><span class="active">Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/blog/" ><span>Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/about/" ><span>About</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Documentation</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docs">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/getting-started/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Getting Started</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsgetting-started">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">User manual</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docsuser-manual">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualnotation" href="https://boschresearch.github.io/blech-doc/docs/user-manual/notation/">Notation</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manuallexical" href="https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/">Lexical elements</a>
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsuser-manualcontrolflow">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowmoc" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/">Model of execution</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowstatements" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/">Statements</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualdeclarations" href="https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/">Declarations</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualtypes" href="https://boschresearch.github.io/blech-doc/docs/user-manual/types/">Types</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualexpressions" href="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsuser-manualold" href="https://boschresearch.github.io/blech-doc/docs/user-manual/old/"></a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docslanguage-evolution">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsblechc-development">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentconst-and-expr" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentexternal-vars" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/">Variables</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsexamples">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/contributing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Contributing</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docscontributing">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/old.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#user-manual">User Manual</a>
+      <ul>
+        <li><a href="#annotations-pragmas-and-doc-comments">Annotations, pragmas and doc comments</a></li>
+        <li><a href="#blechs-c-interface">Blech&rsquo;s C interface</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/">Documentation</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/">User manual</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/old/"></a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<h1></h1>
+    
+	       
+	<h1 id="embedded-realtime-programming">Embedded realtime programming</h1>
+<h2 id="user-manual">User Manual</h2>
+<h3 id="annotations-pragmas-and-doc-comments">Annotations, pragmas and doc comments</h3>
+<p>As explained before Blech allows annotations to declarations. 
+In principle every declaration can have one or more annotations.</p>
+<p>Currently we use annotations for the entry point of a Blech program and for the binding to C implementations.</p>
+<pre><code class="language-blech" data-lang="blech">@[EntryPoint]
+activity ... end
+
+@[CConst(binding=&quot;A_C_CONST&quot;)]
+extern const ABlechConst
+</code></pre><p>C bindings have an optional header parameter where the necessary header file can be defined.</p>
+<p>In order to prevent repetition we also allow pragmas which are annotations to the current scope. 
+Pragmas can occur where members or statements are allowed.
+Pragmas are similar to annotations but start with <code>@@</code>.</p>
+<p>Currently we use pragmas for central C include file definitions in order to prevent repitition of header definitions in annotations.</p>
+<pre><code class="language-blech" data-lang="blech">@@[CInclude(header=&quot;myheader.h&quot;)]
+
+@[CConst(binding=&quot;A_C_CONST&quot;)]
+extern const ABlechConst
+
+@[CConst(binding=&quot;ANOTHER_C_CONST&quot;)]
+extern const AnotherBlechConst
+</code></pre><p>Pragmas can be used in order to define metadata for a whole compilation unit or to give directives to the compiler - valid to the scope where they occur.
+Imagine the following - which is currently not implemented.</p>
+<pre><code class="language-blech" data-lang="blech">@@[Link(lib=&quot;myclib.a&quot;)]
+
+function f(x: int32)
+    if x &gt; 10 then
+        @@[AllowShadowing]
+        var x: float32
+        x = 42.0
+    end
+end
+</code></pre><p>Annotations also allow to attach doc comments to the abstract syntax tree.
+Line doc comments and block doc comments are stored as annotations.</p>
+<pre><code class="language-blech" data-lang="blech">/// a line doc comment
+const myConst = 11
+
+/** 
+    a block doc comment
+*/
+function myDocumentedFunc()
+end
+</code></pre><p>Parsed doc comments allow to reproduce documentation in <code>.blh</code> signature files and in generated code.</p>
+<h3 id="blechs-c-interface">Blech&rsquo;s C interface</h3>
+<p>C can be bound to Blech via annotations.</p>
+<p>In principal every Blech declarable entity can be implemented in C. 
+Via an annotation a Blech <code>extern</code> declaration can be bound to a C implementation. 
+It is the responsibility of the programmer to make sure that the C implementation provides what the Blech definition guarantees.</p>
+<p>Currently we support <code>extern const</code> and <code>extern function</code>.</p>
+<pre><code class="language-blech" data-lang="blech">@[CConst(binding = &quot;5 * A_C_CONST&quot;, header = &quot;myconsts.h&quot;)]
+extern const blech_const
+</code></pre><p><code>blech_const</code> is implemented as a C constant.
+Assume we have the following macro in <code>myconsts.h</code></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">#define A_C_CONST 42
+</span></code></pre></div><p>The generated code for the above extern Blech constant is also a macro that requires the include of the appropriate .h-file.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">// C headers for extern declarations
+</span><span style="color:#8f5902;font-style:italic"></span><span style="color:#8f5902;font-style:italic">#include</span> <span style="color:#8f5902;font-style:italic">&#34;myconsts.h&#34;</span><span style="color:#8f5902;font-style:italic">
+</span><span style="color:#8f5902;font-style:italic"></span>
+<span style="color:#8f5902;font-style:italic">// extern Blech constants
+</span><span style="color:#8f5902;font-style:italic"></span><span style="color:#8f5902;font-style:italic">#define blc_blech_const (5 * A_C_CONST)
+</span></code></pre></div><p>An extern Blech function comes in two flavours.</p>
+<ul>
+<li>
+<ol>
+<li>As a direct binding too a C function and its .h-file</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>As a wrapper to be written in C.</li>
+</ol>
+</li>
+</ul>
+<p>The first case is easy</p>
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;ceil&quot;, header = &quot;math.h&quot;)]
+extern function ceiling(i: float64) returns float64
+</code></pre><p>The generated code is again simply a macro.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">// C headers for extern declarations
+</span><span style="color:#8f5902;font-style:italic"></span><span style="color:#8f5902;font-style:italic">#include</span> <span style="color:#8f5902;font-style:italic">&#34;math.h&#34;</span><span style="color:#8f5902;font-style:italic">
+</span><span style="color:#8f5902;font-style:italic"></span>
+<span style="color:#8f5902;font-style:italic">// extern Blech functions
+</span><span style="color:#8f5902;font-style:italic"></span><span style="color:#8f5902;font-style:italic">#define blc_ceiling(blc_i) (ceil(blc_i))
+</span></code></pre></div><p>The second case defines an extern function without a direct C binding.
+Assume the following code in a Blech module <code>wrapper.blc</code></p>
+<pre><code class="language-blech" data-lang="blech">extern function myCFunction(i: float64) returns float64
+</code></pre><p>In this case only a prototype is generated in the module&rsquo;s header file <code>blech/wrapper.h</code>.</p>
+<pre><code class="language-blech" data-lang="blech">// extern functions to be implemented in C
+
+blc_float64 blc_wrapper_myCFunction (const blc_float64 blc_i);
+</code></pre><p>The implementation suitable to the generated prototype has to be provided by the programmer. 
+To guarantee the interface the generated .h-file has to be included.</p>
+<p>Extern declarations could also be used for <code>type, typealias, param, var, let, activity</code> and will be incrementally added.</p>
+<p>Since Blech does not allow global variables the local usage of <code>extern var</code> and <code>extern let</code> creates a &ldquo;static&rdquo; local - in the sense of C - and requires the surrounding subprogram or struct declaration to be classified as a <code>singleton</code>. 
+The same should be necessary for activities written in C that only can represent the state from step to step in global variables which make these activities <code>singleton</code> too.</p>
+
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 19, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/62f23ed2abda33e65ee72384bc613113e28f99e2">More structure, started legal infos Started to move asiidoc to markdown (62f23ed)</a>
+</div>
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="https://boschresearch.github.io/blech-doc/about/privacy">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book-open"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech authors</small>
+        
+        <small class="ml-1"><a href="https://boschresearch.github.io/blech-doc/about/privacy/" target="_blank">Privacy Policy</a></small>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="https://boschresearch.github.io/blech-doc/js/main.min.21de55dfa9224e53cf629c8a81b4419ee28c5ab4ffc4ba39994bb1410adc2603.js" integrity="sha256-Id5V36kiTlPPYpyKgbRBnuKMWrT/xLo5mUuxQQrcJgM=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

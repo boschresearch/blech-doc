@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.69.2" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="https://boschresearch.github.io/blech-doc/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="https://boschresearch.github.io/blech-doc/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
+
+<title>Declarations | Blech</title><meta property="og:title" content="Declarations" />
+<meta property="og:description" content="Declarations introduce new names for entities in the program. Declarable entities include
+ activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
+Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/" />
+<meta property="article:modified_time" content="2020-04-22T14:34:47+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Declarations">
+<meta itemprop="description" content="Declarations introduce new names for entities in the program. Declarable entities include
+ activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
+Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here.">
+<meta itemprop="dateModified" content="2020-04-22T14:34:47&#43;02:00" />
+<meta itemprop="wordCount" content="2867">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Declarations"/>
+<meta name="twitter:description" content="Declarations introduce new names for entities in the program. Declarable entities include
+ activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
+Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here."/>
+
+
+
+
+
+
+
+<link rel="preload" href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" as="style">
+<link href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src=https://boschresearch.github.io/blech-doc/js/opt-in.js></script>
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="https://boschresearch.github.io/blech-doc/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="https://boschresearch.github.io/blech-doc/docs/" ><span class="active">Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/blog/" ><span>Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/about/" ><span>About</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Documentation</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docs">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/getting-started/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Getting Started</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsgetting-started">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">User manual</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docsuser-manual">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualnotation" href="https://boschresearch.github.io/blech-doc/docs/user-manual/notation/">Notation</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manuallexical" href="https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/">Lexical elements</a>
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsuser-manualcontrolflow">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowmoc" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/">Model of execution</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowstatements" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/">Statements</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsuser-manualdeclarations" href="https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/">Declarations</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualtypes" href="https://boschresearch.github.io/blech-doc/docs/user-manual/types/">Types</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualexpressions" href="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualold" href="https://boschresearch.github.io/blech-doc/docs/user-manual/old/"></a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docslanguage-evolution">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsblechc-development">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentconst-and-expr" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentexternal-vars" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/">Variables</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsexamples">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/contributing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Contributing</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docscontributing">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/declarations.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Declarations" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#data">Data</a>
+      <ul>
+        <li><a href="#qualifiers">Qualifiers</a></li>
+      </ul>
+    </li>
+    <li><a href="#user-defined-types">User defined types</a></li>
+    <li><a href="#subprograms">Subprograms</a></li>
+    <li><a href="#external-declarations">External Declarations</a>
+      <ul>
+        <li><a href="#external-constants">External constants</a></li>
+        <li><a href="#local-external-variables">Local external variables</a></li>
+        <li><a href="#external-functions">External functions</a></li>
+        <li><a href="#remarks-on-caveats-when-interfacing-with-c">Remarks on caveats when interfacing with C</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/">Documentation</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/">User manual</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/">Declarations</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<h1>Declarations</h1>
+    
+	       
+	<p>Declarations introduce new names for entities in the program.
+Declarable entities include</p>
+<ul>
+<li>activities</li>
+<li>functions</li>
+<li>types</li>
+<li>data storage</li>
+</ul>
+<p>In the future more of such entities may be added to the language such as clocks and physical units.</p>
+<p>Every declaration exists in a <em>lexical scope</em>.
+Scopes define the visibility of a name.
+The top-level or file scope is the most global scope in Blech.
+Functions, activities and types are defined here.
+Entities in the top-level scope are visible everywhere in the file.
+Every block introduces a sub-scope.
+For example, a function body is a local scope.
+Variables defined in this scope are visible in this function but not outside of it.
+Composite statements, such as the <code>repeat</code> loop introduce their statement-local scope. This allows to introduce a variable that is visible during the iteration through this loop and not outside of it.</p>
+
+
+<div class="alert alert-primary" role="alert">
+
+Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
+</div>
+
+<p>In Blech, declarations not only introduce a name but also <em>define</em> what this name represents. For example, a function declaration will specify a function body.
+That is the block of statements that are executed when this functions is called.
+The definition may refer to names that were previously declared.</p>
+
+
+<div class="alert alert-warning" role="alert">
+
+Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
+</div>
+
+<p>In the following we discuss the various entities that can be defined in a Blech program.</p>
+<h2 id="data">Data</h2>
+<p>Data declarations consist of an access and placement qualifier, an identifier, a data type and an initialisation.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">DataDeclaration</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Qualifier</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span> <span style="color:#000">&#34;=&#34;</span> <span style="color:#000">Init</span>
+</code></pre></div><p>A variable declaration:</p>
+<pre><code class="language-blech" data-lang="blech">var x: int32 = 17
+</code></pre><p>The type is either a built-in type or a name of a user defined type.
+Built-in types are discussed in the next chapter.
+Type declarations are discussed in the next section.</p>
+<p>Initialisers are expressions that evaluate to a value that matches this declaration&rsquo;s data type. Expressions (including literals) will be discussed in a later chapter.</p>
+<h3 id="qualifiers">Qualifiers</h3>
+<p>There are four possible qualifiers.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Qualifier</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;const&#34;</span> | <span style="color:#000">&#34;param&#34;</span> | <span style="color:#000">&#34;let&#34;</span> | <span style="color:#000">&#34;var&#34;</span>
+</code></pre></div><p><code>const</code> qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
+Typical use cases for <code>const</code> are sizes of data structures, addresses in memory, &hellip; 
+In C, these are represented by <code>#define</code> macros, which, too, have no representation after the preprocessor finishes.
+Hence <em>using const on arrays (or structs containing arrays), albeit possible, is not advisable</em> and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
+Instead consider <code>param</code>.</p>
+<p><code>param</code> qualified data has a representation in memory at run time but cannot be changed by the running program for its entire lifetime (it can only be reflashed).
+Typical use cases for <code>param</code> are characteristics maps or other immutable lookup data structures.
+The name &ldquo;param&rdquo; indicates that such data is a parameter of the final compilation result.
+Tools exist to customise such parameters in a binary file directly in order to adapt the given software to a variant of a product.
+Like with <code>const</code> data, the <code>param</code> value must be initialised with constant expressions.
+You cannot write the following</p>
+<pre><code class="language-blech" data-lang="blech">function f (input: int32)
+   param x: int32 = input // error!
+end
+</code></pre><p>This is because the value of <code>input</code> is determined at <em>runtime</em> but <code>x</code> must be initialised at <em>compile time</em>.</p>
+<p><code>const</code> and <code>param</code> data may be declared at top level as well as inside functions or activities.
+The other two qualifiers <code>let</code> and <code>var</code> indicate local data and may <em>only</em> be used inside functions or activities.</p>
+<p><code>let</code> declares immutable data in the control flow of a program.
+Finally, &lsquo;var&rsquo; declares the usual mutable variable.
+Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type&rsquo;s default value.
+The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.</p>
+<p>Example:</p>
+<pre><code class="language-blech" data-lang="blech">const LEN: int32 = 8
+param lut: [LEN]float64 = {1.0, 0.5, 0.25, 0.125} // LEN is constant and may be used here
+                                                  // the array literal will be filled with additional 0's up to length LEN.
+function f()
+    let i = LEN - 7 // i is deduced to be int32
+    var x = lut[i] // x is deduced to be float64
+                   // and equals 0.5 in this case
+end
+</code></pre>
+
+<div class="alert alert-info" role="alert">
+
+No global variables in Blech!
+We deliberately prohibit the use of <code>let</code> and <code>var</code> outside subprogram scopes because we believe this leads to better understandable, easier to integrate and unit-testable programs.
+</div>
+
+
+
+<div class="alert alert-warning" role="alert">
+
+Confusion may arise about the difference between <code>param</code> and <code>let</code>.
+They both qualify immutable data in memory.
+They could be even stored in the same way which however is a compiler implementation detail and none of the concerns of the programmer.
+The crucial difference is that <code>let</code> takes values at runtime.
+It is immutable throughout the scope where it has been declared.
+Once the scope is left and re-entered, the value of that <code>let</code> variable may be re-initialised. (In the literature this is sometimes dramatically referred to as &ldquo;re-incarnation&rdquo;.)
+As stated above, <code>param</code> data cannot be changed by the running program at all, it is completely static.
+</div>
+
+
+
+<div class="alert alert-warning" role="alert">
+
+The word &ldquo;parameter&rdquo; appears in two notions. One is the &ldquo;formal parameter&rdquo; of a function or activity.
+The other is the &ldquo;param&rdquo; qualifier for immutable data.
+The first parametrises a function (ar activity), the second parametrises a whole binary.
+We try to make clear which one we mean throughout this document. Usually it should be apparent from context however.
+</div>
+
+<h2 id="user-defined-types">User defined types</h2>
+<p>The programmer may define a data structure using the <code>struct</code> keyword.
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">TODO</h4>
+See the chapter on <a href="https://boschresearch.github.io/blech-doc/docs/user-manual/types/#structure-types">struct types</a> for more details.
+</div>
+</p>
+<h2 id="subprograms">Subprograms</h2>
+<p>Blech discerns two type of subprograms: <code>activity</code> and <code>function</code>.
+Their behaviour is different. Activities must pause at least once whereas functions need to terminate within one reaction. Functions are therefore called &ldquo;instantaneous&rdquo;.
+The precise differences will be worked out in the chapter on Blech statements.
+From a syntactic declaration point of view there is hardly any difference.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ProgramDeclaration</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;singleton&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">ProgramType</span> <span style="color:#000">Identifier</span> <span style="color:#000">ParamList</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">ParamList</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;returns&#34;</span> <span style="color:#000">Type</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">StmtBlock</span> <span style="color:#000">&#34;end&#34;</span>
+<span style="color:#000">ProgramType</span>        ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;function&#34;</span> | <span style="color:#000">&#34;activity&#34;</span>
+<span style="color:#000">ParamList</span>          ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;()&#34;</span> | <span style="color:#000">&#34;(&#34;</span> <span style="color:#000">ParamDeclaration</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;,&#34;</span> <span style="color:#000">ParamDeclaration</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">&#34;)&#34;</span>
+<span style="color:#000">ParamDeclaration</span>   ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span>
+</code></pre></div><p>There are two parameter lists. 
+The first lists declares formal parameters that may only be read (like <code>let</code> variables), the second list declares formal parameters that may be both read and written (like <code>var</code> variables).
+In particular the two lists are useful for activities which, in every reaction, receive a list of read-only <em>inputs</em>, perform some calculation and set the list of read-write <em>outputs</em>.
+We will therefore often refer to these two parameter lists as &ldquo;input list&rdquo; and &ldquo;output list&rdquo;.</p>
+<p>The programming model is that all variables are passed by reference (even though in reality the compiler will optimise this into by-value for simple value typed inputs).</p>
+<p>Example:</p>
+<pre><code class="language-blech" data-lang="blech">function add (x: int32, y: int32) returns int32
+   return x + y
+end
+
+@[EntryPoint]
+activity A (in: int32)(out: int32)
+   repeat
+      out = add(in, out)
+      await true
+   end
+end
+</code></pre><p>The example above is a valid Blech program that sums all inputs over all time steps.
+Note that <code>add</code> omits an output list and <code>A</code> does not declare any return type.
+We call functions or activities that do not return anything &ldquo;void&rdquo; but unlike C we do not have a void type in the language.</p>
+<p>The <code>@[EntryPoint]</code> annotation tells the compiler that <code>A</code> is the main program of this file. Every Blech file must have precisely one entry point activity.
+<em>(That is until we have a module system that allows to write libraries that may have no single entry point at all).</em></p>
+<p>The <code>singleton</code> keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
+For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.
+The caller of a singleton callee automatically becomes a singleton, too.</p>
+<h2 id="external-declarations">External Declarations</h2>
+<p>Sometimes it is useful to access global variables or functions of a C program.
+This allows for example to make use of existing libraries.
+Such variables and functions are <em>external</em> from the point of view of a Blech program.
+Annotations are required to tell the compiler how to code-generate access to these external entities.</p>
+<p>Formally, we have the following syntax.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ExternFunctionDeclaration</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;extern&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;singleton&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">&#34;function&#34;</span> <span style="color:#000">Identifier</span> <span style="color:#000">ParamList</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">ParamList</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">returns</span> <span style="color:#000">Type</span><span style="color:#000;font-weight:bold">]</span>
+<span style="color:#000">ExternDataDeclaration</span>     ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;extern&#34;</span> <span style="color:#000">Qualifier</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span>
+</code></pre></div><p>Obviously, external functions have no body and external variables cannot be initialised.
+As before, external functions may be characterised as <code>singleton</code> which means such a function may not be called concurrently. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Calling such a function concurrently would violate the synchrony assumptions and lead to unexpected results.</p>
+<p>External declarations additionally require annotations which we introduce by example below.</p>
+<p>[IMPORTANT]
+Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&rsquo;ll point out a few caveats below.</p>
+<h3 id="external-constants">External constants</h3>
+<p>In C, constant values may be defined using macros or <code>const</code> variables.
+In order to make these values available in Blech, external constants may be declared.
+External constant declarations may appear in any scope.</p>
+<pre><code class="language-blech" data-lang="blech">@[CConst (binding = &quot;PI&quot;, header = &quot;math.h&quot;)]
+extern const pi: float64
+@[CParam (binding = &quot;characteristics&quot;, header = &quot;magic.h&quot;)]
+extern param map: [10]float32
+</code></pre><p>Both Blech qualifiers <code>const</code> and <code>param</code> are supported.
+They require a <code>CConst</code> or a <code>CParam</code> annotation respectively.
+However they have more of a documentation character rather than any functional difference.
+Both will evaluate whatever expression is given in the binding at runtime.
+This is the reason why external constants cannot be used for constant expression evaluation in Blech &ndash; their value is unknown at compile time.
+While you can, for example, use a Blech constant to parametrise an array length, you cannot do so using an external constant.</p>
+<p>The <code>binding</code> annotation attribute may contain any expression that can be evaluated in C.</p>
+<p>By design the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler &ldquo;look into&rdquo; C header or implementation files, nor does it try to evaluate any C-bindings.</p>
+<h3 id="local-external-variables">Local external variables</h3>
+<p>The aforementioned constants may be declared in local scopes as well.
+Additionally, local Blech variables that link to external global variables may be declared inside activities (but not in functions).</p>
+<p>[NOTE]
+There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.</p>
+<p>Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
+These variables follow the same rules as the usual activity-local variables.</p>
+<p>Read-only external variables are annotated with the <code>CInput</code> annotation.</p>
+<pre><code class="language-blech" data-lang="blech">@[CInput (binding = &quot;PIN_7&quot;, header = &quot;head.h&quot;)]
+extern let isButtonPressed: bool
+</code></pre><p>This example assumes there is either a C macro or a C variable <code>PIN_7</code> that returns a volatile boolean value indicating a button press.</p>
+<p>The declaration creates a local variable inside the enclosing activity.
+It serves as a copy-in buffer.
+When the activity starts a reaction the value of <code>PIN_7</code> is copied into <code>isButtonPressed</code>.
+Within the Blech program we can only access the buffer <code>isButtonPressed</code> and thereby have the guarantee that the value does not change during one reaction.
+This corresponds to the semantics of activity input parameters.</p>
+<p>An activity that declares an immutable external variable does not become a singleton.
+Concurrent instances may exist but they may contain different values for the same external variable if it is volatile.</p>
+<p>Read-write external variables are annotated with the <code>COutput</code> annotation.</p>
+<pre><code class="language-blech" data-lang="blech">@[COutput (binding = &quot;PIN_7&quot;, header = &quot;head.h&quot;)]
+extern var isButtonPressed: bool
+</code></pre><p>Here at the beginning of a reaction the value of <code>PIN_7</code> is copied in.
+During a reaction the variable <code>isButtonPressed</code> can be modified as usual.
+At the end of the reaction the value of <code>isButtonPressed</code> is copied out to <code>PIN_7</code>.
+This guarantees a stable output behaviour. Intermediate changes to the local variable <code>isButtonPressed</code> are not observable by the environment.</p>
+<p>The <code>prev</code> operator may be used on external variables.
+It returns the value that the variable held at the end of the previous reaction.
+This behaviour corresponds to using <code>prev</code> on normal local variables but there is a subtle difference.
+External variables may be changed by the environment.</p>
+<pre><code class="language-blech" data-lang="blech">@[COutput (binding = &quot;PIN_7&quot;, header = &quot;head.h&quot;)]
+extern var isButtonPressed: bool
+isButtonPressed = true
+await cond // some boolean condition
+var x = prev isButtonPressed // is x == true?
+</code></pre><p>If <code>cond</code> is true immediately in the next reaction then x will be set to <code>true</code>.
+In general, however we do not know how many reaction it will take until <code>cond</code> becomes true.
+Yet in every reaction the copy-in and copy-out mechanisms will update the <code>isButtonPressed</code> buffer.
+If the environment does not change <code>PIN_7</code> then surely <code>x</code> will be <code>true</code>.
+But, in general, we cannot assume this.</p>
+<p>An activity that declares a mutable external variable automatically becomes a singleton.
+Concurrent instances lead to a write-write conflict and compilation is rejected.</p>
+<h3 id="external-functions">External functions</h3>
+<p>There are two ways to link to external functions in Blech.</p>
+<ol>
+<li>Via direct binding to function name declared in an .h file</li>
+<li>Via a wrapper to be implemented in some .c file.</li>
+</ol>
+<p>In the first case we annotate the name of the C function and the file wherein this function is declared.</p>
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;ceil&quot;, header = &quot;math.h&quot;)]
+extern function ceiling(i: float64) returns float64
+</code></pre><p>Inside the Blech program this function is now available through name <code>ceiling</code>.</p>
+<p>In the second case we annotate which file we intend to implement the C function in.
+Actually this information is irrelevant for the Blech compilation itself.
+However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.</p>
+<pre><code class="language-blech" data-lang="blech">extern function myCFunction(i: float64) returns float64
+</code></pre><p>Assume the above declaration is written in a Blech file called <code>MyFile.blc</code>, then the code generator will produce a header file <code>MyFile.h</code> with the following code:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">// extern functions to be implemented in C
+</span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">blc_float64</span> <span style="color:#000">blc_MyFile_myCFunction</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#000">blc_float64</span> <span style="color:#000">blc_i</span><span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p>It is up to the C programmer now to include this header in his implementation and provide an actual definition of this function.</p>
+<h3 id="remarks-on-caveats-when-interfacing-with-c">Remarks on caveats when interfacing with C</h3>
+<h4 id="types">Types</h4>
+<p>Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.</p>
+<h4 id="parameter-lists">Parameter lists</h4>
+<p>In Blech, functions have two parameter lists as explained above. 
+The Blech compiler ensures that inputs will only be read. 
+However the Blech compiler has no chance to check that the external code adheres to this contract.</p>
+<p>For example, say we have an external function that takes an array of length 10 and sorts it in-place.
+The correct binding would look something like this:</p>
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort&quot;, header = &quot;utils.h&quot;)]
+extern function sort()(arr: [10]int32)
+</code></pre><p>In this way, the Blech compiler knows that <code>sort</code> will modify the given array. When calling this function in a concurrent context the compiler will prevent write-write conflicts and read-write cycles on the array.</p>
+<p>However, the programmer could erroneously declare the same function as follows:</p>
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort&quot;, header = &quot;utils.h&quot;)]
+extern function sort(arr: [10]int32)
+</code></pre><p>The code will compile all the same but the causality guarantees are gone because the Blech compiler relies on the assumption that the array will only be read and not modified. At runtime the program may then exhibit unexpected behaviour.</p>
+<h4 id="singletons">Singletons</h4>
+<p>The <code>singleton</code> annotation is a help to the Blech programmer but does not completely prevent concurrent calls to functions with conflicting effects. For example:</p>
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;foo&quot;, header = &quot;head.h&quot;)]
+extern singleton function doA() 
+@[CFunction (binding = &quot;foo&quot;, header = &quot;head.h&quot;)]
+extern singleton function doB() 
+
+/* ... somewhere in an acitivity scope ... */
+cobegin
+   doA()
+with
+   doB()
+end
+</code></pre><p>This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this <em>particular</em> mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
+It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.</p>
+
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 22, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/0a404d6cbd57553686cf1dae483f03d3180f9adf">First draft on contact and privacy (0a404d6)</a>
+</div>
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="https://boschresearch.github.io/blech-doc/about/privacy">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book-open"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech authors</small>
+        
+        <small class="ml-1"><a href="https://boschresearch.github.io/blech-doc/about/privacy/" target="_blank">Privacy Policy</a></small>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="https://boschresearch.github.io/blech-doc/js/main.min.21de55dfa9224e53cf629c8a81b4419ee28c5ab4ffc4ba39994bb1410adc2603.js" integrity="sha256-Id5V36kiTlPPYpyKgbRBnuKMWrT/xLo5mUuxQQrcJgM=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

@@ -6,15 +6,10 @@
         {
              "label": "hugo build",
              "type": "shell",
-             "command": "hugo",
+             "command": "hugo --environment production",
              "options": {
                 "cwd": "./website"
              }
-        },
-        {
-            "label": "asciidoctor build",
-            "type": "shell",
-            "command": "asciidoctor -D website/static/asciidoc documentation/blech-user-manual.adoc documentation/blech-evolution-proposals.adoc documentation/blechc-development-guide.adoc"
-       }           
+        }          
     ]
 }

@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.69.2" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="https://boschresearch.github.io/blech-doc/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="https://boschresearch.github.io/blech-doc/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
+
+<title>Expressions, conditions, initialisers, constants | Blech</title><meta property="og:title" content="Expressions, conditions, initialisers, constants" />
+<meta property="og:description" content="This explains the variants of expressions in Blech.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/" />
+<meta property="article:modified_time" content="2020-04-16T18:22:07+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Expressions, conditions, initialisers, constants">
+<meta itemprop="description" content="This explains the variants of expressions in Blech.
+">
+<meta itemprop="dateModified" content="2020-04-16T18:22:07&#43;02:00" />
+<meta itemprop="wordCount" content="587">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Expressions, conditions, initialisers, constants"/>
+<meta name="twitter:description" content="This explains the variants of expressions in Blech.
+"/>
+
+
+
+
+
+
+
+<link rel="preload" href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" as="style">
+<link href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src=https://boschresearch.github.io/blech-doc/js/opt-in.js></script>
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="https://boschresearch.github.io/blech-doc/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="https://boschresearch.github.io/blech-doc/docs/" ><span class="active">Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/blog/" ><span>Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/about/" ><span>About</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Documentation</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docs">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/getting-started/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Getting Started</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsgetting-started">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">User manual</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsuser-manual">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualnotation" href="https://boschresearch.github.io/blech-doc/docs/user-manual/notation/">Notation</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manuallexical" href="https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/">Lexical elements</a>
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsuser-manualcontrolflow">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowmoc" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/">Model of execution</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowstatements" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/">Statements</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualdeclarations" href="https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/">Declarations</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualtypes" href="https://boschresearch.github.io/blech-doc/docs/user-manual/types/">Types</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualexpressions" href="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualold" href="https://boschresearch.github.io/blech-doc/docs/user-manual/old/"></a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docslanguage-evolution">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docsblechc-development">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentconst-and-expr" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentexternal-vars" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/">Variables</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsexamples">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/contributing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Contributing</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docscontributing">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/const-and-expr.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Expressions,%20conditions,%20initialisers,%20constants" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#equality-expressions">Equality expressions</a></li>
+    <li><a href="#using-constants">Using constants</a></li>
+    <li><a href="#side-effects-in-conditions-are-not-allowed">Side effects in conditions are not allowed</a></li>
+    <li><a href="#side-effects-are-allowed-in-initialisers">Side effects are allowed in initialisers</a></li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/">Documentation</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/">Blechc development</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/">Expressions</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<h1>Expressions, conditions, initialisers, constants</h1>
+    <div class="lead">This explains the variants of expressions in Blech.</div>
+	       
+	<h2 id="equality-expressions">Equality expressions</h2>
+<p>Theoretically, every type supports some notion of equality (and inequality). 
+This is straightforward for <strong>simple (or primitive) value types</strong> that consist of one memory cell only (booleans and all numeric types of all sizes): 
+<code>a == b</code> holds iff the value of <code>a</code> is the same as the value of <code>b</code>.</p>
+<p>For <strong>structured (complex) value types</strong> we can decide equality by comparing every element of data structures recursively.
+At compile time the result of a comparison can be evaluated if the arguments are compile time constants. 
+Thus it is technically no problem to compare compile time constants of any value type.</p>
+<p>At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure. 
+An optimisation of runtime - not changing the run-time complexity but providing better factors - could be achieved by comparing the data structures byte-wise (<code>memcmp</code>).
+But this requires to fix padding in structs and then fails in special cases: 
+floating point elements may use different bit representations for the same numerical value, e.g. <code>+0.0</code> and <code>-0.0</code>. 
+Consequently, the comparison operator for structured data may not be used at runtime (like in C) and results in a type check error.</p>
+<p><em>Reference types are not implemented yet but in principle they will have the same behaviour: compare (dereferenced) values for simple types, and disallow comparison for complex types.</em></p>
+<h2 id="using-constants">Using constants</h2>
+<p>In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent. 
+Thus at the end of the type check phase the declarations of the consts do exist and can be translated to C but all their usages disappear (being substituted by the value).
+This has the drawback of less readable C code but still allows to export constants as #defines and use them in foreign code by including the relevant <code>.h</code> file.</p>
+<p>In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals. 
+The same is true for arrays in all versions of C. 
+Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data. 
+In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls. 
+In summary, literals occur only on the right hand side of initialisation in the generated C code.</p>
+<h2 id="side-effects-in-conditions-are-not-allowed">Side effects in conditions are not allowed</h2>
+<p>It is obvious that testing an <code>await</code> condition may not have any impact on the state to implement a synchronous program. 
+Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements. 
+This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation. 
+The common programming practice of C where conditions&rsquo; side effects are used to also advance computation is regarded as bad practice in Blech until proven otherwise.</p>
+<h2 id="side-effects-are-allowed-in-initialisers">Side effects are allowed in initialisers</h2>
+<p>Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable. 
+Otherwise the following code that declares an immutable variable cannot be written:</p>
+<pre><code class="language-blech" data-lang="blech">let status = f()(x)
+</code></pre><p>Instead, we would have to write</p>
+<pre><code class="language-blech" data-lang="blech">var status: typeOfF
+status = f()(x)
+</code></pre><p>which not only is longer and less readable but makes <code>status</code> a mutable variable which is not the intention of the programmer.</p>
+
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 16, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/69da3de03d10948818565864e0b771ce65f6faf1">Google analytics, google search, analytics opt-in search page, more community links (69da3de)</a>
+</div>
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="https://boschresearch.github.io/blech-doc/about/privacy">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book-open"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech authors</small>
+        
+        <small class="ml-1"><a href="https://boschresearch.github.io/blech-doc/about/privacy/" target="_blank">Privacy Policy</a></small>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="https://boschresearch.github.io/blech-doc/js/main.min.21de55dfa9224e53cf629c8a81b4419ee28c5ab4ffc4ba39994bb1410adc2603.js" integrity="sha256-Id5V36kiTlPPYpyKgbRBnuKMWrT/xLo5mUuxQQrcJgM=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

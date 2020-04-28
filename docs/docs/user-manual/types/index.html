@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.69.2" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="https://boschresearch.github.io/blech-doc/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="https://boschresearch.github.io/blech-doc/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
+
+<title>Types | Blech</title><meta property="og:title" content="Types" />
+<meta property="og:description" content="A type defines a domain &ndash; a set of values &ndash; a representation for those values and a set of operations on those values.
+Often the domains overlap between types. Also operations may be overloaded for multiple types. This provides the programmer with some versatility:
+For example, signed integers and unsigned integers share some interval in which calculations may be carried out and interpreted as either one. Another example is that operations such as addition may have different implementations depending on type (and machine architecture): addition of 16-bit unsigned integers on a 16-bit machine invokes a different set of machine instructions than addition of 32-bit unsigned integers on that same machine." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/user-manual/types/" />
+<meta property="article:modified_time" content="2020-04-21T20:26:37+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Types">
+<meta itemprop="description" content="A type defines a domain &ndash; a set of values &ndash; a representation for those values and a set of operations on those values.
+Often the domains overlap between types. Also operations may be overloaded for multiple types. This provides the programmer with some versatility:
+For example, signed integers and unsigned integers share some interval in which calculations may be carried out and interpreted as either one. Another example is that operations such as addition may have different implementations depending on type (and machine architecture): addition of 16-bit unsigned integers on a 16-bit machine invokes a different set of machine instructions than addition of 32-bit unsigned integers on that same machine.">
+<meta itemprop="dateModified" content="2020-04-21T20:26:37&#43;02:00" />
+<meta itemprop="wordCount" content="1631">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Types"/>
+<meta name="twitter:description" content="A type defines a domain &ndash; a set of values &ndash; a representation for those values and a set of operations on those values.
+Often the domains overlap between types. Also operations may be overloaded for multiple types. This provides the programmer with some versatility:
+For example, signed integers and unsigned integers share some interval in which calculations may be carried out and interpreted as either one. Another example is that operations such as addition may have different implementations depending on type (and machine architecture): addition of 16-bit unsigned integers on a 16-bit machine invokes a different set of machine instructions than addition of 32-bit unsigned integers on that same machine."/>
+
+
+
+
+
+
+
+<link rel="preload" href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" as="style">
+<link href="https://boschresearch.github.io/blech-doc/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src=https://boschresearch.github.io/blech-doc/js/opt-in.js></script>
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="https://boschresearch.github.io/blech-doc/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="https://boschresearch.github.io/blech-doc/docs/" ><span class="active">Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/blog/" ><span>Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="https://boschresearch.github.io/blech-doc/about/" ><span>About</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Documentation</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docs">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/getting-started/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Getting Started</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsgetting-started">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">User manual</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docsuser-manual">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualnotation" href="https://boschresearch.github.io/blech-doc/docs/user-manual/notation/">Notation</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manuallexical" href="https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/">Lexical elements</a>
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsuser-manualcontrolflow">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowmoc" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/">Model of execution</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowstatements" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/">Statements</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualdeclarations" href="https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/">Declarations</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsuser-manualtypes" href="https://boschresearch.github.io/blech-doc/docs/user-manual/types/">Types</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualexpressions" href="https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualold" href="https://boschresearch.github.io/blech-doc/docs/user-manual/old/"></a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/language-evolution/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docslanguage-evolution">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsblechc-development">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentconst-and-expr" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/">Expressions</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentexternal-vars" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/">Variables</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docsexamples">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="https://boschresearch.github.io/blech-doc/docs/contributing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Contributing</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docscontributing">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/types.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Types" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#boolean-type">Boolean type</a></li>
+    <li><a href="#integer-types">Integer types</a></li>
+    <li><a href="#floating-point-types">Floating-point types</a></li>
+    <li><a href="#array-types">Array types</a>
+      <ul>
+        <li><a href="#arrays">Arrays</a></li>
+        <li><a href="#array-operations">Array operations</a></li>
+      </ul>
+    </li>
+    <li><a href="#structure-types">Structure types</a>
+      <ul>
+        <li><a href="#mutable-and-immutable-structures">Mutable and immutable structures</a></li>
+        <li><a href="#immutable-fields-in-structures">Immutable fields in structures</a></li>
+      </ul>
+    </li>
+    <li><a href="#blechconfh">blechconf.h</a></li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/">Documentation</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/">User manual</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/types/">Types</a>
+</li>
+
+	</ol>
+</nav	>
+
+            
+<div class="td-content">
+	<h1>Types</h1>
+    
+	       
+	<p>A <em>type</em> defines a <em>domain</em> &ndash; a set of <em>values</em> &ndash; a <em>representation</em> for those values and a set of <em>operations</em> on those values.</p>
+<p>Often the domains overlap between types.
+Also operations may be overloaded for multiple types.
+This provides the programmer with some versatility:</p>
+<p>For example, signed integers and unsigned integers share some interval in which calculations may be carried out and interpreted as either one.
+Another example is that operations such as addition may have different implementations depending on type (and machine architecture): addition of 16-bit unsigned integers on a 16-bit machine invokes a different set of machine instructions than addition of 32-bit unsigned integers on that same machine.
+Yet the same symbol <code>+</code> denotes both computations in program text.
+The same operator also covers additions of numbers for a completely different domain such as floats.</p>
+<p>This versatility comes at a price: the programmer has to pay attention to value ranges, make representation changes explicit and make sure that a unique implementation of an operation (such as <code>+</code>) can be selected by the compiler.</p>
+<p>Blech is a type safe language which assists the programmer with a powerful type checker that prevents most type related errors at compile time.
+It enforces type annotations and explicit casts whenever the type of an expression is not obvious or when a representation needs to be changed before the expression fits the context of an operation.</p>
+<p>The following sections precisely describe which types exist, what their domains and representations are, which operations they define and which types may be combined or transformed into one another.</p>
+<h2 id="boolean-type">Boolean type</h2>
+<p>Blech distinguishes a <code>bool</code> type with two values: <code>true</code> and <code>false</code>.
+Boolean values may be combined using the binary <code>and</code> and <code>or</code> operators.
+A boolean value is inverted by the unary <code>not</code> operator.
+All comparisons are admissible.
+Expressions which evaluate to a boolean value are called <em>conditions</em>.</p>
+<p>In Blech, it is required that conditions that determine the control flow must be side-effect free.
+For example, the statements <code>await</code>, <code>abort</code>, <code>reset</code>, <code>repeat..until</code>, <code>while</code>, <code>if</code> all require side-effect free conditions.
+The reason is that the evaluation of a condition should not change the program&rsquo;s state.
+It would contradict the synchronous semantics if a program&rsquo;s state changed although no reaction was performed in case an <code>await</code> condition evaluated to <code>false</code>.
+The same reasoning applies to other synchronous control flow statements such as <code>abort</code> and <code>reset</code>.
+Other imperative control flow statements such as loops or the <code>if</code> statement follow the same logic for consistency and clarity of the program text.</p>
+<h2 id="integer-types">Integer types</h2>
+<p>Integer types are divided into three categories: natural numbers, signed integer numbers and &ldquo;bits&rdquo;.
+Each one exist in four sizes that indicate the number of bits needed in a machine to represent a value of this type: 8, 16, 32, 64.</p>
+<p>.Integer types
+[cols=&quot;2*&quot;,grid=rows]
+|===
+| <code>nat8</code>, <code>nat16</code>, <code>nat32</code>, <code>nat64</code> | Natural numbers
+| <code>int8</code>, <code>int16</code>, <code>int32</code>, <code>int64</code> | Signed integer numbers
+| <code>bits8</code>, <code>bits16</code>, <code>bits32</code>, <code>bits64</code> | Bits
+|===</p>
+<p>The distinction of three integral types has the following motivation.
+As usual, we would like to distinguish non-negative numbers of the length <code>N</code> with a range of <code>0</code> to <code>2^N -1</code> from integer numbers centred around 0 with a range of <code>2^(N-1)</code> to <code>2^(N-1) -1</code>.
+However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
+Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
+In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the <code>bitsX</code> type is introduced.
+The bits type of length <code>N</code> have the same value range as the natural numbers of the same length.</p>
+<p>It is possible to cast between all three types without information loss so long as the size remains unchanged.</p>
+<p>All integral types types admit all arithmetic and comparison operators.
+The <code>bitsX</code> types additionally admit bitwise operations.</p>
+<h2 id="floating-point-types">Floating-point types</h2>
+<p>Blech provides the two most commonly used floating point types <code>float32</code> and <code>float64</code>.
+The language assumes an implementation of these according to IEEE standards.
+In the generated code they are mapped to C&rsquo;s <code>float</code> and <code>double</code> respectively (see section on &laquo;types:blechconf,blechconf.h&raquo; below).</p>
+<p>Note that the C standard does not guarantee an IEEE compliant implementation of its floating point types nor does it require that <code>float</code> and <code>double</code> are distinct types at all.
+It is the system integrators responsibility to ensure that the C compiler at hand does fulfil Blech&rsquo;s assumptions.</p>
+<p>Floating point types admit all arithmetic and comparison operators.</p>
+<h2 id="array-types">Array types</h2>
+<p>The array data type is parametrised by a fixed &ldquo;shape&rdquo; and a payload data type.
+The shape of an array is its dimensionality and length in each dimension.
+It is not possible to declare an array data type with an unspecified length.</p>
+<h3 id="arrays">Arrays</h3>
+<pre><code class="language-blech" data-lang="blech">function f(a: [4][5]float32)
+    /* ... */
+end
+</code></pre><p>The function <code>f</code> expects one read-only argument <code>a</code>.
+It is two dimensional array (a table) with 4 rows and 5 columns.
+Each cell contains a <code>float32</code> number.</p>
+<p>Unlike C, in Blech the lengths appear before the payload type in the type declaration.</p>
+<p>Elements of an array are accessed using a subscription operation <code>[]</code>.
+The first element has index <code>0</code>.
+If an array dimension has <code>N</code> values, the last index is <code>N-1</code>.
+The index argument must be an integer number within array bounds.</p>
+<p>The contents of one array may be copied to another using assignment provided their shape and payload data type are the same.</p>
+<h3 id="array-operations">Array operations</h3>
+<pre><code class="language-blech" data-lang="blech">// Initialise the following matrix
+//      cols
+// rows 0.0  0.0
+//      1.2  3.4
+//      0.0  0.0
+var a: [3][2]float32 = {[1]={1.2, 3.4}}
+
+let r: [2]float32 = a[1] // copy 2nd row of a into r
+
+let x = a[1][1]          // copy 3.4 to x
+                         // x is deduced to have type float32
+</code></pre><h2 id="structure-types">Structure types</h2>
+<p>Structure declarations introduce a new type identifier.
+A structure contains a fixed number of <em>fields</em>.
+Each field has an access capability (<code>let</code> or <code>var</code>), a name, some data type and possibly a default value initialiser.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">StructDeclaration</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;struct&#34;</span> <span style="color:#000">Identifier</span> <span style="color:#000">Field</span>+ <span style="color:#000">&#34;end&#34;</span>
+<span style="color:#000">Field</span>            ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;var&#34;</span> | <span style="color:#000">&#34;let&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;=&#34;</span> <span style="color:#000">Expr</span><span style="color:#000;font-weight:bold">]</span>
+</code></pre></div><p>If an initialiser is given for a field this value is taken as the default value when constructing an instance of this structure.
+The initialisation expression must be a compile time value.
+Of course, this default value may be overruled by the initialiser given at the instantiation.</p>
+<h3 id="mutable-and-immutable-structures">Mutable and immutable structures</h3>
+<pre><code class="language-blech" data-lang="blech">struct S
+   var a: int32 = 7
+   var b: int32
+end
+
+/* ... somewhere in a local scope ... */
+var s1: S    // s1 == {a = 7, b = 0}
+s1.b = 17    // ok, now s1 == {a = 7, b = 17}
+s1.a = 42    // ok, now s1 == {a = 42, b = 17}
+s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
+
+let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
+s2.b = 17                     // error! Cannot change the let variable s2
+</code></pre><p>Structure <code>s1</code> is declared using a <code>var</code> access qualifier.
+The fields may be overwritten as well as the structure as a whole.
+By contrast, <code>s2</code> is declared using <code>let</code>.
+It cannot be changed after initialisation.</p>
+<p>The above example illustrates all operations available on structures.
+The dot <code>.</code> is used to access a field value inside a structure.
+If the value of a field again is a structure it may be further &ldquo;dotted into&rdquo;.
+Structures may be assigned using a struct literal or a name of another struct of the same data type.
+Assigning the empty literal <code>{}</code> means that all default values are restored.</p>
+<p><code>let</code> fields cannot be changed once the structure is instantiated.
+Assignment on structures as a whole is only permitted if all (sub-)field have <code>var</code> access qualifiers (and the struct itself has been declared using <code>var</code>).</p>
+<h3 id="immutable-fields-in-structures">Immutable fields in structures</h3>
+<pre><code class="language-blech" data-lang="blech">struct T
+    let a: int32
+    var b: int32
+end
+
+struct S
+    var x: T
+    var y: int32
+end
+
+/* usage in local scope */
+var s: S = {x.a = 7} // ok, s == {x = {a = 7, b = 0}, y = 0}
+s.x.b = 42           // ok, s == {x = {a = 7, b = 42}, y = 0}
+s = {}               // error! s contains immutable fields
+</code></pre><p>Assignments to the struct <code>s</code> are prohibited because <code>s.x.a</code> is immutable.
+You need to individually specify which fields you want to update.
+It may be helpful to implement a helper function for this specific data type as shown below.</p>
+<pre><code class="language-blech" data-lang="blech">function resetS()(s: S)
+    s.x.b = 0
+    s.y = 0
+end
+
+/* usage in local scope */
+var s: S
+/* ... */
+resetS()(s)
+</code></pre><p>[[types:blechconf]]</p>
+<h2 id="blechconfh">blechconf.h</h2>
+<p>Blech compiles to C.
+Hence code generation has to map Blech types to C types.
+The file <code>blechconf.h</code> specifies this mapping.
+It is automatically included (via <code>blech.h</code>) in every generated C source file.
+The Blech compiler guarantees type safety and correct operational behaviour so long as Blech types are mapped onto C types that fit above representation sizes.
+It is up to the system integrator to ensure that this mapping is valid for the C compiler and hardware platform at hand.</p>
+<p>A default mapping that makes sense in most cases is shipped with the compiler:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">#define BLC_VOID void 
+</span><span style="color:#8f5902;font-style:italic">#define BLC_BOOL int 
+</span><span style="color:#8f5902;font-style:italic"></span>
+<span style="color:#8f5902;font-style:italic">#define BLC_INT8 signed char
+</span><span style="color:#8f5902;font-style:italic">#define BLC_INT16 signed short
+</span><span style="color:#8f5902;font-style:italic">#define BLC_INT32 signed long
+</span><span style="color:#8f5902;font-style:italic">#define BLC_INT64 signed long long
+</span><span style="color:#8f5902;font-style:italic"></span>
+<span style="color:#8f5902;font-style:italic">#define BLC_UINT8 unsigned char
+</span><span style="color:#8f5902;font-style:italic">#define BLC_UINT16 unsigned short
+</span><span style="color:#8f5902;font-style:italic">#define BLC_UINT32 unsigned long
+</span><span style="color:#8f5902;font-style:italic">#define BLC_UINT64 unsigned long long
+</span><span style="color:#8f5902;font-style:italic"></span>
+<span style="color:#8f5902;font-style:italic">#define BLC_BITS8 unsigned char
+</span><span style="color:#8f5902;font-style:italic">#define BLC_BITS16 unsigned short
+</span><span style="color:#8f5902;font-style:italic">#define BLC_BITS32 unsigned long
+</span><span style="color:#8f5902;font-style:italic">#define BLC_BITS64 unsigned long long
+</span><span style="color:#8f5902;font-style:italic"></span>
+<span style="color:#8f5902;font-style:italic">#define BLC_FLOAT32 float
+</span><span style="color:#8f5902;font-style:italic">#define BLC_FLOAT64 double
+</span></code></pre></div><p>However compilers before the C99 standard may not support <code>unsigned long long</code>, for example.</p>
+
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+</div>
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="https://boschresearch.github.io/blech-doc/about/privacy">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book-open"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech authors</small>
+        
+        <small class="ml-1"><a href="https://boschresearch.github.io/blech-doc/about/privacy/" target="_blank">Privacy Policy</a></small>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="https://boschresearch.github.io/blech-doc/js/main.min.21de55dfa9224e53cf629c8a81b4419ee28c5ab4ffc4ba39994bb1410adc2603.js" integrity="sha256-Id5V36kiTlPPYpyKgbRBnuKMWrT/xLo5mUuxQQrcJgM=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

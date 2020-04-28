@@ -1,0 +1,8 @@
+Add blech to hugos Highlighter
+In the meantime use txt if you need features like linenumbers
+
+Uses shortcode from
+<!-- Author: Parsia Hakimian https://github.com/parsiya/Hugo-Shortcodes -->
+
+<!-- codecaption short code - basically this is normal highlighted code with caption on top.
+     see readme for usage -->
