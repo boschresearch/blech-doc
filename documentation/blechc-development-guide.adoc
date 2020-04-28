@@ -19,6 +19,9 @@ include::guidelines/constAndExpr.adoc[]
 == Local variables vs. external variables in code generation
 include::guidelines/externalVars.adoc[]
 
+== Translating Blech variable names to C
+include::guidelines/cpdata.adoc[]
+
 == Git work flow
 
 include::guidelines/branches.adoc[]

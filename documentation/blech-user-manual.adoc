@@ -5,6 +5,7 @@
 :source-highlighter: highlightjs
 :highlightjsdir: _includes/highlight
 :source-language: blech
+:source-linenums-option:
 
 = The Blech language - Reactive embedded realtime programming
 
