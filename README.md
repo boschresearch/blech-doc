@@ -52,16 +52,28 @@ git clone --recurse-submodules --shallow-submodules https://github.com/boschrese
 
 You need to install the following npm modules locally to the `/website` directory of the repository. You must have recent version of [NodeJS](https://nodejs.org/) installed on your machine to use `npm`.
 
+`npm` is frequently updated. In order to keep up-to-date run
+
+```
+npm install npm@latest -g
+```
+
+To install the necessary npm modules go to the `website` subfolder in your cloned repository.
+
 ```
 cd blech-doc/website
+```
 
-npm install -D --save autoprefixer
-npm install -D --save postcss-cli
+Locally install the npm modules `autoprefixer` and `postcss-cli`.
+
+```
+npm install -D autoprefixer
+npm install -D postcss-cli
 ```
 
 #### Update the Docsy theme
 
-From time to time update the Docsy submodule
+The Hugo Docsy theme is frequently updated. From time to time update the Docsy theme submodule.
 
 ```
 git submodule update --remote
@@ -70,11 +82,13 @@ git submodule update --remote
 #### Preview the website
 
 Change to the `./website` subdirectory.
+
 ```
 cd website
 ```
 
 Run the website without static site generation
+
 ```
 hugo serve
 ```
@@ -91,12 +105,12 @@ rm -r docs
 ```
 
 The content can be generated from the commandline.
-
-Change to subfolder `./website/scripts` and run the build script.
-
+Change to subfolder `./website/scripts`.
 ```
 cd website/scripts
-...
+```
+and run 
+```
 ./build.[sh, bat]
 ```
 
