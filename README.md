@@ -48,11 +48,11 @@ Therefore clone in the following way:
 git clone --recurse-submodules --shallow-submodules https://github.com/boschresearch/blech-doc.git
 ```
 
-#### Install PostCSS as local npm modules inside the repository
+#### Install local npm modules
 
-You need to install the following npm modules locally to the `/website` directory of the repository. You must have recent version of [NodeJS](https://nodejs.org/) installed on your machine to use `npm`.
+You need to install the following npm modules locally to the `/website` directory of the repository. You must have a recent version of [NodeJS](https://nodejs.org/) installed on your machine to use `npm`.
 
-`npm` is frequently updated. In order to keep up-to-date run
+`npm` is frequently updated. In order to keep up-to-date run:
 
 ```
 npm install npm@latest -g
