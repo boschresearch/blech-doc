@@ -1,8 +1,0 @@
-ifdef::env-github[]
-:toc:
-:sectnums:
-:sectnumlevels: 1
-:sectanchors: 
-
-== <Repeat Section title here, for better visualization in GitHub>
-endif::[]

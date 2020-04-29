@@ -32,7 +32,7 @@ end
 ...
 ```
 
-## Externa Variables
+## External Variables
 
 External variables (inside the activity scope) are dual to local variables in terms of code generation.
 We do not need to store external variables in the static context which is passed to the step-function.

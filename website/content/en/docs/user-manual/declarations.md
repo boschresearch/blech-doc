@@ -26,7 +26,7 @@ For example, a function body is a local scope.
 Variables defined in this scope are visible in this function but not outside of it.
 Composite statements, such as the `repeat` loop introduce their statement-local scope. This allows to introduce a variable that is visible during the iteration through this loop and not outside of it.
 
-{{< alert colo="info" >}}
+{{< alert color="info" >}}
 Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
 {{< /alert >}}
 
