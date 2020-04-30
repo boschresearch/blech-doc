@@ -7,7 +7,6 @@
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/index.xml">
 
 
 <link rel="shortcut icon" href="https://boschresearch.github.io/blech-doc/favicons/favicon.ico" >
@@ -21,15 +20,24 @@
 <link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="https://boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
 
-<title>Control flow | Blech</title><meta property="og:title" content="Control flow" />
-<meta property="og:description" content="The Blech language site" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/" />
-<meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Control flow">
-<meta itemprop="description" content="The Blech language site"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Control flow"/>
-<meta name="twitter:description" content="The Blech language site"/>
+<title>Translating Blech variable names to C | Blech</title><meta property="og:title" content="Translating Blech variable names to C" />
+<meta property="og:description" content="This explains the how Blech variable names and memory accesses are rendered as C code.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/" />
+<meta property="article:modified_time" content="2020-04-30T16:58:30+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Translating Blech variable names to C">
+<meta itemprop="description" content="This explains the how Blech variable names and memory accesses are rendered as C code.
+">
+<meta itemprop="dateModified" content="2020-04-30T16:58:30&#43;02:00" />
+<meta itemprop="wordCount" content="527">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Translating Blech variable names to C"/>
+<meta name="twitter:description" content="This explains the how Blech variable names and memory accesses are rendered as C code.
+"/>
 
 
 
@@ -50,7 +58,7 @@
 
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -195,10 +203,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">User manual</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">User manual</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsuser-manual">
+    <li class="collapse " id="docsuser-manual">
       
       
       
@@ -224,10 +232,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Control flow</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsuser-manualcontrolflow">
+    <li class="collapse " id="docsuser-manualcontrolflow">
       
       
       
@@ -353,10 +361,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
+    <a  href="https://boschresearch.github.io/blech-doc/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
   </li>
   <ul>
-    <li class="collapse " id="docsblechc-development">
+    <li class="collapse show" id="docsblechc-development">
       
       
       
@@ -375,7 +383,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentcpdata" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/">Variable Translation</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentcpdata" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/">Variable Translation</a>
       
       
       
@@ -467,8 +475,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/controlflow/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Control%20flow" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/cpdata.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Translating%20Blech%20variable%20names%20to%20C" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -479,6 +487,14 @@
 
 
 
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#possibilities-in-blech">Possibilities in Blech</a></li>
+    <li><a href="#translation-workflow">Translation workflow</a></li>
+    <li><a href="#remarks-and-after-thoughts">Remarks and after thoughts:</a></li>
+  </ul>
+</nav>
 
 
 
@@ -508,14 +524,14 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/">User manual</a>
+	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/">Blechc development</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/">Control flow</a>
+	<a href="https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/">Variable Translation</a>
 </li>
 
 	</ol>
@@ -523,93 +539,122 @@
 
             
 <div class="td-content">
-	<h1>Control flow</h1>
-        
-	
-	
-        <div class="section-index">
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/">Model of execution</a>
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/">Statements</a>
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
+	<h1>Translating Blech variable names to C</h1>
+    <div class="lead">This explains the how Blech variable names and memory accesses are rendered as C code.</div>
+	       
+	<style type="text/css">
+    ol ol { list-style-type: lower-roman; }
+</style>
+<h2 id="possibilities-in-blech">Possibilities in Blech</h2>
+<p>Variable names appear in different <em>syntactic</em> contexts (expressions):</p>
+<ol>
+<li>current / previous access</li>
+<li>lhs / rhs value (in assignment)</li>
+<li>lhs / rhs reference (in procedure call)</li>
+</ol>
+<p>Variable names appear in different <em>declaration</em> contexts:</p>
+<ol>
+<li>Parameter input / output</li>
+<li>Global constant</li>
+<li>Activity- / function-local Blech variable</li>
+<li>Activity-local external C-variable</li>
+<li>Auxiliary variable introduced by the compiler</li>
+</ol>
+<p>Variable names may represent various kinds of data <em>types</em>:</p>
+<ol>
+<li>Simple (atomic)</li>
+<li>Structures</li>
+<li>Arrays</li>
+</ol>
+<p>Not all combinations are possible.
+Below is an overview of what is possible in Blech and what the corresponding generated C code must look like.</p>
+<h2 id="translation-workflow">Translation workflow</h2>
+<p>Translating any access to data runs through several stages:</p>
+<p>Given a typed memory location <code>foo[0].bar</code>&hellip;
+<em>(Remark: <code>prev foo[0].bar</code> binds as <code>(prev foo)[0].bar</code>).</em></p>
+<ol>
+<li>For the QNamePrefix part <code>foo</code>, determine a name scheme (depending on declaration context)
+<ol>
+<li>Static name <code>blc_&lt;longId&gt;_foo</code> or <code>blc_&lt;moduleName&gt;_&lt;longId&gt;_foo</code></li>
+<li>Parameter name <code>blc_foo</code></li>
+<li>Auto name <code>blc_foo</code></li>
+<li>Context element <code>blc_blech_ctx-&gt;blc_foo</code></li>
+<li>Auxiliary name <code>aux_blc_foo</code></li>
+<li>prev of Blech var <code>prev_blc_foo</code></li>
+<li>prev of extern var <code>blc_blech_ctx-&gt;prev_blc_foo</code></li>
+</ol>
+</li>
+<li>Ensure the name <code>&lt;name&gt;</code> generated above represents the memory blob itself, not a pointer to it
+<ol>
+<li>if <code>foo</code> is a simple type or struct parameter rewrite name from above to <code>*&lt;name&gt;</code></li>
+<li>Nothing to do for arrays as the name (pointer to the first element) already <em>represents</em> the whole array blob.</li>
+</ol>
+</li>
+<li>Append all field / cell access to this name <code>&lt;name&gt;[0].bar</code></li>
+<li>Depending on usage context and type (of <code>bar</code>) determine whether to use the path as is or construct a reference from it</li>
+</ol>
+<!-- .Usage context and type -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th>simple</th>
+<th>struct</th>
+<th>array</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lhs assign</td>
+<td>as-is</td>
+<td>as-is</td>
+<td>as-is</td>
+</tr>
+<tr>
+<td>rhs assign</td>
+<td>as-is</td>
+<td>as-is</td>
+<td>as-is</td>
+</tr>
+<tr>
+<td>output arg</td>
+<td><code>&amp;</code></td>
+<td><code>&amp;</code></td>
+<td>as-is</td>
+</tr>
+<tr>
+<td>input arg</td>
+<td>as-is</td>
+<td><code>&amp;</code></td>
+<td>as-is</td>
+</tr>
+</tbody>
+</table>
+<p>Possibly reduce trivial combinations like <code>&amp;(*&lt;name&gt;)</code> to <code>&lt;name&gt;</code>. This will happen for e.g. simple typed output parameters passed on as an output argument.</p>
+<h2 id="remarks-and-after-thoughts">Remarks and after thoughts:</h2>
+<p>The <code>blc_</code> prefix is used to make sure we never overwrite global variables with the same name (that might appear in C sources outside the scope of the generated Blech code). Of course, we assume that the <code>blc_</code> prefix is reserved and not used by sources not generated by the Blech compiler.</p>
+<p>However previous variables use the scheme <code>prev_blc_</code> making <code>prev_</code> yet another exclusive prefix. We cannot simply generate <code>blc_prev_&lt;id&gt;</code> for <code>prev &lt;id&gt;</code> as this would clash with a regular Blech variable called <code>prev_id</code>.</p>
+<p>We also use <code>blc_</code> for naming fields in the activity context. This ensure we rule out clashes between normal and prev&rsquo;ed external variables in the activity context.</p>
+<p>Auxiliary variables use yet another prefix <code>aux_blc_</code>.
+This ensures they do not shadow a global C variable with the same name (assuming that the environment never uses names starting with <code>aux_blc_</code>).
+This is basically the same reasoning as with auto variables. However we need the extra <code>aux_</code> to prevent a clash with an actual Blech variable.</p>
+
+
+<div class="alert alert-warning" role="alert">
+
+<p>TODO: at the moment all constants and params in local scopes are lifted to the top level.
+Why do we not use the <code>static</code> keyword of C and let the declaration remain inside the function?</p>
+<p>REMARK: We could use <code>blc_blech</code> instead of <code>aux_blc</code>. <code>blech</code> is a reserved id and never an identifier. So only the prefix <code>blc_</code> would be reserved for Blech&rsquo;s global C variables.</p>
+
 </div>
+
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 30, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/f4d0c3511e6f948e1b451feb77decb73eadd94e8">Improved getting started (f4d0c35)</a>
 </div>
 </div>
+
 
           </main>
         </div>

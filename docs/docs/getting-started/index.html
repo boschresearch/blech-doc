@@ -170,6 +170,18 @@
       
       
       
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsgetting-startedblechc" href="https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/">Blech compiler</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsgetting-startedvsce" href="https://boschresearch.github.io/blech-doc/docs/getting-started/vsce/">Blech Language Services</a>
+      
+      
     </li>
   </ul>
 </ul>
@@ -319,6 +331,12 @@
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionbits-and-bytes" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/">Bits and bytes</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
       
       
@@ -360,7 +378,19 @@
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentcpdata" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/">Variable Translation</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmenttraversals" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/traversals/"></a>
       
       
     </li>
@@ -453,18 +483,6 @@
 
 
 
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#the-blech-compiler---blechc">The Blech compiler - blechc</a>
-      <ul>
-        <li><a href="#build-blechc-from-source">Build blechc from source</a></li>
-        <li><a href="#use-blechc">Use blechc</a></li>
-        <li><a href="#compile-generated-c-files">Compile generated C files</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-
 
 
           </div>
@@ -509,64 +527,6 @@ This will change soon.</p>
 
 </div>
 
-<h2 id="the-blech-compiler---blechc">The Blech compiler - blechc</h2>
-<p>The Blech compiler <code>blechc</code> compiles Blech programs to C programs.</p>
-<h3 id="build-blechc-from-source">Build blechc from source</h3>
-<p>Clone the blech compiler project using</p>
-<pre><code>git clone https://github.com/boschresearch/blech
-</code></pre><p>To build the project, you need <strong>.NET Core</strong> installed. Go to the <a href="https://dotnet.microsoft.com/download" target="_blank">Microsoft .NET website</a>
- and follow their instructions to install the latest stable <strong>.NET Core</strong> available for your operating system.</p>
-<p>Navigate to the folder where you checked out the Blech project. It should contain the file <code>Blech.sln</code>. Now you have choices:</p>
-<ul>
-<li>
-<p>For a simple <strong>debug build</strong> run</p>
-<pre><code>dotnet build
-</code></pre><p>This creates <code>./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll</code>.
-Use the dotnet command to start the compiler like so</p>
-<pre><code>dotnet ./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
-</code></pre></li>
-<li>
-<p>For a release build additionally use the <code>-c Release</code> option.</p>
-</li>
-<li>
-<p>Finally, for a <strong>self-contained release build</strong>, which is operating system dependent, you need to run <code>dotnet publish</code> with a specific runtime identifier like so</p>
-<pre><code>dotnet publish -c Release -r win-x64
-</code></pre><p>For Linux use <code>linux-x64</code>, for MacOS use <code>osx-x64</code>.</p>
-<p>This creates a folder <code>./src/blechc/bin/Release/netcoreapp3.1/win-x64/publish</code> which contains all files needed for execution. The folder as a whole can be moved arbitrarily.
-Inside the folder invoke the binary</p>
-<pre><code>blechc
-</code></pre><p>to run the Blech compiler.</p>
-</li>
-</ul>
-<h3 id="use-blechc">Use blechc</h3>
-<p>Assuming you have a binary of the Blech Compiler <code>blechc</code> for your operating system, or you have built the Blech project yourself from sources, this sections tells you how to use it.</p>
-<p>If the <code>blechc</code> binary is in your <code>$PATH</code>, you can invoke the compiler by simply writing</p>
-<pre><code>blechc
-</code></pre><p>on the command line interface.
-If you do not have a standalone (publish) build and want to use your local Debug (or Release) build, use the <code>dotnet</code> command to start the compiler from your blech working directory.</p>
-<pre><code>dotnet &lt;path-to&gt;/blech/src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
-</code></pre><p><strong>From here on out we assume <code>blechc</code> to be a synonym for either call above</strong></p>
-<p>Typical invocations:</p>
-<ul>
-<li>
-<pre><code>blechc someBlechFile.blc
-</code></pre>Translates <code>someBlechFile.blc</code> to C code silently. You will only see output on the command line if there are problems with the translation.
-This will generate a file <code>blech.c</code> in the same folder which contains a runnable program. It runs in a main loop and calls the entry point activity of <code>someBlechFile.blc</code> 60 times. Furthermore in the subfolder <code>./blech</code> two files are generated <code>someBlechFile.c</code> and <code>someBlechFile.h</code>. They contain the C code and interface declarations respectively.</li>
-<li>
-<pre><code>blechc -v d someBlechFile.blc
-</code></pre>Does the same as above but prints out textual representations of intermediate compilation results including: typed syntax tree, control flow graphs and block graphs for activities, C code.</li>
-<li>
-<pre><code>blechc --dry-run someBlechFile.blc
-</code></pre>Run through all compilation phases but do not write any C files. This is useful to check for problems without actually touching anything on the file system.</li>
-</ul>
-<h3 id="compile-generated-c-files">Compile generated C files</h3>
-<p>By default the compiler produces a main program in <code>blech.c</code> which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in <code>&lt;path-to&gt;/blech/src/blechc/include</code>. 
-On Windows C compilation may look like this.</p>
-<pre><code>mingw32-cc.exe -I. -I&lt;path-to&gt;/blech/src/blechc/include blech.c
-</code></pre><p>Note that the current folder <code>.</code> is explicitly added as a path to be included.
-The resulting executable will run the program for 60 reactions and print the variable evaluations after every reaction in JSON format.</p>
-<p>To include the generated C code in your own project inspect <code>blech.c</code> for details. In particular, make sure you call the <code>init</code> function on initial startup and then <code>tick</code> with every reaction.
-For programmers familiar with Arduino these correspond to the <code>setup</code> and <code>loop</code> functions.</p>
 
         <div class="section-index">
     
@@ -576,11 +536,35 @@ For programmers familiar with Arduino these correspond to the <code>setup</code>
     <hr class="panel-line">
         
             
+                <div class="entry">
+                    <h5>
+                        <a href="https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/">The Blech compiler - blechc</a>
+                    </h5>
+                    <p>The Blech compiler <code>blechc</code> compiles Blech programs to C programs. Learn how to build and install the Blech compiler from source.</p>
+                </div>
+            
+        
+            
         
             
         
             
         
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="https://boschresearch.github.io/blech-doc/docs/getting-started/vsce/">Blech Language Services - the VS Code extension</a>
+                    </h5>
+                    <p>We use Visual Studio Code as an editor for Blech sources.  Learn how to build and install the Blech Language Services VS Code extension from source.</p>
+                </div>
             
         
             
@@ -624,7 +608,7 @@ For programmers familiar with Arduino these correspond to the <code>setup</code>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 30, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/f4d0c3511e6f948e1b451feb77decb73eadd94e8">Improved getting started (f4d0c35)</a>
 </div>
 </div>
 

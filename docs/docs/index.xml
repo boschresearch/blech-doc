@@ -14,6 +14,75 @@
     
     
     <item>
+      <title>Docs: The Blech compiler - blechc</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;build-blechc-from-source&#34;&gt;Build blechc from source&lt;/h2&gt;
+&lt;p&gt;Clone the blech compiler project using&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/boschresearch/blech
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To build the project, you need &lt;strong&gt;.NET Core&lt;/strong&gt; installed. Go to the &lt;a href=&#34;https://dotnet.microsoft.com/download&#34; target=&#34;_blank&#34;&gt;Microsoft .NET website&lt;/a&gt;
+ and follow their instructions to install the latest stable &lt;strong&gt;.NET Core&lt;/strong&gt; available for your operating system.&lt;/p&gt;
+&lt;p&gt;Navigate to the folder where you checked out the Blech project. It should contain the file &lt;code&gt;Blech.sln&lt;/code&gt;. Now you have choices:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;For a simple &lt;strong&gt;debug build&lt;/strong&gt; run&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dotnet build
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This creates &lt;code&gt;./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll&lt;/code&gt;.
+Use the dotnet command to start the compiler like so&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dotnet ./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For a release build additionally use the &lt;code&gt;-c Release&lt;/code&gt; option.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Finally, for a &lt;strong&gt;self-contained release build&lt;/strong&gt;, which is operating system dependent, you need to run &lt;code&gt;dotnet publish&lt;/code&gt; with a specific runtime identifier like so&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dotnet publish -c Release -r win-x64
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For Linux use &lt;code&gt;linux-x64&lt;/code&gt;, for MacOS use &lt;code&gt;osx-x64&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This creates a folder &lt;code&gt;./src/blechc/bin/Release/netcoreapp3.1/win-x64/publish&lt;/code&gt; which contains all files needed for execution. The folder as a whole can be moved arbitrarily.
+Inside the folder invoke the binary&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;blechc
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;to run the Blech compiler.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;use-blechc&#34;&gt;Use &lt;code&gt;blechc&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Assuming you have a binary of the Blech Compiler &lt;code&gt;blechc&lt;/code&gt; for your operating system, or you have built the Blech project yourself from sources, this sections tells you how to use it.&lt;/p&gt;
+&lt;p&gt;If the &lt;code&gt;blechc&lt;/code&gt; binary is in your &lt;code&gt;$PATH&lt;/code&gt;, you can invoke the compiler by simply writing&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;blechc
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;on the command line interface.
+If you do not have a standalone (publish) build and want to use your local Debug (or Release) build, use the &lt;code&gt;dotnet&lt;/code&gt; command to start the compiler from your blech working directory.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dotnet &amp;lt;path-to&amp;gt;/blech/src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;From here on out we assume &lt;code&gt;blechc&lt;/code&gt; to be a synonym for either call above&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The following shows some typical invocations of &lt;code&gt;blechc&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Compile a Blech program:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;blechc someBlechFile.blc
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Translates &lt;code&gt;someBlechFile.blc&lt;/code&gt; to C code silently. You will only see output on the command line if there are problems with the translation.
+This will generate a file &lt;code&gt;blech.c&lt;/code&gt; in the same folder which contains a runnable program. It runs in a main loop and calls the entry point activity of &lt;code&gt;someBlechFile.blc&lt;/code&gt; 60 times. Furthermore in the subfolder &lt;code&gt;./blech&lt;/code&gt; two files are generated &lt;code&gt;someBlechFile.c&lt;/code&gt; and &lt;code&gt;someBlechFile.h&lt;/code&gt;. They contain the C code and interface declarations respectively.&lt;/p&gt;
+&lt;p&gt;Compile with diagnostic messages:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;blechc -v d someBlechFile.blc
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Does the same as above but prints out textual representations of intermediate compilation results including: typed syntax tree, control flow graphs and block graphs for activities, C code.&lt;/p&gt;
+&lt;p&gt;Just check the programs correctness:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;blechc --dry-run someBlechFile.blc
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Runs through all compilation phases but do not write any C files. This is useful to check for problems without actually touching anything on the file system.&lt;/p&gt;
+&lt;p&gt;Try all the options&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;blechc --help
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;compile-generated-c-files&#34;&gt;Compile generated C files&lt;/h2&gt;
+&lt;p&gt;By default the compiler produces a main program in &lt;code&gt;blech.c&lt;/code&gt; which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in &lt;code&gt;&amp;lt;path-to&amp;gt;/blech/src/blechc/include&lt;/code&gt;. 
+On Windows C compilation may look like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mingw32-cc.exe -I. -I&amp;lt;path-to&amp;gt;/blech/src/blechc/include blech.c
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the current folder &lt;code&gt;.&lt;/code&gt; is explicitly added as a path to be included.
+The resulting executable will run the program for 60 reactions and print the variable evaluations after every reaction in JSON format.&lt;/p&gt;
+&lt;p&gt;To include the generated C code in your own project inspect &lt;code&gt;blech.c&lt;/code&gt; for details. In particular, make sure you call the &lt;code&gt;init&lt;/code&gt; function on initial startup and then &lt;code&gt;tick&lt;/code&gt; with every reaction.
+For programmers familiar with Arduino these correspond to the &lt;code&gt;setup&lt;/code&gt; and &lt;code&gt;loop&lt;/code&gt; functions.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Accessing variables in the Blech environment</title>
       <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -394,6 +463,232 @@ No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
 &lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Bits and bytes</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;bits-and-bytes&#34;&gt;Bits and bytes&lt;/h2&gt;
+&lt;p&gt;Some notes on &lt;a href=&#34;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/%5BC&#39;s&#34;&gt;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/[C&#39;s&lt;/a&gt; integers]&lt;/p&gt;
+&lt;h3 id=&#34;rename-the-exponentiation-operator-&#34;&gt;Rename the exponentiation operator &lt;code&gt;^&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;The exponention operator &lt;code&gt;^&lt;/code&gt; should be renamed to &lt;code&gt;**&lt;/code&gt; - maybe right associative.&lt;/p&gt;
+&lt;p&gt;Maybe it would be better to deprecate the exponentiation operator completely.
+A good argument for this change is given by the &lt;a href=&#34;https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/%5BC#&#34;&gt;https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/[C#&lt;/a&gt; FAQ]&lt;/p&gt;
+&lt;p&gt;With this change &lt;code&gt;^&lt;/code&gt; becomes available for the standard bitwise XOR (exclusive or) operation.&lt;/p&gt;
+&lt;h3 id=&#34;rename-uint-to-nat&#34;&gt;Rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Inspiration &lt;a href=&#34;https://sdk.dfinity.org/language-guide/index.html%5BMotoko%5D&#34;&gt;https://sdk.dfinity.org/language-guide/index.html[Motoko]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
+The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
+Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
+Those types occur only in 4 different sizes. 
+The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
+Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word%5Bword%5D&#34;&gt;https://whatis.techtarget.com/definition/word[word]&lt;/a&gt; is a unit of data of a defined bit length.
+Therefore we should rename &lt;code&gt;bits&lt;/code&gt; to &lt;code&gt;word&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;allow-a-type-annotation-type-for-expressions&#34;&gt;Allow a type annotation &lt;code&gt;:&amp;lt;type&amp;gt;&lt;/code&gt; for expressions&lt;/h3&gt;
+&lt;p&gt;It is mainly needed for literals.
+It is consistent with type annotation in declarations.&lt;/p&gt;
+&lt;p&gt;IMPORTANT: This is not a cast or a conversion, but only a type annotation, to give literals different meanings.&lt;/p&gt;
+&lt;h3 id=&#34;eliminate-floatliteral32&#34;&gt;Eliminate &lt;code&gt;floatLiteral32&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Instead of using the specific &lt;code&gt;floatLiteral32&lt;/code&gt; we should use a type annotation.
+With a type annotation any number literal can be used as a checked float literal.
+This especially simplifies generic code.
+Type annotation are anyway needed for binary, octal and hexadecimal literals.&lt;/p&gt;
+&lt;p&gt;By default a floatLiteral and hexFloatLiteral are of type &lt;code&gt;float64&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;NOTE: Check that hexfloat literals are precise representations for their type.
+NOTE: Maybe the default should be &lt;code&gt;float32&lt;/code&gt; for embedded systems?&lt;/p&gt;
+&lt;p&gt;Any &lt;code&gt;natLiteral&lt;/code&gt; can be annotated with a float type.
+The range is checked, to get a precise float representation.&lt;/p&gt;
+&lt;p&gt;The following are all valid float literals.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;
+(42: float64)
+(42: float32)
+
+(-17: float32)
+(-1.2: float32)
+
+42.0 // has type float64
+(42.0: float32)
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;bit-types&#34;&gt;Bit types&lt;/h3&gt;
+&lt;p&gt;Bit types allow bitwise, relational, and arithmetic operators.
+Arithmetic operators wrap-around.&lt;/p&gt;
+&lt;p&gt;Different to &lt;code&gt;nat&lt;/code&gt; types which must not over- or underflow.&lt;/p&gt;
+&lt;h3 id=&#34;bitwise-operators&#34;&gt;Bitwise operators&lt;/h3&gt;
+&lt;p&gt;Blech provides the standard set of &lt;a href=&#34;https://en.wikipedia.org/wiki/Bitwise_operations_in_C%5Bbitwise&#34;&gt;https://en.wikipedia.org/wiki/Bitwise_operations_in_C[bitwise&lt;/a&gt; operators known from C].
+Different to C these operators work on &lt;code&gt;bitsN&lt;/code&gt; types instead of unsigned &lt;code&gt;uintN&lt;/code&gt; or signed &lt;code&gt;intN&lt;/code&gt; types.&lt;/p&gt;
+&lt;h4 id=&#34;unary-bitwise-operator&#34;&gt;Unary bitwise operator&lt;/h4&gt;
+&lt;p&gt;For N = 8, 16, 32, 64&lt;/p&gt;
+&lt;p&gt;Bitwise negation: &lt;code&gt;~&lt;/code&gt;
+Type: &lt;code&gt;function (bitsN) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;binary-bitwise-operators&#34;&gt;Binary bitwise operators&lt;/h4&gt;
+&lt;p&gt;More info on &lt;a href=&#34;https://en.wikipedia.org/wiki/Bitwise_operation&#34; target=&#34;_blank&#34;&gt;bitwise operations&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;For N = 8, 16, 32, 64&lt;/p&gt;
+&lt;p&gt;Bitwise and: &lt;code&gt;&amp;amp;&lt;/code&gt;
+Bitwise or: &lt;code&gt;|&lt;/code&gt;
+Bitwise xor: &lt;code&gt;^&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Type: &lt;code&gt;function (bitsN , bitsN) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;shift-and-rotate-operators&#34;&gt;Shift and rotate operators&lt;/h4&gt;
+&lt;p&gt;Standard shift operators&lt;/p&gt;
+&lt;p&gt;shift left: &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt;
+shift right: &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Additionally Blech should provide advanced shift operators&lt;/p&gt;
+&lt;p&gt;Arithmetic shift right: &lt;code&gt;+&amp;gt;&amp;gt;&lt;/code&gt;
+left rotate: &lt;code&gt;&amp;lt;&amp;lt;&amp;gt;&lt;/code&gt;
+right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;These operators can be defined as Macros. 
+If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
+C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts%5Bcircular&#34;&gt;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts[circular&lt;/a&gt; shift idiom].&lt;/p&gt;
+&lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
+It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
+&lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
+&lt;h4 id=&#34;implicit-conversion&#34;&gt;Implicit conversion&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.guru99.com/c-type-casting.html%5BImplicit&#34;&gt;https://www.guru99.com/c-type-casting.html[Implicit&lt;/a&gt; conversion in C] is complicated.&lt;/p&gt;
+&lt;p&gt;Implicit conversion is only allowed if no representation change is necessary.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int8&lt;/code&gt; -&amp;gt; &lt;code&gt;int16&lt;/code&gt; -&amp;gt; &lt;code&gt;int32&lt;/code&gt; -&amp;gt; &lt;code&gt;int64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;float32&lt;/code&gt; -&amp;gt; &lt;code&gt;float64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nat8&lt;/code&gt; -&amp;gt; &lt;code&gt;nat16&lt;/code&gt; -&amp;gt; &lt;code&gt;nat32&lt;/code&gt; -&amp;gt; &lt;code&gt;nat64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bits8&lt;/code&gt; -&amp;gt; &lt;code&gt;bits16&lt;/code&gt; -&amp;gt; &lt;code&gt;bits32&lt;/code&gt; -&amp;gt; &lt;code&gt;bits64&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;IMPORTANT: The representation of &lt;code&gt;char&lt;/code&gt; is still not decided&lt;/p&gt;
+&lt;h4 id=&#34;safe-conversion-using-as&#34;&gt;Safe conversion using &lt;code&gt;as&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;Conversion using the operator &lt;code&gt;as&lt;/code&gt; can be used for values.
+That means:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;for right-hand side values&lt;/li&gt;
+&lt;li&gt;for function input parameters&lt;/li&gt;
+&lt;li&gt;for activity input parameters of simple type: &lt;code&gt;intN&lt;/code&gt;, &lt;code&gt;natN&lt;/code&gt;, &lt;code&gt;bitsN&lt;/code&gt;, &lt;code&gt;floatN&lt;/code&gt;, &lt;code&gt;char&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Conversion with representation change is only allowed if no information is lost (has the same bit-size).&lt;/p&gt;
+&lt;h4 id=&#34;no-subtyping-for-bitsn-types&#34;&gt;No subtyping for &lt;code&gt;bitsN&lt;/code&gt; types&lt;/h4&gt;
+&lt;p&gt;Whenever &lt;exp&gt; has type T and T &amp;lt;: U (T subtypes U) then by virture of implicit subsumption, &lt;exp&gt; also has type U (without extra syntax).&lt;/p&gt;
+&lt;p&gt;In general, this means that an expression of a more specific type may appear wherever an expression of a more general type is expected, provided the specific and general types are related by subtyping.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;bitsN&lt;/code&gt; types are in no subtype relation with each other.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;bitsN&lt;/code&gt; types are in no subtype relation with other arithmetic types.&lt;/p&gt;
+&lt;h3 id=&#34;literals&#34;&gt;Literals&lt;/h3&gt;
+&lt;p&gt;Binary, octal and hexadecimal literals have type &lt;code&gt;AnyBits&lt;/code&gt;.
+Decimal literals have type &lt;code&gt;AnyInteger&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;All literals of type &lt;code&gt;AnyBits&lt;/code&gt; need a type annotation in order to become an appropriate &lt;code&gt;bitsN&lt;/code&gt; type.&lt;/p&gt;
+&lt;p&gt;A type annotation can be ommited if an assignment determines the type.&lt;/p&gt;
+&lt;p&gt;For negative values of type &lt;code&gt;AnyInteger&lt;/code&gt; the two&amp;rsquo;s-complement representation is used to create the bits.&lt;/p&gt;
+&lt;p&gt;IMPORTANT: The two&amp;rsquo;s-complement representation for &lt;code&gt;intN&lt;/code&gt; is not mandatory in C.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let b1: bits8 = 0x1
+let b2 = 0x1 : bits8
+let b3 = (0x1 : bits8) &amp;lt;&amp;lt; 2  // 0x4 as bits8
+let b32 = 0x1A4: bits8   // type error not representable in bits8
+let b4: bits8 = 255
+let b5 = 255 : bits8 
+let b6: bits8 = -129   // type error, no representable as 2-complement in bits8
+let b7 = -128: bits8   // ok
+let b8 = (-50 - 150): bits8 // compile time error, not representable as 2-complement in bits8
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;use-of-operations&#34;&gt;Use of operations&lt;/h3&gt;
+&lt;p&gt;Bitwise operatorions and arithmetic operations cannot be applied to values of type &lt;code&gt;AnyBits&lt;/code&gt;.
+Bitwise and arithmetic operations can only be applied to values of type &lt;code&gt;bitsN&lt;/code&gt;, that means the size has to be fixed before any operation.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
+let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight%5BHacker&#39;s&#34;&gt;https://en.wikipedia.org/wiki/Hacker%27s_Delight[Hacker&#39;s&lt;/a&gt; Delight] is the definitive source of bitwise programming algorithms. 
+It should be possible to use these hacks in Blech.&lt;/p&gt;
+&lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits8
+x = x &amp;amp; (x - (1: bits8))
+// or
+x = x &amp;amp; (x - 0x_01)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Turn on the rightmost 0-bit in a word, producing all 1&amp;rsquo;s if none (e.g. 0x7AF3 =&amp;gt; 0x7AF4, 0xFFFF =&amp;gt; 0xFFFF).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits32
+x = x | (x + (1: bits32))
+// or
+x = x | (x + 0b_1)
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Blech Language Services - the VS Code extension</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/getting-started/vsce/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/getting-started/vsce/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;visual-studio-code-and-the-blech-language-services&#34;&gt;Visual Studio Code and the Blech Language Services&lt;/h2&gt;
+&lt;p&gt;We package the Blech Language Service as an extension for VS Code that provides two functionalities:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;syntax highlighting, and&lt;/li&gt;
+&lt;li&gt;a language server which checks the code every time it is saved and, in case of errors, returns error messages to the user.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That gives you editing support like type checking or causality checking. It also supports a few basic IDE functionalities.&lt;/p&gt;
+&lt;p&gt;In order to use this, install Visual Studio Code (a.k.a. VS Code) either from &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;https://code.visualstudio.com/&lt;/a&gt; or from &lt;a href=&#34;https://github.com/VSCodium/vscodium/releases&#34;&gt;https://github.com/VSCodium/vscodium/releases&lt;/a&gt;. 
+It can be installed locally without admin rights.&lt;/p&gt;
+&lt;h2 id=&#34;build-the-extension-from-source&#34;&gt;Build the extension from source&lt;/h2&gt;
+&lt;p&gt;The build from source needs &lt;strong&gt;.NET Core&lt;/strong&gt; and &lt;strong&gt;NodeJS&lt;/strong&gt; for the Blech Language Services.&lt;/p&gt;
+&lt;p&gt;If you &lt;a href=&#34;https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/#build-blechc-from-source&#34;&gt;built the Blech compiler from source&lt;/a&gt;
+ .NET Core is already installed.&lt;/p&gt;
+&lt;p&gt;To install NodeJS &lt;a href=&#34;https://nodejs.org/&#34; target=&#34;_blank&#34;&gt;download and install the Long Term Support version&lt;/a&gt;
+.
+Enclosed is a version of the Node Package Manager &lt;code&gt;npm&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Test it with:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm --version
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;npm&lt;/code&gt; is frequently updated. In order to keep it up-to-date run:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install npm@latest -g
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In most case you should see an upgrade when you run:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm --version
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;prerequisites-for-building-the-extension&#34;&gt;Prerequisites for building the extension&lt;/h2&gt;
+&lt;p&gt;Clone the &lt;code&gt;blech-tools&lt;/code&gt; repository, including the blech compiler submodule.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git clone --recurse-submodules https://github.com/boschresearch/blech-tools.git
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Change to the &lt;code&gt;ide&lt;/code&gt; subdirectory.&lt;/p&gt;
+&lt;p&gt;Install the node package &lt;code&gt;vsce&lt;/code&gt;, which is able to package VS Code extensions.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm -g install vsce
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install the Typescript node package. Typescript is a the typed superset of JavaScript, which is used to build the extension.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm -g install node-typescript
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install the necessary node modules for this project.
+From the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Optionally: Run the TypeScript compilation.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm run compile
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you like, you can learn more about &lt;a href=&#34;https://www.typescriptlang.org&#34; target=&#34;_blank&#34;&gt;the TypeScript language&lt;/a&gt;
+, which is created by Microsoft.&lt;/p&gt;
+&lt;h2 id=&#34;build-the-extension&#34;&gt;Build the extension&lt;/h2&gt;
+&lt;p&gt;Besides syntax hightlighting the Blech Language Services consisting of two parts which need to be compiled.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;A language server written in F#, which is a small wrapper around the Blech compiler.&lt;/p&gt;
+&lt;p&gt;The language server is build using dotnet. From the &lt;code&gt;ide&lt;/code&gt; subdirector run:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dotnet publish -c Release -r win-x64
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Choose your runtime above as necessary (&lt;code&gt;linux-x64&lt;/code&gt;, &lt;code&gt;osx-x64&lt;/code&gt;).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A VS code extension, which runs a client to the language server.
+To build and package the client and the server as an extension run:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;vsce package
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you get a security warning when using Windows powershell. Try running it from &lt;code&gt;cmd&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This gives you a &lt;code&gt;blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp;gt;.vsix&lt;/code&gt; file in the same directory.&lt;/p&gt;
+&lt;h2 id=&#34;install-the-extension&#34;&gt;Install the extension&lt;/h2&gt;
+&lt;p&gt;You can install the Blech Language Services VS Code extension via the commandline or interactively.&lt;/p&gt;
+&lt;p&gt;From the command line go to the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;code blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp;gt;.vsix
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;with the correct version number.&lt;/p&gt;
+&lt;p&gt;If VS Code is already running: 
+Open the Extension section, go to the &lt;code&gt;...&lt;/code&gt; menu, and select &lt;code&gt;Install from VSIX...&lt;/code&gt;.
+Select the &lt;code&gt;blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp;gt;.vsix&lt;/code&gt; file to install the extension.&lt;/p&gt;
+&lt;p&gt;Verify it works by opening some &lt;code&gt;*.blc&lt;/code&gt; file. 
+If the keywords are coloured, it works. 
+Furthermore, if you hover over an activity name, you should see its signature in a tooltip.&lt;/p&gt;
 
       </description>
     </item>
@@ -1525,7 +1820,7 @@ with
     run A(prev x)(y) // prev x is guaranteed to be 7 in the first reaction
 end
 ...
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;externa-variables&#34;&gt;Externa Variables&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;external-variables&#34;&gt;External Variables&lt;/h2&gt;
 &lt;p&gt;External variables (inside the activity scope) are dual to local variables in terms of code generation.
 We do not need to store external variables in the static context which is passed to the step-function.
 Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
@@ -1583,6 +1878,125 @@ Note however that the value shown in the trace is the prev value for the &lt;em&
     </item>
     
     <item>
+      <title>Docs: Translating Blech variable names to C</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/</guid>
+      <description>
+        
+        
+        &lt;style type=&#34;text/css&#34;&gt;
+    ol ol { list-style-type: lower-roman; }
+&lt;/style&gt;
+&lt;h2 id=&#34;possibilities-in-blech&#34;&gt;Possibilities in Blech&lt;/h2&gt;
+&lt;p&gt;Variable names appear in different &lt;em&gt;syntactic&lt;/em&gt; contexts (expressions):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;current / previous access&lt;/li&gt;
+&lt;li&gt;lhs / rhs value (in assignment)&lt;/li&gt;
+&lt;li&gt;lhs / rhs reference (in procedure call)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Variable names appear in different &lt;em&gt;declaration&lt;/em&gt; contexts:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Parameter input / output&lt;/li&gt;
+&lt;li&gt;Global constant&lt;/li&gt;
+&lt;li&gt;Activity- / function-local Blech variable&lt;/li&gt;
+&lt;li&gt;Activity-local external C-variable&lt;/li&gt;
+&lt;li&gt;Auxiliary variable introduced by the compiler&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Variable names may represent various kinds of data &lt;em&gt;types&lt;/em&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Simple (atomic)&lt;/li&gt;
+&lt;li&gt;Structures&lt;/li&gt;
+&lt;li&gt;Arrays&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Not all combinations are possible.
+Below is an overview of what is possible in Blech and what the corresponding generated C code must look like.&lt;/p&gt;
+&lt;h2 id=&#34;translation-workflow&#34;&gt;Translation workflow&lt;/h2&gt;
+&lt;p&gt;Translating any access to data runs through several stages:&lt;/p&gt;
+&lt;p&gt;Given a typed memory location &lt;code&gt;foo[0].bar&lt;/code&gt;&amp;hellip;
+&lt;em&gt;(Remark: &lt;code&gt;prev foo[0].bar&lt;/code&gt; binds as &lt;code&gt;(prev foo)[0].bar&lt;/code&gt;).&lt;/em&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;For the QNamePrefix part &lt;code&gt;foo&lt;/code&gt;, determine a name scheme (depending on declaration context)
+&lt;ol&gt;
+&lt;li&gt;Static name &lt;code&gt;blc_&amp;lt;longId&amp;gt;_foo&lt;/code&gt; or &lt;code&gt;blc_&amp;lt;moduleName&amp;gt;_&amp;lt;longId&amp;gt;_foo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Parameter name &lt;code&gt;blc_foo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Auto name &lt;code&gt;blc_foo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Context element &lt;code&gt;blc_blech_ctx-&amp;gt;blc_foo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Auxiliary name &lt;code&gt;aux_blc_foo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;prev of Blech var &lt;code&gt;prev_blc_foo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;prev of extern var &lt;code&gt;blc_blech_ctx-&amp;gt;prev_blc_foo&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Ensure the name &lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt; generated above represents the memory blob itself, not a pointer to it
+&lt;ol&gt;
+&lt;li&gt;if &lt;code&gt;foo&lt;/code&gt; is a simple type or struct parameter rewrite name from above to &lt;code&gt;*&amp;lt;name&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Nothing to do for arrays as the name (pointer to the first element) already &lt;em&gt;represents&lt;/em&gt; the whole array blob.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;Append all field / cell access to this name &lt;code&gt;&amp;lt;name&amp;gt;[0].bar&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Depending on usage context and type (of &lt;code&gt;bar&lt;/code&gt;) determine whether to use the path as is or construct a reference from it&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- .Usage context and type --&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;simple&lt;/th&gt;
+&lt;th&gt;struct&lt;/th&gt;
+&lt;th&gt;array&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;lhs assign&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;rhs assign&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;output arg&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;amp;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;amp;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;input arg&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;&amp;amp;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;as-is&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Possibly reduce trivial combinations like &lt;code&gt;&amp;amp;(*&amp;lt;name&amp;gt;)&lt;/code&gt; to &lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt;. This will happen for e.g. simple typed output parameters passed on as an output argument.&lt;/p&gt;
+&lt;h2 id=&#34;remarks-and-after-thoughts&#34;&gt;Remarks and after thoughts:&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;blc_&lt;/code&gt; prefix is used to make sure we never overwrite global variables with the same name (that might appear in C sources outside the scope of the generated Blech code). Of course, we assume that the &lt;code&gt;blc_&lt;/code&gt; prefix is reserved and not used by sources not generated by the Blech compiler.&lt;/p&gt;
+&lt;p&gt;However previous variables use the scheme &lt;code&gt;prev_blc_&lt;/code&gt; making &lt;code&gt;prev_&lt;/code&gt; yet another exclusive prefix. We cannot simply generate &lt;code&gt;blc_prev_&amp;lt;id&amp;gt;&lt;/code&gt; for &lt;code&gt;prev &amp;lt;id&amp;gt;&lt;/code&gt; as this would clash with a regular Blech variable called &lt;code&gt;prev_id&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We also use &lt;code&gt;blc_&lt;/code&gt; for naming fields in the activity context. This ensure we rule out clashes between normal and prev&amp;rsquo;ed external variables in the activity context.&lt;/p&gt;
+&lt;p&gt;Auxiliary variables use yet another prefix &lt;code&gt;aux_blc_&lt;/code&gt;.
+This ensures they do not shadow a global C variable with the same name (assuming that the environment never uses names starting with &lt;code&gt;aux_blc_&lt;/code&gt;).
+This is basically the same reasoning as with auto variables. However we need the extra &lt;code&gt;aux_&lt;/code&gt; to prevent a clash with an actual Blech variable.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+
+&lt;p&gt;TODO: at the moment all constants and params in local scopes are lifted to the top level.
+Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the declaration remain inside the function?&lt;/p&gt;
+&lt;p&gt;REMARK: We could use &lt;code&gt;blc_blech&lt;/code&gt; instead of &lt;code&gt;aux_blc&lt;/code&gt;. &lt;code&gt;blech&lt;/code&gt; is a reserved id and never an identifier. So only the prefix &lt;code&gt;blc_&lt;/code&gt; would be reserved for Blech&amp;rsquo;s global C variables.&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Git workflow</title>
       <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1630,7 +2044,7 @@ Variables defined in this scope are visible in this function but not outside of 
 Composite statements, such as the &lt;code&gt;repeat&lt;/code&gt; loop introduce their statement-local scope. This allows to introduce a variable that is visible during the iteration through this loop and not outside of it.&lt;/p&gt;
 
 
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 
 Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
 &lt;/div&gt;
@@ -2432,6 +2846,101 @@ For example, it is not possible to interpret a floating point as a bits type and
 &lt;h3 id=&#34;evaluation-order&#34;&gt;Evaluation order&lt;/h3&gt;
 &lt;p&gt;Undefined at the moment. Evaluated by the C compiler.&lt;/p&gt;
 
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: </title>
+      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/traversals/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/traversals/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;recursive-traversals-that-do-similar-things&#34;&gt;Recursive traversals that do similar things&lt;/h2&gt;
+&lt;!-- ## Recursive traversals on typed Blech data structures --&gt;
+&lt;h3 id=&#34;typecheckingfs&#34;&gt;TypeChecking.fs&lt;/h3&gt;
+&lt;h4 id=&#34;traversing-statements-only&#34;&gt;Traversing statements only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;/// Determine the return type of a statement
+let rec private stmtType stmt
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;/// An activity must have some synchronous delay statement on every possible 
+/// execution path through its body.
+/// This can be an await or a run statement.
+// This is partially double work with causality analysis, 
+// here and there we will find instantaneous loops.
+// Here we throw an error if that is the only statement in the activity.
+// In causality analysis we throw an error any way.
+let private checkStmtsWillPause p name stmts
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;let private determineGlobalOutputs lut bodyRes
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;traversing-expressions-and-statements&#34;&gt;Traversing expressions and statements&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;/// Checks whether the lists of statements does not contain any synchronous
+/// statements. This check is required for function bodies.
+let private checkAbsenceOfSyncStmts stmts
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;let private determineCalledSingletons lut bodyRes =
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;tychkexpressionsfs&#34;&gt;TyChkExpressions.fs&lt;/h3&gt;
+&lt;h4 id=&#34;traversing-expressions-only&#34;&gt;Traversing expressions only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;/// Returns true when the evaluation of expr does not change the program&#39;s state
+let rec private hasNoSideEffect expr
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;/// True if given expression contains only compile time or param values
+let rec internal isStaticExpr lut expr
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;/// Given a typed rhs expression, this function tries to evaluate this 
+/// expression to a constant and return a new TypedRhs such that
+/// isLiteral returns true on that.
+/// However, it may return a non-constant expression if it cannot be
+/// reduced. No error is thrown.
+let rec internal tryEvalConst lut (checkedExpr: TypedRhs) : TypedRhs
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;tychkamendmentfs&#34;&gt;TyChkAmendment.fs&lt;/h3&gt;
+&lt;h4 id=&#34;traversing-expressions-only-1&#34;&gt;Traversing expressions only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;/// Returns yes if the expression contains at least one name
+/// This is useful for type checking where we want to make sure that
+/// in a variable declaration such as &amp;quot;var x = 8&amp;quot;, we do not merely
+/// look at the type of &amp;quot;8&amp;quot; which is int8 and falsely make x an int8
+/// as well but instead give an error to the user.
+let rec private exprContainsName rhs
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;programgraphfs&#34;&gt;ProgramGraph.fs&lt;/h3&gt;
+&lt;h4 id=&#34;traversing-expressions-only-2&#34;&gt;Traversing expressions only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;let rec internal addNameRead context node trhs =
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;/// This function is here temporarily. It solves the following problem:
+/// Since the abort conditions are pushed into the body of the abort statement
+/// conditions may become concurrent in the context of a cobegin in the body.
+/// This is a problem if the condition is modified in the body. The scheduler
+/// will generate wrong code following the write first-then read strategy.
+/// To avoid that we prev all variables which are part of the abort condition
+/// and which are modified inside the abort body.
+/// In the future we want to generate code for preemptions differently
+/// such that prev&#39;ing conditions won&#39;t be necessary.
+/// This future implementation would introduce another control point which is
+/// traversed in every reaction before executing any blocks that correspond to
+/// the abort body.
+/// The future solution would allow to use references in cond which cannot be prev&#39;ed.
+/// As of right now references are not implemented and thus the 
+/// current implementation always works.
+let private tempPrevHelper context cond subPg
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;traversing-statements-only-1&#34;&gt;Traversing statements only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;/// Generates a program graph for a given statement
+let rec private createPGofStmt context thread stmt
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;cpdataaccessfs&#34;&gt;CPdataAccess.fs&lt;/h3&gt;
+&lt;h4 id=&#34;traversing-expressions-only-3&#34;&gt;Traversing expressions only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;/// Convert expressions into Doc
+/// Ensures that function calls with struct literals in their input list are
+/// converted to function calls on precomputed structure variables.
+// The result propagates recursively.
+// Even if the resulting data type is simple, the expression producing that
+// may contain sub-expressions that need to be rewritten, e.g.
+// g( f({i=8}) ), where f is simply boolean but its argument needs to be rewritten
+and private cpExpr inFunction ctx expr
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;activitytranslatorfs&#34;&gt;ActivityTranslator.fs&lt;/h3&gt;
+&lt;h4 id=&#34;traversing-expressions-only-4&#34;&gt;Traversing expressions only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;/// Extract all QNames of variables that require a prev location in given code
+// runs on nodes and program graphs instead of statements
+// became necessary when strong abort was translated by introducing a prev on the condition and thus deviating from given source code
+// might change again
+let private collectVarsToPrev2 pg
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;functiontranslatorfs&#34;&gt;FunctionTranslator.fs&lt;/h3&gt;
+&lt;h4 id=&#34;traversing-statements-only-2&#34;&gt;Traversing statements only&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;and private translateFunctionStatement ctx curComp stmt
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     

@@ -221,7 +221,7 @@ Variables defined in this scope are visible in this function but not outside of 
 Composite statements, such as the &lt;code&gt;repeat&lt;/code&gt; loop introduce their statement-local scope. This allows to introduce a variable that is visible during the iteration through this loop and not outside of it.&lt;/p&gt;
 
 
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 
 Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
 &lt;/div&gt;

@@ -27,6 +27,154 @@
     </item>
     
     <item>
+      <title>Docs: Bits and bytes</title>
+      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;bits-and-bytes&#34;&gt;Bits and bytes&lt;/h2&gt;
+&lt;p&gt;Some notes on &lt;a href=&#34;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/%5BC&#39;s&#34;&gt;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/[C&#39;s&lt;/a&gt; integers]&lt;/p&gt;
+&lt;h3 id=&#34;rename-the-exponentiation-operator-&#34;&gt;Rename the exponentiation operator &lt;code&gt;^&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;The exponention operator &lt;code&gt;^&lt;/code&gt; should be renamed to &lt;code&gt;**&lt;/code&gt; - maybe right associative.&lt;/p&gt;
+&lt;p&gt;Maybe it would be better to deprecate the exponentiation operator completely.
+A good argument for this change is given by the &lt;a href=&#34;https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/%5BC#&#34;&gt;https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/[C#&lt;/a&gt; FAQ]&lt;/p&gt;
+&lt;p&gt;With this change &lt;code&gt;^&lt;/code&gt; becomes available for the standard bitwise XOR (exclusive or) operation.&lt;/p&gt;
+&lt;h3 id=&#34;rename-uint-to-nat&#34;&gt;Rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Inspiration &lt;a href=&#34;https://sdk.dfinity.org/language-guide/index.html%5BMotoko%5D&#34;&gt;https://sdk.dfinity.org/language-guide/index.html[Motoko]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
+The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
+Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
+Those types occur only in 4 different sizes. 
+The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
+Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word%5Bword%5D&#34;&gt;https://whatis.techtarget.com/definition/word[word]&lt;/a&gt; is a unit of data of a defined bit length.
+Therefore we should rename &lt;code&gt;bits&lt;/code&gt; to &lt;code&gt;word&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;allow-a-type-annotation-type-for-expressions&#34;&gt;Allow a type annotation &lt;code&gt;:&amp;lt;type&amp;gt;&lt;/code&gt; for expressions&lt;/h3&gt;
+&lt;p&gt;It is mainly needed for literals.
+It is consistent with type annotation in declarations.&lt;/p&gt;
+&lt;p&gt;IMPORTANT: This is not a cast or a conversion, but only a type annotation, to give literals different meanings.&lt;/p&gt;
+&lt;h3 id=&#34;eliminate-floatliteral32&#34;&gt;Eliminate &lt;code&gt;floatLiteral32&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Instead of using the specific &lt;code&gt;floatLiteral32&lt;/code&gt; we should use a type annotation.
+With a type annotation any number literal can be used as a checked float literal.
+This especially simplifies generic code.
+Type annotation are anyway needed for binary, octal and hexadecimal literals.&lt;/p&gt;
+&lt;p&gt;By default a floatLiteral and hexFloatLiteral are of type &lt;code&gt;float64&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;NOTE: Check that hexfloat literals are precise representations for their type.
+NOTE: Maybe the default should be &lt;code&gt;float32&lt;/code&gt; for embedded systems?&lt;/p&gt;
+&lt;p&gt;Any &lt;code&gt;natLiteral&lt;/code&gt; can be annotated with a float type.
+The range is checked, to get a precise float representation.&lt;/p&gt;
+&lt;p&gt;The following are all valid float literals.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;
+(42: float64)
+(42: float32)
+
+(-17: float32)
+(-1.2: float32)
+
+42.0 // has type float64
+(42.0: float32)
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;bit-types&#34;&gt;Bit types&lt;/h3&gt;
+&lt;p&gt;Bit types allow bitwise, relational, and arithmetic operators.
+Arithmetic operators wrap-around.&lt;/p&gt;
+&lt;p&gt;Different to &lt;code&gt;nat&lt;/code&gt; types which must not over- or underflow.&lt;/p&gt;
+&lt;h3 id=&#34;bitwise-operators&#34;&gt;Bitwise operators&lt;/h3&gt;
+&lt;p&gt;Blech provides the standard set of &lt;a href=&#34;https://en.wikipedia.org/wiki/Bitwise_operations_in_C%5Bbitwise&#34;&gt;https://en.wikipedia.org/wiki/Bitwise_operations_in_C[bitwise&lt;/a&gt; operators known from C].
+Different to C these operators work on &lt;code&gt;bitsN&lt;/code&gt; types instead of unsigned &lt;code&gt;uintN&lt;/code&gt; or signed &lt;code&gt;intN&lt;/code&gt; types.&lt;/p&gt;
+&lt;h4 id=&#34;unary-bitwise-operator&#34;&gt;Unary bitwise operator&lt;/h4&gt;
+&lt;p&gt;For N = 8, 16, 32, 64&lt;/p&gt;
+&lt;p&gt;Bitwise negation: &lt;code&gt;~&lt;/code&gt;
+Type: &lt;code&gt;function (bitsN) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;binary-bitwise-operators&#34;&gt;Binary bitwise operators&lt;/h4&gt;
+&lt;p&gt;More info on &lt;a href=&#34;https://en.wikipedia.org/wiki/Bitwise_operation&#34; target=&#34;_blank&#34;&gt;bitwise operations&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;For N = 8, 16, 32, 64&lt;/p&gt;
+&lt;p&gt;Bitwise and: &lt;code&gt;&amp;amp;&lt;/code&gt;
+Bitwise or: &lt;code&gt;|&lt;/code&gt;
+Bitwise xor: &lt;code&gt;^&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Type: &lt;code&gt;function (bitsN , bitsN) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;shift-and-rotate-operators&#34;&gt;Shift and rotate operators&lt;/h4&gt;
+&lt;p&gt;Standard shift operators&lt;/p&gt;
+&lt;p&gt;shift left: &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt;
+shift right: &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Additionally Blech should provide advanced shift operators&lt;/p&gt;
+&lt;p&gt;Arithmetic shift right: &lt;code&gt;+&amp;gt;&amp;gt;&lt;/code&gt;
+left rotate: &lt;code&gt;&amp;lt;&amp;lt;&amp;gt;&lt;/code&gt;
+right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;These operators can be defined as Macros. 
+If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
+C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts%5Bcircular&#34;&gt;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts[circular&lt;/a&gt; shift idiom].&lt;/p&gt;
+&lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
+It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
+&lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
+&lt;h4 id=&#34;implicit-conversion&#34;&gt;Implicit conversion&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.guru99.com/c-type-casting.html%5BImplicit&#34;&gt;https://www.guru99.com/c-type-casting.html[Implicit&lt;/a&gt; conversion in C] is complicated.&lt;/p&gt;
+&lt;p&gt;Implicit conversion is only allowed if no representation change is necessary.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;int8&lt;/code&gt; -&amp;gt; &lt;code&gt;int16&lt;/code&gt; -&amp;gt; &lt;code&gt;int32&lt;/code&gt; -&amp;gt; &lt;code&gt;int64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;float32&lt;/code&gt; -&amp;gt; &lt;code&gt;float64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nat8&lt;/code&gt; -&amp;gt; &lt;code&gt;nat16&lt;/code&gt; -&amp;gt; &lt;code&gt;nat32&lt;/code&gt; -&amp;gt; &lt;code&gt;nat64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bits8&lt;/code&gt; -&amp;gt; &lt;code&gt;bits16&lt;/code&gt; -&amp;gt; &lt;code&gt;bits32&lt;/code&gt; -&amp;gt; &lt;code&gt;bits64&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;IMPORTANT: The representation of &lt;code&gt;char&lt;/code&gt; is still not decided&lt;/p&gt;
+&lt;h4 id=&#34;safe-conversion-using-as&#34;&gt;Safe conversion using &lt;code&gt;as&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;Conversion using the operator &lt;code&gt;as&lt;/code&gt; can be used for values.
+That means:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;for right-hand side values&lt;/li&gt;
+&lt;li&gt;for function input parameters&lt;/li&gt;
+&lt;li&gt;for activity input parameters of simple type: &lt;code&gt;intN&lt;/code&gt;, &lt;code&gt;natN&lt;/code&gt;, &lt;code&gt;bitsN&lt;/code&gt;, &lt;code&gt;floatN&lt;/code&gt;, &lt;code&gt;char&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Conversion with representation change is only allowed if no information is lost (has the same bit-size).&lt;/p&gt;
+&lt;h4 id=&#34;no-subtyping-for-bitsn-types&#34;&gt;No subtyping for &lt;code&gt;bitsN&lt;/code&gt; types&lt;/h4&gt;
+&lt;p&gt;Whenever &lt;exp&gt; has type T and T &amp;lt;: U (T subtypes U) then by virture of implicit subsumption, &lt;exp&gt; also has type U (without extra syntax).&lt;/p&gt;
+&lt;p&gt;In general, this means that an expression of a more specific type may appear wherever an expression of a more general type is expected, provided the specific and general types are related by subtyping.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;bitsN&lt;/code&gt; types are in no subtype relation with each other.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;bitsN&lt;/code&gt; types are in no subtype relation with other arithmetic types.&lt;/p&gt;
+&lt;h3 id=&#34;literals&#34;&gt;Literals&lt;/h3&gt;
+&lt;p&gt;Binary, octal and hexadecimal literals have type &lt;code&gt;AnyBits&lt;/code&gt;.
+Decimal literals have type &lt;code&gt;AnyInteger&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;All literals of type &lt;code&gt;AnyBits&lt;/code&gt; need a type annotation in order to become an appropriate &lt;code&gt;bitsN&lt;/code&gt; type.&lt;/p&gt;
+&lt;p&gt;A type annotation can be ommited if an assignment determines the type.&lt;/p&gt;
+&lt;p&gt;For negative values of type &lt;code&gt;AnyInteger&lt;/code&gt; the two&amp;rsquo;s-complement representation is used to create the bits.&lt;/p&gt;
+&lt;p&gt;IMPORTANT: The two&amp;rsquo;s-complement representation for &lt;code&gt;intN&lt;/code&gt; is not mandatory in C.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let b1: bits8 = 0x1
+let b2 = 0x1 : bits8
+let b3 = (0x1 : bits8) &amp;lt;&amp;lt; 2  // 0x4 as bits8
+let b32 = 0x1A4: bits8   // type error not representable in bits8
+let b4: bits8 = 255
+let b5 = 255 : bits8 
+let b6: bits8 = -129   // type error, no representable as 2-complement in bits8
+let b7 = -128: bits8   // ok
+let b8 = (-50 - 150): bits8 // compile time error, not representable as 2-complement in bits8
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;use-of-operations&#34;&gt;Use of operations&lt;/h3&gt;
+&lt;p&gt;Bitwise operatorions and arithmetic operations cannot be applied to values of type &lt;code&gt;AnyBits&lt;/code&gt;.
+Bitwise and arithmetic operations can only be applied to values of type &lt;code&gt;bitsN&lt;/code&gt;, that means the size has to be fixed before any operation.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
+let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight%5BHacker&#39;s&#34;&gt;https://en.wikipedia.org/wiki/Hacker%27s_Delight[Hacker&#39;s&lt;/a&gt; Delight] is the definitive source of bitwise programming algorithms. 
+It should be possible to use these hacks in Blech.&lt;/p&gt;
+&lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits8
+x = x &amp;amp; (x - (1: bits8))
+// or
+x = x &amp;amp; (x - 0x_01)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Turn on the rightmost 0-bit in a word, producing all 1&amp;rsquo;s if none (e.g. 0x7AF3 =&amp;gt; 0x7AF4, 0xFFFF =&amp;gt; 0xFFFF).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits32
+x = x | (x + (1: bits32))
+// or
+x = x | (x + 0b_1)
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Borrowing</title>
       <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

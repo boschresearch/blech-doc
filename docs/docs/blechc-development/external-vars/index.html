@@ -25,11 +25,11 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/" />
-<meta property="article:modified_time" content="2020-04-15T12:52:05+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-04-29T13:21:43+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Local and external variables">
 <meta itemprop="description" content="This explains the difference between local and external variables in code generation.
 ">
-<meta itemprop="dateModified" content="2020-04-15T12:52:05&#43;02:00" />
+<meta itemprop="dateModified" content="2020-04-29T13:21:43&#43;02:00" />
 <meta itemprop="wordCount" content="887">
 
 
@@ -173,6 +173,18 @@
   <ul>
     <li class="collapse " id="docsgetting-started">
       
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsgetting-startedblechc" href="https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/">Blech compiler</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsgetting-startedvsce" href="https://boschresearch.github.io/blech-doc/docs/getting-started/vsce/">Blech Language Services</a>
       
       
     </li>
@@ -324,6 +336,12 @@
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionbits-and-bytes" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/">Bits and bytes</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing" href="https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/">Borrowing</a>
       
       
@@ -365,7 +383,19 @@
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentcpdata" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/">Variable Translation</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentgit-workflow" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/">Branches</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmenttraversals" href="https://boschresearch.github.io/blech-doc/docs/blechc-development/traversals/"></a>
       
       
     </li>
@@ -461,7 +491,7 @@
 <nav id="TableOfContents">
   <ul>
     <li><a href="#local-variables">Local variables</a></li>
-    <li><a href="#externa-variables">Externa Variables</a></li>
+    <li><a href="#external-variables">External Variables</a></li>
     <li><a href="#effects-on-compilation-contexts">Effects on compilation contexts</a></li>
     <li><a href="#effects-on-c-code-generation">Effects on C-code generation</a></li>
     <li><a href="#effects-on-json-trace-printing">Effects on JSON trace printing</a></li>
@@ -533,7 +563,7 @@ with
     run A(prev x)(y) // prev x is guaranteed to be 7 in the first reaction
 end
 ...
-</code></pre><h2 id="externa-variables">Externa Variables</h2>
+</code></pre><h2 id="external-variables">External Variables</h2>
 <p>External variables (inside the activity scope) are dual to local variables in terms of code generation.
 We do not need to store external variables in the static context which is passed to the step-function.
 Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
@@ -589,7 +619,7 @@ Note however that the value shown in the trace is the prev value for the <em>nex
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/c3c0282d5ef5e171fc8371f61e44e80dc7efa547">Move guides from ascidoc to markdown. Added more community links. (c3c0282)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 29, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/745cee52f11299de31185f6403bdc032dabe8c7d">Migratred implementation documentation to markdown. Deleted obsolete files. (745cee5)</a>
 </div>
 </div>
 
