@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/" />
-<meta property="article:modified_time" content="2020-04-30T16:58:30+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-04-30T19:16:37+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Bits and bytes">
 <meta itemprop="description" content="The `bitsN` datatype and bitwise operations.
 ">
-<meta itemprop="dateModified" content="2020-04-30T16:58:30&#43;02:00" />
-<meta itemprop="wordCount" content="1027">
+<meta itemprop="dateModified" content="2020-04-30T19:16:37&#43;02:00" />
+<meta itemprop="wordCount" content="1029">
 
 
 
@@ -553,21 +553,25 @@
     <div class="lead">The <code>bitsN</code> datatype and bitwise operations.</div>
 	       
 	<h2 id="bits-and-bytes">Bits and bytes</h2>
-<p>Some notes on <a href="https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/%5BC's">https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/[C's</a> integers]</p>
+<p>Some notes on <a href="https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/" target="_blank">C’s integers</a>
+</p>
 <h3 id="rename-the-exponentiation-operator-">Rename the exponentiation operator <code>^</code></h3>
 <p>The exponention operator <code>^</code> should be renamed to <code>**</code> - maybe right associative.</p>
 <p>Maybe it would be better to deprecate the exponentiation operator completely.
-A good argument for this change is given by the <a href="https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/%5BC#">https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/[C#</a> FAQ]</p>
+A good argument for this change is given by the <a href="https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/" target="_blank">C# FAQ</a>
+</p>
 <p>With this change <code>^</code> becomes available for the standard bitwise XOR (exclusive or) operation.</p>
 <h3 id="rename-uint-to-nat">Rename <code>uint</code> to <code>nat</code></h3>
-<p>Inspiration <a href="https://sdk.dfinity.org/language-guide/index.html%5BMotoko%5D">https://sdk.dfinity.org/language-guide/index.html[Motoko]</a></p>
+<p>Inspiration <a href="https://sdk.dfinity.org/language-guide/index.html" target="_blank">Motoko</a>
+</p>
 <p>Reason: <code>uint</code> is not allowed to overflow and saturates in release code or panics in debug code.
 The name <code>uint</code> addresses the wrong association.
 Therefore we should rename <code>uint</code> to <code>nat</code></p>
 <p>NOTE: Maybe we should rename <code>bitsN</code> to <code>wordN</code>. 
 Those types occur only in 4 different sizes. 
 The name <code>bits</code> might be associated with an arbitrary number.
-Additional inspiration, a <a href="https://whatis.techtarget.com/definition/word%5Bword%5D">https://whatis.techtarget.com/definition/word[word]</a> is a unit of data of a defined bit length.
+Additional inspiration, a <a href="https://whatis.techtarget.com/definition/word" target="_blank">word</a>
+ is a unit of data of a defined bit length.
 Therefore we should rename <code>bits</code> to <code>word</code>.</p>
 <h3 id="allow-a-type-annotation-type-for-expressions">Allow a type annotation <code>:&lt;type&gt;</code> for expressions</h3>
 <p>It is mainly needed for literals.
@@ -598,8 +602,9 @@ The range is checked, to get a precise float representation.</p>
 Arithmetic operators wrap-around.</p>
 <p>Different to <code>nat</code> types which must not over- or underflow.</p>
 <h3 id="bitwise-operators">Bitwise operators</h3>
-<p>Blech provides the standard set of <a href="https://en.wikipedia.org/wiki/Bitwise_operations_in_C%5Bbitwise">https://en.wikipedia.org/wiki/Bitwise_operations_in_C[bitwise</a> operators known from C].
-Different to C these operators work on <code>bitsN</code> types instead of unsigned <code>uintN</code> or signed <code>intN</code> types.</p>
+<p>Blech provides the standard set of <a href="https://en.wikipedia.org/wiki/Bitwise_operations_in_C" target="_blank">bitwise operators known from C</a>
+.
+Different to C these operators work on <code>bitsN</code> types instead of unsigned <code>natN</code> or signed <code>intN</code> types.</p>
 <h4 id="unary-bitwise-operator">Unary bitwise operator</h4>
 <p>For N = 8, 16, 32, 64</p>
 <p>Bitwise negation: <code>~</code>
@@ -624,13 +629,15 @@ right rotate: <code>&lt;&gt;&gt;</code></p>
 <p>Type: <code>function (bitsN, AnyNat) returns bitsN</code></p>
 <p>These operators can be defined as Macros. 
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
-C compilers recognize the <a href="https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts%5Bcircular">https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts[circular</a> shift idiom].</p>
+C compilers recognize the <a href="https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts" target="_blank">circular shift idiom</a>
+.</p>
 <p>The shift and rotate amount is a general unsigned integer type. 
 It is considered modulo the <code>bitsN</code> width <code>N</code>.</p>
 <h4 id="arithmetic-operators">Arithmetic operators</h4>
 <p>As arithmetic types, <code>bitsN</code> types implement numeric wrap-around (modulo <code>2**N</code>).</p>
 <h4 id="implicit-conversion">Implicit conversion</h4>
-<p><a href="https://www.guru99.com/c-type-casting.html%5BImplicit">https://www.guru99.com/c-type-casting.html[Implicit</a> conversion in C] is complicated.</p>
+<p><a href="https://www.guru99.com/c-type-casting.html" target="_blank">Implicit conversion in C</a>
+ is complicated.</p>
 <p>Implicit conversion is only allowed if no representation change is necessary.</p>
 <ul>
 <li><code>int8</code> -&gt; <code>int16</code> -&gt; <code>int32</code> -&gt; <code>int64</code></li>
@@ -675,7 +682,8 @@ Bitwise and arithmetic operations can only be applied to values of type <code>bi
 <pre><code class="language-blech" data-lang="blech">let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
 let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
 </code></pre><h3 id="hackers-delight-translated-to-blech">Hacker&rsquo;s Delight translated to Blech</h3>
-<p><a href="https://en.wikipedia.org/wiki/Hacker%27s_Delight%5BHacker's">https://en.wikipedia.org/wiki/Hacker%27s_Delight[Hacker's</a> Delight] is the definitive source of bitwise programming algorithms. 
+<p><a href="https://en.wikipedia.org/wiki/Hacker%27s_Delight" target="_blank">Hacker’s Delight</a>
+ is the definitive source of bitwise programming algorithms. 
 It should be possible to use these hacks in Blech.</p>
 <p>Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&gt; 0b_0101_0000, 0x_00 =&gt; 0x_00).</p>
 <pre><code class="language-blech" data-lang="blech">var x: bits8
@@ -690,7 +698,7 @@ x = x | (x + 0b_1)
 </code></pre>
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 30, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/f4d0c3511e6f948e1b451feb77decb73eadd94e8">Improved getting started (f4d0c35)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 30, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/cae6d40425310c23d843963ecb92a55bf9c30a99">Links corrected. (cae6d40)</a>
 </div>
 </div>
 

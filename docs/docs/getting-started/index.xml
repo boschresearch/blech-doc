@@ -92,12 +92,14 @@ For programmers familiar with Arduino these correspond to the &lt;code&gt;setup&
         
         
         &lt;h2 id=&#34;visual-studio-code-and-the-blech-language-services&#34;&gt;Visual Studio Code and the Blech Language Services&lt;/h2&gt;
-&lt;p&gt;We package the Blech Language Service as an extension for VS Code that provides two functionalities:&lt;/p&gt;
+&lt;p&gt;We package the Blech Language Servicex as an extension for VS Code that provides two functionalities:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;syntax highlighting, and&lt;/li&gt;
-&lt;li&gt;a language server which checks the code every time it is saved and, in case of errors, returns error messages to the user.&lt;/li&gt;
+&lt;li&gt;a language server which checks the code every time it is saved.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;That gives you editing support like type checking or causality checking. It also supports a few basic IDE functionalities.&lt;/p&gt;
+&lt;p&gt;This gives you editing support like code snippets, correct indentation, type checking or causality checking. 
+In case of errors, it returns error messages to the user.
+It also supports a few basic IDE functionalities.&lt;/p&gt;
 &lt;p&gt;In order to use this, install Visual Studio Code (a.k.a. VS Code) either from &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;https://code.visualstudio.com/&lt;/a&gt; or from &lt;a href=&#34;https://github.com/VSCodium/vscodium/releases&#34;&gt;https://github.com/VSCodium/vscodium/releases&lt;/a&gt;. 
 It can be installed locally without admin rights.&lt;/p&gt;
 &lt;h2 id=&#34;build-the-extension-from-source&#34;&gt;Build the extension from source&lt;/h2&gt;
@@ -129,7 +131,7 @@ From the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you like, you can learn more about &lt;a href=&#34;https://www.typescriptlang.org&#34; target=&#34;_blank&#34;&gt;the TypeScript language&lt;/a&gt;
 , which is created by Microsoft.&lt;/p&gt;
 &lt;h2 id=&#34;build-the-extension&#34;&gt;Build the extension&lt;/h2&gt;
-&lt;p&gt;Besides syntax hightlighting the Blech Language Services consisting of two parts which need to be compiled.&lt;/p&gt;
+&lt;p&gt;Besides syntax highlighting the Blech Language Services consisting of two parts which need to be compiled.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;A language server written in F#, which is a small wrapper around the Blech compiler.&lt;/p&gt;

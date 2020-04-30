@@ -477,21 +477,25 @@ No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
         
         
         &lt;h2 id=&#34;bits-and-bytes&#34;&gt;Bits and bytes&lt;/h2&gt;
-&lt;p&gt;Some notes on &lt;a href=&#34;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/%5BC&#39;s&#34;&gt;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/[C&#39;s&lt;/a&gt; integers]&lt;/p&gt;
+&lt;p&gt;Some notes on &lt;a href=&#34;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/&#34; target=&#34;_blank&#34;&gt;C’s integers&lt;/a&gt;
+&lt;/p&gt;
 &lt;h3 id=&#34;rename-the-exponentiation-operator-&#34;&gt;Rename the exponentiation operator &lt;code&gt;^&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;The exponention operator &lt;code&gt;^&lt;/code&gt; should be renamed to &lt;code&gt;**&lt;/code&gt; - maybe right associative.&lt;/p&gt;
 &lt;p&gt;Maybe it would be better to deprecate the exponentiation operator completely.
-A good argument for this change is given by the &lt;a href=&#34;https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/%5BC#&#34;&gt;https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/[C#&lt;/a&gt; FAQ]&lt;/p&gt;
+A good argument for this change is given by the &lt;a href=&#34;https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/&#34; target=&#34;_blank&#34;&gt;C# FAQ&lt;/a&gt;
+&lt;/p&gt;
 &lt;p&gt;With this change &lt;code&gt;^&lt;/code&gt; becomes available for the standard bitwise XOR (exclusive or) operation.&lt;/p&gt;
 &lt;h3 id=&#34;rename-uint-to-nat&#34;&gt;Rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;Inspiration &lt;a href=&#34;https://sdk.dfinity.org/language-guide/index.html%5BMotoko%5D&#34;&gt;https://sdk.dfinity.org/language-guide/index.html[Motoko]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Inspiration &lt;a href=&#34;https://sdk.dfinity.org/language-guide/index.html&#34; target=&#34;_blank&#34;&gt;Motoko&lt;/a&gt;
+&lt;/p&gt;
 &lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
 The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
 Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
 Those types occur only in 4 different sizes. 
 The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
-Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word%5Bword%5D&#34;&gt;https://whatis.techtarget.com/definition/word[word]&lt;/a&gt; is a unit of data of a defined bit length.
+Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word&#34; target=&#34;_blank&#34;&gt;word&lt;/a&gt;
+ is a unit of data of a defined bit length.
 Therefore we should rename &lt;code&gt;bits&lt;/code&gt; to &lt;code&gt;word&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;allow-a-type-annotation-type-for-expressions&#34;&gt;Allow a type annotation &lt;code&gt;:&amp;lt;type&amp;gt;&lt;/code&gt; for expressions&lt;/h3&gt;
 &lt;p&gt;It is mainly needed for literals.
@@ -522,8 +526,9 @@ The range is checked, to get a precise float representation.&lt;/p&gt;
 Arithmetic operators wrap-around.&lt;/p&gt;
 &lt;p&gt;Different to &lt;code&gt;nat&lt;/code&gt; types which must not over- or underflow.&lt;/p&gt;
 &lt;h3 id=&#34;bitwise-operators&#34;&gt;Bitwise operators&lt;/h3&gt;
-&lt;p&gt;Blech provides the standard set of &lt;a href=&#34;https://en.wikipedia.org/wiki/Bitwise_operations_in_C%5Bbitwise&#34;&gt;https://en.wikipedia.org/wiki/Bitwise_operations_in_C[bitwise&lt;/a&gt; operators known from C].
-Different to C these operators work on &lt;code&gt;bitsN&lt;/code&gt; types instead of unsigned &lt;code&gt;uintN&lt;/code&gt; or signed &lt;code&gt;intN&lt;/code&gt; types.&lt;/p&gt;
+&lt;p&gt;Blech provides the standard set of &lt;a href=&#34;https://en.wikipedia.org/wiki/Bitwise_operations_in_C&#34; target=&#34;_blank&#34;&gt;bitwise operators known from C&lt;/a&gt;
+.
+Different to C these operators work on &lt;code&gt;bitsN&lt;/code&gt; types instead of unsigned &lt;code&gt;natN&lt;/code&gt; or signed &lt;code&gt;intN&lt;/code&gt; types.&lt;/p&gt;
 &lt;h4 id=&#34;unary-bitwise-operator&#34;&gt;Unary bitwise operator&lt;/h4&gt;
 &lt;p&gt;For N = 8, 16, 32, 64&lt;/p&gt;
 &lt;p&gt;Bitwise negation: &lt;code&gt;~&lt;/code&gt;
@@ -548,13 +553,15 @@ right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;These operators can be defined as Macros. 
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
-C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts%5Bcircular&#34;&gt;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts[circular&lt;/a&gt; shift idiom].&lt;/p&gt;
+C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts&#34; target=&#34;_blank&#34;&gt;circular shift idiom&lt;/a&gt;
+.&lt;/p&gt;
 &lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
 It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
 &lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
 &lt;h4 id=&#34;implicit-conversion&#34;&gt;Implicit conversion&lt;/h4&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.guru99.com/c-type-casting.html%5BImplicit&#34;&gt;https://www.guru99.com/c-type-casting.html[Implicit&lt;/a&gt; conversion in C] is complicated.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.guru99.com/c-type-casting.html&#34; target=&#34;_blank&#34;&gt;Implicit conversion in C&lt;/a&gt;
+ is complicated.&lt;/p&gt;
 &lt;p&gt;Implicit conversion is only allowed if no representation change is necessary.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;int8&lt;/code&gt; -&amp;gt; &lt;code&gt;int16&lt;/code&gt; -&amp;gt; &lt;code&gt;int32&lt;/code&gt; -&amp;gt; &lt;code&gt;int64&lt;/code&gt;&lt;/li&gt;
@@ -599,7 +606,8 @@ Bitwise and arithmetic operations can only be applied to values of type &lt;code
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
 let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight%5BHacker&#39;s&#34;&gt;https://en.wikipedia.org/wiki/Hacker%27s_Delight[Hacker&#39;s&lt;/a&gt; Delight] is the definitive source of bitwise programming algorithms. 
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight&#34; target=&#34;_blank&#34;&gt;Hacker’s Delight&lt;/a&gt;
+ is the definitive source of bitwise programming algorithms. 
 It should be possible to use these hacks in Blech.&lt;/p&gt;
 &lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits8
@@ -625,12 +633,14 @@ x = x | (x + 0b_1)
         
         
         &lt;h2 id=&#34;visual-studio-code-and-the-blech-language-services&#34;&gt;Visual Studio Code and the Blech Language Services&lt;/h2&gt;
-&lt;p&gt;We package the Blech Language Service as an extension for VS Code that provides two functionalities:&lt;/p&gt;
+&lt;p&gt;We package the Blech Language Servicex as an extension for VS Code that provides two functionalities:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;syntax highlighting, and&lt;/li&gt;
-&lt;li&gt;a language server which checks the code every time it is saved and, in case of errors, returns error messages to the user.&lt;/li&gt;
+&lt;li&gt;a language server which checks the code every time it is saved.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;That gives you editing support like type checking or causality checking. It also supports a few basic IDE functionalities.&lt;/p&gt;
+&lt;p&gt;This gives you editing support like code snippets, correct indentation, type checking or causality checking. 
+In case of errors, it returns error messages to the user.
+It also supports a few basic IDE functionalities.&lt;/p&gt;
 &lt;p&gt;In order to use this, install Visual Studio Code (a.k.a. VS Code) either from &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;https://code.visualstudio.com/&lt;/a&gt; or from &lt;a href=&#34;https://github.com/VSCodium/vscodium/releases&#34;&gt;https://github.com/VSCodium/vscodium/releases&lt;/a&gt;. 
 It can be installed locally without admin rights.&lt;/p&gt;
 &lt;h2 id=&#34;build-the-extension-from-source&#34;&gt;Build the extension from source&lt;/h2&gt;
@@ -662,7 +672,7 @@ From the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you like, you can learn more about &lt;a href=&#34;https://www.typescriptlang.org&#34; target=&#34;_blank&#34;&gt;the TypeScript language&lt;/a&gt;
 , which is created by Microsoft.&lt;/p&gt;
 &lt;h2 id=&#34;build-the-extension&#34;&gt;Build the extension&lt;/h2&gt;
-&lt;p&gt;Besides syntax hightlighting the Blech Language Services consisting of two parts which need to be compiled.&lt;/p&gt;
+&lt;p&gt;Besides syntax highlighting the Blech Language Services consisting of two parts which need to be compiled.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;A language server written in F#, which is a small wrapper around the Blech compiler.&lt;/p&gt;
