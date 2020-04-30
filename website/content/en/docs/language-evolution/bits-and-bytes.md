@@ -8,20 +8,20 @@ description: >
 
 ## Bits and bytes
 
-Some notes on https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/[C's integers]
+Some notes on [C's integers](https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/)
 
 ### Rename the exponentiation operator `^`
 
 The exponention operator `^` should be renamed to `**` - maybe right associative.
 
 Maybe it would be better to deprecate the exponentiation operator completely.
-A good argument for this change is given by the https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/[C# FAQ]
+A good argument for this change is given by the [C# FAQ](https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/)
 
 With this change `^` becomes available for the standard bitwise XOR (exclusive or) operation.
 
 ### Rename `uint` to `nat`
 
-Inspiration https://sdk.dfinity.org/language-guide/index.html[Motoko]
+Inspiration [Motoko](https://sdk.dfinity.org/language-guide/index.html)
 
 Reason: `uint` is not allowed to overflow and saturates in release code or panics in debug code.
 The name `uint` addresses the wrong association.
@@ -30,7 +30,7 @@ Therefore we should rename `uint` to `nat`
 NOTE: Maybe we should rename `bitsN` to `wordN`. 
 Those types occur only in 4 different sizes. 
 The name `bits` might be associated with an arbitrary number.
-Additional inspiration, a https://whatis.techtarget.com/definition/word[word] is a unit of data of a defined bit length.
+Additional inspiration, a [word](https://whatis.techtarget.com/definition/word) is a unit of data of a defined bit length.
 Therefore we should rename `bits` to `word`.
 
 
@@ -79,8 +79,8 @@ Different to `nat` types which must not over- or underflow.
 
 ### Bitwise operators
 
-Blech provides the standard set of https://en.wikipedia.org/wiki/Bitwise_operations_in_C[bitwise operators known from C].
-Different to C these operators work on `bitsN` types instead of unsigned `uintN` or signed `intN` types.
+Blech provides the standard set of [bitwise operators known from C](https://en.wikipedia.org/wiki/Bitwise_operations_in_C).
+Different to C these operators work on `bitsN` types instead of unsigned `natN` or signed `intN` types.
 
 #### Unary bitwise operator
 
@@ -120,7 +120,7 @@ Type: `function (bitsN, AnyNat) returns bitsN`
 
 These operators can be defined as Macros. 
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
-C compilers recognize the https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts[circular shift idiom].
+C compilers recognize the [circular shift idiom](https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts).
 
 The shift and rotate amount is a general unsigned integer type. 
 It is considered modulo the `bitsN` width `N`.
@@ -132,7 +132,7 @@ As arithmetic types, `bitsN` types implement numeric wrap-around (modulo `2**N`)
 
 #### Implicit conversion
 
-https://www.guru99.com/c-type-casting.html[Implicit conversion in C] is complicated.
+[Implicit conversion in C](https://www.guru99.com/c-type-casting.html) is complicated.
 
 Implicit conversion is only allowed if no representation change is necessary.
 
@@ -205,7 +205,7 @@ let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
 
 ### Hacker's Delight translated to Blech
 
-https://en.wikipedia.org/wiki/Hacker%27s_Delight[Hacker's Delight] is the definitive source of bitwise programming algorithms. 
+[Hacker's Delight](https://en.wikipedia.org/wiki/Hacker%27s_Delight) is the definitive source of bitwise programming algorithms. 
 It should be possible to use these hacks in Blech.
 
 Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 => 0b_0101_0000, 0x_00 => 0x_00).

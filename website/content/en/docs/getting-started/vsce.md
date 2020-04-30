@@ -9,11 +9,13 @@ description: >
 
 ## Visual Studio Code and the Blech Language Services
 
-We package the Blech Language Service as an extension for VS Code that provides two functionalities: 
+We package the Blech Language Servicex as an extension for VS Code that provides two functionalities: 
 - syntax highlighting, and 
-- a language server which checks the code every time it is saved and, in case of errors, returns error messages to the user.
+- a language server which checks the code every time it is saved.
 
-That gives you editing support like type checking or causality checking. It also supports a few basic IDE functionalities.
+This gives you editing support like code snippets, correct indentation, type checking or causality checking. 
+In case of errors, it returns error messages to the user.
+It also supports a few basic IDE functionalities.
 
 In order to use this, install Visual Studio Code (a.k.a. VS Code) either from https://code.visualstudio.com/ or from https://github.com/VSCodium/vscodium/releases. 
 It can be installed locally without admin rights. 
@@ -80,7 +82,7 @@ If you like, you can learn more about [the TypeScript language](https://www.type
 
 ## Build the extension
 
-Besides syntax hightlighting the Blech Language Services consisting of two parts which need to be compiled.
+Besides syntax highlighting the Blech Language Services consisting of two parts which need to be compiled.
 
 1. A language server written in F#, which is a small wrapper around the Blech compiler.
     
