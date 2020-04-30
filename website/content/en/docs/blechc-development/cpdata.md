@@ -6,6 +6,10 @@ description: >
   This explains the how Blech variable names and memory accesses are rendered as C code.
 ---
 
+<style type="text/css">
+    ol ol { list-style-type: lower-roman; }
+</style>
+
 ## Possibilities in Blech
 
 Variable names appear in different *syntactic* contexts (expressions):
@@ -38,27 +42,27 @@ Translating any access to data runs through several stages:
 Given a typed memory location `foo[0].bar`...
 _(Remark: `prev foo[0].bar` binds as `(prev foo)[0].bar`)._
 
- 1. For the QNamePrefix part `foo`, determine a name scheme (depending on declaration context)
-   i. Static name `blc_<longId>_foo` or `blc_<moduleName>_<longId>_foo`
-   ii. Parameter name `blc_foo`
-   iii. Auto name `blc_foo`
-   iv. Context element `blc_blech_ctx->blc_foo`
-   v. Auxiliary name `aux_blc_foo`
-   vi. prev of Blech var `prev_blc_foo`
-   vii. prev of extern var `blc_blech_ctx->prev_blc_foo`
- 2. Ensure the name `<name>` generated above represents the memory blob itself, not a pointer to it
-   i. if `foo` is a simple type or struct parameter rewrite name from above to `*<name>`
-     Nothing to do for arrays as the name (pointer to the first element) already _represents_ the whole array blob.
- 3. Append all field / cell access to this name `<name>[0].bar`
- 4. Depending on usage context and type (of `bar`) determine whether to use the path as is or construct a reference from it
+1. For the QNamePrefix part `foo`, determine a name scheme (depending on declaration context)
+    1. Static name `blc_<longId>_foo` or `blc_<moduleName>_<longId>_foo`
+    2. Parameter name `blc_foo`
+    3. Auto name `blc_foo`
+    4. Context element `blc_blech_ctx->blc_foo`
+    5. Auxiliary name `aux_blc_foo`
+    6. prev of Blech var `prev_blc_foo`
+    7. prev of extern var `blc_blech_ctx->prev_blc_foo`
+2. Ensure the name `<name>` generated above represents the memory blob itself, not a pointer to it
+    1. if `foo` is a simple type or struct parameter rewrite name from above to `*<name>`
+    2. Nothing to do for arrays as the name (pointer to the first element) already _represents_ the whole array blob.  
+3. Append all field / cell access to this name `<name>[0].bar`
+4. Depending on usage context and type (of `bar`) determine whether to use the path as is or construct a reference from it
 
 <!-- .Usage context and type -->
 |  | simple | struct | array 
 | --- | --- | --- | --- |
 | lhs assign | as-is | as-is | as-is
 | rhs assign | as-is | as-is | as-is 
-| output arg | & | & | as-is 
-| input arg | as-is | & | as-is 
+| output arg | `&` | `&` | as-is 
+| input arg | as-is | `&` | as-is 
 
 Possibly reduce trivial combinations like `&(*<name>)` to `<name>`. This will happen for e.g. simple typed output parameters passed on as an output argument.
 
@@ -76,4 +80,6 @@ This is basically the same reasoning as with auto variables. However we need the
 {{< alert color="warning">}}
 TODO: at the moment all constants and params in local scopes are lifted to the top level.
 Why do we not use the `static` keyword of C and let the declaration remain inside the function?
+
+REMARK: We could use `blc_blech` instead of `aux_blc`. `blech` is a reserved id and never an identifier. So only the prefix `blc_` would be reserved for Blech's global C variables.
 {{< /alert >}}
