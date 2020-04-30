@@ -1,8 +1,9 @@
 # Blech documentation
 
 Documentation for the Blech embedded programming language.
+[Read the documentation on our homepage.](https://boschresearch.github.io/blech-doc/)
 
-The documentation is organised as a website.
+If you want to change the contents of that website read the following to get started.
 
 The necessary tool chain to build the documentation and the website consists of
 
