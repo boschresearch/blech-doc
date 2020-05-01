@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blech – Blech language evolution</title>
-    <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/</link>
+    <link>https://www.blech-lang.org/docs/language-evolution/</link>
     <description>Recent content in Blech language evolution on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/language-evolution/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://www.blech-lang.org/docs/language-evolution/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Docs: Blech&#39;s interface to C</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/</guid>
       <description>
         
         
@@ -28,10 +28,10 @@
     
     <item>
       <title>Docs: Bits and bytes</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/</guid>
       <description>
         
         
@@ -50,8 +50,8 @@ A good argument for this change is given by the &lt;a href=&#34;https://devblogs
 &lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
 The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
 Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
-Those types occur only in 4 different sizes. 
+&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;.
+Those types occur only in 4 different sizes.
 The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
 Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word&#34; target=&#34;_blank&#34;&gt;word&lt;/a&gt;
  is a unit of data of a defined bit length.
@@ -110,11 +110,11 @@ shift right: &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 left rotate: &lt;code&gt;&amp;lt;&amp;lt;&amp;gt;&lt;/code&gt;
 right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;These operators can be defined as Macros. 
+&lt;p&gt;These operators can be defined as Macros.
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
 C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts&#34; target=&#34;_blank&#34;&gt;circular shift idiom&lt;/a&gt;
 .&lt;/p&gt;
-&lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
+&lt;p&gt;The shift and rotate amount is a general unsigned integer type.
 It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
 &lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
@@ -166,7 +166,7 @@ Bitwise and arithmetic operations can only be applied to values of type &lt;code
 let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight&#34; target=&#34;_blank&#34;&gt;Hacker’s Delight&lt;/a&gt;
- is the definitive source of bitwise programming algorithms. 
+ is the definitive source of bitwise programming algorithms.
 It should be possible to use these hacks in Blech.&lt;/p&gt;
 &lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits8
@@ -184,10 +184,10 @@ x = x | (x + 0b_1)
     
     <item>
       <title>Docs: Borrowing</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/borrowing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/borrowing/</guid>
       <description>
         
         
@@ -236,7 +236,7 @@ end
    |                     - Output argument.
 3  |     outIsInPlus1(i)(i)
    |                  ^ Input argument.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reason is that all parameters conceptually are passed by reference. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reason is that all parameters conceptually are passed by reference.
 For pure functions - which do not have output parameters, passing actual parameters by reference can be implemented with pass-by-value which makes parameter passing of simple-types an optimisation.
 For impure functions - which have output parameters, the compiler forbids references to overlapping memory regions, as in the example above.&lt;/p&gt;
 &lt;p&gt;Blech automatically takes references and de-references them if necessary. It decides on mutability through the occurence in the input or output parameter list. Semantically the Blech program has the following form:&lt;/p&gt;
@@ -252,7 +252,7 @@ activity main()
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;which is, as explained before, rejected by the compiler.&lt;/p&gt;
 &lt;p&gt;This non-pure function is semantically very close to Rust.
-Rust also does not allow this call. 
+Rust also does not allow this call.
 The borrow checker detects an error.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;outIsInPlus1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -640,7 +640,7 @@ We can regard both blocks of the &lt;code&gt;cobegin&lt;/code&gt; as partially s
     ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note: Non-mutable borrowing does not imply additional causal constraints. It is simply write before read. But it helps clarifying the program semantics as explained in the introduction.&lt;/p&gt;
 &lt;h2 id=&#34;dismiss-shares&#34;&gt;Dismiss &lt;code&gt;shares&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Blech currently proposes to use a &lt;code&gt;shares&lt;/code&gt; if this an intended behaviour. 
+&lt;p&gt;Blech currently proposes to use a &lt;code&gt;shares&lt;/code&gt; if this an intended behaviour.
 We think this is no longer necessary with borrowing and causality.&lt;/p&gt;
 &lt;h2 id=&#34;todo&#34;&gt;Todo&lt;/h2&gt;
 &lt;h3 id=&#34;borrow-spitting&#34;&gt;Borrow spitting&lt;/h3&gt;

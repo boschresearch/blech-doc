@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blech – Blech&#39;s interface to C</title>
-    <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/</link>
+    <link>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/</link>
     <description>Recent content in Blech&#39;s interface to C on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Docs: Accessing variables in the Blech environment</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/env-variables/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/env-variables/</guid>
       <description>
         
         
@@ -26,7 +26,7 @@
 &lt;p&gt;Environment variables are either read-only inputs or read-write outputs.
 Every environment variables has a counterpart in the Blech environment.
 Therefore, they are annotated as &lt;code&gt;@[CInput ...]&lt;/code&gt; or &lt;code&gt;@[COutput ...]&lt;/code&gt;.
-Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;. 
+Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;.
 A &lt;code&gt;extern let&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[CInput ...]&lt;/code&gt;.
 An &lt;code&gt;extern var&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[COutput ...]&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CInput (binding = &amp;quot;theSensor&amp;quot;, header = &amp;quot;sensors.h&amp;quot;)]
@@ -34,8 +34,8 @@ extern let sensor: uint8
 
 @[COutput (binding = &amp;quot;spiIsReady&amp;quot;, header = &amp;quot;spi.h&amp;quot;)]
 extern var spiReady: bool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics. 
-They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction. 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics.
+They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction.
 They might be read or written asynchronously by the environment.&lt;/p&gt;
 &lt;p&gt;In order to synchronize these C variables, the Blech program holds a buffered value of the external value in the environment variable.&lt;/p&gt;
 &lt;p&gt;The Blech runtime system takes care of the synchronisation.
@@ -74,7 +74,7 @@ Two or more &lt;code&gt;extern let&lt;/code&gt; declarations are allowed to have
 The signature for the above activity &lt;code&gt;handleCVariables&lt;/code&gt; looks like the following&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;singleton handleCVariables.spiReady 
 activity handleCVariables()
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the external variables and shows their annotations. 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the external variables and shows their annotations.
 Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.&lt;/p&gt;
 &lt;h2 id=&#34;the-diamond-call-problem&#34;&gt;The diamond call problem&lt;/h2&gt;
 &lt;p&gt;If an activity is a singleton, it still can be called from several activities.&lt;/p&gt;
@@ -157,10 +157,10 @@ In order to maintain the single-writer principle by programming discipline it is
     
     <item>
       <title>Docs: C bindings</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/c-bindings/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/c-bindings/</guid>
       <description>
         
         
@@ -173,7 +173,7 @@ For example, a function like &lt;code&gt;strcpy&lt;/code&gt; can not be used fro
 &lt;p&gt;The &lt;code&gt;extern&lt;/code&gt; function declaration in Blech would put the target &lt;code&gt;toString&lt;/code&gt; in the output parameter list.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding =&amp;quot;strcpy&amp;quot;, header = &amp;quot;string.h&amp;quot;)]
 extern function stringCopy (fromString: string)(toString: string)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Given that we currently do not support strings, which is another future topic, 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Given that we currently do not support strings, which is another future topic,
 the order of input and output parameters cannot be rearranged for the bound C function.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[EntryPoint]
 activity Main () ()

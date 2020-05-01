@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blech – Control flow</title>
-    <link>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/</link>
+    <link>https://www.blech-lang.org/docs/user-manual/controlflow/</link>
     <description>Recent content in Control flow on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://www.blech-lang.org/docs/user-manual/controlflow/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Docs: Model of execution</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/controlflow/moc/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/controlflow/moc/</guid>
       <description>
         
         
@@ -28,7 +28,7 @@ It interacts with a so-called &lt;em&gt;environment&lt;/em&gt; that triggers a &
 &lt;p&gt;Typically, the environment provides a set of &lt;em&gt;inputs&lt;/em&gt; to a Blech program. These inputs may, for example, be sensor readings.
 The environment then expects the Blech program to perform some computations and finally return a set of updated &lt;em&gt;outputs&lt;/em&gt;.
 Outputs can be interpreted by the environment, for example, as set points for actuators.&lt;/p&gt;
-&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form. 
+&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form.
 It ranges from just a loop that calls the Blech application as soon as the last reaction has finished to a sophisticated real-time operating system which manages several tasks, timers and event queues.&lt;/p&gt;
 &lt;p&gt;The Blech program maintains its state from one reaction to the next.
 Thus a reaction does not merely depend on the given inputs but also on the state of the program itself.&lt;/p&gt;
@@ -51,7 +51,7 @@ It is the single most crucial distinctive feature of synchronous programming lan
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
 the distinction of individual reactions; and the distinction of a thread-local view and a global view on a shared memory.&lt;/p&gt;
-&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
+&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed.
 Such programs are called causally correct or simply &lt;em&gt;causal&lt;/em&gt;.
 The next section explains what this means for Blech.&lt;/p&gt;
 &lt;h2 id=&#34;causality&#34;&gt;Causality&lt;/h2&gt;
@@ -82,10 +82,10 @@ There is at most one writer per shared variable. The writer must finish its last
     
     <item>
       <title>Docs: Statements</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/controlflow/statements/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/controlflow/statements/</guid>
       <description>
         
         

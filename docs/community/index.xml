@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blech – Community</title>
-    <link>https://boschresearch.github.io/blech-doc/community/</link>
+    <link>https://www.blech-lang.org/community/</link>
     <description>Recent content in Community on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="https://boschresearch.github.io/blech-doc/community/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://www.blech-lang.org/community/index.xml" rel="self" type="application/rss+xml" />
     
     
       

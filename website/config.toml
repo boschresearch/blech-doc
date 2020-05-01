@@ -1,7 +1,7 @@
-baseURL = "https://boschresearch.github.io/blech-doc/"  
+baseURL = "https://www.blech-lang.org/"  
 
 # This is neccesary because of the github projects page, for correct relative URLs
-canonifyURLs = true
+# canonifyURLs = true
 
 title = "The Blech language"
 

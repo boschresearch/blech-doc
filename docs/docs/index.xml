@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blech – Documentation</title>
-    <link>https://boschresearch.github.io/blech-doc/docs/</link>
+    <link>https://www.blech-lang.org/docs/</link>
     <description>Recent content in Documentation on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://www.blech-lang.org/docs/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Docs: The Blech compiler - blechc</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/</link>
+      <link>https://www.blech-lang.org/docs/getting-started/blechc/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/</guid>
+      <guid>https://www.blech-lang.org/docs/getting-started/blechc/</guid>
       <description>
         
         
@@ -71,7 +71,7 @@ This will generate a file &lt;code&gt;blech.c&lt;/code&gt; in the same folder wh
 &lt;p&gt;Try all the options&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;blechc --help
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;compile-generated-c-files&#34;&gt;Compile generated C files&lt;/h2&gt;
-&lt;p&gt;By default the compiler produces a main program in &lt;code&gt;blech.c&lt;/code&gt; which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in &lt;code&gt;&amp;lt;path-to&amp;gt;/blech/src/blechc/include&lt;/code&gt;. 
+&lt;p&gt;By default the compiler produces a main program in &lt;code&gt;blech.c&lt;/code&gt; which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in &lt;code&gt;&amp;lt;path-to&amp;gt;/blech/src/blechc/include&lt;/code&gt;.
 On Windows C compilation may look like this.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;mingw32-cc.exe -I. -I&amp;lt;path-to&amp;gt;/blech/src/blechc/include blech.c
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the current folder &lt;code&gt;.&lt;/code&gt; is explicitly added as a path to be included.
@@ -84,10 +84,10 @@ For programmers familiar with Arduino these correspond to the &lt;code&gt;setup&
     
     <item>
       <title>Docs: Accessing variables in the Blech environment</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/env-variables/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/env-variables/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/env-variables/</guid>
       <description>
         
         
@@ -95,7 +95,7 @@ For programmers familiar with Arduino these correspond to the &lt;code&gt;setup&
 &lt;p&gt;Environment variables are either read-only inputs or read-write outputs.
 Every environment variables has a counterpart in the Blech environment.
 Therefore, they are annotated as &lt;code&gt;@[CInput ...]&lt;/code&gt; or &lt;code&gt;@[COutput ...]&lt;/code&gt;.
-Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;. 
+Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;.
 A &lt;code&gt;extern let&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[CInput ...]&lt;/code&gt;.
 An &lt;code&gt;extern var&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[COutput ...]&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CInput (binding = &amp;quot;theSensor&amp;quot;, header = &amp;quot;sensors.h&amp;quot;)]
@@ -103,8 +103,8 @@ extern let sensor: uint8
 
 @[COutput (binding = &amp;quot;spiIsReady&amp;quot;, header = &amp;quot;spi.h&amp;quot;)]
 extern var spiReady: bool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics. 
-They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction. 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics.
+They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction.
 They might be read or written asynchronously by the environment.&lt;/p&gt;
 &lt;p&gt;In order to synchronize these C variables, the Blech program holds a buffered value of the external value in the environment variable.&lt;/p&gt;
 &lt;p&gt;The Blech runtime system takes care of the synchronisation.
@@ -143,7 +143,7 @@ Two or more &lt;code&gt;extern let&lt;/code&gt; declarations are allowed to have
 The signature for the above activity &lt;code&gt;handleCVariables&lt;/code&gt; looks like the following&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;singleton handleCVariables.spiReady 
 activity handleCVariables()
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the external variables and shows their annotations. 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the external variables and shows their annotations.
 Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.&lt;/p&gt;
 &lt;h2 id=&#34;the-diamond-call-problem&#34;&gt;The diamond call problem&lt;/h2&gt;
 &lt;p&gt;If an activity is a singleton, it still can be called from several activities.&lt;/p&gt;
@@ -226,42 +226,42 @@ In order to maintain the single-writer principle by programming discipline it is
     
     <item>
       <title>Docs: Expressions, conditions, initialisers, constants</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/</link>
+      <link>https://www.blech-lang.org/docs/blechc-development/const-and-expr/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/const-and-expr/</guid>
+      <guid>https://www.blech-lang.org/docs/blechc-development/const-and-expr/</guid>
       <description>
         
         
         &lt;h2 id=&#34;equality-expressions&#34;&gt;Equality expressions&lt;/h2&gt;
-&lt;p&gt;Theoretically, every type supports some notion of equality (and inequality). 
-This is straightforward for &lt;strong&gt;simple (or primitive) value types&lt;/strong&gt; that consist of one memory cell only (booleans and all numeric types of all sizes): 
+&lt;p&gt;Theoretically, every type supports some notion of equality (and inequality).
+This is straightforward for &lt;strong&gt;simple (or primitive) value types&lt;/strong&gt; that consist of one memory cell only (booleans and all numeric types of all sizes):
 &lt;code&gt;a == b&lt;/code&gt; holds iff the value of &lt;code&gt;a&lt;/code&gt; is the same as the value of &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;For &lt;strong&gt;structured (complex) value types&lt;/strong&gt; we can decide equality by comparing every element of data structures recursively.
-At compile time the result of a comparison can be evaluated if the arguments are compile time constants. 
+At compile time the result of a comparison can be evaluated if the arguments are compile time constants.
 Thus it is technically no problem to compare compile time constants of any value type.&lt;/p&gt;
-&lt;p&gt;At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure. 
+&lt;p&gt;At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure.
 An optimisation of runtime - not changing the run-time complexity but providing better factors - could be achieved by comparing the data structures byte-wise (&lt;code&gt;memcmp&lt;/code&gt;).
-But this requires to fix padding in structs and then fails in special cases: 
-floating point elements may use different bit representations for the same numerical value, e.g. &lt;code&gt;+0.0&lt;/code&gt; and &lt;code&gt;-0.0&lt;/code&gt;. 
+But this requires to fix padding in structs and then fails in special cases:
+floating point elements may use different bit representations for the same numerical value, e.g. &lt;code&gt;+0.0&lt;/code&gt; and &lt;code&gt;-0.0&lt;/code&gt;.
 Consequently, the comparison operator for structured data may not be used at runtime (like in C) and results in a type check error.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Reference types are not implemented yet but in principle they will have the same behaviour: compare (dereferenced) values for simple types, and disallow comparison for complex types.&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id=&#34;using-constants&#34;&gt;Using constants&lt;/h2&gt;
-&lt;p&gt;In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent. 
+&lt;p&gt;In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent.
 Thus at the end of the type check phase the declarations of the consts do exist and can be translated to C but all their usages disappear (being substituted by the value).
 This has the drawback of less readable C code but still allows to export constants as #defines and use them in foreign code by including the relevant &lt;code&gt;.h&lt;/code&gt; file.&lt;/p&gt;
-&lt;p&gt;In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals. 
-The same is true for arrays in all versions of C. 
-Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data. 
-In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls. 
+&lt;p&gt;In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals.
+The same is true for arrays in all versions of C.
+Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data.
+In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls.
 In summary, literals occur only on the right hand side of initialisation in the generated C code.&lt;/p&gt;
 &lt;h2 id=&#34;side-effects-in-conditions-are-not-allowed&#34;&gt;Side effects in conditions are not allowed&lt;/h2&gt;
-&lt;p&gt;It is obvious that testing an &lt;code&gt;await&lt;/code&gt; condition may not have any impact on the state to implement a synchronous program. 
-Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements. 
-This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation. 
+&lt;p&gt;It is obvious that testing an &lt;code&gt;await&lt;/code&gt; condition may not have any impact on the state to implement a synchronous program.
+Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements.
+This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation.
 The common programming practice of C where conditions&amp;rsquo; side effects are used to also advance computation is regarded as bad practice in Blech until proven otherwise.&lt;/p&gt;
 &lt;h2 id=&#34;side-effects-are-allowed-in-initialisers&#34;&gt;Side effects are allowed in initialisers&lt;/h2&gt;
-&lt;p&gt;Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable. 
+&lt;p&gt;Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable.
 Otherwise the following code that declares an immutable variable cannot be written:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let status = f()(x)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Instead, we would have to write&lt;/p&gt;
@@ -274,10 +274,10 @@ status = f()(x)
     
     <item>
       <title>Docs: Model of execution</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/controlflow/moc/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/moc/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/controlflow/moc/</guid>
       <description>
         
         
@@ -287,7 +287,7 @@ It interacts with a so-called &lt;em&gt;environment&lt;/em&gt; that triggers a &
 &lt;p&gt;Typically, the environment provides a set of &lt;em&gt;inputs&lt;/em&gt; to a Blech program. These inputs may, for example, be sensor readings.
 The environment then expects the Blech program to perform some computations and finally return a set of updated &lt;em&gt;outputs&lt;/em&gt;.
 Outputs can be interpreted by the environment, for example, as set points for actuators.&lt;/p&gt;
-&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form. 
+&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form.
 It ranges from just a loop that calls the Blech application as soon as the last reaction has finished to a sophisticated real-time operating system which manages several tasks, timers and event queues.&lt;/p&gt;
 &lt;p&gt;The Blech program maintains its state from one reaction to the next.
 Thus a reaction does not merely depend on the given inputs but also on the state of the program itself.&lt;/p&gt;
@@ -310,7 +310,7 @@ It is the single most crucial distinctive feature of synchronous programming lan
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
 the distinction of individual reactions; and the distinction of a thread-local view and a global view on a shared memory.&lt;/p&gt;
-&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
+&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed.
 Such programs are called causally correct or simply &lt;em&gt;causal&lt;/em&gt;.
 The next section explains what this means for Blech.&lt;/p&gt;
 &lt;h2 id=&#34;causality&#34;&gt;Causality&lt;/h2&gt;
@@ -341,10 +341,10 @@ There is at most one writer per shared variable. The writer must finish its last
     
     <item>
       <title>Docs: Notation</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/notation/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/notation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/notation/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/notation/</guid>
       <description>
         
         
@@ -366,10 +366,10 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
     
     <item>
       <title>About: Privacy policy</title>
-      <link>https://boschresearch.github.io/blech-doc/about/privacy/</link>
+      <link>https://www.blech-lang.org/about/privacy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/about/privacy/</guid>
+      <guid>https://www.blech-lang.org/about/privacy/</guid>
       <description>
         
         
@@ -381,8 +381,8 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
 &lt;/div&gt;
 
 &lt;h2 id=&#34;github-pages-service&#34;&gt;GitHub Pages Service&lt;/h2&gt;
-&lt;p&gt;This Website is hosted as a GitHub Pages website. 
-GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service. 
+&lt;p&gt;This Website is hosted as a GitHub Pages website.
+GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service.
 See the &lt;a href=&#34;https://help.github.com/en/github/site-policy/github-privacy-statement&#34; target=&#34;_blank&#34;&gt;GitHub Privacy Statement&lt;/a&gt;
  for details.&lt;/p&gt;
 &lt;h2 id=&#34;this-website&#34;&gt;This Website&lt;/h2&gt;
@@ -394,7 +394,7 @@ See the &lt;a href=&#34;https://help.github.com/en/github/site-policy/github-pri
 &lt;/ul&gt;
 &lt;h2 id=&#34;opt-in-for-google-analytics&#34;&gt;Opt-in for Google Analytics&lt;/h2&gt;
 &lt;p&gt;You can opt-in for site analytics, in this opt-in notice&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://boschresearch.github.io/blech-doc/images/opt-in-notice.png&#34; alt=&#34;Opt-in notice&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.blech-lang.org/images/opt-in-notice.png&#34; alt=&#34;Opt-in notice&#34;&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;If you &lt;code&gt;Opt-in&lt;/code&gt; we use site analytics to collect your anonymous {&amp;lt; resource usage data.&lt;/li&gt;
 &lt;li&gt;If you close &lt;code&gt;x&lt;/code&gt; this notice, no data will be collected.&lt;/li&gt;
@@ -469,10 +469,10 @@ No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
     
     <item>
       <title>Docs: Bits and bytes</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/bits-and-bytes/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/</guid>
       <description>
         
         
@@ -491,8 +491,8 @@ A good argument for this change is given by the &lt;a href=&#34;https://devblogs
 &lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
 The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
 Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
-Those types occur only in 4 different sizes. 
+&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;.
+Those types occur only in 4 different sizes.
 The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
 Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word&#34; target=&#34;_blank&#34;&gt;word&lt;/a&gt;
  is a unit of data of a defined bit length.
@@ -551,11 +551,11 @@ shift right: &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 left rotate: &lt;code&gt;&amp;lt;&amp;lt;&amp;gt;&lt;/code&gt;
 right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;These operators can be defined as Macros. 
+&lt;p&gt;These operators can be defined as Macros.
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
 C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts&#34; target=&#34;_blank&#34;&gt;circular shift idiom&lt;/a&gt;
 .&lt;/p&gt;
-&lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
+&lt;p&gt;The shift and rotate amount is a general unsigned integer type.
 It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
 &lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
@@ -607,7 +607,7 @@ Bitwise and arithmetic operations can only be applied to values of type &lt;code
 let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight&#34; target=&#34;_blank&#34;&gt;Hacker’s Delight&lt;/a&gt;
- is the definitive source of bitwise programming algorithms. 
+ is the definitive source of bitwise programming algorithms.
 It should be possible to use these hacks in Blech.&lt;/p&gt;
 &lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits8
@@ -625,10 +625,10 @@ x = x | (x + 0b_1)
     
     <item>
       <title>Docs: Blech Language Services - the VS Code extension</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/getting-started/vsce/</link>
+      <link>https://www.blech-lang.org/docs/getting-started/vsce/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/getting-started/vsce/</guid>
+      <guid>https://www.blech-lang.org/docs/getting-started/vsce/</guid>
       <description>
         
         
@@ -638,14 +638,14 @@ x = x | (x + 0b_1)
 &lt;li&gt;syntax highlighting, and&lt;/li&gt;
 &lt;li&gt;a language server which checks the code every time it is saved.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This gives you editing support like code snippets, correct indentation, type checking or causality checking. 
+&lt;p&gt;This gives you editing support like code snippets, correct indentation, type checking or causality checking.
 In case of errors, it returns error messages to the user.
 It also supports a few basic IDE functionalities.&lt;/p&gt;
-&lt;p&gt;In order to use this, install Visual Studio Code (a.k.a. VS Code) either from &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;https://code.visualstudio.com/&lt;/a&gt; or from &lt;a href=&#34;https://github.com/VSCodium/vscodium/releases&#34;&gt;https://github.com/VSCodium/vscodium/releases&lt;/a&gt;. 
+&lt;p&gt;In order to use this, install Visual Studio Code (a.k.a. VS Code) either from &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;https://code.visualstudio.com/&lt;/a&gt; or from &lt;a href=&#34;https://github.com/VSCodium/vscodium/releases&#34;&gt;https://github.com/VSCodium/vscodium/releases&lt;/a&gt;.
 It can be installed locally without admin rights.&lt;/p&gt;
 &lt;h2 id=&#34;build-the-extension-from-source&#34;&gt;Build the extension from source&lt;/h2&gt;
 &lt;p&gt;The build from source needs &lt;strong&gt;.NET Core&lt;/strong&gt; and &lt;strong&gt;NodeJS&lt;/strong&gt; for the Blech Language Services.&lt;/p&gt;
-&lt;p&gt;If you &lt;a href=&#34;https://boschresearch.github.io/blech-doc/docs/getting-started/blechc/#build-blechc-from-source&#34;&gt;built the Blech compiler from source&lt;/a&gt;
+&lt;p&gt;If you &lt;a href=&#34;https://www.blech-lang.org/docs/getting-started/blechc/#build-blechc-from-source&#34;&gt;built the Blech compiler from source&lt;/a&gt;
  .NET Core is already installed.&lt;/p&gt;
 &lt;p&gt;To install NodeJS &lt;a href=&#34;https://nodejs.org/&#34; target=&#34;_blank&#34;&gt;download and install the Long Term Support version&lt;/a&gt;
 .
@@ -693,11 +693,11 @@ To build and package the client and the server as an extension run:&lt;/p&gt;
 &lt;p&gt;From the command line go to the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;code blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp;gt;.vsix
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;with the correct version number.&lt;/p&gt;
-&lt;p&gt;If VS Code is already running: 
+&lt;p&gt;If VS Code is already running:
 Open the Extension section, go to the &lt;code&gt;...&lt;/code&gt; menu, and select &lt;code&gt;Install from VSIX...&lt;/code&gt;.
 Select the &lt;code&gt;blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp;gt;.vsix&lt;/code&gt; file to install the extension.&lt;/p&gt;
-&lt;p&gt;Verify it works by opening some &lt;code&gt;*.blc&lt;/code&gt; file. 
-If the keywords are coloured, it works. 
+&lt;p&gt;Verify it works by opening some &lt;code&gt;*.blc&lt;/code&gt; file.
+If the keywords are coloured, it works.
 Furthermore, if you hover over an activity name, you should see its signature in a tooltip.&lt;/p&gt;
 
       </description>
@@ -705,10 +705,10 @@ Furthermore, if you hover over an activity name, you should see its signature in
     
     <item>
       <title>Docs: Borrowing</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/borrowing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/borrowing/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/borrowing/</guid>
       <description>
         
         
@@ -757,7 +757,7 @@ end
    |                     - Output argument.
 3  |     outIsInPlus1(i)(i)
    |                  ^ Input argument.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reason is that all parameters conceptually are passed by reference. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reason is that all parameters conceptually are passed by reference.
 For pure functions - which do not have output parameters, passing actual parameters by reference can be implemented with pass-by-value which makes parameter passing of simple-types an optimisation.
 For impure functions - which have output parameters, the compiler forbids references to overlapping memory regions, as in the example above.&lt;/p&gt;
 &lt;p&gt;Blech automatically takes references and de-references them if necessary. It decides on mutability through the occurence in the input or output parameter list. Semantically the Blech program has the following form:&lt;/p&gt;
@@ -773,7 +773,7 @@ activity main()
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;which is, as explained before, rejected by the compiler.&lt;/p&gt;
 &lt;p&gt;This non-pure function is semantically very close to Rust.
-Rust also does not allow this call. 
+Rust also does not allow this call.
 The borrow checker detects an error.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;outIsInPlus1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -1161,7 +1161,7 @@ We can regard both blocks of the &lt;code&gt;cobegin&lt;/code&gt; as partially s
     ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note: Non-mutable borrowing does not imply additional causal constraints. It is simply write before read. But it helps clarifying the program semantics as explained in the introduction.&lt;/p&gt;
 &lt;h2 id=&#34;dismiss-shares&#34;&gt;Dismiss &lt;code&gt;shares&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Blech currently proposes to use a &lt;code&gt;shares&lt;/code&gt; if this an intended behaviour. 
+&lt;p&gt;Blech currently proposes to use a &lt;code&gt;shares&lt;/code&gt; if this an intended behaviour.
 We think this is no longer necessary with borrowing and causality.&lt;/p&gt;
 &lt;h2 id=&#34;todo&#34;&gt;Todo&lt;/h2&gt;
 &lt;h3 id=&#34;borrow-spitting&#34;&gt;Borrow spitting&lt;/h3&gt;
@@ -1179,10 +1179,10 @@ We think this is no longer necessary with borrowing and causality.&lt;/p&gt;
     
     <item>
       <title>Docs: C bindings</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/</link>
+      <link>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/c-bindings/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/language-evolution/blech-c-interface/c-bindings/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/c-bindings/</guid>
       <description>
         
         
@@ -1195,7 +1195,7 @@ For example, a function like &lt;code&gt;strcpy&lt;/code&gt; can not be used fro
 &lt;p&gt;The &lt;code&gt;extern&lt;/code&gt; function declaration in Blech would put the target &lt;code&gt;toString&lt;/code&gt; in the output parameter list.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding =&amp;quot;strcpy&amp;quot;, header = &amp;quot;string.h&amp;quot;)]
 extern function stringCopy (fromString: string)(toString: string)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Given that we currently do not support strings, which is another future topic, 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Given that we currently do not support strings, which is another future topic,
 the order of input and output parameters cannot be rearranged for the bound C function.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[EntryPoint]
 activity Main () ()
@@ -1237,10 +1237,10 @@ extern function stringCopy (formString: string)(toString: string)
     
     <item>
       <title>About: Contact information</title>
-      <link>https://boschresearch.github.io/blech-doc/about/contact/</link>
+      <link>https://www.blech-lang.org/about/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/about/contact/</guid>
+      <guid>https://www.blech-lang.org/about/contact/</guid>
       <description>
         
         
@@ -1280,16 +1280,16 @@ GERMANY&lt;/p&gt;
     
     <item>
       <title>Docs: Lexical elements</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/lexical/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/lexical/</guid>
       <description>
         
         
         &lt;h2 id=&#34;comments&#34;&gt;Comments&lt;/h2&gt;
 &lt;p&gt;Single line comments are C++ style. They begin with &lt;code&gt;//&lt;/code&gt; and end with the end of line.&lt;/p&gt;
-&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;. 
+&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;.
 Comment nesting is supported.&lt;/p&gt;
 &lt;h3 id=&#34;declaration-comments&#34;&gt;Declaration Comments&lt;/h3&gt;
 &lt;p&gt;A special comment syntax allows to write comments for declarations (functions, activities, types, variables, &amp;hellip;) which will be transported over to the generated C code.
@@ -1336,10 +1336,10 @@ Java style multi-line comments &lt;code&gt;/** */&lt;/code&gt; and .Net style si
 &lt;p&gt;&lt;code&gt;abort&lt;/code&gt;
 &lt;code&gt;activity&lt;/code&gt;
 &lt;code&gt;and&lt;/code&gt;
-&lt;code&gt;as&lt;/code&gt; 
+&lt;code&gt;as&lt;/code&gt;
 &lt;code&gt;await&lt;/code&gt;
 &lt;code&gt;bits8&lt;/code&gt;
-&lt;code&gt;bits16&lt;/code&gt; 
+&lt;code&gt;bits16&lt;/code&gt;
 &lt;code&gt;bits32&lt;/code&gt;
 &lt;code&gt;bits64&lt;/code&gt;
 &lt;code&gt;blech&lt;/code&gt;
@@ -1421,10 +1421,10 @@ We call this the &amp;ldquo;wildcard&amp;rdquo;. Wildcards are useful when you w
     
     <item>
       <title>Docs: Statements</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/controlflow/statements/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/statements/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/controlflow/statements/</guid>
       <description>
         
         
@@ -1804,10 +1804,10 @@ end
     
     <item>
       <title>Docs: Local and external variables</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/</link>
+      <link>https://www.blech-lang.org/docs/blechc-development/external-vars/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/external-vars/</guid>
+      <guid>https://www.blech-lang.org/docs/blechc-development/external-vars/</guid>
       <description>
         
         
@@ -1836,7 +1836,7 @@ We do not need to store external variables in the static context which is passed
 Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
 At the end of the reaction, the final value is written back to the external C-variable (if it is a &lt;code&gt;var&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Previous values of external variables on the other hand must be persisted in static memory.
-This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with 
+This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with
 (while the value of the external variable is volatile and may have changed arbitrarily between reactions).
 The code generator will create an extra local activity variable and add it to the list of local variables that are stored in the context.
 The value of the prev variable will be set &lt;em&gt;at the end&lt;/em&gt; of each reaction, so it can be used in the next reaction.&lt;/p&gt;
@@ -1889,10 +1889,10 @@ Note however that the value shown in the trace is the prev value for the &lt;em&
     
     <item>
       <title>Docs: Translating Blech variable names to C</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/</link>
+      <link>https://www.blech-lang.org/docs/blechc-development/cpdata/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/cpdata/</guid>
+      <guid>https://www.blech-lang.org/docs/blechc-development/cpdata/</guid>
       <description>
         
         
@@ -2008,10 +2008,10 @@ Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the d
     
     <item>
       <title>Docs: Git workflow</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/</link>
+      <link>https://www.blech-lang.org/docs/blechc-development/git-workflow/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/git-workflow/</guid>
+      <guid>https://www.blech-lang.org/docs/blechc-development/git-workflow/</guid>
       <description>
         
         
@@ -2027,10 +2027,10 @@ Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the d
     
     <item>
       <title>Docs: Declarations</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/declarations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/declarations/</guid>
       <description>
         
         
@@ -2082,8 +2082,8 @@ Type declarations are discussed in the next section.&lt;/p&gt;
 &lt;h3 id=&#34;qualifiers&#34;&gt;Qualifiers&lt;/h3&gt;
 &lt;p&gt;There are four possible qualifiers.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;const&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;param&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
-Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time.
+Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip;
 In C, these are represented by &lt;code&gt;#define&lt;/code&gt; macros, which, too, have no representation after the preprocessor finishes.
 Hence &lt;em&gt;using const on arrays (or structs containing arrays), albeit possible, is not advisable&lt;/em&gt; and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
 Instead consider &lt;code&gt;param&lt;/code&gt;.&lt;/p&gt;
@@ -2149,7 +2149,7 @@ We try to make clear which one we mean throughout this document. Usually it shou
 
 &lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;TODO&lt;/h4&gt;
-See the chapter on &lt;a href=&#34;https://boschresearch.github.io/blech-doc/docs/user-manual/types/#structure-types&#34;&gt;struct types&lt;/a&gt; for more details.
+See the chapter on &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/types/#structure-types&#34;&gt;struct types&lt;/a&gt; for more details.
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;h2 id=&#34;subprograms&#34;&gt;Subprograms&lt;/h2&gt;
@@ -2161,7 +2161,7 @@ From a syntactic declaration point of view there is hardly any difference.&lt;/p
 &lt;span style=&#34;color:#000&#34;&gt;ProgramType&lt;/span&gt;        ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;function&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;activity&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamList&lt;/span&gt;          ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;   ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists.
 The first lists declares formal parameters that may only be read (like &lt;code&gt;let&lt;/code&gt; variables), the second list declares formal parameters that may be both read and written (like &lt;code&gt;var&lt;/code&gt; variables).
 In particular the two lists are useful for activities which, in every reaction, receive a list of read-only &lt;em&gt;inputs&lt;/em&gt;, perform some calculation and set the list of read-write &lt;em&gt;outputs&lt;/em&gt;.
 We will therefore often refer to these two parameter lists as &amp;ldquo;input list&amp;rdquo; and &amp;ldquo;output list&amp;rdquo;.&lt;/p&gt;
@@ -2183,7 +2183,7 @@ Note that &lt;code&gt;add&lt;/code&gt; omits an output list and &lt;code&gt;A&lt
 We call functions or activities that do not return anything &amp;ldquo;void&amp;rdquo; but unlike C we do not have a void type in the language.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;@[EntryPoint]&lt;/code&gt; annotation tells the compiler that &lt;code&gt;A&lt;/code&gt; is the main program of this file. Every Blech file must have precisely one entry point activity.
 &lt;em&gt;(That is until we have a module system that allows to write libraries that may have no single entry point at all).&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
+&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context.
 For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.
 The caller of a singleton callee automatically becomes a singleton, too.&lt;/p&gt;
 &lt;h2 id=&#34;external-declarations&#34;&gt;External Declarations&lt;/h2&gt;
@@ -2278,8 +2278,8 @@ However, it may become useful in the future once a build system can make sense o
 &lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
 &lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
 &lt;h4 id=&#34;parameter-lists&#34;&gt;Parameter lists&lt;/h4&gt;
-&lt;p&gt;In Blech, functions have two parameter lists as explained above. 
-The Blech compiler ensures that inputs will only be read. 
+&lt;p&gt;In Blech, functions have two parameter lists as explained above.
+The Blech compiler ensures that inputs will only be read.
 However the Blech compiler has no chance to check that the external code adheres to this contract.&lt;/p&gt;
 &lt;p&gt;For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:&lt;/p&gt;
@@ -2311,10 +2311,10 @@ It is up to the programmer to know what are the effects of the external function
     
     <item>
       <title>Docs: Types</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/types/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/types/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/types/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/types/</guid>
       <description>
         
         
@@ -2354,7 +2354,7 @@ Each one exist in four sizes that indicate the number of bits needed in a machin
 |===&lt;/p&gt;
 &lt;p&gt;The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length &lt;code&gt;N&lt;/code&gt; with a range of &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;2^N -1&lt;/code&gt; from integer numbers centred around 0 with a range of &lt;code&gt;2^(N-1)&lt;/code&gt; to &lt;code&gt;2^(N-1) -1&lt;/code&gt;.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
+However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain.
 Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the &lt;code&gt;bitsX&lt;/code&gt; type is introduced.
 The bits type of length &lt;code&gt;N&lt;/code&gt; have the same value range as the natural numbers of the same length.&lt;/p&gt;
@@ -2494,10 +2494,10 @@ It is up to the system integrator to ensure that this mapping is valid for the C
     
     <item>
       <title>Docs: Expressions</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/expressions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/expressions/</guid>
       <description>
         
         
@@ -2861,10 +2861,10 @@ For example, it is not possible to interpret a floating point as a bits type and
     
     <item>
       <title>Docs: </title>
-      <link>https://boschresearch.github.io/blech-doc/docs/blechc-development/traversals/</link>
+      <link>https://www.blech-lang.org/docs/blechc-development/traversals/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/blechc-development/traversals/</guid>
+      <guid>https://www.blech-lang.org/docs/blechc-development/traversals/</guid>
       <description>
         
         

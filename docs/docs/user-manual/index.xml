@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blech – The Blech language - user manual</title>
-    <link>https://boschresearch.github.io/blech-doc/docs/user-manual/</link>
+    <link>https://www.blech-lang.org/docs/user-manual/</link>
     <description>Recent content in The Blech language - user manual on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="https://boschresearch.github.io/blech-doc/docs/user-manual/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://www.blech-lang.org/docs/user-manual/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Docs: Notation</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/notation/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/notation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/notation/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/notation/</guid>
       <description>
         
         
@@ -40,16 +40,16 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
     
     <item>
       <title>Docs: Lexical elements</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/lexical/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/lexical/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/lexical/</guid>
       <description>
         
         
         &lt;h2 id=&#34;comments&#34;&gt;Comments&lt;/h2&gt;
 &lt;p&gt;Single line comments are C++ style. They begin with &lt;code&gt;//&lt;/code&gt; and end with the end of line.&lt;/p&gt;
-&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;. 
+&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;.
 Comment nesting is supported.&lt;/p&gt;
 &lt;h3 id=&#34;declaration-comments&#34;&gt;Declaration Comments&lt;/h3&gt;
 &lt;p&gt;A special comment syntax allows to write comments for declarations (functions, activities, types, variables, &amp;hellip;) which will be transported over to the generated C code.
@@ -96,10 +96,10 @@ Java style multi-line comments &lt;code&gt;/** */&lt;/code&gt; and .Net style si
 &lt;p&gt;&lt;code&gt;abort&lt;/code&gt;
 &lt;code&gt;activity&lt;/code&gt;
 &lt;code&gt;and&lt;/code&gt;
-&lt;code&gt;as&lt;/code&gt; 
+&lt;code&gt;as&lt;/code&gt;
 &lt;code&gt;await&lt;/code&gt;
 &lt;code&gt;bits8&lt;/code&gt;
-&lt;code&gt;bits16&lt;/code&gt; 
+&lt;code&gt;bits16&lt;/code&gt;
 &lt;code&gt;bits32&lt;/code&gt;
 &lt;code&gt;bits64&lt;/code&gt;
 &lt;code&gt;blech&lt;/code&gt;
@@ -181,10 +181,10 @@ We call this the &amp;ldquo;wildcard&amp;rdquo;. Wildcards are useful when you w
     
     <item>
       <title>Docs: Control flow</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/controlflow/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/controlflow/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/controlflow/</guid>
       <description>
         
         
@@ -194,10 +194,10 @@ We call this the &amp;ldquo;wildcard&amp;rdquo;. Wildcards are useful when you w
     
     <item>
       <title>Docs: Declarations</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/declarations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/declarations/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/declarations/</guid>
       <description>
         
         
@@ -249,8 +249,8 @@ Type declarations are discussed in the next section.&lt;/p&gt;
 &lt;h3 id=&#34;qualifiers&#34;&gt;Qualifiers&lt;/h3&gt;
 &lt;p&gt;There are four possible qualifiers.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;const&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;param&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
-Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time.
+Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip;
 In C, these are represented by &lt;code&gt;#define&lt;/code&gt; macros, which, too, have no representation after the preprocessor finishes.
 Hence &lt;em&gt;using const on arrays (or structs containing arrays), albeit possible, is not advisable&lt;/em&gt; and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
 Instead consider &lt;code&gt;param&lt;/code&gt;.&lt;/p&gt;
@@ -316,7 +316,7 @@ We try to make clear which one we mean throughout this document. Usually it shou
 
 &lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;TODO&lt;/h4&gt;
-See the chapter on &lt;a href=&#34;https://boschresearch.github.io/blech-doc/docs/user-manual/types/#structure-types&#34;&gt;struct types&lt;/a&gt; for more details.
+See the chapter on &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/types/#structure-types&#34;&gt;struct types&lt;/a&gt; for more details.
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;h2 id=&#34;subprograms&#34;&gt;Subprograms&lt;/h2&gt;
@@ -328,7 +328,7 @@ From a syntactic declaration point of view there is hardly any difference.&lt;/p
 &lt;span style=&#34;color:#000&#34;&gt;ProgramType&lt;/span&gt;        ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;function&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;activity&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamList&lt;/span&gt;          ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;   ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists.
 The first lists declares formal parameters that may only be read (like &lt;code&gt;let&lt;/code&gt; variables), the second list declares formal parameters that may be both read and written (like &lt;code&gt;var&lt;/code&gt; variables).
 In particular the two lists are useful for activities which, in every reaction, receive a list of read-only &lt;em&gt;inputs&lt;/em&gt;, perform some calculation and set the list of read-write &lt;em&gt;outputs&lt;/em&gt;.
 We will therefore often refer to these two parameter lists as &amp;ldquo;input list&amp;rdquo; and &amp;ldquo;output list&amp;rdquo;.&lt;/p&gt;
@@ -350,7 +350,7 @@ Note that &lt;code&gt;add&lt;/code&gt; omits an output list and &lt;code&gt;A&lt
 We call functions or activities that do not return anything &amp;ldquo;void&amp;rdquo; but unlike C we do not have a void type in the language.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;@[EntryPoint]&lt;/code&gt; annotation tells the compiler that &lt;code&gt;A&lt;/code&gt; is the main program of this file. Every Blech file must have precisely one entry point activity.
 &lt;em&gt;(That is until we have a module system that allows to write libraries that may have no single entry point at all).&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
+&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context.
 For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.
 The caller of a singleton callee automatically becomes a singleton, too.&lt;/p&gt;
 &lt;h2 id=&#34;external-declarations&#34;&gt;External Declarations&lt;/h2&gt;
@@ -445,8 +445,8 @@ However, it may become useful in the future once a build system can make sense o
 &lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
 &lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
 &lt;h4 id=&#34;parameter-lists&#34;&gt;Parameter lists&lt;/h4&gt;
-&lt;p&gt;In Blech, functions have two parameter lists as explained above. 
-The Blech compiler ensures that inputs will only be read. 
+&lt;p&gt;In Blech, functions have two parameter lists as explained above.
+The Blech compiler ensures that inputs will only be read.
 However the Blech compiler has no chance to check that the external code adheres to this contract.&lt;/p&gt;
 &lt;p&gt;For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:&lt;/p&gt;
@@ -478,10 +478,10 @@ It is up to the programmer to know what are the effects of the external function
     
     <item>
       <title>Docs: Types</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/types/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/types/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/types/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/types/</guid>
       <description>
         
         
@@ -521,7 +521,7 @@ Each one exist in four sizes that indicate the number of bits needed in a machin
 |===&lt;/p&gt;
 &lt;p&gt;The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length &lt;code&gt;N&lt;/code&gt; with a range of &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;2^N -1&lt;/code&gt; from integer numbers centred around 0 with a range of &lt;code&gt;2^(N-1)&lt;/code&gt; to &lt;code&gt;2^(N-1) -1&lt;/code&gt;.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
+However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain.
 Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the &lt;code&gt;bitsX&lt;/code&gt; type is introduced.
 The bits type of length &lt;code&gt;N&lt;/code&gt; have the same value range as the natural numbers of the same length.&lt;/p&gt;
@@ -661,10 +661,10 @@ It is up to the system integrator to ensure that this mapping is valid for the C
     
     <item>
       <title>Docs: Expressions</title>
-      <link>https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/expressions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/docs/user-manual/expressions/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/expressions/</guid>
       <description>
         
         

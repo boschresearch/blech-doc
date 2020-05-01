@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blech – Articles about the Blech language, tools, and releated topics</title>
-    <link>https://boschresearch.github.io/blech-doc/blog/articles/</link>
+    <link>https://www.blech-lang.org/blog/articles/</link>
     <description>Recent content in Articles about the Blech language, tools, and releated topics on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	  <atom:link href="https://boschresearch.github.io/blech-doc/blog/articles/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://www.blech-lang.org/blog/articles/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Blog: Dummy blog post</title>
-      <link>https://boschresearch.github.io/blech-doc/blog/2020/04/01/dummy-blog-post/</link>
+      <link>https://www.blech-lang.org/blog/2020/04/01/dummy-blog-post/</link>
       <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://boschresearch.github.io/blech-doc/blog/2020/04/01/dummy-blog-post/</guid>
+      <guid>https://www.blech-lang.org/blog/2020/04/01/dummy-blog-post/</guid>
       <description>
         
         
