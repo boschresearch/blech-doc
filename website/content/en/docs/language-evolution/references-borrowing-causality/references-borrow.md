@@ -1,6 +1,6 @@
 ---
 title: "References need borrowing"
-linkTitle: "Reference borrowing"
+linkTitle: "Borrowing"
 weight: 10
 description: >
     Adopt the ideas of borrowing in Rust to Blech
