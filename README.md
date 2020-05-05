@@ -128,6 +128,30 @@ and soon on:
 * http://blech-lang.org and 
 * http://www.blech-lang.org
 
+#### Check for broken links on the website
+
+In order to check the links on the website you can use the npm package [broken link checker](https://github.com/stevenvachon/broken-link-checker)
+
+Install it with
+
+```
+npm install broken-link-checker -g
+```
+
+Test the installation
+
+```
+blc --help
+```
+
+Check the whole Blech website with
+```
+blc https://blech-lang.org -ro
+```
+
+The last command only works in a network with commandline DNS access, i.e. without a proxy.
+
+
 
 
 
