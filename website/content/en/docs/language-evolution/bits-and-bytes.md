@@ -10,6 +10,10 @@ description: >
 
 Some notes on [C's integers](https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/)
 
+Some think, [unsigned integers should be avoided](https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/).
+
+For embedded this is not an option.
+
 ### Rename the exponentiation operator `^`
 
 The exponention operator `^` should be renamed to `**` - maybe right associative.

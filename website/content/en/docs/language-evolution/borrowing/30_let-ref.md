@@ -1,7 +1,7 @@
 ---
-title: "`let ref` - immutable references"
-linkTitle: "`let ref`"
-weight: 20
+title: "Immutable references - `let ref`"
+linkTitle: "Immutable references"
+weight: 30
 description: >
     Adopt the ideas of borrowing in Rust to Blech
 ---
@@ -27,10 +27,13 @@ For a function on simple types the generated code can be optimized and the param
 This is not true for an activity.
 
 ```blech
-activity outAlwaysIsInPlus1 (a: int32)(b: int32)
+activity outAlwaysIsInPlus1 (a: int32) (b: int32)
     repeat 
         b = 1
         b = a + b 
+        await true
+        b = 1
+        b = a + b
         await true
     end
 end
@@ -46,6 +49,8 @@ end
 In every step the activity gets `j+1` as its input.
 
 For the code generation the auxiliary memory location is necessary.
+
+We imagine the new value is *pumped into* the activity in every step.
 
 ## Immutable borrowing in sub-expressions
 
@@ -91,14 +96,18 @@ activity a(i: int32)(j: int32)
 end
 ```
 
-This actually has the following semantics:
+In order to take a reference to a right-hand-side expression the compiler would generate an additional memory location.
+
+This has roughly the following semantics:
 
 ```blech 
-activity a(i: int32)(j: int32)
-    var double: int32
+activity a (i: int32) (j: int32)
+    var aux_double: int32  // not subject to borrow checking
+    let ref double = internal_aux_double
     cobegin weak
         repeat
-            double = i * 2
+            aux_double = i * 2
+            await true
         end
     with 
         repeat
@@ -109,10 +118,10 @@ activity a(i: int32)(j: int32)
 end
 ```
 
-with the restriction that `double` is read-only.
 For the declaration `let ref double = i * 2` we need to apply the borrowing rules for the sub-expression `i`.
 
-For example in the following code would be rejected. 
+For example in the following code would then be rejected. 
+
 ```blech
     var i: int32
     var z: int32
@@ -125,7 +134,7 @@ For example in the following code would be rejected.
 ```
 The read-only reference `double` immutable borrows `i`, which locks `i` for further usage. 
 
-The following code is still possible:
+As usual a separate scope can solve the problem:
 
 ```blech
     var i: int32
@@ -140,7 +149,9 @@ The following code is still possible:
     i = i + 1
 ```
 
+For purely sequential code that is not *re-entered* on every tick, the contents of the auxiliary memory location gets only assigned once.
 
+It not possible to take a reference for a right-hand-side expression as an output or a `var ref` declaration.
 
 
 

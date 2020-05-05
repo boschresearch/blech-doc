@@ -477,7 +477,7 @@ Without references and borrowing we need local variables to sequentialise the wr
     end
     ...
 ```
-This solution, which is perfectly correct in the current compiler, is adopted from the [Blech blinker example](https://github.com/frameworklabs/blinker/blob/master/src/blinker.blc).
+This solution, which is perfectly correct in the current compiler, is adopted from the [Blech blinker example](https://github.com/frameworklabs/blinker).
 
 Compared to the first version the second needs 2 additional memory locations, additional parameters to enable the data flow, a loop that copies the result back to `original` in every step, and additionally `controlValue` and `updateValue` need to copy from input to output in every step. As usual the order of `cobegin` blocks is irrelevant.
 
