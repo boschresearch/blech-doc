@@ -7,7 +7,6 @@
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/index.xml">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -21,17 +20,23 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Blech&#39;s interface to C | Blech</title><meta property="og:title" content="Blech&#39;s interface to C" />
-<meta property="og:description" content="This proposals describe the interface between Blech and C.
+<title>Immutable references - `let ref` | Blech</title><meta property="og:title" content="Immutable references - `let ref`" />
+<meta property="og:description" content="Adopt the ideas of borrowing in Rust to Blech
 " />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/" />
-<meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Blech&#39;s interface to C">
-<meta itemprop="description" content="This proposals describe the interface between Blech and C.
-"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Blech&#39;s interface to C"/>
-<meta name="twitter:description" content="This proposals describe the interface between Blech and C.
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/" />
+<meta property="article:modified_time" content="2020-05-05T18:25:12+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Immutable references - `let ref`">
+<meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
+">
+<meta itemprop="dateModified" content="2020-05-05T18:25:12&#43;02:00" />
+<meta itemprop="wordCount" content="562">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Immutable references - `let ref`"/>
+<meta name="twitter:description" content="Adopt the ideas of borrowing in Rust to Blech
 "/>
 
 
@@ -53,7 +58,7 @@
 
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -303,10 +308,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
+    <a  href="/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
   </li>
   <ul>
-    <li class="collapse show" id="docslanguage-evolutionblech-c-interface">
+    <li class="collapse " id="docslanguage-evolutionblech-c-interface">
       
       
       
@@ -344,10 +349,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Borrowing</a>
+    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Borrowing</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolutionborrowing">
+    <li class="collapse show" id="docslanguage-evolutionborrowing">
       
       
       
@@ -366,7 +371,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing30_let-ref" href="/docs/language-evolution/borrowing/30_let-ref/">Immutable references</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionborrowing30_let-ref" href="/docs/language-evolution/borrowing/30_let-ref/">Immutable references</a>
       
       
       
@@ -511,8 +516,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/blech-C-interface/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blech&amp;#39;s%20interface%20to%20C" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/30_let-ref.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Immutable%20references%20-%20%60let%20ref%60" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -524,6 +529,15 @@
 
 
 
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#read-only-references">Read-only references</a></li>
+    <li><a href="#immutable-borrowing-in-sub-expressions">Immutable borrowing in sub-expressions</a></li>
+    <li><a href="#pure-functions">Pure functions</a></li>
+    <li><a href="#read-only-references-1">Read-only references</a></li>
+  </ul>
+</nav>
+
 
 
           </div>
@@ -534,6 +548,9 @@
             <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
 	<ol class="breadcrumb spb-1">
 		
+
+
+
 
 
 
@@ -558,8 +575,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/">Borrowing</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/">Blech-C interface</a>
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/">Immutable references</a>
 </li>
 
 	</ol>
@@ -567,101 +591,109 @@
 
             
 <div class="td-content">
-	<h1>Blech&#39;s interface to C</h1>
-        <div class="lead">This proposals describe the interface between Blech and C.</div>
-	
-	
-        <div class="section-index">
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/blech-c-interface/env-variables/">Accessing variables in the Blech environment</a>
-                    </h5>
-                    <p>Access to C variables in the environment creates singleton sub-programs.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/blech-c-interface/c-bindings/">C bindings</a>
-                    </h5>
-                    <p>Allow C bindings with the expressiveness of C macros.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
-</div>
+	<h1>Immutable references - `let ref`</h1>
+    <div class="lead">Adopt the ideas of borrowing in Rust to Blech</div>
+	       
+	<h2 id="read-only-references">Read-only references</h2>
+<p>Different to Rust, Blech takes references and de-references whenever it is necessary.</p>
+<p>Althoug Blech semantically uses pass-by-reference it is possible to pass a complete right-hand-side expression for input parameters.</p>
+<p>Let&rsquo;s take our example from the introduction</p>
+<pre><code class="language-blech" data-lang="blech">    var i: int32
+    var j: int32
+
+    outIsInPlus1(j + 1)(i)
+</code></pre><p>This programm is valid.
+Semantically Blech creates a auxiliary memory location from which the read-only reference can be taken.
+For a function on simple types the generated code can be optimized and the parameter can be passed by-value.</p>
+<p>This is not true for an activity.</p>
+<pre><code class="language-blech" data-lang="blech">activity outAlwaysIsInPlus1 (a: int32) (b: int32)
+    repeat 
+        b = 1
+        b = a + b 
+        await true
+        b = 1
+        b = a + b
+        await true
+    end
+end
+</code></pre><pre><code class="language-blech" data-lang="blech">    var i: int32
+    var j: int32
+
+    run outAlwaysIsInPlus1(j + 1)(i)
+</code></pre><p>In every step the activity gets <code>j+1</code> as its input.</p>
+<p>For the code generation the auxiliary memory location is necessary.</p>
+<p>We imagine the new value is <em>pumped into</em> the activity in every step.</p>
+<h2 id="immutable-borrowing-in-sub-expressions">Immutable borrowing in sub-expressions</h2>
+<p>Due to a causality error the Blech compiler rejects the following program.</p>
+<pre><code class="language-blech" data-lang="blech">    var i: int32
+    run outAlwaysIsInPlus1(i + 1)(i)
+</code></pre><p>Furthermore the compiler rejects a similar function call</p>
+<pre><code class="language-blech" data-lang="blech">    var i: int32
+    outIsInPlus1(i + 1)(i)
+</code></pre><p>This is different to Rust, because Rust cannot take immutable (read-only) references to right-hand side expressions.</p>
+<p>The borrow checker needs to check the occurence of read-only borrowing in right-hand side expressions.</p>
+<h2 id="pure-functions">Pure functions</h2>
+<p>Pure functions only have input parameters and a return value.</p>
+<p>For pure functions pass-by-reference and pass-by-value are semantically the same, because nothing at the call side gets changed.</p>
+<p>All build-in operators in Blech are pure functions.</p>
+<h2 id="read-only-references-1">Read-only references</h2>
+<p>Since we can pass a right-hand-side expression as an input parameter we should also be able to take a reference to a right-hand-side expression in sequential code.
+This makes sense in an activity and is called <code>bind</code> in the language Quartz.</p>
+<pre><code class="language-blech" data-lang="blech">activity a(i: int32)(j: int32)
+    let ref double = i * 2
+    repeat
+        j = double
+        await true
+    end
+end
+</code></pre><p>In order to take a reference to a right-hand-side expression the compiler would generate an additional memory location.</p>
+<p>This has roughly the following semantics:</p>
+<pre><code class="language-blech" data-lang="blech">activity a (i: int32) (j: int32)
+    var aux_double: int32  // not subject to borrow checking
+    let ref double = internal_aux_double
+    cobegin weak
+        repeat
+            aux_double = i * 2
+            await true
+        end
+    with 
+        repeat
+            j = double
+            await true
+        end
+    end
+end
+</code></pre><p>For the declaration <code>let ref double = i * 2</code> we need to apply the borrowing rules for the sub-expression <code>i</code>.</p>
+<p>For example in the following code would then be rejected.</p>
+<pre><code class="language-blech" data-lang="blech">    var i: int32
+    var z: int32
+    let ref double = i * 2  // immutable borrow of i
+    repeat
+        z = double
+        await true
+    until z &gt; 1000 end
+    i = i + 1 // i is no longer accessible here 
+</code></pre><p>The read-only reference <code>double</code> immutable borrows <code>i</code>, which locks <code>i</code> for further usage.</p>
+<p>As usual a separate scope can solve the problem:</p>
+<pre><code class="language-blech" data-lang="blech">    var i: int32
+    var z: int32
+    do
+        let ref double = i * 2
+        repeat
+            z = double
+            await true
+        until z &gt; 1000
+    end
+    i = i + 1
+</code></pre><p>For purely sequential code that is not <em>re-entered</em> on every tick, the contents of the auxiliary memory location gets only assigned once.</p>
+<p>It not possible to take a reference for a right-hand-side expression as an output or a <code>var ref</code> declaration.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/5efeab316195474664991bc95865fcc2ce4a51c1">Updates on language evolution (5efeab3)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>
 </div>
 </div>
+
 
           </main>
         </div>

@@ -48,8 +48,13 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/10_references/</loc>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/</loc>
-    <lastmod>2020-04-30T19:16:37+02:00</lastmod>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
   </url>
   
   <url>
@@ -58,8 +63,8 @@
   </url>
   
   <url>
-    <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/</loc>
-    <lastmod>2020-04-28T17:56:50+02:00</lastmod>
+    <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/20_borrowing/</loc>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
   </url>
   
   <url>
@@ -103,6 +108,11 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/</loc>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/docs/blechc-development/git-workflow/</loc>
     <lastmod>2020-04-15T12:52:05+02:00</lastmod>
   </url>
@@ -118,6 +128,11 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/</loc>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/docs/language-evolution/</loc>
     <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url>
@@ -130,6 +145,11 @@
   <url>
     <loc>https://www.blech-lang.org/docs/user-manual/declarations/</loc>
     <lastmod>2020-04-29T13:21:43+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/40_partials/</loc>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
   </url>
   
   <url>

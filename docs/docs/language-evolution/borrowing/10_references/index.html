@@ -7,7 +7,6 @@
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/index.xml">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -21,17 +20,23 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Blech&#39;s interface to C | Blech</title><meta property="og:title" content="Blech&#39;s interface to C" />
-<meta property="og:description" content="This proposals describe the interface between Blech and C.
+<title>References in Blech | Blech</title><meta property="og:title" content="References in Blech" />
+<meta property="og:description" content="Adopt the ideas of borrowing in Rust to Blech
 " />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/" />
-<meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Blech&#39;s interface to C">
-<meta itemprop="description" content="This proposals describe the interface between Blech and C.
-"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Blech&#39;s interface to C"/>
-<meta name="twitter:description" content="This proposals describe the interface between Blech and C.
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/10_references/" />
+<meta property="article:modified_time" content="2020-05-05T18:25:12+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="References in Blech">
+<meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
+">
+<meta itemprop="dateModified" content="2020-05-05T18:25:12&#43;02:00" />
+<meta itemprop="wordCount" content="931">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="References in Blech"/>
+<meta name="twitter:description" content="Adopt the ideas of borrowing in Rust to Blech
 "/>
 
 
@@ -53,7 +58,7 @@
 
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -303,10 +308,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
+    <a  href="/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
   </li>
   <ul>
-    <li class="collapse show" id="docslanguage-evolutionblech-c-interface">
+    <li class="collapse " id="docslanguage-evolutionblech-c-interface">
       
       
       
@@ -344,17 +349,17 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Borrowing</a>
+    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Borrowing</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolutionborrowing">
+    <li class="collapse show" id="docslanguage-evolutionborrowing">
       
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing10_references" href="/docs/language-evolution/borrowing/10_references/">References</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionborrowing10_references" href="/docs/language-evolution/borrowing/10_references/">References</a>
       
       
       
@@ -511,8 +516,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/blech-C-interface/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blech&amp;#39;s%20interface%20to%20C" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/10_references.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=References%20in%20Blech" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -524,6 +529,20 @@
 
 
 
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#parameters-are-references">Parameters are references</a></li>
+    <li><a href="#return-values">Return values</a></li>
+    <li><a href="#reference-definitions">Reference definitions</a>
+      <ul>
+        <li><a href="#the-benefit-of-references">The benefit of references</a></li>
+        <li><a href="#references-are-not-first-class-types">References are not first-class types</a></li>
+        <li><a href="#the-problem-with-references">The problem with references</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
 
 
           </div>
@@ -534,6 +553,9 @@
             <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
 	<ol class="breadcrumb spb-1">
 		
+
+
+
 
 
 
@@ -558,8 +580,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/">Borrowing</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/">Blech-C interface</a>
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/10_references/">References</a>
 </li>
 
 	</ol>
@@ -567,101 +596,168 @@
 
             
 <div class="td-content">
-	<h1>Blech&#39;s interface to C</h1>
-        <div class="lead">This proposals describe the interface between Blech and C.</div>
-	
-	
-        <div class="section-index">
+	<h1>References in Blech</h1>
+    <div class="lead">Adopt the ideas of borrowing in Rust to Blech</div>
+	       
+	<h2 id="parameters-are-references">Parameters are references</h2>
+<p>Semantically, Blech passes parameters by reference.</p>
+<p>Imagine the following Blech program</p>
+<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (a: int32)(b: int32)
+    b = 1
+    b = a + b 
+end
+
+activity godUsage()
+    var i = 42: int32
+    var j: int32
+    outIsInPlus1(i)(j) // 43 --&gt; j
+    await true
+end
+</code></pre><p>So far so good, the program has the expected behaviour: <code>j</code> gets <code>i + 1</code>.</p>
+<p>But if we call the same function with the same <code>variable</code> as input and output we get a strange behaviour.</p>
+<pre><code class="language-blech" data-lang="blech">activity badUsage()
+    var i = 42: int32
+    outIsInPlus1(i)(i)
+    await true
+end
+</code></pre><p>If Blech would allow this code and we assume call-by-reference semantics, <code>i</code> has value <code>2</code> after the execution of the function.</p>
+<p>This would be an unexpected behavior both from the implementation and the usage point of view.</p>
+<p>The implementation does not take into account that <code>a</code> and <code>b</code> may point to the same memory location.
+The point of usage we know nothing about the actual implementation. 
+The implicit assumption, input <code>a</code> and output <code>b</code> must no be the same memory location is not transparent.</p>
+<p>In order to prevent such errors, Blech forbids this usage.</p>
+<pre><code>error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
+  --&gt; incr.blc:3:5 [causality]
+
+3  |     outIsInPlus1(i)(i)
+   |                     - Output argument.
+3  |     outIsInPlus1(i)(i)
+   |                  ^ Input argument.
+</code></pre><p>One might wonder, why a simple increment is allowed</p>
+<pre><code class="language-blech" data-lang="blech">    i = i + 1
+</code></pre><p>while the call of the function</p>
+<pre><code class="language-blech" data-lang="blech">    outIsInPlus1(i)(i)
+</code></pre><p>is not.</p>
+<p>The reason is, that parameters are passed by-reference.</p>
+<p>The input <code>a</code> takes a read-only reference to the actual input, the output <code>b</code> takes a read-write reference to the actual input.</p>
+<p>Semantically the function <code>outIsInPlus1</code> has the following form</p>
+<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (let ref a: int32)(var ref b: int32)
+    b = 1
+    b = a + b 
+end
+</code></pre><p>Blech forbids taking a read-only reference and an read-write reference to the same memory location at the same time.</p>
+<p>Since the compiler rejects such programs, the code generation is free to pass input parameters of functions by value or by reference.
+Currently, simple types are passed by reference while composed types are passed by reference.</p>
+<p>Activity parameters have the same pass-by-reference semantics. Due to the nature of activities input parameters must always be passed by-reference in the code generation</p>
+<h2 id="return-values">Return values</h2>
+<p>Return values of functions and activities are always passed by value.</p>
+<p>The generated code can either use the stack for simple type returns of functions or write directly to a result location for returned composite values and returned simple values of activities.</p>
+<h2 id="reference-definitions">Reference definitions</h2>
+<p>Blech also allows references definitions. They are a restricted form of pointers for expressing aliases and associating data structures.</p>
+<h3 id="the-benefit-of-references">The benefit of references</h3>
+<p>References can be used to express aliases.</p>
+<pre><code class="language-blech" data-lang="blech">struct S
+    var buffer: [3]int32
+end
+
+...
+    var s: S
+
+    do 
+        let i: nat8 = 1
+        if s.buffer[i] &gt; 0 then
+            s.buffer[i] = s.buffer[i] + 1
+        end
+    end
+
+    do 
+        let i: nat8 = 1
+        var ref elem = s.buffer[i]
+        if elem &gt; 0 then 
+            elem = elem + 1
+        end
+    end
+
+</code></pre><p>This prevents repetition and make a program better readable.</p>
+<p>References can also be used to associate data structures</p>
+<pre><code class="language-blech" data-lang="blech">
+struct S
+    var ref buffer: [3]int32
+end
+
+
+...
     
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/blech-c-interface/env-variables/">Accessing variables in the Blech environment</a>
-                    </h5>
-                    <p>Access to C variables in the environment creates singleton sub-programs.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/blech-c-interface/c-bindings/">C bindings</a>
-                    </h5>
-                    <p>Allow C bindings with the expressiveness of C macros.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
-</div>
+    var array: [3]int32
+    var s: S = {buffer = array}
+</code></pre><p>The variable <code>s</code> is associated to (points to) the variable <code>array</code> via the read-write reference <code>s.buffer</code>.</p>
+<h3 id="references-are-not-first-class-types">References are not first-class types</h3>
+<p>References only occur implicitly as parameters or explicitly as reference definitions.</p>
+<p>Blech implicitly takes references and de-references them if necessary.
+There is no such thing like an adress operator <code>&amp;</code> or a de-referencing operator <code>*</code> as known from other imperative languages.</p>
+<p>References must be initialised at their declaration.</p>
+<p>This is done when</p>
+<ol>
+<li>an actual parameter is supplied in a subprogram call, or</li>
+<li>an initialiser is given in a reference declaration.</li>
+</ol>
+<p>This enables the compiler to conservatively track reference relationships across the program and in turn enables causality analysis.</p>
+<p>It prevents dangling references and circumvents pointer aliasing problems.</p>
+<p>The <code>ref</code> in a reference declaration is also <strong>not</strong> a type constructor, that might occur anywhere in type expressions.
+It is an additional property of a memory location or a value.</p>
+<h3 id="the-problem-with-references">The problem with references</h3>
+<p>The use of references can make a program difficult to reason about.</p>
+<p>If we do the same thing as above in sequential code,</p>
+<pre><code class="language-blech" data-lang="blech">var i: int32
+
+let ref a = i
+var ref b = i
+
+b = 1
+b = a + b
+</code></pre><p>we run into the same problems: <code>a</code> is a read-only reference to <code>i</code>, <code>b</code> is a read-write reference to <code>i</code>.
+When we change <code>i</code> via <code>b</code> we implicitly change the value we get from <code>a</code>.</p>
+<p>Even in the simple case</p>
+<pre><code class="language-blech" data-lang="blech">var i: int32
+
+let ref a = i
+
+b = 1
+b = a + b
+</code></pre><p>where we have a read-only reference to <code>i</code> while at the same time we can change <code>i</code> directly, we run into the same problems, when reasoning about a program.</p>
+<p>Having a read-only access to a memory location, would not guarantee, that the underlying value does not change.</p>
+<p>With references we need to be able to rule out calls like</p>
+<pre><code class="language-blech" data-lang="blech">    var i: integer
+    let ref a = i
+    var ref b = i
+
+    run anActivity(a)(b)
+    run anActivity(b)(i)
+    run anActivity(i)(b)
+    run anActivity(a)(i)
+
+    aFunction(a)(b)
+    aFunction(b)(i)
+    aFunction(i)(b)
+    aFunction(a)(i)
+
+    cobegin 
+        run fstTread(a)(i)
+    with
+        run sndThread(a)(b)
+    end
+</code></pre><p>due to read-write and write-write conflicts.</p>
+<p>With references causality errors might be very difficult to understand and even sequential code is already confusing.</p>
+<p>Luckily there is way of handling these problems at compile time.
+In Rust this is called <a href="../20_borrowing"><strong>Borrowing Analysis</strong></a>
+.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/5efeab316195474664991bc95865fcc2ce4a51c1">Updates on language evolution (5efeab3)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>
 </div>
 </div>
+
 
           </main>
         </div>

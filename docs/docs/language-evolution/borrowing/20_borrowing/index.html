@@ -20,23 +20,23 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Bits and bytes | Blech</title><meta property="og:title" content="Bits and bytes" />
-<meta property="og:description" content="The `bitsN` datatype and bitwise operations.
+<title>Borrowing for references | Blech</title><meta property="og:title" content="Borrowing for references" />
+<meta property="og:description" content="Adopt the ideas of borrowing in Rust to Blech
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/20_borrowing/" />
 <meta property="article:modified_time" content="2020-05-05T18:25:12+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Bits and bytes">
-<meta itemprop="description" content="The `bitsN` datatype and bitwise operations.
+<meta itemprop="name" content="Borrowing for references">
+<meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
 ">
 <meta itemprop="dateModified" content="2020-05-05T18:25:12&#43;02:00" />
-<meta itemprop="wordCount" content="1044">
+<meta itemprop="wordCount" content="646">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Bits and bytes"/>
-<meta name="twitter:description" content="The `bitsN` datatype and bitwise operations.
+<meta name="twitter:title" content="Borrowing for references"/>
+<meta name="twitter:description" content="Adopt the ideas of borrowing in Rust to Blech
 "/>
 
 
@@ -291,7 +291,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+    <a  href="/docs/language-evolution/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Language Evolution</a>
   </li>
   <ul>
     <li class="collapse show" id="docslanguage-evolution">
@@ -336,7 +336,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionbits-and-bytes" href="/docs/language-evolution/bits-and-bytes/">Bits and bytes</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionbits-and-bytes" href="/docs/language-evolution/bits-and-bytes/">Bits and bytes</a>
       
       
       
@@ -349,10 +349,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Borrowing</a>
+    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Borrowing</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolutionborrowing">
+    <li class="collapse show" id="docslanguage-evolutionborrowing">
       
       
       
@@ -365,7 +365,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing20_borrowing" href="/docs/language-evolution/borrowing/20_borrowing/">Borrowing</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionborrowing20_borrowing" href="/docs/language-evolution/borrowing/20_borrowing/">Borrowing</a>
       
       
       
@@ -516,8 +516,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/bits-and-bytes.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Bits%20and%20bytes" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/20_borrowing.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Borrowing%20for%20references" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -531,19 +531,11 @@
 
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#bits-and-bytes">Bits and bytes</a>
-      <ul>
-        <li><a href="#rename-the-exponentiation-operator-">Rename the exponentiation operator <code>^</code></a></li>
-        <li><a href="#rename-uint-to-nat">Rename <code>uint</code> to <code>nat</code></a></li>
-        <li><a href="#allow-a-type-annotation-type-for-expressions">Allow a type annotation <code>:&lt;type&gt;</code> for expressions</a></li>
-        <li><a href="#eliminate-floatliteral32">Eliminate <code>floatLiteral32</code></a></li>
-        <li><a href="#bit-types">Bit types</a></li>
-        <li><a href="#bitwise-operators">Bitwise operators</a></li>
-        <li><a href="#literals">Literals</a></li>
-        <li><a href="#use-of-operations">Use of operations</a></li>
-        <li><a href="#hackers-delight-translated-to-blech">Hacker&rsquo;s Delight translated to Blech</a></li>
-      </ul>
-    </li>
+    <li><a href="#borrowing-in-rust">Borrowing in Rust</a></li>
+    <li><a href="#behaviour-of-the-rust-borrow-checker">Behaviour of the Rust borrow checker</a></li>
+    <li><a href="#borrowing-in-blech">Borrowing in Blech</a></li>
+    <li><a href="#intuitive-behaviour-of-the-borrow-checker">Intuitive behaviour of the borrow checker.</a></li>
+    <li><a href="#parameter-passing-is-borrowing-too">Parameter passing is borrowing too</a></li>
   </ul>
 </nav>
 
@@ -557,6 +549,9 @@
             <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
 	<ol class="breadcrumb spb-1">
 		
+
+
+
 
 
 
@@ -581,8 +576,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/">Borrowing</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/">Bits and bytes</a>
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/20_borrowing/">Borrowing</a>
 </li>
 
 	</ol>
@@ -590,156 +592,114 @@
 
             
 <div class="td-content">
-	<h1>Bits and bytes</h1>
-    <div class="lead">The <code>bitsN</code> datatype and bitwise operations.</div>
+	<h1>Borrowing for references</h1>
+    <div class="lead">Adopt the ideas of borrowing in Rust to Blech</div>
 	       
-	<h2 id="bits-and-bytes">Bits and bytes</h2>
-<p>Some notes on <a href="https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/" target="_blank">C’s integers</a>
-</p>
-<p>Some think, <a href="https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/" target="_blank">unsigned integers should be avoided</a>
-.</p>
-<p>For embedded this is not an option.</p>
-<h3 id="rename-the-exponentiation-operator-">Rename the exponentiation operator <code>^</code></h3>
-<p>The exponention operator <code>^</code> should be renamed to <code>**</code> - maybe right associative.</p>
-<p>Maybe it would be better to deprecate the exponentiation operator completely.
-A good argument for this change is given by the <a href="https://devblogs.microsoft.com/csharpfaq/why-doesnt-c-have-a-power-operator/" target="_blank">C# FAQ</a>
-</p>
-<p>With this change <code>^</code> becomes available for the standard bitwise XOR (exclusive or) operation.</p>
-<h3 id="rename-uint-to-nat">Rename <code>uint</code> to <code>nat</code></h3>
-<p>Inspiration <a href="https://sdk.dfinity.org/language-guide/index.html" target="_blank">Motoko</a>
-</p>
-<p>Reason: <code>uint</code> is not allowed to overflow and saturates in release code or panics in debug code.
-The name <code>uint</code> addresses the wrong association.
-Therefore we should rename <code>uint</code> to <code>nat</code></p>
-<p>NOTE: Maybe we should rename <code>bitsN</code> to <code>wordN</code>. 
-Those types occur only in 4 different sizes. 
-The name <code>bits</code> might be associated with an arbitrary number.
-Additional inspiration, a <a href="https://whatis.techtarget.com/definition/word" target="_blank">word</a>
- is a unit of data of a defined bit length.
-Therefore we should rename <code>bits</code> to <code>word</code>.</p>
-<h3 id="allow-a-type-annotation-type-for-expressions">Allow a type annotation <code>:&lt;type&gt;</code> for expressions</h3>
-<p>It is mainly needed for literals.
-It is consistent with type annotation in declarations.</p>
-<p>IMPORTANT: This is not a cast or a conversion, but only a type annotation, to give literals different meanings.</p>
-<h3 id="eliminate-floatliteral32">Eliminate <code>floatLiteral32</code></h3>
-<p>Instead of using the specific <code>floatLiteral32</code> we should use a type annotation.
-With a type annotation any number literal can be used as a checked float literal.
-This especially simplifies generic code.
-Type annotation are anyway needed for binary, octal and hexadecimal literals.</p>
-<p>By default a floatLiteral and hexFloatLiteral are of type <code>float64</code>.</p>
-<p>NOTE: Check that hexfloat literals are precise representations for their type.
-NOTE: Maybe the default should be <code>float32</code> for embedded systems?</p>
-<p>Any <code>natLiteral</code> can be annotated with a float type.
-The range is checked, to get a precise float representation.</p>
-<p>The following are all valid float literals.</p>
-<pre><code class="language-blech" data-lang="blech">
-(42: float64)
-(42: float32)
+	<h1 id="borrowing">Borrowing</h1>
+<p>The solution to the <a href="../10_references/#the-problem-with-references">problems with references</a>
+ is <strong>Borrowing analysis</strong>.</p>
+<h2 id="borrowing-in-rust">Borrowing in Rust</h2>
+<p>A Rust program very similar to the introductory example (../10_references/#parameters-are-references)
+looks like the following</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">outIsInPlus1</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">a</span>: <span style="color:#204a87;font-weight:bold">&amp;</span><span style="color:#204a87;font-weight:bold">i32</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">b</span>: <span style="color:#204a87;font-weight:bold">&amp;</span><span style="color:#000">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">i32</span><span style="color:#000;font-weight:bold">)</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">a</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">i</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">42</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#000">outIsInPlus1</span><span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">);</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><p>Function <code>outIsInPlus1</code> gets a read-only (immutable) reference <code>a</code> and a read-write (mutable) reference <code>b</code>.</p>
+<p>Rust does not allow this call to <code>outIsInPlus1</code>.
+The so-called borrow checker detects an error.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
+ --&gt; src/example.rs:9:11
+  |
+9 |     outIsInPlus1(&amp;i, &amp;mut i);
+  |     ------------ --  ^^^^^^ mutable borrow occurs here
+  |     |            |
+  |     |            immutable borrow occurs here
+  |     immutable borrow later used by call
 
-(-17: float32)
-(-1.2: float32)
+</code></pre></div><p>Rust does not allow to borrow a mutable and an immutable reference to a memory location in the same scope.</p>
+<p>In Blech this test is currently implemented as part of the causality analysis.</p>
+<h2 id="behaviour-of-the-rust-borrow-checker">Behaviour of the Rust borrow checker</h2>
+<p>A good overview of how borrowing restricts the usage of variables and references can be found in a <a href="https://rufflewind.com/2017-02-15/rust-move-copy-borrow#comments" target="_blank">Graphical depiction of ownership and borrowing in Rust</a>
+.</p>
+<p>Move semantics can be neglected for the moment because it deals with memory management of heap allocated data. 
+Currently Blech does not dynamically allocate heap data for safety and real-time reasons.</p>
+<p>For borrowing it distinguishes between <em>frozen</em> and <em>locked</em> behaviour.</p>
+<p>Mutable borrowing, <em>locks</em> the original object for the duration of the borrow, rendering it unusable.</p>
+<p>Non-mutable borrowing <em>freezes</em> the original object, you can still take more non-mutable references, but you cannot move or take mutable references of it.</p>
+<h2 id="borrowing-in-blech">Borrowing in Blech</h2>
+<p>If we adopt borrow semantics in Blech, the compiler would reject the program, which has been discussed as problematic.</p>
+<pre><code class="language-blech" data-lang="blech">var i: int32
 
-42.0 // has type float64
-(42.0: float32)
-</code></pre><h3 id="bit-types">Bit types</h3>
-<p>Bit types allow bitwise, relational, and arithmetic operators.
-Arithmetic operators wrap-around.</p>
-<p>Different to <code>nat</code> types which must not over- or underflow.</p>
-<h3 id="bitwise-operators">Bitwise operators</h3>
-<p>Blech provides the standard set of <a href="https://en.wikipedia.org/wiki/Bitwise_operations_in_C" target="_blank">bitwise operators known from C</a>
-.
-Different to C these operators work on <code>bitsN</code> types instead of unsigned <code>natN</code> or signed <code>intN</code> types.</p>
-<h4 id="unary-bitwise-operator">Unary bitwise operator</h4>
-<p>For N = 8, 16, 32, 64</p>
-<p>Bitwise negation: <code>~</code>
-Type: <code>function (bitsN) returns bitsN</code></p>
-<h4 id="binary-bitwise-operators">Binary bitwise operators</h4>
-<p>More info on <a href="https://en.wikipedia.org/wiki/Bitwise_operation" target="_blank">bitwise operations</a>
-.</p>
-<p>For N = 8, 16, 32, 64</p>
-<p>Bitwise and: <code>&amp;</code>
-Bitwise or: <code>|</code>
-Bitwise xor: <code>^</code></p>
-<p>Type: <code>function (bitsN , bitsN) returns bitsN</code></p>
-<h4 id="shift-and-rotate-operators">Shift and rotate operators</h4>
-<p>Standard shift operators</p>
-<p>shift left: <code>&lt;&lt;</code>
-shift right: <code>&gt;&gt;</code></p>
-<p>Type: <code>function (bitsN, AnyNat) returns bitsN</code></p>
-<p>Additionally Blech should provide advanced shift operators</p>
-<p>Arithmetic shift right: <code>+&gt;&gt;</code>
-left rotate: <code>&lt;&lt;&gt;</code>
-right rotate: <code>&lt;&gt;&gt;</code></p>
-<p>Type: <code>function (bitsN, AnyNat) returns bitsN</code></p>
-<p>These operators can be defined as Macros. 
-If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
-C compilers recognize the <a href="https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts" target="_blank">circular shift idiom</a>
-.</p>
-<p>The shift and rotate amount is a general unsigned integer type. 
-It is considered modulo the <code>bitsN</code> width <code>N</code>.</p>
-<h4 id="arithmetic-operators">Arithmetic operators</h4>
-<p>As arithmetic types, <code>bitsN</code> types implement numeric wrap-around (modulo <code>2**N</code>).</p>
-<h4 id="implicit-conversion">Implicit conversion</h4>
-<p><a href="https://www.guru99.com/c-type-casting.html" target="_blank">Implicit conversion in C</a>
- is complicated.</p>
-<p>Implicit conversion is only allowed if no representation change is necessary.</p>
-<ul>
-<li><code>int8</code> -&gt; <code>int16</code> -&gt; <code>int32</code> -&gt; <code>int64</code></li>
-<li><code>float32</code> -&gt; <code>float64</code></li>
-<li><code>nat8</code> -&gt; <code>nat16</code> -&gt; <code>nat32</code> -&gt; <code>nat64</code></li>
-<li><code>bits8</code> -&gt; <code>bits16</code> -&gt; <code>bits32</code> -&gt; <code>bits64</code></li>
-</ul>
-<p>IMPORTANT: The representation of <code>char</code> is still not decided</p>
-<h4 id="safe-conversion-using-as">Safe conversion using <code>as</code></h4>
-<p>Conversion using the operator <code>as</code> can be used for values.
-That means:</p>
-<ul>
-<li>for right-hand side values</li>
-<li>for function input parameters</li>
-<li>for activity input parameters of simple type: <code>intN</code>, <code>natN</code>, <code>bitsN</code>, <code>floatN</code>, <code>char</code></li>
-</ul>
-<p>Conversion with representation change is only allowed if no information is lost (has the same bit-size).</p>
-<h4 id="no-subtyping-for-bitsn-types">No subtyping for <code>bitsN</code> types</h4>
-<p>Whenever <exp> has type T and T &lt;: U (T subtypes U) then by virture of implicit subsumption, <exp> also has type U (without extra syntax).</p>
-<p>In general, this means that an expression of a more specific type may appear wherever an expression of a more general type is expected, provided the specific and general types are related by subtyping.</p>
-<p><code>bitsN</code> types are in no subtype relation with each other.</p>
-<p><code>bitsN</code> types are in no subtype relation with other arithmetic types.</p>
-<h3 id="literals">Literals</h3>
-<p>Binary, octal and hexadecimal literals have type <code>AnyBits</code>.
-Decimal literals have type <code>AnyInteger</code>.</p>
-<p>All literals of type <code>AnyBits</code> need a type annotation in order to become an appropriate <code>bitsN</code> type.</p>
-<p>A type annotation can be ommited if an assignment determines the type.</p>
-<p>For negative values of type <code>AnyInteger</code> the two&rsquo;s-complement representation is used to create the bits.</p>
-<p>IMPORTANT: The two&rsquo;s-complement representation for <code>intN</code> is not mandatory in C.</p>
-<pre><code class="language-blech" data-lang="blech">let b1: bits8 = 0x1
-let b2 = 0x1 : bits8
-let b3 = (0x1 : bits8) &lt;&lt; 2  // 0x4 as bits8
-let b32 = 0x1A4: bits8   // type error not representable in bits8
-let b4: bits8 = 255
-let b5 = 255 : bits8 
-let b6: bits8 = -129   // type error, no representable as 2-complement in bits8
-let b7 = -128: bits8   // ok
-let b8 = (-50 - 150): bits8 // compile time error, not representable as 2-complement in bits8
-</code></pre><h3 id="use-of-operations">Use of operations</h3>
-<p>Bitwise operatorions and arithmetic operations cannot be applied to values of type <code>AnyBits</code>.
-Bitwise and arithmetic operations can only be applied to values of type <code>bitsN</code>, that means the size has to be fixed before any operation.</p>
-<pre><code class="language-blech" data-lang="blech">let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
-let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
-</code></pre><h3 id="hackers-delight-translated-to-blech">Hacker&rsquo;s Delight translated to Blech</h3>
-<p><a href="https://en.wikipedia.org/wiki/Hacker%27s_Delight" target="_blank">Hacker’s Delight</a>
- is the definitive source of bitwise programming algorithms. 
-It should be possible to use these hacks in Blech.</p>
-<p>Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&gt; 0b_0101_0000, 0x_00 =&gt; 0x_00).</p>
-<pre><code class="language-blech" data-lang="blech">var x: bits8
-x = x &amp; (x - (1: bits8))
-// or
-x = x &amp; (x - 0x_01)
-</code></pre><p>Turn on the rightmost 0-bit in a word, producing all 1&rsquo;s if none (e.g. 0x7AF3 =&gt; 0x7AF4, 0xFFFF =&gt; 0xFFFF).</p>
-<pre><code class="language-blech" data-lang="blech">var x: bits32
-x = x | (x + (1: bits32))
-// or
-x = x | (x + 0b_1)
-</code></pre>
+let ref a = i
+var ref b = i
+
+b = 1
+b = a + b
+</code></pre><p>The analog program in Rust</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">i</span>: <span style="color:#204a87;font-weight:bold">i32</span> <span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">42</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">a</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">a</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><p>cannot be compiled due to a borrowing error</p>
+<pre><code>error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
+ --&gt; src/main.rs:5:13
+  |
+4 |     let a = &amp;i;
+  |             -- immutable borrow occurs here
+5 |     let b = &amp;mut i;
+  |             ^^^^^^ mutable borrow occurs here
+...
+8 |     *b = *a + *b;
+  |          -- immutable borrow later used here
+</code></pre><p>For Blech we should also implemented a borrowing check.</p>
+<h2 id="intuitive-behaviour-of-the-borrow-checker">Intuitive behaviour of the borrow checker.</h2>
+<p>Borrow checking restricts the use borrowed references inside the same scope.</p>
+<p>The scope is either a statement scope or the entrance of a subprogram.</p>
+<p>In the same scope we can either</p>
+<ol>
+<li>take several <code>let ref</code>s or</li>
+<li>one <code>var ref</code></li>
+</ol>
+<p>to a memory location.</p>
+<p>In both cases the original name for the memory location is no longer accessible.
+If we switch to a separate scope we can take a mutable and after that an immutable borrowing. 
+The reason is, that the borrow reference name is no longer visible if the scope is left.</p>
+<pre><code class="language-blech" data-lang="blech">var i: int32
+
+do  // increment i via b
+    var ref b = i  // read-write (mutable) borrow
+    // i is locked
+    b = b + 1    
+end
+
+// read i via a
+let ref a = i     // read-only (immutable) borrow
+// i is frozen
+</code></pre><h2 id="parameter-passing-is-borrowing-too">Parameter passing is borrowing too</h2>
+<p>Passing parameters is also borrowing in a new scope.
+All parameters are regarded borrows in the scope of the subprogram.</p>
+<p>Therefore the following Blech code would also be rejected by a borrow checker.</p>
+<p>The call takes a <code>let ref</code> (immutable) borrow and a <code>var ref</code> (mutable) borrow at the same time.</p>
+<pre><code class="language-blech" data-lang="blech">    var i: int32
+    outIsInPlus1(i)(i)
+</code></pre><p>In order to correct this we need an additional memory location,</p>
+<pre><code class="language-blech" data-lang="blech">    var i: int32
+    let j = i  // read-only j gets value from i
+    outIsInPlus1(j)(i)
+</code></pre><p>The implementor of function <code>outIsInPlus1</code> can assume that the actual parameters never overlap in their memory location.</p>
+<p>This check - which currently is implemented in the causality analysis - can be moved to a borrow checker, which would simplify the causality analysis.</p>
+
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>

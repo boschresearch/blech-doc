@@ -7,7 +7,6 @@
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/index.xml">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -21,17 +20,23 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Blech&#39;s interface to C | Blech</title><meta property="og:title" content="Blech&#39;s interface to C" />
-<meta property="og:description" content="This proposals describe the interface between Blech and C.
+<title>Partial borrowing and borrowed parts | Blech</title><meta property="og:title" content="Partial borrowing and borrowed parts" />
+<meta property="og:description" content="Adopt the ideas of borrowing in Rust to Blech
 " />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/" />
-<meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Blech&#39;s interface to C">
-<meta itemprop="description" content="This proposals describe the interface between Blech and C.
-"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Blech&#39;s interface to C"/>
-<meta name="twitter:description" content="This proposals describe the interface between Blech and C.
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/40_partials/" />
+<meta property="article:modified_time" content="2020-05-05T18:25:12+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Partial borrowing and borrowed parts">
+<meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
+">
+<meta itemprop="dateModified" content="2020-05-05T18:25:12&#43;02:00" />
+<meta itemprop="wordCount" content="421">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Partial borrowing and borrowed parts"/>
+<meta name="twitter:description" content="Adopt the ideas of borrowing in Rust to Blech
 "/>
 
 
@@ -53,7 +58,7 @@
 
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -303,10 +308,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
+    <a  href="/docs/language-evolution/blech-c-interface/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech-C interface</a>
   </li>
   <ul>
-    <li class="collapse show" id="docslanguage-evolutionblech-c-interface">
+    <li class="collapse " id="docslanguage-evolutionblech-c-interface">
       
       
       
@@ -344,10 +349,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Borrowing</a>
+    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Borrowing</a>
   </li>
   <ul>
-    <li class="collapse " id="docslanguage-evolutionborrowing">
+    <li class="collapse show" id="docslanguage-evolutionborrowing">
       
       
       
@@ -372,7 +377,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing40_partials" href="/docs/language-evolution/borrowing/40_partials/">Partials</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionborrowing40_partials" href="/docs/language-evolution/borrowing/40_partials/">Partials</a>
       
       
     </li>
@@ -511,8 +516,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/blech-C-interface/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blech&amp;#39;s%20interface%20to%20C" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/40_partials.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Partial%20borrowing%20and%20borrowed%20parts" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -524,6 +529,13 @@
 
 
 
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#partial-borrow-from-a-struct">Partial borrow from a struct</a></li>
+    <li><a href="#structs-with-references">Structs with references</a></li>
+  </ul>
+</nav>
+
 
 
           </div>
@@ -534,6 +546,9 @@
             <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
 	<ol class="breadcrumb spb-1">
 		
+
+
+
 
 
 
@@ -558,8 +573,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/">Borrowing</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/language-evolution/blech-c-interface/">Blech-C interface</a>
+	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/40_partials/">Partials</a>
 </li>
 
 	</ol>
@@ -567,101 +589,91 @@
 
             
 <div class="td-content">
-	<h1>Blech&#39;s interface to C</h1>
-        <div class="lead">This proposals describe the interface between Blech and C.</div>
-	
-	
-        <div class="section-index">
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/blech-c-interface/env-variables/">Accessing variables in the Blech environment</a>
-                    </h5>
-                    <p>Access to C variables in the environment creates singleton sub-programs.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/blech-c-interface/c-bindings/">C bindings</a>
-                    </h5>
-                    <p>Allow C bindings with the expressiveness of C macros.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
-</div>
+	<h1>Partial borrowing and borrowed parts</h1>
+    <div class="lead">Adopt the ideas of borrowing in Rust to Blech</div>
+	       
+	<h2 id="partial-borrow-from-a-struct">Partial borrow from a struct</h2>
+<p>Imagine the following</p>
+<pre><code class="language-blech" data-lang="blech">
+struct From 
+    var a: int32
+    var b: int32
+end
+
+
+activity main()
+    var f: From
+    run outIsPlus1(f.a)(f.b)
+    await true
+end
+</code></pre><p>The compiler can statically decide on partial borrowing for structs.
+But not for arrays.</p>
+<p>The following code would be rejected</p>
+<pre><code class="language-blech" data-lang="blech">activity main(i: int32)
+    var f: [2]int43
+    run outIsPlus1(f[1])(f[i])
+    await true
+end
+</code></pre><p>It cannot be decide at compile-time that <code>f[1]</code> and <code>f[i]</code> do not overlap.
+That means borrowing form arrays borrows the whole array.</p>
+<h2 id="structs-with-references">Structs with references</h2>
+<p>A struct may contain a field that is a reference in order to define an alias or an associated data type.</p>
+<p>Structs with references contain borrowed fields.</p>
+<pre><code class="language-blech" data-lang="blech">struct RefStruct
+    var a: int32
+    let ref b: int32
+end
+</code></pre><p>Return a struct with references requires to define which references a borrowed by the struct.</p>
+<pre><code class="language-blech" data-lang="blech">function initRefStruct(refb: int32) returns RefStruct shares refb
+    return {a = 42, b = refb}
+end
+
+var b: int32 = 1
+var result = initRefStruct(b)
+// b is immutably borrowed to result here
+</code></pre><p>The result of type <code>RefStruct</code> shares read-only reference <code>refb</code>. That means it immutably borrows <code>refb</code>.
+As a consequence <code>result</code> immutably borrows <code>b</code>.
+Consequently <code>b</code> is frozen after <code>result</code> is iniatialized.</p>
+<p>We could also write <code>initRefers</code> in the following way.</p>
+<pre><code class="language-blech" data-lang="blech">function initRefStruct(refb: int32) returns RefStruct shares refb
+    var r: RefStruct = {a = 42, b = refB}
+    return r
+end
+</code></pre><p>The return value is a shallow copy of the struct.</p>
+<p>The borrow checker conservatively overestimates all possible borrowing if the return value is constructed through different control path.</p>
+<pre><code class="language-blech" data-lang="blech">function initRefStruct(refb: int32, refother: int32) returns RefStruct shares refb, refother
+    if aB &lt; aB2 then
+        return {a = 42, b = refb}
+    else
+        return {a = -42, b = refother}
+    end
+end
+</code></pre><p>It also overestimates the sharing if the <code>shares</code> refers to an output, although the <code>RefStruct</code> value immutably borrows <code>refb</code>.</p>
+<pre><code class="language-blech" data-lang="blech">function initRefStruct()(refb: int32) returns RefStruct shares refb
+    refB = refB + 1
+    return {a = 42, b = refB}
+end
+
+var b: int32
+var rs: RefStruct = initRefStruct()(b)
+</code></pre><p>Overestimation is necessary for a rather simple signature.</p>
+<p>For separate compilation borrowing in the result must become part of the signature of a function without inspection of the actual code.</p>
+<p>The three variants have of <code>initRefStruct</code> have the following signatures</p>
+<pre><code class="language-blech" data-lang="blech">
+function initRefStruct (refb: int32) returns RefStruct shares refb
+
+function initRefStruct (refb: int32, refOther: int32) returns RefStruct shares refb, refother
+
+function initRefStruct ()(refb: int32) returns RefStruct shares refb
+
+</code></pre><p>Struct with references can only be assigned once, because a references need to be defined at the point of their declaration.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/5efeab316195474664991bc95865fcc2ce4a51c1">Updates on language evolution (5efeab3)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>
 </div>
 </div>
+
 
           </main>
         </div>

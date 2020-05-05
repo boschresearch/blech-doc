@@ -71,7 +71,7 @@ This will generate a file &lt;code&gt;blech.c&lt;/code&gt; in the same folder wh
 &lt;p&gt;Try all the options&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;blechc --help
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;compile-generated-c-files&#34;&gt;Compile generated C files&lt;/h2&gt;
-&lt;p&gt;By default the compiler produces a main program in &lt;code&gt;blech.c&lt;/code&gt; which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in &lt;code&gt;&amp;lt;path-to&amp;gt;/blech/src/blechc/include&lt;/code&gt;.
+&lt;p&gt;By default the compiler produces a main program in &lt;code&gt;blech.c&lt;/code&gt; which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in &lt;code&gt;&amp;lt;path-to&amp;gt;/blech/src/blechc/include&lt;/code&gt;. 
 On Windows C compilation may look like this.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;mingw32-cc.exe -I. -I&amp;lt;path-to&amp;gt;/blech/src/blechc/include blech.c
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the current folder &lt;code&gt;.&lt;/code&gt; is explicitly added as a path to be included.
@@ -95,7 +95,7 @@ For programmers familiar with Arduino these correspond to the &lt;code&gt;setup&
 &lt;p&gt;Environment variables are either read-only inputs or read-write outputs.
 Every environment variables has a counterpart in the Blech environment.
 Therefore, they are annotated as &lt;code&gt;@[CInput ...]&lt;/code&gt; or &lt;code&gt;@[COutput ...]&lt;/code&gt;.
-Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;.
+Environment variables are classified by the keyword &lt;code&gt;extern&lt;/code&gt;. 
 A &lt;code&gt;extern let&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[CInput ...]&lt;/code&gt;.
 An &lt;code&gt;extern var&lt;/code&gt; definition must be annotated with a &lt;code&gt;@[COutput ...]&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CInput (binding = &amp;quot;theSensor&amp;quot;, header = &amp;quot;sensors.h&amp;quot;)]
@@ -103,8 +103,8 @@ extern let sensor: uint8
 
 @[COutput (binding = &amp;quot;spiIsReady&amp;quot;, header = &amp;quot;spi.h&amp;quot;)]
 extern var spiReady: bool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics.
-They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the external C variables bound to the environment variables live in the environment they do not follow the synchronous semantics. 
+They might be &lt;code&gt;volatile&lt;/code&gt; changing their value during a reaction. 
 They might be read or written asynchronously by the environment.&lt;/p&gt;
 &lt;p&gt;In order to synchronize these C variables, the Blech program holds a buffered value of the external value in the environment variable.&lt;/p&gt;
 &lt;p&gt;The Blech runtime system takes care of the synchronisation.
@@ -143,7 +143,7 @@ Two or more &lt;code&gt;extern let&lt;/code&gt; declarations are allowed to have
 The signature for the above activity &lt;code&gt;handleCVariables&lt;/code&gt; looks like the following&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;singleton handleCVariables.spiReady 
 activity handleCVariables()
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the external variables and shows their annotations.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It shows the activities prototype, exposes the unique names of the external variables and shows their annotations. 
 Showing the annotations allows to check the binding to C variables also for modules where the implementation is hidden.&lt;/p&gt;
 &lt;h2 id=&#34;the-diamond-call-problem&#34;&gt;The diamond call problem&lt;/h2&gt;
 &lt;p&gt;If an activity is a singleton, it still can be called from several activities.&lt;/p&gt;
@@ -234,34 +234,34 @@ In order to maintain the single-writer principle by programming discipline it is
         
         
         &lt;h2 id=&#34;equality-expressions&#34;&gt;Equality expressions&lt;/h2&gt;
-&lt;p&gt;Theoretically, every type supports some notion of equality (and inequality).
-This is straightforward for &lt;strong&gt;simple (or primitive) value types&lt;/strong&gt; that consist of one memory cell only (booleans and all numeric types of all sizes):
+&lt;p&gt;Theoretically, every type supports some notion of equality (and inequality). 
+This is straightforward for &lt;strong&gt;simple (or primitive) value types&lt;/strong&gt; that consist of one memory cell only (booleans and all numeric types of all sizes): 
 &lt;code&gt;a == b&lt;/code&gt; holds iff the value of &lt;code&gt;a&lt;/code&gt; is the same as the value of &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;For &lt;strong&gt;structured (complex) value types&lt;/strong&gt; we can decide equality by comparing every element of data structures recursively.
-At compile time the result of a comparison can be evaluated if the arguments are compile time constants.
+At compile time the result of a comparison can be evaluated if the arguments are compile time constants. 
 Thus it is technically no problem to compare compile time constants of any value type.&lt;/p&gt;
-&lt;p&gt;At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure.
+&lt;p&gt;At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure. 
 An optimisation of runtime - not changing the run-time complexity but providing better factors - could be achieved by comparing the data structures byte-wise (&lt;code&gt;memcmp&lt;/code&gt;).
-But this requires to fix padding in structs and then fails in special cases:
-floating point elements may use different bit representations for the same numerical value, e.g. &lt;code&gt;+0.0&lt;/code&gt; and &lt;code&gt;-0.0&lt;/code&gt;.
+But this requires to fix padding in structs and then fails in special cases: 
+floating point elements may use different bit representations for the same numerical value, e.g. &lt;code&gt;+0.0&lt;/code&gt; and &lt;code&gt;-0.0&lt;/code&gt;. 
 Consequently, the comparison operator for structured data may not be used at runtime (like in C) and results in a type check error.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Reference types are not implemented yet but in principle they will have the same behaviour: compare (dereferenced) values for simple types, and disallow comparison for complex types.&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id=&#34;using-constants&#34;&gt;Using constants&lt;/h2&gt;
-&lt;p&gt;In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent.
+&lt;p&gt;In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent. 
 Thus at the end of the type check phase the declarations of the consts do exist and can be translated to C but all their usages disappear (being substituted by the value).
 This has the drawback of less readable C code but still allows to export constants as #defines and use them in foreign code by including the relevant &lt;code&gt;.h&lt;/code&gt; file.&lt;/p&gt;
-&lt;p&gt;In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals.
-The same is true for arrays in all versions of C.
-Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data.
-In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls.
+&lt;p&gt;In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals. 
+The same is true for arrays in all versions of C. 
+Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data. 
+In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls. 
 In summary, literals occur only on the right hand side of initialisation in the generated C code.&lt;/p&gt;
 &lt;h2 id=&#34;side-effects-in-conditions-are-not-allowed&#34;&gt;Side effects in conditions are not allowed&lt;/h2&gt;
-&lt;p&gt;It is obvious that testing an &lt;code&gt;await&lt;/code&gt; condition may not have any impact on the state to implement a synchronous program.
-Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements.
-This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation.
+&lt;p&gt;It is obvious that testing an &lt;code&gt;await&lt;/code&gt; condition may not have any impact on the state to implement a synchronous program. 
+Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements. 
+This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation. 
 The common programming practice of C where conditions&amp;rsquo; side effects are used to also advance computation is regarded as bad practice in Blech until proven otherwise.&lt;/p&gt;
 &lt;h2 id=&#34;side-effects-are-allowed-in-initialisers&#34;&gt;Side effects are allowed in initialisers&lt;/h2&gt;
-&lt;p&gt;Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable.
+&lt;p&gt;Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable. 
 Otherwise the following code that declares an immutable variable cannot be written:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;let status = f()(x)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Instead, we would have to write&lt;/p&gt;
@@ -287,7 +287,7 @@ It interacts with a so-called &lt;em&gt;environment&lt;/em&gt; that triggers a &
 &lt;p&gt;Typically, the environment provides a set of &lt;em&gt;inputs&lt;/em&gt; to a Blech program. These inputs may, for example, be sensor readings.
 The environment then expects the Blech program to perform some computations and finally return a set of updated &lt;em&gt;outputs&lt;/em&gt;.
 Outputs can be interpreted by the environment, for example, as set points for actuators.&lt;/p&gt;
-&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form.
+&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form. 
 It ranges from just a loop that calls the Blech application as soon as the last reaction has finished to a sophisticated real-time operating system which manages several tasks, timers and event queues.&lt;/p&gt;
 &lt;p&gt;The Blech program maintains its state from one reaction to the next.
 Thus a reaction does not merely depend on the given inputs but also on the state of the program itself.&lt;/p&gt;
@@ -310,7 +310,7 @@ It is the single most crucial distinctive feature of synchronous programming lan
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
 the distinction of individual reactions; and the distinction of a thread-local view and a global view on a shared memory.&lt;/p&gt;
-&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed.
+&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
 Such programs are called causally correct or simply &lt;em&gt;causal&lt;/em&gt;.
 The next section explains what this means for Blech.&lt;/p&gt;
 &lt;h2 id=&#34;causality&#34;&gt;Causality&lt;/h2&gt;
@@ -381,8 +381,8 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
 &lt;/div&gt;
 
 &lt;h2 id=&#34;github-pages-service&#34;&gt;GitHub Pages Service&lt;/h2&gt;
-&lt;p&gt;This Website is hosted as a GitHub Pages website.
-GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service.
+&lt;p&gt;This Website is hosted as a GitHub Pages website. 
+GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service. 
 See the &lt;a href=&#34;https://help.github.com/en/github/site-policy/github-privacy-statement&#34; target=&#34;_blank&#34;&gt;GitHub Privacy Statement&lt;/a&gt;
  for details.&lt;/p&gt;
 &lt;h2 id=&#34;this-website&#34;&gt;This Website&lt;/h2&gt;
@@ -468,6 +468,171 @@ No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: References in Blech</title>
+      <link>https://www.blech-lang.org/docs/language-evolution/borrowing/10_references/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/language-evolution/borrowing/10_references/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;parameters-are-references&#34;&gt;Parameters are references&lt;/h2&gt;
+&lt;p&gt;Semantically, Blech passes parameters by reference.&lt;/p&gt;
+&lt;p&gt;Imagine the following Blech program&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1 (a: int32)(b: int32)
+    b = 1
+    b = a + b 
+end
+
+activity godUsage()
+    var i = 42: int32
+    var j: int32
+    outIsInPlus1(i)(j) // 43 --&amp;gt; j
+    await true
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far so good, the program has the expected behaviour: &lt;code&gt;j&lt;/code&gt; gets &lt;code&gt;i + 1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;But if we call the same function with the same &lt;code&gt;variable&lt;/code&gt; as input and output we get a strange behaviour.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity badUsage()
+    var i = 42: int32
+    outIsInPlus1(i)(i)
+    await true
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If Blech would allow this code and we assume call-by-reference semantics, &lt;code&gt;i&lt;/code&gt; has value &lt;code&gt;2&lt;/code&gt; after the execution of the function.&lt;/p&gt;
+&lt;p&gt;This would be an unexpected behavior both from the implementation and the usage point of view.&lt;/p&gt;
+&lt;p&gt;The implementation does not take into account that &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; may point to the same memory location.
+The point of usage we know nothing about the actual implementation. 
+The implicit assumption, input &lt;code&gt;a&lt;/code&gt; and output &lt;code&gt;b&lt;/code&gt; must no be the same memory location is not transparent.&lt;/p&gt;
+&lt;p&gt;In order to prevent such errors, Blech forbids this usage.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
+  --&amp;gt; incr.blc:3:5 [causality]
+
+3  |     outIsInPlus1(i)(i)
+   |                     - Output argument.
+3  |     outIsInPlus1(i)(i)
+   |                  ^ Input argument.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;One might wonder, why a simple increment is allowed&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    i = i + 1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;while the call of the function&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    outIsInPlus1(i)(i)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;is not.&lt;/p&gt;
+&lt;p&gt;The reason is, that parameters are passed by-reference.&lt;/p&gt;
+&lt;p&gt;The input &lt;code&gt;a&lt;/code&gt; takes a read-only reference to the actual input, the output &lt;code&gt;b&lt;/code&gt; takes a read-write reference to the actual input.&lt;/p&gt;
+&lt;p&gt;Semantically the function &lt;code&gt;outIsInPlus1&lt;/code&gt; has the following form&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1 (let ref a: int32)(var ref b: int32)
+    b = 1
+    b = a + b 
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Blech forbids taking a read-only reference and an read-write reference to the same memory location at the same time.&lt;/p&gt;
+&lt;p&gt;Since the compiler rejects such programs, the code generation is free to pass input parameters of functions by value or by reference.
+Currently, simple types are passed by reference while composed types are passed by reference.&lt;/p&gt;
+&lt;p&gt;Activity parameters have the same pass-by-reference semantics. Due to the nature of activities input parameters must always be passed by-reference in the code generation&lt;/p&gt;
+&lt;h2 id=&#34;return-values&#34;&gt;Return values&lt;/h2&gt;
+&lt;p&gt;Return values of functions and activities are always passed by value.&lt;/p&gt;
+&lt;p&gt;The generated code can either use the stack for simple type returns of functions or write directly to a result location for returned composite values and returned simple values of activities.&lt;/p&gt;
+&lt;h2 id=&#34;reference-definitions&#34;&gt;Reference definitions&lt;/h2&gt;
+&lt;p&gt;Blech also allows references definitions. They are a restricted form of pointers for expressing aliases and associating data structures.&lt;/p&gt;
+&lt;h3 id=&#34;the-benefit-of-references&#34;&gt;The benefit of references&lt;/h3&gt;
+&lt;p&gt;References can be used to express aliases.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct S
+    var buffer: [3]int32
+end
+
+...
+    var s: S
+
+    do 
+        let i: nat8 = 1
+        if s.buffer[i] &amp;gt; 0 then
+            s.buffer[i] = s.buffer[i] + 1
+        end
+    end
+
+    do 
+        let i: nat8 = 1
+        var ref elem = s.buffer[i]
+        if elem &amp;gt; 0 then 
+            elem = elem + 1
+        end
+    end
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This prevents repetition and make a program better readable.&lt;/p&gt;
+&lt;p&gt;References can also be used to associate data structures&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;
+struct S
+    var ref buffer: [3]int32
+end
+
+
+...
+    
+    var array: [3]int32
+    var s: S = {buffer = array}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The variable &lt;code&gt;s&lt;/code&gt; is associated to (points to) the variable &lt;code&gt;array&lt;/code&gt; via the read-write reference &lt;code&gt;s.buffer&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;references-are-not-first-class-types&#34;&gt;References are not first-class types&lt;/h3&gt;
+&lt;p&gt;References only occur implicitly as parameters or explicitly as reference definitions.&lt;/p&gt;
+&lt;p&gt;Blech implicitly takes references and de-references them if necessary.
+There is no such thing like an adress operator &lt;code&gt;&amp;amp;&lt;/code&gt; or a de-referencing operator &lt;code&gt;*&lt;/code&gt; as known from other imperative languages.&lt;/p&gt;
+&lt;p&gt;References must be initialised at their declaration.&lt;/p&gt;
+&lt;p&gt;This is done when&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;an actual parameter is supplied in a subprogram call, or&lt;/li&gt;
+&lt;li&gt;an initialiser is given in a reference declaration.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This enables the compiler to conservatively track reference relationships across the program and in turn enables causality analysis.&lt;/p&gt;
+&lt;p&gt;It prevents dangling references and circumvents pointer aliasing problems.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;ref&lt;/code&gt; in a reference declaration is also &lt;strong&gt;not&lt;/strong&gt; a type constructor, that might occur anywhere in type expressions.
+It is an additional property of a memory location or a value.&lt;/p&gt;
+&lt;h3 id=&#34;the-problem-with-references&#34;&gt;The problem with references&lt;/h3&gt;
+&lt;p&gt;The use of references can make a program difficult to reason about.&lt;/p&gt;
+&lt;p&gt;If we do the same thing as above in sequential code,&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var i: int32
+
+let ref a = i
+var ref b = i
+
+b = 1
+b = a + b
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;we run into the same problems: &lt;code&gt;a&lt;/code&gt; is a read-only reference to &lt;code&gt;i&lt;/code&gt;, &lt;code&gt;b&lt;/code&gt; is a read-write reference to &lt;code&gt;i&lt;/code&gt;.
+When we change &lt;code&gt;i&lt;/code&gt; via &lt;code&gt;b&lt;/code&gt; we implicitly change the value we get from &lt;code&gt;a&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Even in the simple case&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var i: int32
+
+let ref a = i
+
+b = 1
+b = a + b
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;where we have a read-only reference to &lt;code&gt;i&lt;/code&gt; while at the same time we can change &lt;code&gt;i&lt;/code&gt; directly, we run into the same problems, when reasoning about a program.&lt;/p&gt;
+&lt;p&gt;Having a read-only access to a memory location, would not guarantee, that the underlying value does not change.&lt;/p&gt;
+&lt;p&gt;With references we need to be able to rule out calls like&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: integer
+    let ref a = i
+    var ref b = i
+
+    run anActivity(a)(b)
+    run anActivity(b)(i)
+    run anActivity(i)(b)
+    run anActivity(a)(i)
+
+    aFunction(a)(b)
+    aFunction(b)(i)
+    aFunction(i)(b)
+    aFunction(a)(i)
+
+    cobegin 
+        run fstTread(a)(i)
+    with
+        run sndThread(a)(b)
+    end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;due to read-write and write-write conflicts.&lt;/p&gt;
+&lt;p&gt;With references causality errors might be very difficult to understand and even sequential code is already confusing.&lt;/p&gt;
+&lt;p&gt;Luckily there is way of handling these problems at compile time.
+In Rust this is called &lt;a href=&#34;../20_borrowing&#34;&gt;&lt;strong&gt;Borrowing Analysis&lt;/strong&gt;&lt;/a&gt;
+.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Bits and bytes</title>
       <link>https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -479,6 +644,9 @@ No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
         &lt;h2 id=&#34;bits-and-bytes&#34;&gt;Bits and bytes&lt;/h2&gt;
 &lt;p&gt;Some notes on &lt;a href=&#34;https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/&#34; target=&#34;_blank&#34;&gt;C’s integers&lt;/a&gt;
 &lt;/p&gt;
+&lt;p&gt;Some think, &lt;a href=&#34;https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/&#34; target=&#34;_blank&#34;&gt;unsigned integers should be avoided&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;For embedded this is not an option.&lt;/p&gt;
 &lt;h3 id=&#34;rename-the-exponentiation-operator-&#34;&gt;Rename the exponentiation operator &lt;code&gt;^&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;The exponention operator &lt;code&gt;^&lt;/code&gt; should be renamed to &lt;code&gt;**&lt;/code&gt; - maybe right associative.&lt;/p&gt;
 &lt;p&gt;Maybe it would be better to deprecate the exponentiation operator completely.
@@ -491,8 +659,8 @@ A good argument for this change is given by the &lt;a href=&#34;https://devblogs
 &lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
 The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
 Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;.
-Those types occur only in 4 different sizes.
+&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
+Those types occur only in 4 different sizes. 
 The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
 Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word&#34; target=&#34;_blank&#34;&gt;word&lt;/a&gt;
  is a unit of data of a defined bit length.
@@ -551,11 +719,11 @@ shift right: &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 left rotate: &lt;code&gt;&amp;lt;&amp;lt;&amp;gt;&lt;/code&gt;
 right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;These operators can be defined as Macros.
+&lt;p&gt;These operators can be defined as Macros. 
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
 C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts&#34; target=&#34;_blank&#34;&gt;circular shift idiom&lt;/a&gt;
 .&lt;/p&gt;
-&lt;p&gt;The shift and rotate amount is a general unsigned integer type.
+&lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
 It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
 &lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
@@ -607,7 +775,7 @@ Bitwise and arithmetic operations can only be applied to values of type &lt;code
 let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight&#34; target=&#34;_blank&#34;&gt;Hacker’s Delight&lt;/a&gt;
- is the definitive source of bitwise programming algorithms.
+ is the definitive source of bitwise programming algorithms. 
 It should be possible to use these hacks in Blech.&lt;/p&gt;
 &lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: bits8
@@ -638,10 +806,10 @@ x = x | (x + 0b_1)
 &lt;li&gt;syntax highlighting, and&lt;/li&gt;
 &lt;li&gt;a language server which checks the code every time it is saved.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This gives you editing support like code snippets, correct indentation, type checking or causality checking.
+&lt;p&gt;This gives you editing support like code snippets, correct indentation, type checking or causality checking. 
 In case of errors, it returns error messages to the user.
 It also supports a few basic IDE functionalities.&lt;/p&gt;
-&lt;p&gt;In order to use this, install Visual Studio Code (a.k.a. VS Code) either from &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;https://code.visualstudio.com/&lt;/a&gt; or from &lt;a href=&#34;https://github.com/VSCodium/vscodium/releases&#34;&gt;https://github.com/VSCodium/vscodium/releases&lt;/a&gt;.
+&lt;p&gt;In order to use this, install Visual Studio Code (a.k.a. VS Code) either from &lt;a href=&#34;https://code.visualstudio.com/&#34;&gt;https://code.visualstudio.com/&lt;/a&gt; or from &lt;a href=&#34;https://github.com/VSCodium/vscodium/releases&#34;&gt;https://github.com/VSCodium/vscodium/releases&lt;/a&gt;. 
 It can be installed locally without admin rights.&lt;/p&gt;
 &lt;h2 id=&#34;build-the-extension-from-source&#34;&gt;Build the extension from source&lt;/h2&gt;
 &lt;p&gt;The build from source needs &lt;strong&gt;.NET Core&lt;/strong&gt; and &lt;strong&gt;NodeJS&lt;/strong&gt; for the Blech Language Services.&lt;/p&gt;
@@ -693,88 +861,31 @@ To build and package the client and the server as an extension run:&lt;/p&gt;
 &lt;p&gt;From the command line go to the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;code blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp;gt;.vsix
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;with the correct version number.&lt;/p&gt;
-&lt;p&gt;If VS Code is already running:
+&lt;p&gt;If VS Code is already running: 
 Open the Extension section, go to the &lt;code&gt;...&lt;/code&gt; menu, and select &lt;code&gt;Install from VSIX...&lt;/code&gt;.
 Select the &lt;code&gt;blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp;gt;.vsix&lt;/code&gt; file to install the extension.&lt;/p&gt;
-&lt;p&gt;Verify it works by opening some &lt;code&gt;*.blc&lt;/code&gt; file.
-If the keywords are coloured, it works.
+&lt;p&gt;Verify it works by opening some &lt;code&gt;*.blc&lt;/code&gt; file. 
+If the keywords are coloured, it works. 
 Furthermore, if you hover over an activity name, you should see its signature in a tooltip.&lt;/p&gt;
 
       </description>
     </item>
     
     <item>
-      <title>Docs: Borrowing</title>
-      <link>https://www.blech-lang.org/docs/language-evolution/borrowing/</link>
+      <title>Docs: Borrowing for references</title>
+      <link>https://www.blech-lang.org/docs/language-evolution/borrowing/20_borrowing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.blech-lang.org/docs/language-evolution/borrowing/</guid>
+      <guid>https://www.blech-lang.org/docs/language-evolution/borrowing/20_borrowing/</guid>
       <description>
         
         
-        
-
-&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
-&lt;p&gt;The borrowing proposal is work in progress.&lt;/p&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&#34;borrowing-in-rust-and-blech&#34;&gt;Borrowing in Rust and Blech&lt;/h2&gt;
-&lt;p&gt;Blech&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1 (a: int32)(b: int32)
-    b = 1
-    b = a + b 
-end
-
-activity main()
-    var i = 42: int32
-    var j: int32
-    outIsInPlus1(i)(j) // 43 --&amp;gt; j
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far so good, but the following program&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity main()
-    var i = 42: int32
-    outIsInPlus1(i)(i) //  
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;leads to a causality error during compilation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
-  --&amp;gt; incr.blc:3:5 [causality]
-
-3  |     outIsInPlus1(i)(i)
-   |                     - Output argument.
-3  |     outIsInPlus1(i)(i)
-   |                  ^ Input argument.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reason is that all parameters conceptually are passed by reference.
-For pure functions - which do not have output parameters, passing actual parameters by reference can be implemented with pass-by-value which makes parameter passing of simple-types an optimisation.
-For impure functions - which have output parameters, the compiler forbids references to overlapping memory regions, as in the example above.&lt;/p&gt;
-&lt;p&gt;Blech automatically takes references and de-references them if necessary. It decides on mutability through the occurence in the input or output parameter list. Semantically the Blech program has the following form:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1(&amp;lt;let ref&amp;gt; a: int32)(&amp;lt;var ref&amp;gt; b: int32)
-    &amp;lt;*&amp;gt; b = 1
-    &amp;lt;*&amp;gt; b = &amp;lt;*&amp;gt; a + &amp;lt;*&amp;gt; b 
-end
-
-activity main()
-    var i = 42: int32
-    outIsInPlus1(&amp;lt;&amp;amp;&amp;gt; i)(&amp;lt;&amp;amp;mut&amp;gt; i)  // &amp;amp;mut a reference that can be changed
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;which is, as explained before, rejected by the compiler.&lt;/p&gt;
-&lt;p&gt;This non-pure function is semantically very close to Rust.
-Rust also does not allow this call.
-The borrow checker detects an error.&lt;/p&gt;
+        &lt;h1 id=&#34;borrowing&#34;&gt;Borrowing&lt;/h1&gt;
+&lt;p&gt;The solution to the &lt;a href=&#34;../10_references/#the-problem-with-references&#34;&gt;problems with references&lt;/a&gt;
+ is &lt;strong&gt;Borrowing analysis&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;borrowing-in-rust&#34;&gt;Borrowing in Rust&lt;/h2&gt;
+&lt;p&gt;A Rust program very similar to the introductory example (../10_references/#parameters-are-references)
+looks like the following&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;outIsInPlus1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -784,7 +895,10 @@ The borrow checker detects an error.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;42&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;outIsInPlus1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Function &lt;code&gt;outIsInPlus1&lt;/code&gt; gets a read-only (immutable) reference &lt;code&gt;a&lt;/code&gt; and a read-write (mutable) reference &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Rust does not allow this call to &lt;code&gt;outIsInPlus1&lt;/code&gt;.
+The so-called borrow checker detects an error.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
  --&amp;gt; src/example.rs:9:11
   |
 9 |     outIsInPlus1(&amp;amp;i, &amp;amp;mut i);
@@ -793,386 +907,83 @@ The borrow checker detects an error.&lt;/p&gt;
   |     |            immutable borrow occurs here
   |     immutable borrow later used by call
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For activities in Blech the causality rules for parameter are the same. The causality checker detects an error in the following example&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity outIsInPlus1(a: int32)(b: int32)
-    b = 1       // b = 1
-    b = a + b   // b = 1 + a
-    await true
-end
-
-activity main()
-    var i = 42: int32
-    run outIsInPlus1(i)(i)
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
-  --&amp;gt; example.blc:11:5 [causality]
-
-11 |     run outIsInPlus1(i)(i)
-   |                         - Output argument.
-11 |     run outIsInPlus1(i)(i)
-   |                      ^ Input argument.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Similar to the function above the activity &lt;code&gt;outIsInPlus1&lt;/code&gt; has semantically the following form:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity outIsInPlus1(&amp;lt;let ref&amp;gt; a: int32)(&amp;lt;var ref&amp;gt;b: int32)
-    &amp;lt;*&amp;gt; b = 1       
-    &amp;lt;*&amp;gt; b = &amp;lt;*&amp;gt; a + &amp;lt;*&amp;gt; b
-    await true
-end
-
-activity main()
-    var i = 42: int32
-    run outIsInPlus1(&amp;lt;&amp;amp;&amp;gt; i)(&amp;lt;&amp;amp; mut&amp;gt; i)
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;There is no such thing as a pure activity.&lt;/p&gt;
-&lt;p&gt;If we have more uses for borrowing and a &lt;strong&gt;borrowing checker&lt;/strong&gt; this could become a &lt;strong&gt;borrowing error&lt;/strong&gt; instead of a causality error.&lt;/p&gt;
-&lt;h2 id=&#34;call-by-value-and-return-values&#34;&gt;Call-by-value and return values&lt;/h2&gt;
-&lt;p&gt;The Blech compiler guarantees that we do not pass a &lt;code&gt;let ref&lt;/code&gt; and &lt;code&gt;var ref&lt;/code&gt; to the same memory location
-at the same time.&lt;/p&gt;
-&lt;p&gt;Writing a pure function is still possible&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function incr(i: int32) returns int32
-    return i + 1
-end
-activity main()
-    var i = 42: int32
-    i = incr(i)  
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Semantically this is&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function incr(&amp;lt;let ref&amp;gt; i: int32) returns &amp;lt;let&amp;gt; int32
-    return &amp;lt;*&amp;gt;i + 1
-end
-
-activity main()
-    var i = 42: int32
-    i = incr(&amp;lt;&amp;amp;&amp;gt; i)  
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In a pure function call-by-reference is equivalent to call-by-value since the Blech compiler guarantees, that &lt;code&gt;i&lt;/code&gt; is read-only. The absence of side effects prevents changes on the memory location of the actual parameter.&lt;/p&gt;
-&lt;p&gt;Therefore we can compile it with call-by-value, which semantically equivalent to call-by-refernce.
-This is an optimisation for simple types, which makes sense.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function incr(&amp;lt;let&amp;gt; i: int32) returns &amp;lt;let&amp;gt; int32
-    return i + 1
-end
-
-activity main()
-    var i = 42: int32
-    i = incr(i)  
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;All build-in operators are pure functions.&lt;/p&gt;
-&lt;p&gt;On the other hand structured value types returned by a function can be implemented with the help
-of a reference:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct S end
-function initS() returns S
-    return {}
-end
-
-activity main()
-    var s: S = initS()
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This can be compiled as&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct S end
-
-function initS()(&amp;lt;var ref&amp;gt; result: S)
-    *result = {}
-    return 
-end
-
-activity main()
-    var s: S
-    initS()(&amp;lt;&amp;amp;&amp;gt;s)
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;returning-a-reference&#34;&gt;Returning a reference&lt;/h2&gt;
-&lt;p&gt;A function might also return a reference. This is mainly necessary to initialize references.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function oneOutOfTwo(a: int32, b: int32) returns ref int32
-    if a &amp;gt; b then 
-        return a
-    else 
-        return b
-    end
-end
-
-// use
-    var x: int32
-    var y: int32
-    var ref z = oneOutOfTwo(x, y)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The compiler conservatively can deduce for causality analysis, that &lt;code&gt;z&lt;/code&gt; shares memory with &lt;code&gt;x&lt;/code&gt; or &lt;code&gt;y&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Semantically this gets compile to&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function oneOutOfTwo(&amp;lt;let ref&amp;gt; a: int32, &amp;lt;let ref&amp;gt; b: int32) returns ref int32
-    if &amp;lt;*&amp;gt;a &amp;gt; &amp;lt;*&amp;gt;b then 
-        return a
-    else 
-        return b
-    end
-end
-
-// use
-    var x: int32
-    var y: int32
-    var ref z = oneOutOfTwo(&amp;lt;&amp;amp;&amp;gt; x, &amp;lt;&amp;amp;&amp;gt; y)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the call-by-value optimisation is not possible here, because a reference is returned as result.&lt;/p&gt;
-&lt;p&gt;Returning references should also be possible with external variables.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function localOrExternal(a: int32) returns ref int32
-    @[CInput(...)]
-    extern let external: int32
-    if a &amp;gt; external then 
-        return a
-    else 
-        return external
-    end
-end
-
-// use
-    var x: int32
-    let ref z = localOrExternal(x)
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;borrowing&#34;&gt;Borrowing&lt;/h2&gt;
-&lt;p&gt;Passing parameters by-reference is essentially borrowing a reference.&lt;/p&gt;
-&lt;p&gt;There are several combinations&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Blech&lt;/th&gt;
-&lt;th&gt;Semantics&lt;/th&gt;
-&lt;th&gt;Blech call&lt;/th&gt;
-&lt;th&gt;Call semantics&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;function f (a: T)()&lt;/td&gt;
-&lt;td&gt;function f (let ref a: T)&lt;/td&gt;
-&lt;td&gt;f(x)()&lt;/td&gt;
-&lt;td&gt;f(&amp;amp;x)()&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;function f ()(b: T)&lt;/td&gt;
-&lt;td&gt;function f ()(var ref b: T)&lt;/td&gt;
-&lt;td&gt;f()(x)&lt;/td&gt;
-&lt;td&gt;f()(&amp;amp;x)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;activity a (a: T)()&lt;/td&gt;
-&lt;td&gt;activity a (let ref a: T)&lt;/td&gt;
-&lt;td&gt;run a(x)&lt;/td&gt;
-&lt;td&gt;run a(&amp;amp;x)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;activity a ()(b: T)&lt;/td&gt;
-&lt;td&gt;activity a ()(var ref b: T)&lt;/td&gt;
-&lt;td&gt;run a()(x)&lt;/td&gt;
-&lt;td&gt;run a()(&amp;amp;x)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;In case of an input parameter it is a non-mutable borrowing. In case of an output parameter it is a mutable borrowing.&lt;/p&gt;
-&lt;h2 id=&#34;borrowing-via-reference-declarations&#34;&gt;Borrowing via reference declarations&lt;/h2&gt;
-&lt;p&gt;Borrowing not only occurs when passing parameters, but also when declaring references.
-We also plan this for Blech.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity main()
-    var x: int32 = 42
-    let ref y = x
-    x = y + 1 // x == 43, y == 43 
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This would be a strange behaviour in Blech, when reasoning about this program. Especially since &lt;code&gt;y&lt;/code&gt; is a read-only reference, but changes its value via the assignment. Rust forbids this by the borrow checker.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;()&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;x&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;42&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;y&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;x&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;x&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;y&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;x:{}, y:{}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;x&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;y&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;error[E0506]: cannot assign to `x` because it is borrowed
- --&amp;gt; src/main.rs:4:5
-  |
-3 |     let y: &amp;amp;i32 = &amp;amp;x;
-  |                   -- borrow of `x` occurs here
-4 |     x = *y + 1;
-  |     ^^^^^^^^^^ assignment to borrowed `x` occurs here
-5 |     println!(&amp;#34;x:{}, y:{}&amp;#34;, x, y);
-  |                               - borrow later used here
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In Rust you cannot use &lt;code&gt;x&lt;/code&gt; after it has been non-mutably borrowed to &lt;code&gt;y&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;We propose to adopt the ideas of borrowing from Rust to Blech, in order to benefit from the guarantees the borrow checker gives for your program.&lt;/p&gt;
-&lt;h2 id=&#34;behaviour-of-the-borrow-checker&#34;&gt;Behaviour of the borrow checker&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Rust does not allow to borrow a mutable and an immutable reference to a memory location in the same scope.&lt;/p&gt;
+&lt;p&gt;In Blech this test is currently implemented as part of the causality analysis.&lt;/p&gt;
+&lt;h2 id=&#34;behaviour-of-the-rust-borrow-checker&#34;&gt;Behaviour of the Rust borrow checker&lt;/h2&gt;
 &lt;p&gt;A good overview of how borrowing restricts the usage of variables and references can be found in a &lt;a href=&#34;https://rufflewind.com/2017-02-15/rust-move-copy-borrow#comments&#34; target=&#34;_blank&#34;&gt;Graphical depiction of ownership and borrowing in Rust&lt;/a&gt;
 .&lt;/p&gt;
-&lt;p&gt;Move semantics can be neglected for the moment since currently only have value types which all allow copying, which in Rust terminology means, they implement the copy trait. Nevertheless move semantics might become important for Blech&amp;rsquo;s planned reference types.&lt;/p&gt;
+&lt;p&gt;Move semantics can be neglected for the moment because it deals with memory management of heap allocated data. 
+Currently Blech does not dynamically allocate heap data for safety and real-time reasons.&lt;/p&gt;
 &lt;p&gt;For borrowing it distinguishes between &lt;em&gt;frozen&lt;/em&gt; and &lt;em&gt;locked&lt;/em&gt; behaviour.&lt;/p&gt;
 &lt;p&gt;Mutable borrowing, &lt;em&gt;locks&lt;/em&gt; the original object for the duration of the borrow, rendering it unusable.&lt;/p&gt;
 &lt;p&gt;Non-mutable borrowing &lt;em&gt;freezes&lt;/em&gt; the original object, you can still take more non-mutable references, but you cannot move or take mutable references of it.&lt;/p&gt;
-&lt;h3 id=&#34;non-mutable-borrow-freezes-original-object&#34;&gt;Non-mutable borrow &lt;em&gt;freezes&lt;/em&gt; original object&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity main()
-    var s: int32 = 42
-    do
-        let ref r = s  // ok, s is now frozen
-        cobegin
-            // can non-mutably borrow from r 
-            let ref a = r  // ok 
-            ...
-        with
-            // can still &amp;amp;s
-            let ref b = s  // ok
-            ...
-        with
-            // cannot &amp;amp;mut s
-            var ref c = s // not ok, similar to first example, could read s via r, and write s via c
-            ...
-        with
-            // cannot move s
-            // not applicable because s has a value type
-            ...
-        end
-    end
-    // all borrows terminated    
-    s = s + 1 
-    await true
+&lt;h2 id=&#34;borrowing-in-blech&#34;&gt;Borrowing in Blech&lt;/h2&gt;
+&lt;p&gt;If we adopt borrow semantics in Blech, the compiler would reject the program, which has been discussed as problematic.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var i: int32
+
+let ref a = i
+var ref b = i
+
+b = 1
+b = a + b
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The analog program in Rust&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;()&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;42&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;cannot be compiled due to a borrowing error&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
+ --&amp;gt; src/main.rs:5:13
+  |
+4 |     let a = &amp;amp;i;
+  |             -- immutable borrow occurs here
+5 |     let b = &amp;amp;mut i;
+  |             ^^^^^^ mutable borrow occurs here
+...
+8 |     *b = *a + *b;
+  |          -- immutable borrow later used here
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For Blech we should also implemented a borrowing check.&lt;/p&gt;
+&lt;h2 id=&#34;intuitive-behaviour-of-the-borrow-checker&#34;&gt;Intuitive behaviour of the borrow checker.&lt;/h2&gt;
+&lt;p&gt;Borrow checking restricts the use borrowed references inside the same scope.&lt;/p&gt;
+&lt;p&gt;The scope is either a statement scope or the entrance of a subprogram.&lt;/p&gt;
+&lt;p&gt;In the same scope we can either&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;take several &lt;code&gt;let ref&lt;/code&gt;s or&lt;/li&gt;
+&lt;li&gt;one &lt;code&gt;var ref&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;to a memory location.&lt;/p&gt;
+&lt;p&gt;In both cases the original name for the memory location is no longer accessible.
+If we switch to a separate scope we can take a mutable and after that an immutable borrowing. 
+The reason is, that the borrow reference name is no longer visible if the scope is left.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var i: int32
+
+do  // increment i via b
+    var ref b = i  // read-write (mutable) borrow
+    // i is locked
+    b = b + 1    
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;mutable-borrow-locks-original-object&#34;&gt;Mutable borrow &lt;em&gt;locks&lt;/em&gt; original object&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity main()
-    var s: int32 = 42
-    do
-        var ref m = s  // ok, s is locked
-        cobegin 
-            // can move m
-            var ref a = move m // ok, cannot use m anymore, will be discussed later
-            ...
-        with
-            // can downgrade m to read-only
-            let ref b = m  // ok, m is now frozen
-            ...
-        with
-            // can borrow mutably from m
-            var ref c = m  // ok, m is locked from here
-        with
-            // cannot copy m
-            // not applicable, references are taken and de-referenced implicitly
-            ...
-        with
-            // cannot use s at all, s is locked
-            let ref d = s  // not ok
-            var ref e = s  // not ok
-            let e = s      // not ok
-            var e = s      // not ok
-            ...
-        end
-    end
-    // all borrows terminated    
-    s = s + 1 
-    await true
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As shown before, passing parameters can be explained as borrowing&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Passing a parameter to an output list essentially is a borrowing as mutable reference.&lt;/li&gt;
-&lt;li&gt;Passing an input parameter in an activity essentially is borrowing as a non-mutable reference.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;As shown here, taking references in various forms can also be explained as borrowing.&lt;/p&gt;
-&lt;p&gt;Borrowing has a sequential ordering along the program text.
-This could be used to enable multiple concurrent writers for specific memory cells.&lt;/p&gt;
-&lt;h2 id=&#34;borrowing-for-sequential-parallel-writes&#34;&gt;Borrowing for sequential parallel writes&lt;/h2&gt;
-&lt;p&gt;The merely theorectical &amp;ldquo;sequential-parallel-or&amp;rdquo; operator is dangerous, because it switches off causality analysis completely, for all accesses to memory cells.&lt;/p&gt;
-&lt;p&gt;Therefore we propose to enable sequential parallel writes for indivual memory locations.
-We could use the sequential ordering of borrowing for this.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;...
-    var original: int32
-    cobegin
-        run controlValue()(original)
-    with
-        var ref updated = original // mutable borrow
-        run updateValue()(updated)
-    end
-    ...
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;What is the semantics?&lt;/p&gt;
-&lt;p&gt;In every step the activity &lt;code&gt;controlValue&lt;/code&gt; writes to &lt;code&gt;original&lt;/code&gt;. We can understand borrowing as a sequential chaining. In every step of the second thread &lt;code&gt;updated&lt;/code&gt; borrows &lt;code&gt;original&lt;/code&gt;, which in turn is updated in every step. &lt;code&gt;original&lt;/code&gt; is locked here and cannot be used. The borrowing defines a sequential write order.&lt;br&gt;
-We can regard both blocks of the &lt;code&gt;cobegin&lt;/code&gt; as partially sequentialised.&lt;/p&gt;
-&lt;p&gt;The borrowing &lt;code&gt;var ref update = original&lt;/code&gt; defines an &amp;ldquo;update &lt;code&gt;original&lt;/code&gt; from &lt;code&gt;updated&lt;/code&gt; edge&amp;rdquo; for causality analysis. Every writeable location must not have more than 1 incoming update edge.&lt;/p&gt;
-&lt;p&gt;Without references and borrowing we need local variables to sequentialise the write accesses in &lt;code&gt;controlValue&lt;/code&gt; and &lt;code&gt;updateValue&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;...
-    var original: int32
-    var local: int32
-    var updated = original
-    cobegin
-        run controlValue(prev updated)(local)
-    with
-        run updateValue(local)(updated)
-    with 
-        repeat
-            original = updated
-            await true
-        end
-    end
-    ...
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This solution, which is perfectly correct in the current compiler, is adopted from the &lt;a href=&#34;https://github.com/frameworklabs/blinker/blob/master/src/blinker.blc&#34; target=&#34;_blank&#34;&gt;Blech blinker example&lt;/a&gt;
-.&lt;/p&gt;
-&lt;p&gt;Compared to the first version the second needs 2 additional memory locations, additional parameters to enable the data flow, a loop that copies the result back to &lt;code&gt;original&lt;/code&gt; in every step, and additionally &lt;code&gt;controlValue&lt;/code&gt; and &lt;code&gt;updateValue&lt;/code&gt; need to copy from input to output in every step. As usual the order of &lt;code&gt;cobegin&lt;/code&gt; blocks is irrelevant.&lt;/p&gt;
-&lt;p&gt;The version with references and borrowing can reuse the &lt;code&gt;original&lt;/code&gt; memory location based on the statically defined sequential order and needs no additional copying loops.&lt;/p&gt;
-&lt;p&gt;Now, what happens if both threads borrow &lt;code&gt;original&lt;/code&gt;?&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;...
-    var original: int32
-    cobegin
-        var ref controlled = original // mutable borrow
-        run controlValue()(original)
-    with
-        var ref updated = original    // mutable borrow
-        run updateValue()(updated)
-    end
-    ...
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The location &lt;code&gt;original&lt;/code&gt; has now 2 incoming update edges from &lt;code&gt;controlled&lt;/code&gt; and &lt;code&gt;updated&lt;/code&gt; which is essentially a write-write conflict in causality analysis.&lt;/p&gt;
-&lt;p&gt;The &amp;lsquo;trick&amp;rsquo; of the sequentialisation is scoping of borrowing. If we need 3 concurrent threads that write to the &lt;code&gt;original&lt;/code&gt; memory location, we need to scope borrowing, which nicely shows the sequentialisation.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;...
-    var original: int32
-    cobegin 
-        run initialiseValue()(original)
-    with
-        var ref controlled = original // mutable borrow
-        cobegin
-            run controlValue()(controlled)
-        with
-            var ref updated = controlled // mutable borrow
-            run updateValue()(updated)
-        end
-    end
-    ...
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We have update egdes from  &lt;code&gt;updated&lt;/code&gt; to &lt;code&gt;controlled&lt;/code&gt; and from &lt;code&gt;controlled&lt;/code&gt; to &lt;code&gt;original&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To make things more interesting we can mix-in causal concurrency.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;...
-    var original: int32
-    var a: int32
-    var b: int32
-    cobegin
-        run controlValue(a)(b, original)
-    with
-        var ref updated = original
-        run updateValue(b)(a, updated)
-    end
-    ...
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here we get a cyclic write-read path on &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt;. We can use &lt;code&gt;prev&lt;/code&gt; to break this cycle. Since &lt;code&gt;original&lt;/code&gt; must be written before &lt;code&gt;updated&lt;/code&gt;, this only helps if we apply &lt;code&gt;prev&lt;/code&gt; to the input of activity &lt;code&gt;controlValue&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;...
-    var original: int32
-    var a: int32
-    var b: int32
-    cobegin
-        run controlValue(prev a)(b, original)
-    with
-        var ref updated = original // mutable borrowing
-        run updateValue(b)(a, updated)
-    end
-    ...
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note: Non-mutable borrowing does not imply additional causal constraints. It is simply write before read. But it helps clarifying the program semantics as explained in the introduction.&lt;/p&gt;
-&lt;h2 id=&#34;dismiss-shares&#34;&gt;Dismiss &lt;code&gt;shares&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Blech currently proposes to use a &lt;code&gt;shares&lt;/code&gt; if this an intended behaviour.
-We think this is no longer necessary with borrowing and causality.&lt;/p&gt;
-&lt;h2 id=&#34;todo&#34;&gt;Todo&lt;/h2&gt;
-&lt;h3 id=&#34;borrow-spitting&#34;&gt;Borrow spitting&lt;/h3&gt;
-&lt;p&gt;[Spitting borrows]https://doc.rust-lang.org/nomicon/borrow-splitting.html&lt;/p&gt;
-&lt;p&gt;Similar to splitting causality analysis. Ok for structs, not possible for arrays.&lt;/p&gt;
-&lt;p&gt;Rules for borrow checker like in Rust.&lt;/p&gt;
-&lt;h3 id=&#34;the-move-operator&#34;&gt;The &lt;code&gt;move&lt;/code&gt; operator&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/30288782/what-are-move-semantics-in-rust&#34; target=&#34;_blank&#34;&gt;What are move semantics in Rust?&lt;/a&gt;
-&lt;/p&gt;
-&lt;p&gt;Move should be handled and clarified separately. It is related to reference types.&lt;/p&gt;
-&lt;h3 id=&#34;splitting-borrows-and-partial-moves&#34;&gt;Splitting borrows and partial moves&lt;/h3&gt;
+
+// read i via a
+let ref a = i     // read-only (immutable) borrow
+// i is frozen
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;parameter-passing-is-borrowing-too&#34;&gt;Parameter passing is borrowing too&lt;/h2&gt;
+&lt;p&gt;Passing parameters is also borrowing in a new scope.
+All parameters are regarded borrows in the scope of the subprogram.&lt;/p&gt;
+&lt;p&gt;Therefore the following Blech code would also be rejected by a borrow checker.&lt;/p&gt;
+&lt;p&gt;The call takes a &lt;code&gt;let ref&lt;/code&gt; (immutable) borrow and a &lt;code&gt;var ref&lt;/code&gt; (mutable) borrow at the same time.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    outIsInPlus1(i)(i)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In order to correct this we need an additional memory location,&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    let j = i  // read-only j gets value from i
+    outIsInPlus1(j)(i)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The implementor of function &lt;code&gt;outIsInPlus1&lt;/code&gt; can assume that the actual parameters never overlap in their memory location.&lt;/p&gt;
+&lt;p&gt;This check - which currently is implemented in the causality analysis - can be moved to a borrow checker, which would simplify the causality analysis.&lt;/p&gt;
 
       </description>
     </item>
@@ -1195,7 +1006,7 @@ For example, a function like &lt;code&gt;strcpy&lt;/code&gt; can not be used fro
 &lt;p&gt;The &lt;code&gt;extern&lt;/code&gt; function declaration in Blech would put the target &lt;code&gt;toString&lt;/code&gt; in the output parameter list.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding =&amp;quot;strcpy&amp;quot;, header = &amp;quot;string.h&amp;quot;)]
 extern function stringCopy (fromString: string)(toString: string)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Given that we currently do not support strings, which is another future topic,
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Given that we currently do not support strings, which is another future topic, 
 the order of input and output parameters cannot be rearranged for the bound C function.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[EntryPoint]
 activity Main () ()
@@ -1289,7 +1100,7 @@ GERMANY&lt;/p&gt;
         
         &lt;h2 id=&#34;comments&#34;&gt;Comments&lt;/h2&gt;
 &lt;p&gt;Single line comments are C++ style. They begin with &lt;code&gt;//&lt;/code&gt; and end with the end of line.&lt;/p&gt;
-&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;.
+&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;. 
 Comment nesting is supported.&lt;/p&gt;
 &lt;h3 id=&#34;declaration-comments&#34;&gt;Declaration Comments&lt;/h3&gt;
 &lt;p&gt;A special comment syntax allows to write comments for declarations (functions, activities, types, variables, &amp;hellip;) which will be transported over to the generated C code.
@@ -1336,10 +1147,10 @@ Java style multi-line comments &lt;code&gt;/** */&lt;/code&gt; and .Net style si
 &lt;p&gt;&lt;code&gt;abort&lt;/code&gt;
 &lt;code&gt;activity&lt;/code&gt;
 &lt;code&gt;and&lt;/code&gt;
-&lt;code&gt;as&lt;/code&gt;
+&lt;code&gt;as&lt;/code&gt; 
 &lt;code&gt;await&lt;/code&gt;
 &lt;code&gt;bits8&lt;/code&gt;
-&lt;code&gt;bits16&lt;/code&gt;
+&lt;code&gt;bits16&lt;/code&gt; 
 &lt;code&gt;bits32&lt;/code&gt;
 &lt;code&gt;bits64&lt;/code&gt;
 &lt;code&gt;blech&lt;/code&gt;
@@ -1836,7 +1647,7 @@ We do not need to store external variables in the static context which is passed
 Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
 At the end of the reaction, the final value is written back to the external C-variable (if it is a &lt;code&gt;var&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Previous values of external variables on the other hand must be persisted in static memory.
-This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with
+This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with 
 (while the value of the external variable is volatile and may have changed arbitrarily between reactions).
 The code generator will create an extra local activity variable and add it to the list of local variables that are stored in the context.
 The value of the prev variable will be set &lt;em&gt;at the end&lt;/em&gt; of each reaction, so it can be used in the next reaction.&lt;/p&gt;
@@ -2026,6 +1837,112 @@ Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the d
     </item>
     
     <item>
+      <title>Docs: Immutable references - `let ref`</title>
+      <link>https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;read-only-references&#34;&gt;Read-only references&lt;/h2&gt;
+&lt;p&gt;Different to Rust, Blech takes references and de-references whenever it is necessary.&lt;/p&gt;
+&lt;p&gt;Althoug Blech semantically uses pass-by-reference it is possible to pass a complete right-hand-side expression for input parameters.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s take our example from the introduction&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    var j: int32
+
+    outIsInPlus1(j + 1)(i)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This programm is valid.
+Semantically Blech creates a auxiliary memory location from which the read-only reference can be taken.
+For a function on simple types the generated code can be optimized and the parameter can be passed by-value.&lt;/p&gt;
+&lt;p&gt;This is not true for an activity.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity outAlwaysIsInPlus1 (a: int32) (b: int32)
+    repeat 
+        b = 1
+        b = a + b 
+        await true
+        b = 1
+        b = a + b
+        await true
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    var j: int32
+
+    run outAlwaysIsInPlus1(j + 1)(i)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In every step the activity gets &lt;code&gt;j+1&lt;/code&gt; as its input.&lt;/p&gt;
+&lt;p&gt;For the code generation the auxiliary memory location is necessary.&lt;/p&gt;
+&lt;p&gt;We imagine the new value is &lt;em&gt;pumped into&lt;/em&gt; the activity in every step.&lt;/p&gt;
+&lt;h2 id=&#34;immutable-borrowing-in-sub-expressions&#34;&gt;Immutable borrowing in sub-expressions&lt;/h2&gt;
+&lt;p&gt;Due to a causality error the Blech compiler rejects the following program.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    run outAlwaysIsInPlus1(i + 1)(i)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Furthermore the compiler rejects a similar function call&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    outIsInPlus1(i + 1)(i)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is different to Rust, because Rust cannot take immutable (read-only) references to right-hand side expressions.&lt;/p&gt;
+&lt;p&gt;The borrow checker needs to check the occurence of read-only borrowing in right-hand side expressions.&lt;/p&gt;
+&lt;h2 id=&#34;pure-functions&#34;&gt;Pure functions&lt;/h2&gt;
+&lt;p&gt;Pure functions only have input parameters and a return value.&lt;/p&gt;
+&lt;p&gt;For pure functions pass-by-reference and pass-by-value are semantically the same, because nothing at the call side gets changed.&lt;/p&gt;
+&lt;p&gt;All build-in operators in Blech are pure functions.&lt;/p&gt;
+&lt;h2 id=&#34;read-only-references-1&#34;&gt;Read-only references&lt;/h2&gt;
+&lt;p&gt;Since we can pass a right-hand-side expression as an input parameter we should also be able to take a reference to a right-hand-side expression in sequential code.
+This makes sense in an activity and is called &lt;code&gt;bind&lt;/code&gt; in the language Quartz.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity a(i: int32)(j: int32)
+    let ref double = i * 2
+    repeat
+        j = double
+        await true
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In order to take a reference to a right-hand-side expression the compiler would generate an additional memory location.&lt;/p&gt;
+&lt;p&gt;This has roughly the following semantics:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity a (i: int32) (j: int32)
+    var aux_double: int32  // not subject to borrow checking
+    let ref double = internal_aux_double
+    cobegin weak
+        repeat
+            aux_double = i * 2
+            await true
+        end
+    with 
+        repeat
+            j = double
+            await true
+        end
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For the declaration &lt;code&gt;let ref double = i * 2&lt;/code&gt; we need to apply the borrowing rules for the sub-expression &lt;code&gt;i&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example in the following code would then be rejected.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    var z: int32
+    let ref double = i * 2  // immutable borrow of i
+    repeat
+        z = double
+        await true
+    until z &amp;gt; 1000 end
+    i = i + 1 // i is no longer accessible here 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The read-only reference &lt;code&gt;double&lt;/code&gt; immutable borrows &lt;code&gt;i&lt;/code&gt;, which locks &lt;code&gt;i&lt;/code&gt; for further usage.&lt;/p&gt;
+&lt;p&gt;As usual a separate scope can solve the problem:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;    var i: int32
+    var z: int32
+    do
+        let ref double = i * 2
+        repeat
+            z = double
+            await true
+        until z &amp;gt; 1000
+    end
+    i = i + 1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For purely sequential code that is not &lt;em&gt;re-entered&lt;/em&gt; on every tick, the contents of the auxiliary memory location gets only assigned once.&lt;/p&gt;
+&lt;p&gt;It not possible to take a reference for a right-hand-side expression as an output or a &lt;code&gt;var ref&lt;/code&gt; declaration.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Declarations</title>
       <link>https://www.blech-lang.org/docs/user-manual/declarations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -2082,8 +1999,8 @@ Type declarations are discussed in the next section.&lt;/p&gt;
 &lt;h3 id=&#34;qualifiers&#34;&gt;Qualifiers&lt;/h3&gt;
 &lt;p&gt;There are four possible qualifiers.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;const&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;param&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time.
-Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
+Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip; 
 In C, these are represented by &lt;code&gt;#define&lt;/code&gt; macros, which, too, have no representation after the preprocessor finishes.
 Hence &lt;em&gt;using const on arrays (or structs containing arrays), albeit possible, is not advisable&lt;/em&gt; and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
 Instead consider &lt;code&gt;param&lt;/code&gt;.&lt;/p&gt;
@@ -2161,7 +2078,7 @@ From a syntactic declaration point of view there is hardly any difference.&lt;/p
 &lt;span style=&#34;color:#000&#34;&gt;ProgramType&lt;/span&gt;        ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;function&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;activity&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamList&lt;/span&gt;          ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;   ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists. 
 The first lists declares formal parameters that may only be read (like &lt;code&gt;let&lt;/code&gt; variables), the second list declares formal parameters that may be both read and written (like &lt;code&gt;var&lt;/code&gt; variables).
 In particular the two lists are useful for activities which, in every reaction, receive a list of read-only &lt;em&gt;inputs&lt;/em&gt;, perform some calculation and set the list of read-write &lt;em&gt;outputs&lt;/em&gt;.
 We will therefore often refer to these two parameter lists as &amp;ldquo;input list&amp;rdquo; and &amp;ldquo;output list&amp;rdquo;.&lt;/p&gt;
@@ -2183,7 +2100,7 @@ Note that &lt;code&gt;add&lt;/code&gt; omits an output list and &lt;code&gt;A&lt
 We call functions or activities that do not return anything &amp;ldquo;void&amp;rdquo; but unlike C we do not have a void type in the language.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;@[EntryPoint]&lt;/code&gt; annotation tells the compiler that &lt;code&gt;A&lt;/code&gt; is the main program of this file. Every Blech file must have precisely one entry point activity.
 &lt;em&gt;(That is until we have a module system that allows to write libraries that may have no single entry point at all).&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context.
+&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
 For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.
 The caller of a singleton callee automatically becomes a singleton, too.&lt;/p&gt;
 &lt;h2 id=&#34;external-declarations&#34;&gt;External Declarations&lt;/h2&gt;
@@ -2278,8 +2195,8 @@ However, it may become useful in the future once a build system can make sense o
 &lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
 &lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
 &lt;h4 id=&#34;parameter-lists&#34;&gt;Parameter lists&lt;/h4&gt;
-&lt;p&gt;In Blech, functions have two parameter lists as explained above.
-The Blech compiler ensures that inputs will only be read.
+&lt;p&gt;In Blech, functions have two parameter lists as explained above. 
+The Blech compiler ensures that inputs will only be read. 
 However the Blech compiler has no chance to check that the external code adheres to this contract.&lt;/p&gt;
 &lt;p&gt;For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:&lt;/p&gt;
@@ -2305,6 +2222,94 @@ with
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this &lt;em&gt;particular&lt;/em&gt; mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
 It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Partial borrowing and borrowed parts</title>
+      <link>https://www.blech-lang.org/docs/language-evolution/borrowing/40_partials/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/language-evolution/borrowing/40_partials/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;partial-borrow-from-a-struct&#34;&gt;Partial borrow from a struct&lt;/h2&gt;
+&lt;p&gt;Imagine the following&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;
+struct From 
+    var a: int32
+    var b: int32
+end
+
+
+activity main()
+    var f: From
+    run outIsPlus1(f.a)(f.b)
+    await true
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The compiler can statically decide on partial borrowing for structs.
+But not for arrays.&lt;/p&gt;
+&lt;p&gt;The following code would be rejected&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity main(i: int32)
+    var f: [2]int43
+    run outIsPlus1(f[1])(f[i])
+    await true
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It cannot be decide at compile-time that &lt;code&gt;f[1]&lt;/code&gt; and &lt;code&gt;f[i]&lt;/code&gt; do not overlap.
+That means borrowing form arrays borrows the whole array.&lt;/p&gt;
+&lt;h2 id=&#34;structs-with-references&#34;&gt;Structs with references&lt;/h2&gt;
+&lt;p&gt;A struct may contain a field that is a reference in order to define an alias or an associated data type.&lt;/p&gt;
+&lt;p&gt;Structs with references contain borrowed fields.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct RefStruct
+    var a: int32
+    let ref b: int32
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Return a struct with references requires to define which references a borrowed by the struct.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct(refb: int32) returns RefStruct shares refb
+    return {a = 42, b = refb}
+end
+
+var b: int32 = 1
+var result = initRefStruct(b)
+// b is immutably borrowed to result here
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The result of type &lt;code&gt;RefStruct&lt;/code&gt; shares read-only reference &lt;code&gt;refb&lt;/code&gt;. That means it immutably borrows &lt;code&gt;refb&lt;/code&gt;.
+As a consequence &lt;code&gt;result&lt;/code&gt; immutably borrows &lt;code&gt;b&lt;/code&gt;.
+Consequently &lt;code&gt;b&lt;/code&gt; is frozen after &lt;code&gt;result&lt;/code&gt; is iniatialized.&lt;/p&gt;
+&lt;p&gt;We could also write &lt;code&gt;initRefers&lt;/code&gt; in the following way.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct(refb: int32) returns RefStruct shares refb
+    var r: RefStruct = {a = 42, b = refB}
+    return r
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The return value is a shallow copy of the struct.&lt;/p&gt;
+&lt;p&gt;The borrow checker conservatively overestimates all possible borrowing if the return value is constructed through different control path.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct(refb: int32, refother: int32) returns RefStruct shares refb, refother
+    if aB &amp;lt; aB2 then
+        return {a = 42, b = refb}
+    else
+        return {a = -42, b = refother}
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It also overestimates the sharing if the &lt;code&gt;shares&lt;/code&gt; refers to an output, although the &lt;code&gt;RefStruct&lt;/code&gt; value immutably borrows &lt;code&gt;refb&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct()(refb: int32) returns RefStruct shares refb
+    refB = refB + 1
+    return {a = 42, b = refB}
+end
+
+var b: int32
+var rs: RefStruct = initRefStruct()(b)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Overestimation is necessary for a rather simple signature.&lt;/p&gt;
+&lt;p&gt;For separate compilation borrowing in the result must become part of the signature of a function without inspection of the actual code.&lt;/p&gt;
+&lt;p&gt;The three variants have of &lt;code&gt;initRefStruct&lt;/code&gt; have the following signatures&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;
+function initRefStruct (refb: int32) returns RefStruct shares refb
+
+function initRefStruct (refb: int32, refOther: int32) returns RefStruct shares refb, refother
+
+function initRefStruct ()(refb: int32) returns RefStruct shares refb
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Struct with references can only be assigned once, because a references need to be defined at the point of their declaration.&lt;/p&gt;
 
       </description>
     </item>
@@ -2354,7 +2359,7 @@ Each one exist in four sizes that indicate the number of bits needed in a machin
 |===&lt;/p&gt;
 &lt;p&gt;The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length &lt;code&gt;N&lt;/code&gt; with a range of &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;2^N -1&lt;/code&gt; from integer numbers centred around 0 with a range of &lt;code&gt;2^(N-1)&lt;/code&gt; to &lt;code&gt;2^(N-1) -1&lt;/code&gt;.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain.
+However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
 Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the &lt;code&gt;bitsX&lt;/code&gt; type is introduced.
 The bits type of length &lt;code&gt;N&lt;/code&gt; have the same value range as the natural numbers of the same length.&lt;/p&gt;

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -341,8 +341,49 @@
       
       
       
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Borrowing</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docslanguage-evolutionborrowing">
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing" href="/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing10_references" href="/docs/language-evolution/borrowing/10_references/">References</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing20_borrowing" href="/docs/language-evolution/borrowing/20_borrowing/">Borrowing</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing30_let-ref" href="/docs/language-evolution/borrowing/30_let-ref/">Immutable references</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing40_partials" href="/docs/language-evolution/borrowing/40_partials/">Partials</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
       
       
     </li>
@@ -544,34 +585,34 @@
     <div class="lead">This explains the variants of expressions in Blech.</div>
 	       
 	<h2 id="equality-expressions">Equality expressions</h2>
-<p>Theoretically, every type supports some notion of equality (and inequality).
-This is straightforward for <strong>simple (or primitive) value types</strong> that consist of one memory cell only (booleans and all numeric types of all sizes):
+<p>Theoretically, every type supports some notion of equality (and inequality). 
+This is straightforward for <strong>simple (or primitive) value types</strong> that consist of one memory cell only (booleans and all numeric types of all sizes): 
 <code>a == b</code> holds iff the value of <code>a</code> is the same as the value of <code>b</code>.</p>
 <p>For <strong>structured (complex) value types</strong> we can decide equality by comparing every element of data structures recursively.
-At compile time the result of a comparison can be evaluated if the arguments are compile time constants.
+At compile time the result of a comparison can be evaluated if the arguments are compile time constants. 
 Thus it is technically no problem to compare compile time constants of any value type.</p>
-<p>At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure.
+<p>At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure. 
 An optimisation of runtime - not changing the run-time complexity but providing better factors - could be achieved by comparing the data structures byte-wise (<code>memcmp</code>).
-But this requires to fix padding in structs and then fails in special cases:
-floating point elements may use different bit representations for the same numerical value, e.g. <code>+0.0</code> and <code>-0.0</code>.
+But this requires to fix padding in structs and then fails in special cases: 
+floating point elements may use different bit representations for the same numerical value, e.g. <code>+0.0</code> and <code>-0.0</code>. 
 Consequently, the comparison operator for structured data may not be used at runtime (like in C) and results in a type check error.</p>
 <p><em>Reference types are not implemented yet but in principle they will have the same behaviour: compare (dereferenced) values for simple types, and disallow comparison for complex types.</em></p>
 <h2 id="using-constants">Using constants</h2>
-<p>In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent.
+<p>In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent. 
 Thus at the end of the type check phase the declarations of the consts do exist and can be translated to C but all their usages disappear (being substituted by the value).
 This has the drawback of less readable C code but still allows to export constants as #defines and use them in foreign code by including the relevant <code>.h</code> file.</p>
-<p>In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals.
-The same is true for arrays in all versions of C.
-Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data.
-In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls.
+<p>In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals. 
+The same is true for arrays in all versions of C. 
+Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data. 
+In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls. 
 In summary, literals occur only on the right hand side of initialisation in the generated C code.</p>
 <h2 id="side-effects-in-conditions-are-not-allowed">Side effects in conditions are not allowed</h2>
-<p>It is obvious that testing an <code>await</code> condition may not have any impact on the state to implement a synchronous program.
-Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements.
-This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation.
+<p>It is obvious that testing an <code>await</code> condition may not have any impact on the state to implement a synchronous program. 
+Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements. 
+This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation. 
 The common programming practice of C where conditions&rsquo; side effects are used to also advance computation is regarded as bad practice in Blech until proven otherwise.</p>
 <h2 id="side-effects-are-allowed-in-initialisers">Side effects are allowed in initialisers</h2>
-<p>Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable.
+<p>Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable. 
 Otherwise the following code that declares an immutable variable cannot be written:</p>
 <pre><code class="language-blech" data-lang="blech">let status = f()(x)
 </code></pre><p>Instead, we would have to write</p>
@@ -672,6 +713,8 @@ status = f()(x)
         <small class="text-white">&copy; 2019-2020 The Blech authors</small>
         
         <small class="ml-1"><a href="/about/privacy/" target="_blank">Privacy Policy</a></small>
+        
+          <p class="mt-2"><a href="/about/">About this website</a></p>
         
       </div>
       

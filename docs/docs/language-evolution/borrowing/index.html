@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.69.2" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
+<link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/docs/language-evolution/borrowing/index.xml">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -20,23 +21,17 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Borrowing | Blech</title><meta property="og:title" content="Borrowing" />
-<meta property="og:description" content="Adopt the ideas of borrowing in Rust to Blech
+<title>References, borrowing and causality | Blech</title><meta property="og:title" content="References, borrowing and causality" />
+<meta property="og:description" content="Evolution proposals for the Blech language.
 " />
-<meta property="og:type" content="article" />
+<meta property="og:type" content="website" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/" />
-<meta property="article:modified_time" content="2020-04-28T17:56:50+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Borrowing">
-<meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
-">
-<meta itemprop="dateModified" content="2020-04-28T17:56:50&#43;02:00" />
-<meta itemprop="wordCount" content="2294">
-
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Borrowing"/>
-<meta name="twitter:description" content="Adopt the ideas of borrowing in Rust to Blech
+<meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="References, borrowing and causality">
+<meta itemprop="description" content="Evolution proposals for the Blech language.
+"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="References, borrowing and causality"/>
+<meta name="twitter:description" content="Evolution proposals for the Blech language.
 "/>
 
 
@@ -58,7 +53,7 @@
 
 
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -291,7 +286,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/language-evolution/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Language Evolution</a>
+    <a  href="/docs/language-evolution/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Language Evolution</a>
   </li>
   <ul>
     <li class="collapse show" id="docslanguage-evolution">
@@ -341,8 +336,49 @@
       
       
       
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/docs/language-evolution/borrowing/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Borrowing</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="docslanguage-evolutionborrowing">
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionborrowing" href="/docs/language-evolution/borrowing/">Borrowing</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing10_references" href="/docs/language-evolution/borrowing/10_references/">References</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing20_borrowing" href="/docs/language-evolution/borrowing/20_borrowing/">Borrowing</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing30_let-ref" href="/docs/language-evolution/borrowing/30_let-ref/">Immutable references</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docslanguage-evolutionborrowing40_partials" href="/docs/language-evolution/borrowing/40_partials/">Partials</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
       
       
     </li>
@@ -475,8 +511,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Borrowing" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=References,%20borrowing%20and%20causality" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -487,31 +523,6 @@
 
 
 
-
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#borrowing-in-rust-and-blech">Borrowing in Rust and Blech</a></li>
-    <li><a href="#call-by-value-and-return-values">Call-by-value and return values</a></li>
-    <li><a href="#returning-a-reference">Returning a reference</a></li>
-    <li><a href="#borrowing">Borrowing</a></li>
-    <li><a href="#borrowing-via-reference-declarations">Borrowing via reference declarations</a></li>
-    <li><a href="#behaviour-of-the-borrow-checker">Behaviour of the borrow checker</a>
-      <ul>
-        <li><a href="#non-mutable-borrow-freezes-original-object">Non-mutable borrow <em>freezes</em> original object</a></li>
-        <li><a href="#mutable-borrow-locks-original-object">Mutable borrow <em>locks</em> original object</a></li>
-      </ul>
-    </li>
-    <li><a href="#borrowing-for-sequential-parallel-writes">Borrowing for sequential parallel writes</a></li>
-    <li><a href="#dismiss-shares">Dismiss <code>shares</code></a></li>
-    <li><a href="#todo">Todo</a>
-      <ul>
-        <li><a href="#borrow-spitting">Borrow spitting</a></li>
-        <li><a href="#the-move-operator">The <code>move</code> operator</a></li>
-        <li><a href="#splitting-borrows-and-partial-moves">Splitting borrows and partial moves</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
 
 
 
@@ -556,9 +567,9 @@
 
             
 <div class="td-content">
-	<h1>Borrowing</h1>
-    <div class="lead">Adopt the ideas of borrowing in Rust to Blech</div>
-	       
+	<h1>References, borrowing and causality</h1>
+        <div class="lead">Evolution proposals for the Blech language.</div>
+	
 	
 
 <div class="pageinfo pageinfo-primary">
@@ -566,467 +577,112 @@
 
 </div>
 
-<h2 id="borrowing-in-rust-and-blech">Borrowing in Rust and Blech</h2>
-<p>Blech</p>
-<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (a: int32)(b: int32)
-    b = 1
-    b = a + b 
-end
 
-activity main()
-    var i = 42: int32
-    var j: int32
-    outIsInPlus1(i)(j) // 43 --&gt; j
-    await true
-end
-</code></pre><p>So far so good, but the following program</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity main()
-    var i = 42: int32
-    outIsInPlus1(i)(i) //  
-    await true
-end
-</code></pre></td></tr></table>
+        <div class="section-index">
+    
+    
+    
+    
+    <hr class="panel-line">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/docs/language-evolution/borrowing/10_references/">References in Blech</a>
+                    </h5>
+                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/docs/language-evolution/borrowing/20_borrowing/">Borrowing for references</a>
+                    </h5>
+                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/docs/language-evolution/borrowing/30_let-ref/">Immutable references - `let ref`</a>
+                    </h5>
+                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="/docs/language-evolution/borrowing/40_partials/">Partial borrowing and borrowed parts</a>
+                    </h5>
+                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
 </div>
-</div><p>leads to a causality error during compilation.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
-  --&gt; incr.blc:3:5 [causality]
-
-3  |     outIsInPlus1(i)(i)
-   |                     - Output argument.
-3  |     outIsInPlus1(i)(i)
-   |                  ^ Input argument.
-</code></pre></div><p>The reason is that all parameters conceptually are passed by reference.
-For pure functions - which do not have output parameters, passing actual parameters by reference can be implemented with pass-by-value which makes parameter passing of simple-types an optimisation.
-For impure functions - which have output parameters, the compiler forbids references to overlapping memory regions, as in the example above.</p>
-<p>Blech automatically takes references and de-references them if necessary. It decides on mutability through the occurence in the input or output parameter list. Semantically the Blech program has the following form:</p>
-<pre><code class="language-blech" data-lang="blech">function outIsInPlus1(&lt;let ref&gt; a: int32)(&lt;var ref&gt; b: int32)
-    &lt;*&gt; b = 1
-    &lt;*&gt; b = &lt;*&gt; a + &lt;*&gt; b 
-end
-
-activity main()
-    var i = 42: int32
-    outIsInPlus1(&lt;&amp;&gt; i)(&lt;&amp;mut&gt; i)  // &amp;mut a reference that can be changed
-    await true
-end
-</code></pre><p>which is, as explained before, rejected by the compiler.</p>
-<p>This non-pure function is semantically very close to Rust.
-Rust also does not allow this call.
-The borrow checker detects an error.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">outIsInPlus1</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">a</span>: <span style="color:#204a87;font-weight:bold">&amp;</span><span style="color:#204a87;font-weight:bold">i32</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">b</span>: <span style="color:#204a87;font-weight:bold">&amp;</span><span style="color:#000">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">i32</span><span style="color:#000;font-weight:bold">)</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">a</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">i</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">42</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#000">outIsInPlus1</span><span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">);</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
- --&gt; src/example.rs:9:11
-  |
-9 |     outIsInPlus1(&amp;i, &amp;mut i);
-  |     ------------ --  ^^^^^^ mutable borrow occurs here
-  |     |            |
-  |     |            immutable borrow occurs here
-  |     immutable borrow later used by call
-
-</code></pre></div><p>For activities in Blech the causality rules for parameter are the same. The causality checker detects an error in the following example</p>
-<pre><code class="language-blech" data-lang="blech">activity outIsInPlus1(a: int32)(b: int32)
-    b = 1       // b = 1
-    b = a + b   // b = 1 + a
-    await true
-end
-
-activity main()
-    var i = 42: int32
-    run outIsInPlus1(i)(i)
-    await true
-end
-</code></pre><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
-  --&gt; example.blc:11:5 [causality]
-
-11 |     run outIsInPlus1(i)(i)
-   |                         - Output argument.
-11 |     run outIsInPlus1(i)(i)
-   |                      ^ Input argument.
-</code></pre></div><p>Similar to the function above the activity <code>outIsInPlus1</code> has semantically the following form:</p>
-<pre><code class="language-blech" data-lang="blech">activity outIsInPlus1(&lt;let ref&gt; a: int32)(&lt;var ref&gt;b: int32)
-    &lt;*&gt; b = 1       
-    &lt;*&gt; b = &lt;*&gt; a + &lt;*&gt; b
-    await true
-end
-
-activity main()
-    var i = 42: int32
-    run outIsInPlus1(&lt;&amp;&gt; i)(&lt;&amp; mut&gt; i)
-    await true
-end
-</code></pre><p>There is no such thing as a pure activity.</p>
-<p>If we have more uses for borrowing and a <strong>borrowing checker</strong> this could become a <strong>borrowing error</strong> instead of a causality error.</p>
-<h2 id="call-by-value-and-return-values">Call-by-value and return values</h2>
-<p>The Blech compiler guarantees that we do not pass a <code>let ref</code> and <code>var ref</code> to the same memory location
-at the same time.</p>
-<p>Writing a pure function is still possible</p>
-<pre><code class="language-blech" data-lang="blech">function incr(i: int32) returns int32
-    return i + 1
-end
-activity main()
-    var i = 42: int32
-    i = incr(i)  
-    await true
-end
-</code></pre><p>Semantically this is</p>
-<pre><code class="language-blech" data-lang="blech">function incr(&lt;let ref&gt; i: int32) returns &lt;let&gt; int32
-    return &lt;*&gt;i + 1
-end
-
-activity main()
-    var i = 42: int32
-    i = incr(&lt;&amp;&gt; i)  
-    await true
-end
-</code></pre><p>In a pure function call-by-reference is equivalent to call-by-value since the Blech compiler guarantees, that <code>i</code> is read-only. The absence of side effects prevents changes on the memory location of the actual parameter.</p>
-<p>Therefore we can compile it with call-by-value, which semantically equivalent to call-by-refernce.
-This is an optimisation for simple types, which makes sense.</p>
-<pre><code class="language-blech" data-lang="blech">function incr(&lt;let&gt; i: int32) returns &lt;let&gt; int32
-    return i + 1
-end
-
-activity main()
-    var i = 42: int32
-    i = incr(i)  
-    await true
-end
-</code></pre><p>All build-in operators are pure functions.</p>
-<p>On the other hand structured value types returned by a function can be implemented with the help
-of a reference:</p>
-<pre><code class="language-blech" data-lang="blech">struct S end
-function initS() returns S
-    return {}
-end
-
-activity main()
-    var s: S = initS()
-    await true
-end
-</code></pre><p>This can be compiled as</p>
-<pre><code class="language-blech" data-lang="blech">struct S end
-
-function initS()(&lt;var ref&gt; result: S)
-    *result = {}
-    return 
-end
-
-activity main()
-    var s: S
-    initS()(&lt;&amp;&gt;s)
-    await true
-end
-</code></pre><h2 id="returning-a-reference">Returning a reference</h2>
-<p>A function might also return a reference. This is mainly necessary to initialize references.</p>
-<pre><code class="language-blech" data-lang="blech">function oneOutOfTwo(a: int32, b: int32) returns ref int32
-    if a &gt; b then 
-        return a
-    else 
-        return b
-    end
-end
-
-// use
-    var x: int32
-    var y: int32
-    var ref z = oneOutOfTwo(x, y)
-</code></pre><p>The compiler conservatively can deduce for causality analysis, that <code>z</code> shares memory with <code>x</code> or <code>y</code>.</p>
-<p>Semantically this gets compile to</p>
-<pre><code class="language-blech" data-lang="blech">function oneOutOfTwo(&lt;let ref&gt; a: int32, &lt;let ref&gt; b: int32) returns ref int32
-    if &lt;*&gt;a &gt; &lt;*&gt;b then 
-        return a
-    else 
-        return b
-    end
-end
-
-// use
-    var x: int32
-    var y: int32
-    var ref z = oneOutOfTwo(&lt;&amp;&gt; x, &lt;&amp;&gt; y)
-</code></pre><p>Note that the call-by-value optimisation is not possible here, because a reference is returned as result.</p>
-<p>Returning references should also be possible with external variables.</p>
-<pre><code class="language-blech" data-lang="blech">function localOrExternal(a: int32) returns ref int32
-    @[CInput(...)]
-    extern let external: int32
-    if a &gt; external then 
-        return a
-    else 
-        return external
-    end
-end
-
-// use
-    var x: int32
-    let ref z = localOrExternal(x)
-</code></pre><h2 id="borrowing">Borrowing</h2>
-<p>Passing parameters by-reference is essentially borrowing a reference.</p>
-<p>There are several combinations</p>
-<table>
-<thead>
-<tr>
-<th>Blech</th>
-<th>Semantics</th>
-<th>Blech call</th>
-<th>Call semantics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>function f (a: T)()</td>
-<td>function f (let ref a: T)</td>
-<td>f(x)()</td>
-<td>f(&amp;x)()</td>
-</tr>
-<tr>
-<td>function f ()(b: T)</td>
-<td>function f ()(var ref b: T)</td>
-<td>f()(x)</td>
-<td>f()(&amp;x)</td>
-</tr>
-<tr>
-<td>activity a (a: T)()</td>
-<td>activity a (let ref a: T)</td>
-<td>run a(x)</td>
-<td>run a(&amp;x)</td>
-</tr>
-<tr>
-<td>activity a ()(b: T)</td>
-<td>activity a ()(var ref b: T)</td>
-<td>run a()(x)</td>
-<td>run a()(&amp;x)</td>
-</tr>
-</tbody>
-</table>
-<p>In case of an input parameter it is a non-mutable borrowing. In case of an output parameter it is a mutable borrowing.</p>
-<h2 id="borrowing-via-reference-declarations">Borrowing via reference declarations</h2>
-<p>Borrowing not only occurs when passing parameters, but also when declaring references.
-We also plan this for Blech.</p>
-<pre><code class="language-blech" data-lang="blech">activity main()
-    var x: int32 = 42
-    let ref y = x
-    x = y + 1 // x == 43, y == 43 
-    await true
-end
-</code></pre><p>This would be a strange behaviour in Blech, when reasoning about this program. Especially since <code>y</code> is a read-only reference, but changes its value via the assignment. Rust forbids this by the borrow checker.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">x</span>: <span style="color:#204a87;font-weight:bold">i32</span> <span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">42</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">y</span>: <span style="color:#204a87;font-weight:bold">&amp;</span><span style="color:#204a87;font-weight:bold">i32</span> <span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#000">x</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">y</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#000">println</span><span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;x:{}, y:{}&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">);</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">error[E0506]: cannot assign to `x` because it is borrowed
- --&gt; src/main.rs:4:5
-  |
-3 |     let y: &amp;i32 = &amp;x;
-  |                   -- borrow of `x` occurs here
-4 |     x = *y + 1;
-  |     ^^^^^^^^^^ assignment to borrowed `x` occurs here
-5 |     println!(&#34;x:{}, y:{}&#34;, x, y);
-  |                               - borrow later used here
-</code></pre></div><p>In Rust you cannot use <code>x</code> after it has been non-mutably borrowed to <code>y</code>.</p>
-<p>We propose to adopt the ideas of borrowing from Rust to Blech, in order to benefit from the guarantees the borrow checker gives for your program.</p>
-<h2 id="behaviour-of-the-borrow-checker">Behaviour of the borrow checker</h2>
-<p>A good overview of how borrowing restricts the usage of variables and references can be found in a <a href="https://rufflewind.com/2017-02-15/rust-move-copy-borrow#comments" target="_blank">Graphical depiction of ownership and borrowing in Rust</a>
-.</p>
-<p>Move semantics can be neglected for the moment since currently only have value types which all allow copying, which in Rust terminology means, they implement the copy trait. Nevertheless move semantics might become important for Blech&rsquo;s planned reference types.</p>
-<p>For borrowing it distinguishes between <em>frozen</em> and <em>locked</em> behaviour.</p>
-<p>Mutable borrowing, <em>locks</em> the original object for the duration of the borrow, rendering it unusable.</p>
-<p>Non-mutable borrowing <em>freezes</em> the original object, you can still take more non-mutable references, but you cannot move or take mutable references of it.</p>
-<h3 id="non-mutable-borrow-freezes-original-object">Non-mutable borrow <em>freezes</em> original object</h3>
-<pre><code class="language-blech" data-lang="blech">activity main()
-    var s: int32 = 42
-    do
-        let ref r = s  // ok, s is now frozen
-        cobegin
-            // can non-mutably borrow from r 
-            let ref a = r  // ok 
-            ...
-        with
-            // can still &amp;s
-            let ref b = s  // ok
-            ...
-        with
-            // cannot &amp;mut s
-            var ref c = s // not ok, similar to first example, could read s via r, and write s via c
-            ...
-        with
-            // cannot move s
-            // not applicable because s has a value type
-            ...
-        end
-    end
-    // all borrows terminated    
-    s = s + 1 
-    await true
-end
-</code></pre><h3 id="mutable-borrow-locks-original-object">Mutable borrow <em>locks</em> original object</h3>
-<pre><code class="language-blech" data-lang="blech">activity main()
-    var s: int32 = 42
-    do
-        var ref m = s  // ok, s is locked
-        cobegin 
-            // can move m
-            var ref a = move m // ok, cannot use m anymore, will be discussed later
-            ...
-        with
-            // can downgrade m to read-only
-            let ref b = m  // ok, m is now frozen
-            ...
-        with
-            // can borrow mutably from m
-            var ref c = m  // ok, m is locked from here
-        with
-            // cannot copy m
-            // not applicable, references are taken and de-referenced implicitly
-            ...
-        with
-            // cannot use s at all, s is locked
-            let ref d = s  // not ok
-            var ref e = s  // not ok
-            let e = s      // not ok
-            var e = s      // not ok
-            ...
-        end
-    end
-    // all borrows terminated    
-    s = s + 1 
-    await true
-end
-</code></pre><p>As shown before, passing parameters can be explained as borrowing</p>
-<ul>
-<li>Passing a parameter to an output list essentially is a borrowing as mutable reference.</li>
-<li>Passing an input parameter in an activity essentially is borrowing as a non-mutable reference.</li>
-</ul>
-<p>As shown here, taking references in various forms can also be explained as borrowing.</p>
-<p>Borrowing has a sequential ordering along the program text.
-This could be used to enable multiple concurrent writers for specific memory cells.</p>
-<h2 id="borrowing-for-sequential-parallel-writes">Borrowing for sequential parallel writes</h2>
-<p>The merely theorectical &ldquo;sequential-parallel-or&rdquo; operator is dangerous, because it switches off causality analysis completely, for all accesses to memory cells.</p>
-<p>Therefore we propose to enable sequential parallel writes for indivual memory locations.
-We could use the sequential ordering of borrowing for this.</p>
-<pre><code class="language-blech" data-lang="blech">...
-    var original: int32
-    cobegin
-        run controlValue()(original)
-    with
-        var ref updated = original // mutable borrow
-        run updateValue()(updated)
-    end
-    ...
-</code></pre><p>What is the semantics?</p>
-<p>In every step the activity <code>controlValue</code> writes to <code>original</code>. We can understand borrowing as a sequential chaining. In every step of the second thread <code>updated</code> borrows <code>original</code>, which in turn is updated in every step. <code>original</code> is locked here and cannot be used. The borrowing defines a sequential write order.<br>
-We can regard both blocks of the <code>cobegin</code> as partially sequentialised.</p>
-<p>The borrowing <code>var ref update = original</code> defines an &ldquo;update <code>original</code> from <code>updated</code> edge&rdquo; for causality analysis. Every writeable location must not have more than 1 incoming update edge.</p>
-<p>Without references and borrowing we need local variables to sequentialise the write accesses in <code>controlValue</code> and <code>updateValue</code>.</p>
-<pre><code class="language-blech" data-lang="blech">...
-    var original: int32
-    var local: int32
-    var updated = original
-    cobegin
-        run controlValue(prev updated)(local)
-    with
-        run updateValue(local)(updated)
-    with 
-        repeat
-            original = updated
-            await true
-        end
-    end
-    ...
-</code></pre><p>This solution, which is perfectly correct in the current compiler, is adopted from the <a href="https://github.com/frameworklabs/blinker/blob/master/src/blinker.blc" target="_blank">Blech blinker example</a>
-.</p>
-<p>Compared to the first version the second needs 2 additional memory locations, additional parameters to enable the data flow, a loop that copies the result back to <code>original</code> in every step, and additionally <code>controlValue</code> and <code>updateValue</code> need to copy from input to output in every step. As usual the order of <code>cobegin</code> blocks is irrelevant.</p>
-<p>The version with references and borrowing can reuse the <code>original</code> memory location based on the statically defined sequential order and needs no additional copying loops.</p>
-<p>Now, what happens if both threads borrow <code>original</code>?</p>
-<pre><code class="language-blech" data-lang="blech">...
-    var original: int32
-    cobegin
-        var ref controlled = original // mutable borrow
-        run controlValue()(original)
-    with
-        var ref updated = original    // mutable borrow
-        run updateValue()(updated)
-    end
-    ...
-</code></pre><p>The location <code>original</code> has now 2 incoming update edges from <code>controlled</code> and <code>updated</code> which is essentially a write-write conflict in causality analysis.</p>
-<p>The &lsquo;trick&rsquo; of the sequentialisation is scoping of borrowing. If we need 3 concurrent threads that write to the <code>original</code> memory location, we need to scope borrowing, which nicely shows the sequentialisation.</p>
-<pre><code class="language-blech" data-lang="blech">...
-    var original: int32
-    cobegin 
-        run initialiseValue()(original)
-    with
-        var ref controlled = original // mutable borrow
-        cobegin
-            run controlValue()(controlled)
-        with
-            var ref updated = controlled // mutable borrow
-            run updateValue()(updated)
-        end
-    end
-    ...
-</code></pre><p>We have update egdes from  <code>updated</code> to <code>controlled</code> and from <code>controlled</code> to <code>original</code>.</p>
-<p>To make things more interesting we can mix-in causal concurrency.</p>
-<pre><code class="language-blech" data-lang="blech">...
-    var original: int32
-    var a: int32
-    var b: int32
-    cobegin
-        run controlValue(a)(b, original)
-    with
-        var ref updated = original
-        run updateValue(b)(a, updated)
-    end
-    ...
-</code></pre><p>Here we get a cyclic write-read path on <code>a</code> and <code>b</code>. We can use <code>prev</code> to break this cycle. Since <code>original</code> must be written before <code>updated</code>, this only helps if we apply <code>prev</code> to the input of activity <code>controlValue</code>.</p>
-<pre><code class="language-blech" data-lang="blech">...
-    var original: int32
-    var a: int32
-    var b: int32
-    cobegin
-        run controlValue(prev a)(b, original)
-    with
-        var ref updated = original // mutable borrowing
-        run updateValue(b)(a, updated)
-    end
-    ...
-</code></pre><p>Note: Non-mutable borrowing does not imply additional causal constraints. It is simply write before read. But it helps clarifying the program semantics as explained in the introduction.</p>
-<h2 id="dismiss-shares">Dismiss <code>shares</code></h2>
-<p>Blech currently proposes to use a <code>shares</code> if this an intended behaviour.
-We think this is no longer necessary with borrowing and causality.</p>
-<h2 id="todo">Todo</h2>
-<h3 id="borrow-spitting">Borrow spitting</h3>
-<p>[Spitting borrows]https://doc.rust-lang.org/nomicon/borrow-splitting.html</p>
-<p>Similar to splitting causality analysis. Ok for structs, not possible for arrays.</p>
-<p>Rules for borrow checker like in Rust.</p>
-<h3 id="the-move-operator">The <code>move</code> operator</h3>
-<p><a href="https://stackoverflow.com/questions/30288782/what-are-move-semantics-in-rust" target="_blank">What are move semantics in Rust?</a>
-</p>
-<p>Move should be handled and clarified separately. It is related to reference types.</p>
-<h3 id="splitting-borrows-and-partial-moves">Splitting borrows and partial moves</h3>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/5efeab316195474664991bc95865fcc2ce4a51c1">Updates on language evolution (5efeab3)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>
 </div>
 </div>
-
 
           </main>
         </div>
@@ -1114,6 +770,8 @@ We think this is no longer necessary with borrowing and causality.</p>
         <small class="text-white">&copy; 2019-2020 The Blech authors</small>
         
         <small class="ml-1"><a href="/about/privacy/" target="_blank">Privacy Policy</a></small>
+        
+          <p class="mt-2"><a href="/about/">About this website</a></p>
         
       </div>
       
