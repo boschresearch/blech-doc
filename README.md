@@ -130,7 +130,7 @@ and soon on:
 
 #### Check for broken links on the website
 
-In order to check the links on the website you can use the npm package [broken link checker](https://github.com/stevenvachon/broken-link-checker)
+In order to check the links on the website you can use the npm package [broken link checker](https://github.com/stevenvachon/broken-link-checker).
 
 Install it with
 
