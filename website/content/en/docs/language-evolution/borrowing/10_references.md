@@ -13,12 +13,12 @@ Semantically, Blech passes parameters by reference.
 Imagine the following Blech program
 
 ```blech
-function outIsInPlus1 (a: int32)(b: int32)
+function outIsInPlus1 (a: int32) (b: int32)
     b = 1
     b = a + b 
 end
 
-activity godUsage()
+activity godUsage ()
     var i = 42: int32
     var j: int32
     outIsInPlus1(i)(j) // 43 --> j
@@ -30,7 +30,7 @@ So far so good, the program has the expected behaviour: `j` gets `i + 1`.
 But if we call the same function with the same `variable` as input and output we get a strange behaviour.
 
 ```blech
-activity badUsage()
+activity badUsage ()
     var i = 42: int32
     outIsInPlus1(i)(i)
     await true
@@ -76,7 +76,7 @@ The input `a` takes a read-only reference to the actual input, the output `b` ta
 Semantically the function `outIsInPlus1` has the following form
 
 ```blech
-function outIsInPlus1 (let ref a: int32)(var ref b: int32)
+function outIsInPlus1 (let ref a: int32) (var ref b: int32)
     b = 1
     b = a + b 
 end

@@ -3,7 +3,7 @@ title: About this website
 linkTitle: About
 menu:
   main:
-    weight: 100
+    weight: 10
 type: "docs"
 ---
 

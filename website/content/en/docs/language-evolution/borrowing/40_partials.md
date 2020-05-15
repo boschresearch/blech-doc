@@ -19,7 +19,7 @@ struct From
 end
 
 
-activity main()
+activity main ()
     var f: From
     run outIsPlus1(f.a)(f.b)
     await true
@@ -31,7 +31,7 @@ But not for arrays.
 
 The following code would be rejected
 ```blech
-activity main(i: int32)
+activity main (i: int32)
     var f: [2]int43
     run outIsPlus1(f[1])(f[i])
     await true
@@ -58,7 +58,7 @@ end
 Return a struct with references requires to define which references a borrowed by the struct.
 
 ```blech
-function initRefStruct(refb: int32) returns RefStruct shares refb
+function initRefStruct (refb: int32) returns RefStruct shares refb
     return {a = 42, b = refb}
 end
 
@@ -74,7 +74,7 @@ Consequently `b` is frozen after `result` is iniatialized.
 We could also write `initRefers` in the following way.
 
 ```blech
-function initRefStruct(refb: int32) returns RefStruct shares refb
+function initRefStruct (refb: int32) returns RefStruct shares refb
     var r: RefStruct = {a = 42, b = refB}
     return r
 end
@@ -85,7 +85,7 @@ The return value is a shallow copy of the struct.
 The borrow checker conservatively overestimates all possible borrowing if the return value is constructed through different control path.
 
 ```blech
-function initRefStruct(refb: int32, refother: int32) returns RefStruct shares refb, refother
+function initRefStruct (refb: int32, refother: int32) returns RefStruct shares refb, refother
     if aB < aB2 then
         return {a = 42, b = refb}
     else
@@ -96,7 +96,7 @@ end
 
 It also overestimates the sharing if the `shares` refers to an output, although the `RefStruct` value immutably borrows `refb`.
 ```blech
-function initRefStruct()(refb: int32) returns RefStruct shares refb
+function initRefStruct () (refb: int32) returns RefStruct shares refb
     refB = refB + 1
     return {a = 42, b = refB}
 end

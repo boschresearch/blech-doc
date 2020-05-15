@@ -80,6 +80,4 @@ This is basically the same reasoning as with auto variables. However we need the
 {{< alert color="warning">}}
 TODO: at the moment all constants and params in local scopes are lifted to the top level.
 Why do we not use the `static` keyword of C and let the declaration remain inside the function?
-
-REMARK: We could use `blc_blech` instead of `aux_blc`. `blech` is a reserved id and never an identifier. So only the prefix `blc_` would be reserved for Blech's global C variables.
 {{< /alert >}}

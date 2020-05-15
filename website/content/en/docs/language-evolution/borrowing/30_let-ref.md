@@ -87,7 +87,7 @@ Since we can pass a right-hand-side expression as an input parameter we should a
 This makes sense in an activity and is called `bind` in the language Quartz.
 
 ```blech 
-activity a(i: int32)(j: int32)
+activity a (i: int32) (j: int32)
     let ref double = i * 2
     repeat
         j = double
