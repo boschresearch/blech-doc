@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/blechc-development/cpdata/" />
-<meta property="article:modified_time" content="2020-04-30T16:58:30+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-05-15T18:47:04+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Translating Blech variable names to C">
 <meta itemprop="description" content="This explains the how Blech variable names and memory accesses are rendered as C code.
 ">
-<meta itemprop="dateModified" content="2020-04-30T16:58:30&#43;02:00" />
-<meta itemprop="wordCount" content="527">
+<meta itemprop="dateModified" content="2020-05-15T18:47:04&#43;02:00" />
+<meta itemprop="wordCount" content="497">
 
 
 
@@ -76,6 +76,16 @@
 				
 				
 				
+				<a class="nav-link" href="/about/" ><span>About</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
 				<a class="nav-link active" href="/docs/" ><span class="active">Documentation</span></a>
 			</li>
 			
@@ -97,16 +107,6 @@
 				
 				
 				<a class="nav-link" href="/community/" ><span>Community</span></a>
-			</li>
-			
-			<li class="nav-item mr-4 mb-2 mb-lg-0">
-				
-				
-				
-				
-				
-				
-				<a class="nav-link" href="/about/" ><span>About</span></a>
 			</li>
 			
 			
@@ -455,11 +455,23 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech examples</a>
   </li>
   <ul>
     <li class="collapse " id="docsexamples">
       
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesvirtuallock" href="/docs/examples/virtuallock/">Virtual Safe Lock</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesblinker" href="/docs/examples/blinker/">Blinker</a>
       
       
     </li>
@@ -683,16 +695,14 @@ This is basically the same reasoning as with auto variables. However we need the
 
 <div class="alert alert-warning" role="alert">
 
-<p>TODO: at the moment all constants and params in local scopes are lifted to the top level.
-Why do we not use the <code>static</code> keyword of C and let the declaration remain inside the function?</p>
-<p>REMARK: We could use <code>blc_blech</code> instead of <code>aux_blc</code>. <code>blech</code> is a reserved id and never an identifier. So only the prefix <code>blc_</code> would be reserved for Blech&rsquo;s global C variables.</p>
-
+TODO: at the moment all constants and params in local scopes are lifted to the top level.
+Why do we not use the <code>static</code> keyword of C and let the declaration remain inside the function?
 </div>
 
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 30, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/f4d0c3511e6f948e1b451feb77decb73eadd94e8">Improved getting started (f4d0c35)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/fe810959f54b4449ca2e97b2cd709608650c9a8e">Clean up Old material added. (fe81095)</a>
 </div>
 </div>
 
@@ -783,8 +793,6 @@ Why do we not use the <code>static</code> keyword of C and let the declaration r
         <small class="text-white">&copy; 2019-2020 The Blech authors</small>
         
         <small class="ml-1"><a href="/about/privacy/" target="_blank">Privacy Policy</a></small>
-        
-          <p class="mt-2"><a href="/about/">About this website</a></p>
         
       </div>
       

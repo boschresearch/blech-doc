@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/10_references/" />
-<meta property="article:modified_time" content="2020-05-05T18:25:12+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-05-15T18:47:04+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="References in Blech">
 <meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
 ">
-<meta itemprop="dateModified" content="2020-05-05T18:25:12&#43;02:00" />
-<meta itemprop="wordCount" content="931">
+<meta itemprop="dateModified" content="2020-05-15T18:47:04&#43;02:00" />
+<meta itemprop="wordCount" content="935">
 
 
 
@@ -76,6 +76,16 @@
 				
 				
 				
+				<a class="nav-link" href="/about/" ><span>About</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
 				<a class="nav-link active" href="/docs/" ><span class="active">Documentation</span></a>
 			</li>
 			
@@ -97,16 +107,6 @@
 				
 				
 				<a class="nav-link" href="/community/" ><span>Community</span></a>
-			</li>
-			
-			<li class="nav-item mr-4 mb-2 mb-lg-0">
-				
-				
-				
-				
-				
-				
-				<a class="nav-link" href="/about/" ><span>About</span></a>
 			</li>
 			
 			
@@ -455,11 +455,23 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech examples</a>
   </li>
   <ul>
     <li class="collapse " id="docsexamples">
       
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesvirtuallock" href="/docs/examples/virtuallock/">Virtual Safe Lock</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesblinker" href="/docs/examples/blinker/">Blinker</a>
       
       
     </li>
@@ -602,12 +614,12 @@
 	<h2 id="parameters-are-references">Parameters are references</h2>
 <p>Semantically, Blech passes parameters by reference.</p>
 <p>Imagine the following Blech program</p>
-<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (a: int32)(b: int32)
+<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (a: int32) (b: int32)
     b = 1
     b = a + b 
 end
 
-activity godUsage()
+activity godUsage ()
     var i = 42: int32
     var j: int32
     outIsInPlus1(i)(j) // 43 --&gt; j
@@ -615,7 +627,7 @@ activity godUsage()
 end
 </code></pre><p>So far so good, the program has the expected behaviour: <code>j</code> gets <code>i + 1</code>.</p>
 <p>But if we call the same function with the same <code>variable</code> as input and output we get a strange behaviour.</p>
-<pre><code class="language-blech" data-lang="blech">activity badUsage()
+<pre><code class="language-blech" data-lang="blech">activity badUsage ()
     var i = 42: int32
     outIsInPlus1(i)(i)
     await true
@@ -641,7 +653,7 @@ The implicit assumption, input <code>a</code> and output <code>b</code> must no 
 <p>The reason is, that parameters are passed by-reference.</p>
 <p>The input <code>a</code> takes a read-only reference to the actual input, the output <code>b</code> takes a read-write reference to the actual input.</p>
 <p>Semantically the function <code>outIsInPlus1</code> has the following form</p>
-<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (let ref a: int32)(var ref b: int32)
+<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (let ref a: int32) (var ref b: int32)
     b = 1
     b = a + b 
 end
@@ -754,7 +766,7 @@ In Rust this is called <a href="../20_borrowing"><strong>Borrowing Analysis</str
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/fe810959f54b4449ca2e97b2cd709608650c9a8e">Clean up Old material added. (fe81095)</a>
 </div>
 </div>
 
@@ -845,8 +857,6 @@ In Rust this is called <a href="../20_borrowing"><strong>Borrowing Analysis</str
         <small class="text-white">&copy; 2019-2020 The Blech authors</small>
         
         <small class="ml-1"><a href="/about/privacy/" target="_blank">Privacy Policy</a></small>
-        
-          <p class="mt-2"><a href="/about/">About this website</a></p>
         
       </div>
       
