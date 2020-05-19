@@ -479,12 +479,12 @@ No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
         &lt;h2 id=&#34;parameters-are-references&#34;&gt;Parameters are references&lt;/h2&gt;
 &lt;p&gt;Semantically, Blech passes parameters by reference.&lt;/p&gt;
 &lt;p&gt;Imagine the following Blech program&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1 (a: int32)(b: int32)
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1 (a: int32) (b: int32)
     b = 1
     b = a + b 
 end
 
-activity godUsage()
+activity godUsage ()
     var i = 42: int32
     var j: int32
     outIsInPlus1(i)(j) // 43 --&amp;gt; j
@@ -492,7 +492,7 @@ activity godUsage()
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So far so good, the program has the expected behaviour: &lt;code&gt;j&lt;/code&gt; gets &lt;code&gt;i + 1&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;But if we call the same function with the same &lt;code&gt;variable&lt;/code&gt; as input and output we get a strange behaviour.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity badUsage()
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity badUsage ()
     var i = 42: int32
     outIsInPlus1(i)(i)
     await true
@@ -518,7 +518,7 @@ The implicit assumption, input &lt;code&gt;a&lt;/code&gt; and output &lt;code&gt
 &lt;p&gt;The reason is, that parameters are passed by-reference.&lt;/p&gt;
 &lt;p&gt;The input &lt;code&gt;a&lt;/code&gt; takes a read-only reference to the actual input, the output &lt;code&gt;b&lt;/code&gt; takes a read-write reference to the actual input.&lt;/p&gt;
 &lt;p&gt;Semantically the function &lt;code&gt;outIsInPlus1&lt;/code&gt; has the following form&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1 (let ref a: int32)(var ref b: int32)
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function outIsInPlus1 (let ref a: int32) (var ref b: int32)
     b = 1
     b = a + b 
 end
@@ -628,6 +628,27 @@ b = a + b
 &lt;p&gt;Luckily there is way of handling these problems at compile time.
 In Rust this is called &lt;a href=&#34;../20_borrowing&#34;&gt;&lt;strong&gt;Borrowing Analysis&lt;/strong&gt;&lt;/a&gt;
 .&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Virtual Safe Lock</title>
+      <link>https://www.blech-lang.org/docs/examples/virtuallock/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/virtuallock/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This document was originally released as supplementary material for the Bosch Conference
+on Software Engineering tutorial on Blech. It may be used on its own as a means
+to get a first impression of the language and get a Blech project up and running. To
+complete the programming assignments a Bosch XDK device is required.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../Blech_Tutorial_BoCSE2019.pdf&#34;&gt;The tutorial (pdf)&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../Code.zip&#34;&gt;Code samples (zip)&lt;/a&gt;
+&lt;/p&gt;
 
       </description>
     </item>
@@ -867,6 +888,22 @@ Select the &lt;code&gt;blech-language-services-0.&amp;lt;i&amp;gt;.&amp;lt;j&amp
 &lt;p&gt;Verify it works by opening some &lt;code&gt;*.blc&lt;/code&gt; file. 
 If the keywords are coloured, it works. 
 Furthermore, if you hover over an activity name, you should see its signature in a tooltip.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Blinker</title>
+      <link>https://www.blech-lang.org/docs/examples/blinker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/blinker/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The first community made demo for Blech is the implementation of a &lt;a href=&#34;https://github.com/frameworklabs/blinker&#34; target=&#34;_blank&#34;&gt;car’s blinker&lt;/a&gt;
+ running in a simulated curses environment.
+Making use of Blech&amp;rsquo;s reactive programming model and concurrent composition, this example shows how a rather complex state management logic can be decomposed into individual simple building blocks.&lt;/p&gt;
 
       </description>
     </item>
@@ -1807,10 +1844,8 @@ This is basically the same reasoning as with auto variables. However we need the
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 
-&lt;p&gt;TODO: at the moment all constants and params in local scopes are lifted to the top level.
-Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the declaration remain inside the function?&lt;/p&gt;
-&lt;p&gt;REMARK: We could use &lt;code&gt;blc_blech&lt;/code&gt; instead of &lt;code&gt;aux_blc&lt;/code&gt;. &lt;code&gt;blech&lt;/code&gt; is a reserved id and never an identifier. So only the prefix &lt;code&gt;blc_&lt;/code&gt; would be reserved for Blech&amp;rsquo;s global C variables.&lt;/p&gt;
-
+TODO: at the moment all constants and params in local scopes are lifted to the top level.
+Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the declaration remain inside the function?
 &lt;/div&gt;
 
 
@@ -1890,7 +1925,7 @@ end
 &lt;h2 id=&#34;read-only-references-1&#34;&gt;Read-only references&lt;/h2&gt;
 &lt;p&gt;Since we can pass a right-hand-side expression as an input parameter we should also be able to take a reference to a right-hand-side expression in sequential code.
 This makes sense in an activity and is called &lt;code&gt;bind&lt;/code&gt; in the language Quartz.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity a(i: int32)(j: int32)
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity a (i: int32) (j: int32)
     let ref double = i * 2
     repeat
         j = double
@@ -2244,7 +2279,7 @@ struct From
 end
 
 
-activity main()
+activity main ()
     var f: From
     run outIsPlus1(f.a)(f.b)
     await true
@@ -2252,7 +2287,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The compiler can statically decide on partial borrowing for structs.
 But not for arrays.&lt;/p&gt;
 &lt;p&gt;The following code would be rejected&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity main(i: int32)
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity main (i: int32)
     var f: [2]int43
     run outIsPlus1(f[1])(f[i])
     await true
@@ -2267,7 +2302,7 @@ That means borrowing form arrays borrows the whole array.&lt;/p&gt;
     let ref b: int32
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Return a struct with references requires to define which references a borrowed by the struct.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct(refb: int32) returns RefStruct shares refb
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct (refb: int32) returns RefStruct shares refb
     return {a = 42, b = refb}
 end
 
@@ -2278,13 +2313,13 @@ var result = initRefStruct(b)
 As a consequence &lt;code&gt;result&lt;/code&gt; immutably borrows &lt;code&gt;b&lt;/code&gt;.
 Consequently &lt;code&gt;b&lt;/code&gt; is frozen after &lt;code&gt;result&lt;/code&gt; is iniatialized.&lt;/p&gt;
 &lt;p&gt;We could also write &lt;code&gt;initRefers&lt;/code&gt; in the following way.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct(refb: int32) returns RefStruct shares refb
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct (refb: int32) returns RefStruct shares refb
     var r: RefStruct = {a = 42, b = refB}
     return r
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The return value is a shallow copy of the struct.&lt;/p&gt;
 &lt;p&gt;The borrow checker conservatively overestimates all possible borrowing if the return value is constructed through different control path.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct(refb: int32, refother: int32) returns RefStruct shares refb, refother
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct (refb: int32, refother: int32) returns RefStruct shares refb, refother
     if aB &amp;lt; aB2 then
         return {a = 42, b = refb}
     else
@@ -2292,7 +2327,7 @@ end
     end
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It also overestimates the sharing if the &lt;code&gt;shares&lt;/code&gt; refers to an output, although the &lt;code&gt;RefStruct&lt;/code&gt; value immutably borrows &lt;code&gt;refb&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct()(refb: int32) returns RefStruct shares refb
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function initRefStruct () (refb: int32) returns RefStruct shares refb
     refB = refB + 1
     return {a = 42, b = refB}
 end

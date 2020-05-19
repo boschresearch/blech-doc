@@ -7,7 +7,6 @@
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/docs/blechc-development/index.xml">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -21,17 +20,23 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Guide to blechc development | Blech</title><meta property="og:title" content="Guide to blechc development" />
-<meta property="og:description" content="This guide documents how blechc - the Blech compiler - is build. It is meant for documentation and as help for new contributors.
+<title>Virtual Safe Lock | Blech</title><meta property="og:title" content="Virtual Safe Lock" />
+<meta property="og:description" content="Get a short introduction into the motivation behind Blech and its syntax. Write your first application that runs on actual hardware, the Bosch XDK.
 " />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/blechc-development/" />
-<meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Guide to blechc development">
-<meta itemprop="description" content="This guide documents how blechc - the Blech compiler - is build. It is meant for documentation and as help for new contributors.
-"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Guide to blechc development"/>
-<meta name="twitter:description" content="This guide documents how blechc - the Blech compiler - is build. It is meant for documentation and as help for new contributors.
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/examples/virtuallock/" />
+<meta property="article:modified_time" content="2020-05-18T13:31:28+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Virtual Safe Lock">
+<meta itemprop="description" content="Get a short introduction into the motivation behind Blech and its syntax. Write your first application that runs on actual hardware, the Bosch XDK.
+">
+<meta itemprop="dateModified" content="2020-05-18T13:31:28&#43;02:00" />
+<meta itemprop="wordCount" content="61">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Virtual Safe Lock"/>
+<meta name="twitter:description" content="Get a short introduction into the motivation behind Blech and its syntax. Write your first application that runs on actual hardware, the Bosch XDK.
 "/>
 
 
@@ -53,7 +58,7 @@
 
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -397,10 +402,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
+    <a  href="/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsblechc-development">
+    <li class="collapse " id="docsblechc-development">
       
       
       
@@ -450,17 +455,17 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech examples</a>
+    <a  href="/docs/examples/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blech examples</a>
   </li>
   <ul>
-    <li class="collapse " id="docsexamples">
+    <li class="collapse show" id="docsexamples">
       
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesvirtuallock" href="/docs/examples/virtuallock/">Virtual Safe Lock</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsexamplesvirtuallock" href="/docs/examples/virtuallock/">Virtual Safe Lock</a>
       
       
       
@@ -523,8 +528,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Guide%20to%20blechc%20development" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/examples/virtuallock.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Virtual%20Safe%20Lock" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -553,6 +558,9 @@
 
 
 
+
+
+
 <li class="breadcrumb-item" >
 	<a href="https://www.blech-lang.org/docs/">Documentation</a>
 </li>
@@ -560,8 +568,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://www.blech-lang.org/docs/examples/">Blech examples</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/blechc-development/">Blechc development</a>
+	<a href="https://www.blech-lang.org/docs/examples/virtuallock/">Virtual Safe Lock</a>
 </li>
 
 	</ol>
@@ -569,127 +584,24 @@
 
             
 <div class="td-content">
-	<h1>Guide to blechc development</h1>
-        <div class="lead">This guide documents how blechc - the Blech compiler - is build. It is meant for documentation and as help for new contributors.</div>
-	
-	<h1 id="building-and-testing-blechc">Building and testing blechc</h1>
-
-        <div class="section-index">
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/blechc-development/const-and-expr/">Expressions, conditions, initialisers, constants</a>
-                    </h5>
-                    <p>This explains the variants of expressions in Blech.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/blechc-development/external-vars/">Local and external variables</a>
-                    </h5>
-                    <p>This explains the difference between local and external variables in code generation.</p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/blechc-development/cpdata/">Translating Blech variable names to C</a>
-                    </h5>
-                    <p>This explains the how Blech variable names and memory accesses are rendered as C code.</p>
-                </div>
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/blechc-development/git-workflow/">Git workflow</a>
-                    </h5>
-                    <p>This explains how we use branches to enable our git workflow.</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/blechc-development/traversals/"></a>
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-    
-</div>
+	<h1>Virtual Safe Lock</h1>
+    <div class="lead">Get a short introduction into the motivation behind Blech and its syntax. Write your first application that runs on actual hardware, the Bosch XDK.</div>
+	       
+	<p>This document was originally released as supplementary material for the Bosch Conference
+on Software Engineering tutorial on Blech. It may be used on its own as a means
+to get a first impression of the language and get a Blech project up and running. To
+complete the programming assignments a Bosch XDK device is required.</p>
+<p><a href="../Blech_Tutorial_BoCSE2019.pdf">The tutorial (pdf)</a>
+</p>
+<p><a href="../Code.zip">Code samples (zip)</a>
+</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 18, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/d3936cf24a8f88c43b0f68051d2cb340aaf90106">Added tutorial (d3936cf)</a>
 </div>
 </div>
+
 
           </main>
         </div>

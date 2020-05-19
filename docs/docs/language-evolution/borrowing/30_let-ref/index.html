@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/" />
-<meta property="article:modified_time" content="2020-05-05T18:25:12+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-05-15T18:47:04+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Immutable references - `let ref`">
 <meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
 ">
-<meta itemprop="dateModified" content="2020-05-05T18:25:12&#43;02:00" />
-<meta itemprop="wordCount" content="562">
+<meta itemprop="dateModified" content="2020-05-15T18:47:04&#43;02:00" />
+<meta itemprop="wordCount" content="564">
 
 
 
@@ -76,6 +76,16 @@
 				
 				
 				
+				<a class="nav-link" href="/about/" ><span>About</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
 				<a class="nav-link active" href="/docs/" ><span class="active">Documentation</span></a>
 			</li>
 			
@@ -97,16 +107,6 @@
 				
 				
 				<a class="nav-link" href="/community/" ><span>Community</span></a>
-			</li>
-			
-			<li class="nav-item mr-4 mb-2 mb-lg-0">
-				
-				
-				
-				
-				
-				
-				<a class="nav-link" href="/about/" ><span>About</span></a>
 			</li>
 			
 			
@@ -455,11 +455,23 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
+    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech examples</a>
   </li>
   <ul>
     <li class="collapse " id="docsexamples">
       
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesvirtuallock" href="/docs/examples/virtuallock/">Virtual Safe Lock</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesblinker" href="/docs/examples/blinker/">Blinker</a>
       
       
     </li>
@@ -639,7 +651,7 @@ end
 <h2 id="read-only-references-1">Read-only references</h2>
 <p>Since we can pass a right-hand-side expression as an input parameter we should also be able to take a reference to a right-hand-side expression in sequential code.
 This makes sense in an activity and is called <code>bind</code> in the language Quartz.</p>
-<pre><code class="language-blech" data-lang="blech">activity a(i: int32)(j: int32)
+<pre><code class="language-blech" data-lang="blech">activity a (i: int32) (j: int32)
     let ref double = i * 2
     repeat
         j = double
@@ -690,7 +702,7 @@ end
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/fe810959f54b4449ca2e97b2cd709608650c9a8e">Clean up Old material added. (fe81095)</a>
 </div>
 </div>
 
@@ -781,8 +793,6 @@ end
         <small class="text-white">&copy; 2019-2020 The Blech authors</small>
         
         <small class="ml-1"><a href="/about/privacy/" target="_blank">Privacy Policy</a></small>
-        
-          <p class="mt-2"><a href="/about/">About this website</a></p>
         
       </div>
       

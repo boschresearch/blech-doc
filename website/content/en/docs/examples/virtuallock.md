@@ -13,6 +13,6 @@ on Software Engineering tutorial on Blech. It may be used on its own as a means
 to get a first impression of the language and get a Blech project up and running. To
 complete the programming assignments a Bosch XDK device is required.
 
-[The tutorial (pdf)](../Blech_Tutorial_BoCSE2019.pdf)
+[The tutorial (pdf)](Blech_Tutorial_BoCSE2019.pdf)
 
-[Code samples (zip)](../Code.zip)
+[Code samples (zip)](Code.zip)

@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blech – Examples</title>
+    <title>Blech – Blech examples</title>
     <link>https://www.blech-lang.org/docs/examples/</link>
-    <description>Recent content in Examples on Blech</description>
+    <description>Recent content in Blech examples on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
 	  <atom:link href="https://www.blech-lang.org/docs/examples/index.xml" rel="self" type="application/rss+xml" />
@@ -12,6 +12,43 @@
         
       
     
+    
+    <item>
+      <title>Docs: Virtual Safe Lock</title>
+      <link>https://www.blech-lang.org/docs/examples/virtuallock/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/virtuallock/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This document was originally released as supplementary material for the Bosch Conference
+on Software Engineering tutorial on Blech. It may be used on its own as a means
+to get a first impression of the language and get a Blech project up and running. To
+complete the programming assignments a Bosch XDK device is required.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../Blech_Tutorial_BoCSE2019.pdf&#34;&gt;The tutorial (pdf)&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../Code.zip&#34;&gt;Code samples (zip)&lt;/a&gt;
+&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Blinker</title>
+      <link>https://www.blech-lang.org/docs/examples/blinker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/blinker/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The first community made demo for Blech is the implementation of a &lt;a href=&#34;https://github.com/frameworklabs/blinker&#34; target=&#34;_blank&#34;&gt;car’s blinker&lt;/a&gt;
+ running in a simulated curses environment.
+Making use of Blech&amp;rsquo;s reactive programming model and concurrent composition, this example shows how a rather complex state management logic can be decomposed into individual simple building blocks.&lt;/p&gt;
+
+      </description>
+    </item>
     
   </channel>
 </rss>
