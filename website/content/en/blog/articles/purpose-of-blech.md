@@ -90,12 +90,12 @@ With its domain focus it is designed to guarantee important properties via the c
 Blech is a synchronous language.
 
 In a nutshell, the synchronous model of execution (MoC) allows to write threaded functions, which are compiled into an efficiently executable event-driven code, that is determinstic.
-For this purpose it incorporates the step-wise execution of typical realtime, reactive applications into the language.
+For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.
 
 Blech allows to write subprograms, called *activities*, that execute in *steps*, as a sequence of actions which pause if a step is finished.
 A synchronous language regards the trigger events that initiate these steps as the *ticks* of a clock. 
 The ticks can either be periodic, triggered by time, or aperiodic triggered by events.
-The synchronous model of computation (MoC) assumes, a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
+The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 With this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step, as a reaction to a tick is executed immediately and runs to completion, before the next tick arrives.
 
 A Blech activity is a sequential control flow of statements, that terminate a step by pausing at an *await* statement. 
@@ -126,26 +126,27 @@ This 2-way integration simplifies the necessary separation between
 
 Blech is a german word, and roughly translates to bare metal.
 As its name suggest, a Blech program can run in pretty much anything 
-- directly on "the Blech" in an embedded devices.
-- on top of a realtime OS
-- as a safety-critical component integrated via some middle-ware
-- in combination with a simulation model
+- directly on "the Blech" in an embedded devices,
+- on top of a realtime OS,
+- as a safety-critical component integrated via some middle-ware,
+- in combination with a simulation model,
+
 you name it.
 
-### Blech is made for ...
+### Blech is made for the safety- and realtime-critical, reactive, embedded domain
 
 There is a list of requirements for Blech, that has found its way into the language design:
 
-- Time-driven and event-driven program execution
-- Predictable and deterministic semantics
-- Synchronous concurrency
-- Hard real-time
-- Predictable memory usage and execution time
-- Compile-time mechanism for structuring and variants
-- Safe shared memory
-- Safe type system
-- Expressive and productive language
-- A "cool" development environment.
+- time-driven and event-driven program execution,
+- predictable and deterministic semantics,
+- synchronous concurrency,
+- hard real-time,
+- predictable memory usage and execution time,
+- compile-time mechanism for structuring and variants,
+- safe shared memory,
+- safe type system,
+- expressive and productive language,
+- a "cool" development environment.
 
 The Blech core language is designed to eliminate frequent difficulties with C/C++.
 With its domain focus and the synchronous MoC, we restrict the language to: 
@@ -185,15 +186,15 @@ The module system shall support, information hiding, black-box reuse and white-b
 It allows to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.
 
 We have planned mechanisms for: 
-- error handling
-- object-based programming
-- borrow-checking
-- type-safe generics, with predictable code size
+- error handling,
+- object-based programming,
+- borrow-checking,
+- type-safe generics, with predictable code size.
 
 Besides, the already working VS Code language server plug-in we envision a set of tools, specific for Blech: 
-- a test framework for regression tests of Blech components
-- a build system for mixed Blech/C projects
-- a time-travel debugger for concurrent and parallel programs
+- a test framework for regression tests of Blech components,
+- a build system for mixed Blech/C projects,
+- a time-travel debugger for concurrent and parallel programs,
 - a deployment support tool.
 
 One can follow and participate in the development via the Blech homepage: [www.blech-lang.org](www.blech-lang.org).
