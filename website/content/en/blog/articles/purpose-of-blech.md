@@ -66,7 +66,7 @@ The price to pay is high:
 
 Despite all the tools that try to mitigate these difficulties, the usage of the technology stack for embedded programming remains a tough task. -->
 
-### Progress in language design
+### C programming is like defusing a bomb
 
 Many areas in software development have benefitted from improvements made to programming languages. 
 Embedded systems are an exceptions to this. 
@@ -80,10 +80,10 @@ Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all g
 
 ## What is Blech?
 
-Blech is a language, that is specifically designed for embedded, reactive, safety- and realtime-critical programming. 
+Blech is a language, that is specifically designed for safety- and realtime-critical, reactive, embedded programming. 
 The cornerstones of Blech are its model of computation (MoC) and its simple integration with C.
-Being a new language it can profit from the progress in programming languages in the past 4 decades. 
-With its domain focus it can be designed to guarantee important properties via the compiler.
+Being a new language it profits from the progress in programming languages in the past 4 decades. 
+With its domain focus it is designed to guarantee important properties via the compiler.
 
 ### The Blech model of computation
 
@@ -96,12 +96,11 @@ Blech allows to write subprograms, called *activities*, that execute in *steps*,
 A synchronous language regards the trigger events that initiate these steps as the *ticks* of a clock. 
 The ticks can either be periodic, triggered by time, or aperiodic triggered by events.
 The synchronous model of computation (MoC) assumes, a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
-With this assumption, which is very suitable for realtime critical applications, the programming model can be abstracted to a perfect model, where every step, as a reaction to a tick is executed immediately and runs to completion, before the next tick arrives.
+With this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step, as a reaction to a tick is executed immediately and runs to completion, before the next tick arrives.
 
-A Blech activity is a sequential control flow of statements, that terminate a step by pausing at an *await*. 
-The *await* guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
-These subprograms can be composed sequentially via normal control-flow. 
-and concurrently via synchronous parallel composition.
+A Blech activity is a sequential control flow of statements, that terminate a step by pausing at an *await* statement. 
+The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
+These subprograms can be composed sequentially via normal control-flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.
 
 Actually, a concurrently composed application compiles to a sequential program that is driven by a clock.
@@ -112,7 +111,7 @@ A clock can be anything that drives a reactive application, for example
 
 This MoC regains the simplicity of threaded programs, the composability of sequential subprograms, and the efficiency of event-driven program organisation. 
 
-### The Blech-C integration
+### Blech is a companion to C/C++
 
 Blech compiles to *clean* C - the common subset of C and C++.
 Therefore, Blech programs can easily be integrated into existing embedded projects.
@@ -125,7 +124,15 @@ This 2-way integration simplifies the necessary separation between
 - an asynchronous environment that drives the Blech program
 - and the synchronous application written in Blech with the support of further C/C++ libraries.
 
-### Blech's properties
+Blech is a german word, and roughly translates to bare metal.
+As its name suggest, a Blech program can run in pretty much anything 
+- directly on "the Blech" in an embedded devices.
+- on top of a realtime OS
+- as a safety-critical component integrated via some middle-ware
+- in combination with a simulation model
+you name it.
+
+### Blech is made for ...
 
 There is a list of requirements for Blech, that has found its way into the language design:
 
@@ -141,7 +148,7 @@ There is a list of requirements for Blech, that has found its way into the langu
 - A "cool" development environment.
 
 The Blech core language is designed to eliminate frequent difficulties with C/C++.
-With its domain focus and the synchronous MoC, we can restrict the language: 
+With its domain focus and the synchronous MoC, we restrict the language to: 
 
 - no global variables,
 - no undefined behaviour,
@@ -168,10 +175,10 @@ Virtually anything that is usually required by embedded, realtime, or safety-ori
 Blech, as currently released, is a working first step.
 There is a longer road map for making it a richer language.
 
-Some parts of the core language are not implemented yet
+Some parts of the core language are not implemented yet: 
 - enumeration types,
 - references as a tractable alternative for pointers,
-- synchronous events, which can be emitted from the program and are reset by the run-time system
+- synchronous events, which can be emitted from the program and are reset by the run-time system.
 
 Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
 The module system shall support, information hiding, black-box reuse and white-box testing.
