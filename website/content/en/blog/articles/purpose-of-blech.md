@@ -2,23 +2,24 @@
 ---
 title: "The purpose of Blech"
 linkTitle: "The purpose of Blech"
-date: 2020-05-18
+date: 2020-05-25
 ---
 
 Blech is a new language that is aiming to substantially boost productivity and quality of applications in the embedded, reactive, safety- and realtime-critical domain.
+For short, we call it the embedded domain.
 
 ## Why Blech?
 
-There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the safety- and realtime-critical, reactive, embedded domain.
+There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. 
 
 ### The domain is tough
 
-Applications from this domain, usually run on dedicated embedded hardware, to enable the interaction with its specific physical environment.
-More often then not the hardware is resource-constrained concerning memory and processing power. 
+Applications from the embedded domain usually run on dedicated hardware, to enable the interaction with its specific physical environment.
+More often then not, the hardware is resource-constrained concerning memory and processing power. 
 In order to fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
 Applications must be reactive, in order to fulfill realtime requirements, and deterministic to make reactions predictable and repeatable under test.
 
-This mix of requirements imposes a huge burden on developers, how to program their application.
+This mix of requirements imposes a huge burden on developers how to program their application.
 
 In principle there are two ways to organize the code: event-driven or threaded.
 
@@ -34,49 +35,18 @@ and the composition of threaded functions creates the need for pre-emptive or co
 
 As a consequence, applications are often written in an event-driven style.
 
-<!-- 
-Embedded developers are constantly challenged to cram more into scarce resources - more features into small memory and predictable real-time behaviour into comparably slow processors.
-
-The applications are expected to run much more reliable than their desktop and mobile counterparts, a frequent restart or a switch-over is usually not possible.
-Different to user-input in desktop-applications and socket-input in server-applications, data arrives from a vast number of asynchronous sources and must get routed as needed. 
-
-The embedded applications itself are usually composed from concurrent functionality:
-- even simple systems run interrupt service routines concurrently with a main loop-driven application,
-- additionally, mid-size applications concurrently compose time-driven or event-driven tasks scheduled on a single processor system,
-- on top of this, large systems compose parallel tasks to applications running on several cores.
-
-The mix of tight resource-limitations and the need for concurrent composition leads to a programming style that tries to combine the memory-efficiency of an event-driven program organisation with the runtime-utilization of preemptively scheduled threads.
-
-
-
-
-
-Being pre-emptively scheduled, threads do not delay each other, which makes real-time requirements easier to fulfill.
-The disadvantage is that each thread needs to allocate it's maximum possible required stack during its existence.
-
-Neither high memory requirements nor delayed real-time reaction are an option for most embedded systems.
-Therefore, the typical embedded programming style usually tries to combine low memory usage of event-driven programmming with the good real-time response of pre-emptively scheduled tasks.
-
-The price to pay is high:
-- Programs are hard to write, to read, and to reason about.
-- State is managed in global variables, which renders reentrancy almost to zero.
-- Dataflow between scheduled tasks opens the door to all the known problems of threads and shared memory.
-- Multi-core deployments do not fullfil the expectations concerning speed-up.
-- The runtime-behaviour is non-deterministic, due to pre-emptive scheduling.
-
-Despite all the tools that try to mitigate these difficulties, the usage of the technology stack for embedded programming remains a tough task. -->
 
 ### C programming is like defusing a bomb
 
 Many areas in software development have benefitted from improvements made to programming languages. 
 Embedded systems are an exceptions to this. 
-Although there are many flaws, that need to be mitigated by tight coding conventions and static analysis tools, C remains to be the de-facto standard for development.
+C remains to be the de-facto standard for development, although there are many flaws, that need to be mitigated by tight coding conventions and static analysis tools.
 
 Of course, there are several languages like Ada, C++, or Rust that have the potential to improve on certain aspects of embedded development.
 Due to its backwards compatability to C and its maturity, C++ is often preferred and used in many embedded projects.
-Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general purpose languages, which only improve on certain programming aspects and do not really reduce the complexity of safety- and realtime-critical, reactive, embedded applications.
+Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general purpose languages, which only improve on certain programming aspects and do not really reduce the complexity of embedded applications.
 
-**Blech is different.** 
+Blech is different.
 
 ## What is Blech?
 
@@ -89,16 +59,16 @@ With its domain focus it is designed to guarantee important properties via the c
 
 Blech is a synchronous language.
 
-In a nutshell, the synchronous model of execution (MoC) allows to write threaded functions, which are compiled into an efficiently executable event-driven code, that is determinstic.
+In a nutshell, the synchronous model of computation allows to write threaded functions, which are compiled into an efficiently executable event-driven code, that is determinstic.
 For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.
 
 Blech allows to write subprograms, called *activities*, that execute in *steps*, as a sequence of actions which pause if a step is finished.
 A synchronous language regards the trigger events that initiate these steps as the *ticks* of a clock. 
-The ticks can either be periodic, triggered by time, or aperiodic triggered by events.
+The ticks can either be periodicly triggered by time, or aperiodicly triggered by events.
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 With this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step, as a reaction to a tick is executed immediately and runs to completion, before the next tick arrives.
 
-A Blech activity is a sequential control flow of statements, that terminate a step by pausing at an *await* statement. 
+A Blech activity is a sequential control flow of statements, that finishes a step by pausing at an *await* statement. 
 The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
 These subprograms can be composed sequentially via normal control-flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.
@@ -125,13 +95,12 @@ This 2-way integration simplifies the necessary separation between
 - and the synchronous application written in Blech with the support of further C/C++ libraries.
 
 Blech is a german word, and roughly translates to bare metal.
-As its name suggest, a Blech program can run in pretty much anything 
+As its name suggest, a Blech program can run in pretty much anything:
+
 - directly on "the Blech" in an embedded devices,
 - on top of a realtime OS,
-- as a safety-critical component integrated via some middle-ware,
-- in combination with a simulation model,
-
-you name it.
+- as a safety-critical component integrated via some middleware,
+- in combination with a simulation model.
 
 ### Blech is made for the safety- and realtime-critical, reactive, embedded domain
 
@@ -145,7 +114,7 @@ There is a list of requirements for Blech, that has found its way into the langu
 - compile-time mechanism for structuring and variants,
 - safe shared memory,
 - safe type system,
-- expressive and productive language,
+- expressive and productive programming,
 - a "cool" development environment.
 
 The Blech core language is designed to eliminate frequent difficulties with C/C++.

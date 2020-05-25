@@ -31,7 +31,7 @@ disableKinds = ["taxonomy", "taxonomyTerm"]
 pygmentsCodeFences = true
 pygmentsUseClasses = false
 # Use the new Chroma Go highlighter in Hugo.
-pygmentsUseClassic = false
+pygmentsUseClassic = true
 #pygmentsOptions = "linenos=table"
 # See https://help.farbox.com/pygments.html
 pygmentsStyle = "tango"
@@ -87,7 +87,7 @@ weight = 1
 # Everything below this are Site Params
 
 [params]
-copyright = "The Blech authors"
+copyright = "The Blech contributors"
 privacy_policy = "/about/privacy/"
 # First one is picked as the Twitter card image if not set on page.
 # images = ["images/project-illustration.png"]
@@ -156,7 +156,7 @@ no = 'Sorry to hear that. Please <a href="https://github.com/boschresearch/blech
 [[params.links.user]]
     name ="Documentation on GitHub"
     url = "https://github.com/boschresearch/blech-doc"
-    icon = "fas fa-book-open"
+    icon = "fas fa-book"
     desc = "Documentation is collected here!"
 
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
