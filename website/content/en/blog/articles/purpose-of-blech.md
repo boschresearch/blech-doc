@@ -65,7 +65,7 @@ Blech allows to write subprograms, called *activities*, that execute in *steps*,
 A synchronous language regards the trigger events that initiate these steps as the *ticks* of a clock. 
 The ticks can either be periodically triggered by time, or aperiodically triggered by events.
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
-Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step, as a reaction to a tick, is executed immediately and runs to completion, before the next tick occurs.
+Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.
 
 A Blech activity is a sequential control flow of statements that finishes a step by pausing at an *await* statement. 
 The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
@@ -141,28 +141,32 @@ Virtually anything that is usually required by embedded, realtime, or safety-ori
 
 ### The future
 
-Blech, as currently released, is a working first step.
-There is a longer road map for making it a richer language.
+Blech, as currently released, is a working first step. 
+The new mechanisms and the semantics for synchronous imperative programming are fully implemented.
+The compiler generates clean C code.
 
-Some parts of the core language have not been implemented yet: 
-- enumeration types,
-- references as a tractable alternative to pointers,
-- synchronous events, which can be emitted from the program and are reset by the run-time system.
+However, some of the sytactic elements are not yet translated. 
+Also, a few of the above safety checks are still missing. 
+Filling these gaps is a matter of effort and is done bit by bit. 
+Furthermore, there is a longer roadmap to enrich the language itself. 
+This requires more research and design.
 
 Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
 The module system shall support, information hiding, black-box reuse and white-box testing.
 It allows to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.
 
-We have planned mechanisms for: 
+We have planned mechanisms for:
 - error handling,
-- object-based programming,
-- borrow-checking,
-- type-safe generics with predictable code size.
+- type-safe generics with predictable code size,
+- multi-clock programming.
 
-Besides the already working VS Code language server plug-in we envision a set of specific tools for Blech: 
+Besides the already working VS Code language server plug-in we plan a minimal tool set for Blech: 
 - a test framework for regression tests of Blech components,
-- a build system for mixed Blech/C projects,
-- a time-travel debugger for concurrent and parallel programs,
+- a build system for mixed Blech/C projects.
+
+Due to Blech's statically guaranteed properties and its concurrent execution determinism, development tools become possible that are otherwise difficult to create.
+For example,
+- a time-travel debugger for concurrent and parallel programs, or
 - a deployment support tool.
 
 To follow upon and participate in the development visit the Blech homepage: [www.blech-lang.org](www.blech-lang.org).
