@@ -2,17 +2,19 @@
 ---
 title: "The purpose of Blech"
 linkTitle: "The purpose of Blech"
-date: 2020-05-25
+date: 2020-05-27
 ---
 
 Blech is a new language that is aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain.
-Referred to in short as the embedded domain.
+Referred to in short as the *embedded domain*.
 
 ## Why Blech?
 
-There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. 
+There is a huge difference between the environments of a desktop, a server, or a mobile application 
+and a typical application in the embedded domain.
+Moreover, the embedded industry is huge -- including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.
 
-### The domain is tough
+### The embedded domain is tough
 
 Embedded applications usually run on dedicated hardware to enable interaction with its specific physical environment.
 More often than not, the hardware is resource-constrained in terms of memory and processing power. 
@@ -101,7 +103,7 @@ As its name suggests, a Blech program can run in pretty much anything:
 - as a safety-critical component integrated via some middleware,
 - in combination with a simulation model.
 
-### Blech is made for the safety- and realtime-critical, reactive, embedded domain
+### Blech is made for the embedded domain
 
 There is a list of requirements for Blech that has found its way into the language design:
 
@@ -174,5 +176,5 @@ The documentation, examples, and plans for the evolution of the language can be 
 
 We are convinced and we hope that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.
 
-Stay tuned or - even better - participate.
+Stay tuned or -- even better -- participate.
 
