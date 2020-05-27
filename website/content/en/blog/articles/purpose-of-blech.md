@@ -5,7 +5,7 @@ linkTitle: "The purpose of Blech"
 date: 2020-05-27
 ---
 
-Blech is a new language that is aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain.
+Blech is a new language that aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain.
 Referred to in short as the *embedded domain*.
 
 ## Why Blech?
