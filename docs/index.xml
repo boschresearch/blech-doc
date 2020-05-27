@@ -13,6 +13,163 @@
     
     
     <item>
+      <title>Blog: The purpose of Blech</title>
+      <link>https://www.blech-lang.org/blog/2020/05/27/the-purpose-of-blech/</link>
+      <pubDate>Wed, 27 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/05/27/the-purpose-of-blech/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Blech is a new language that is aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain.
+Referred to in short as the &lt;em&gt;embedded domain&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;why-blech&#34;&gt;Why Blech?&lt;/h2&gt;
+&lt;p&gt;There is a huge difference between the environments of a desktop, a server, or a mobile application 
+and a typical application in the embedded domain.
+Moreover, the embedded industry is huge &amp;ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.&lt;/p&gt;
+&lt;h3 id=&#34;the-embedded-domain-is-tough&#34;&gt;The embedded domain is tough&lt;/h3&gt;
+&lt;p&gt;Embedded applications usually run on dedicated hardware to enable interaction with its specific physical environment.
+More often than not, the hardware is resource-constrained in terms of memory and processing power. 
+To fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
+Applications must be reactive because of realtime requirements, and deterministic to make reactions predictable and repeatable under test.&lt;/p&gt;
+&lt;p&gt;This mix of requirements imposes a huge burden on developers in terms of how to program their application.&lt;/p&gt;
+&lt;p&gt;In principle, there are two ways to organize the code: event-driven or threaded.&lt;/p&gt;
+&lt;p&gt;Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
+The programmer has to manually &lt;em&gt;rip&lt;/em&gt; the stack, and maintain the state across multiple events.
+Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
+The disadvantage is that they are hard to write and even harder to read and reason about.&lt;/p&gt;
+&lt;p&gt;Threaded functions are easier to write and comprehend, since the program can be expressed as a sequence of actions, waiting for asynchronous input if needed.
+The state between steps is preserved on the stack.
+The big disadvantage is that each threaded function needs to allocate its maximum possible required stack during its existence, 
+and the composition of threaded functions creates the need for pre-emptive or cooperative scheduling at run-time, which either is non-deterministic or non-reactive.&lt;/p&gt;
+&lt;p&gt;As a consequence, applications are often written in an event-driven style.&lt;/p&gt;
+&lt;h3 id=&#34;c-programming-is-like-defusing-a-bomb&#34;&gt;C programming is like defusing a bomb&lt;/h3&gt;
+&lt;p&gt;Many areas in software development have benefitted from improvements made to programming languages. 
+Embedded systems are an exceptions to this. 
+C remains to be the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.&lt;/p&gt;
+&lt;p&gt;Of course, there are several languages like Ada, C++, or Rust that have the potential to improve certain aspects of embedded development.
+Due to its backwards compatability with C and its maturity, C++ is often preferred and used in many embedded projects.
+Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general-purpose languages, which only improve certain programming aspects and do not really reduce the complexity of embedded applications.&lt;/p&gt;
+&lt;p&gt;Blech is different.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-blech&#34;&gt;What is Blech?&lt;/h2&gt;
+&lt;p&gt;Blech is a language that is specifically designed for safety- and realtime-critical, reactive, embedded programming. 
+The cornerstones of Blech are its model of computation (MoC) and its simple integration with C.
+Being a new language, it benefits from the progress in programming languages over the past 4 decades. 
+With its domain focus, it is designed to guarantee important properties via the compiler.&lt;/p&gt;
+&lt;h3 id=&#34;the-blech-model-of-computation&#34;&gt;The Blech model of computation&lt;/h3&gt;
+&lt;p&gt;Blech is a synchronous language.&lt;/p&gt;
+&lt;p&gt;In a nutshell, the synchronous model of computation allows to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
+For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.&lt;/p&gt;
+&lt;p&gt;Blech allows to write subprograms, called &lt;em&gt;activities&lt;/em&gt;, that execute in &lt;em&gt;steps&lt;/em&gt;, as a sequence of actions which pause once a step is finished.
+A synchronous language regards the trigger events that initiate these steps as the &lt;em&gt;ticks&lt;/em&gt; of a clock. 
+The ticks can either be periodically triggered by time, or aperiodically triggered by events.
+The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
+Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.&lt;/p&gt;
+&lt;p&gt;A Blech activity is a sequential control flow of statements that finishes a step by pausing at an &lt;em&gt;await&lt;/em&gt; statement. 
+The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
+These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
+The compiler guarantess deterministic execution of concurrently composed subprograms.&lt;/p&gt;
+&lt;p&gt;Actually, a concurrently composed application compiles to a sequential program that is driven by a clock.
+A clock can be anything that drives a reactive application, for example&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a main loop&lt;/li&gt;
+&lt;li&gt;a time-triggering environment&lt;/li&gt;
+&lt;li&gt;an event-triggering environment&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This MoC regains the simplicity of threaded programs, the composability of sequential subprograms, and the efficiency of event-driven program organisation.&lt;/p&gt;
+&lt;h3 id=&#34;blech-is-a-companion-to-cc&#34;&gt;Blech is a companion to C/C++&lt;/h3&gt;
+&lt;p&gt;Blech compiles to &lt;em&gt;clean&lt;/em&gt; C - the common subset of C and C++.
+Therefore, Blech programs can easily be integrated into existing embedded projects.&lt;/p&gt;
+&lt;p&gt;Embedded hardware usually comes with driver software written in C.
+Useful libraries written in C/C++ already exist, for almost everything.
+There is no need to rewrite everything in Blech, existing C libraries can be used from Blech programs directly.&lt;/p&gt;
+&lt;p&gt;This 2-way integration simplifies the necessary separation between&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;an asynchronous environment that drives the Blech program&lt;/li&gt;
+&lt;li&gt;and the synchronous application written in Blech with the support of further C/C++ libraries.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Blech is a German word and roughly translates as bare metal.
+As its name suggests, a Blech program can run in pretty much anything:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;directly on &amp;ldquo;the Blech&amp;rdquo; in an embedded device,&lt;/li&gt;
+&lt;li&gt;on top of a realtime OS,&lt;/li&gt;
+&lt;li&gt;as a safety-critical component integrated via some middleware,&lt;/li&gt;
+&lt;li&gt;in combination with a simulation model.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;blech-is-made-for-the-embedded-domain&#34;&gt;Blech is made for the embedded domain&lt;/h3&gt;
+&lt;p&gt;There is a list of requirements for Blech that has found its way into the language design:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;time-driven and event-driven program execution,&lt;/li&gt;
+&lt;li&gt;predictable and deterministic semantics,&lt;/li&gt;
+&lt;li&gt;synchronous concurrency,&lt;/li&gt;
+&lt;li&gt;hard real-time,&lt;/li&gt;
+&lt;li&gt;predictable memory usage and execution time,&lt;/li&gt;
+&lt;li&gt;compile-time mechanism for structuring and variants,&lt;/li&gt;
+&lt;li&gt;safe shared memory,&lt;/li&gt;
+&lt;li&gt;safe type system,&lt;/li&gt;
+&lt;li&gt;expressive and productive programming,&lt;/li&gt;
+&lt;li&gt;a &amp;ldquo;cool&amp;rdquo; development environment.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Blech core language is designed to resolve frequently encountered issues with C/C++.
+With its domain focus and the synchronous MoC, we restrict the language to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;no global variables,&lt;/li&gt;
+&lt;li&gt;no undefined behaviour,&lt;/li&gt;
+&lt;li&gt;no pointer aliasing problems,&lt;/li&gt;
+&lt;li&gt;no address arithmetic,&lt;/li&gt;
+&lt;li&gt;no machine-dependent types,&lt;/li&gt;
+&lt;li&gt;no overflow, underflow, division-by-zero,&lt;/li&gt;
+&lt;li&gt;no index out of bounds,&lt;/li&gt;
+&lt;li&gt;no integer promotion,&lt;/li&gt;
+&lt;li&gt;no unsafe casts,&lt;/li&gt;
+&lt;li&gt;no side-effects in conditions,&lt;/li&gt;
+&lt;li&gt;no dynamic memory allocation,&lt;/li&gt;
+&lt;li&gt;no uninitialised variables,&lt;/li&gt;
+&lt;li&gt;no shadowing,&lt;/li&gt;
+&lt;li&gt;no race-conditions in concurrent code,&lt;/li&gt;
+&lt;li&gt;no dynamic thread generation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These properties are guaranteed by the type system and several further compile-time analyses.
+Virtually anything that is usually required by embedded, realtime, or safety-oriented coding-conventions like MISRA C/C++ can be handled by the compiler.&lt;/p&gt;
+&lt;h3 id=&#34;the-future&#34;&gt;The future&lt;/h3&gt;
+&lt;p&gt;Blech, as currently released, is a working first step. 
+The new mechanisms and the semantics for synchronous imperative programming are fully implemented.
+The compiler generates clean C code.&lt;/p&gt;
+&lt;p&gt;However, some of the sytactic elements are not yet translated. 
+Also, a few of the above safety checks are still missing. 
+Filling these gaps is a matter of effort and is done bit by bit. 
+Furthermore, there is a longer roadmap to enrich the language itself. 
+This requires more research and design.&lt;/p&gt;
+&lt;p&gt;Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
+The module system shall support, information hiding, black-box reuse and white-box testing.
+It allows to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.&lt;/p&gt;
+&lt;p&gt;We have planned mechanisms for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;error handling,&lt;/li&gt;
+&lt;li&gt;type-safe generics with predictable code size,&lt;/li&gt;
+&lt;li&gt;multi-clock programming.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Besides the already working VS Code language server plug-in we plan a minimal tool set for Blech:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a test framework for regression tests of Blech components,&lt;/li&gt;
+&lt;li&gt;a build system for mixed Blech/C projects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Due to Blech&amp;rsquo;s statically guaranteed properties and its concurrent execution determinism, development tools become possible that are otherwise difficult to create.
+For example,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a time-travel debugger for concurrent and parallel programs, or&lt;/li&gt;
+&lt;li&gt;a deployment support tool.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To follow upon and participate in the development visit the Blech homepage: &lt;a href=&#34;www.blech-lang.org&#34;&gt;&lt;a href=&#34;http://www.blech-lang.org&#34;&gt;www.blech-lang.org&lt;/a&gt;&lt;/a&gt;
+.
+The documentation, examples, and plans for the evolution of the language can be found on the website.&lt;/p&gt;
+&lt;p&gt;We are convinced and we hope that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.&lt;/p&gt;
+&lt;p&gt;Stay tuned or &amp;ndash; even better &amp;ndash; participate.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: Blech compiler version 0.5.1</title>
       <link>https://www.blech-lang.org/blog/2020/04/21/blech-compiler-version-0.5.1/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
@@ -39,19 +196,6 @@
     </item>
     
     <item>
-      <title>Blog: Dummy blog post</title>
-      <link>https://www.blech-lang.org/blog/2020/04/01/dummy-blog-post/</link>
-      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.blech-lang.org/blog/2020/04/01/dummy-blog-post/</guid>
-      <description>
-        
-        
-        
-      </description>
-    </item>
-    
-    <item>
       <title>Blog: Synchron 2019</title>
       <link>https://www.blech-lang.org/blog/2019/12/01/synchron-2019/</link>
       <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
@@ -62,7 +206,7 @@
         
         &lt;p&gt;Blech has been presented at &lt;a href=&#34;http://synchron19.org/&#34; target=&#34;_blank&#34;&gt;Synchron 2019&lt;/a&gt;
  the 26th International Open Workshop on Synchronous Programming in Aussois, November 25-29 2019.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://synchron19.org/participants/&#34; target=&#34;_blank&#34;&gt;On Tuesday, 2019-11-16 Friedrich Gretz&lt;/a&gt;
+&lt;p&gt;&lt;a href=&#34;http://synchron19.org/participants/&#34; target=&#34;_blank&#34;&gt;On Tuesday, 2019-11-26 Friedrich Gretz&lt;/a&gt;
  talked about &lt;a href=&#34;http://synchron19.org/wp-content/uploads/sites/7/2019/11/Gretz-Synchron19.pdf&#34; target=&#34;_blank&#34;&gt;Programming Blech&lt;/a&gt;
 .&lt;/p&gt;
 

@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.69.2" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>The purpose of Blech | Blech</title><meta property="og:title" content="The purpose of Blech" />
+<meta property="og:description" content="Blech is a new language that is aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain. Referred to in short as the embedded domain.
+Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/blog/2020/05/27/the-purpose-of-blech/" />
+<meta property="article:published_time" content="2020-05-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-05-27T13:00:51+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="The purpose of Blech">
+<meta itemprop="description" content="Blech is a new language that is aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain. Referred to in short as the embedded domain.
+Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.">
+<meta itemprop="datePublished" content="2020-05-27T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-05-27T13:00:51&#43;02:00" />
+<meta itemprop="wordCount" content="1421">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="The purpose of Blech"/>
+<meta name="twitter:description" content="Blech is a new language that is aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain. Referred to in short as the embedded domain.
+Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools."/>
+
+
+
+
+
+
+
+<link rel="preload" href="/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" as="style">
+<link href="/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script src=https://www.blech-lang.org/js/opt-in.js></script>
+
+
+  </head>
+  <body class="td-page td-blog">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/about/" ><span>About</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/docs/" ><span>Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/blog/" ><span class="active">Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/community/" ><span>Community</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Blog</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blog">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/articles/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Articles</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blogarticles">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20200527the-purpose-of-blech" href="/blog/2020/05/27/the-purpose-of-blech/">The purpose of Blech</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/releases/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Releases</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogreleases">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200421blech-compiler-version-051" href="/blog/2020/04/21/blech-compiler-version-0.5.1/">blechc 0.5.1</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200420blech-vs-code-extension-052" href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">vsce 0.5.2</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/events/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Events</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogevents">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20191201synchron-2019" href="/blog/2019/12/01/synchron-2019/">Synchron 2019</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20190710wcet-2019-keynote" href="/blog/2019/07/10/wcet-2019-keynote/">WCET 2019</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/articles/purpose-of-blech.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=The%20purpose%20of%20Blech" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-blech">Why Blech?</a>
+      <ul>
+        <li><a href="#the-embedded-domain-is-tough">The embedded domain is tough</a></li>
+        <li><a href="#c-programming-is-like-defusing-a-bomb">C programming is like defusing a bomb</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-is-blech">What is Blech?</a>
+      <ul>
+        <li><a href="#the-blech-model-of-computation">The Blech model of computation</a></li>
+        <li><a href="#blech-is-a-companion-to-cc">Blech is a companion to C/C++</a></li>
+        <li><a href="#blech-is-made-for-the-embedded-domain">Blech is made for the embedded domain</a></li>
+        <li><a href="#the-future">The future</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5 pr-md-4" role="main">
+            <a class="btn btn-sm -bg-secondary td-rss-button d-none d-lg-block" href="https://www.blech-lang.org/blog/articles/index.xml" target="_blank">
+              RSS <i class="fa fa-rss ml-2 "></i>
+            </a>
+            
+<div class="td-content">
+	<h1>The purpose of Blech</h1>
+	
+	<div class="td-byline mb-4">
+		
+		<time datetime="2020-05-27" class="text-muted">Wednesday, May 27, 2020</time>
+	</div>
+	<p>Blech is a new language that is aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain.
+Referred to in short as the <em>embedded domain</em>.</p>
+<h2 id="why-blech">Why Blech?</h2>
+<p>There is a huge difference between the environments of a desktop, a server, or a mobile application 
+and a typical application in the embedded domain.
+Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.</p>
+<h3 id="the-embedded-domain-is-tough">The embedded domain is tough</h3>
+<p>Embedded applications usually run on dedicated hardware to enable interaction with its specific physical environment.
+More often than not, the hardware is resource-constrained in terms of memory and processing power. 
+To fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
+Applications must be reactive because of realtime requirements, and deterministic to make reactions predictable and repeatable under test.</p>
+<p>This mix of requirements imposes a huge burden on developers in terms of how to program their application.</p>
+<p>In principle, there are two ways to organize the code: event-driven or threaded.</p>
+<p>Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
+The programmer has to manually <em>rip</em> the stack, and maintain the state across multiple events.
+Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
+The disadvantage is that they are hard to write and even harder to read and reason about.</p>
+<p>Threaded functions are easier to write and comprehend, since the program can be expressed as a sequence of actions, waiting for asynchronous input if needed.
+The state between steps is preserved on the stack.
+The big disadvantage is that each threaded function needs to allocate its maximum possible required stack during its existence, 
+and the composition of threaded functions creates the need for pre-emptive or cooperative scheduling at run-time, which either is non-deterministic or non-reactive.</p>
+<p>As a consequence, applications are often written in an event-driven style.</p>
+<h3 id="c-programming-is-like-defusing-a-bomb">C programming is like defusing a bomb</h3>
+<p>Many areas in software development have benefitted from improvements made to programming languages. 
+Embedded systems are an exceptions to this. 
+C remains to be the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.</p>
+<p>Of course, there are several languages like Ada, C++, or Rust that have the potential to improve certain aspects of embedded development.
+Due to its backwards compatability with C and its maturity, C++ is often preferred and used in many embedded projects.
+Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general-purpose languages, which only improve certain programming aspects and do not really reduce the complexity of embedded applications.</p>
+<p>Blech is different.</p>
+<h2 id="what-is-blech">What is Blech?</h2>
+<p>Blech is a language that is specifically designed for safety- and realtime-critical, reactive, embedded programming. 
+The cornerstones of Blech are its model of computation (MoC) and its simple integration with C.
+Being a new language, it benefits from the progress in programming languages over the past 4 decades. 
+With its domain focus, it is designed to guarantee important properties via the compiler.</p>
+<h3 id="the-blech-model-of-computation">The Blech model of computation</h3>
+<p>Blech is a synchronous language.</p>
+<p>In a nutshell, the synchronous model of computation allows to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
+For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.</p>
+<p>Blech allows to write subprograms, called <em>activities</em>, that execute in <em>steps</em>, as a sequence of actions which pause once a step is finished.
+A synchronous language regards the trigger events that initiate these steps as the <em>ticks</em> of a clock. 
+The ticks can either be periodically triggered by time, or aperiodically triggered by events.
+The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
+Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.</p>
+<p>A Blech activity is a sequential control flow of statements that finishes a step by pausing at an <em>await</em> statement. 
+The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
+These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
+The compiler guarantess deterministic execution of concurrently composed subprograms.</p>
+<p>Actually, a concurrently composed application compiles to a sequential program that is driven by a clock.
+A clock can be anything that drives a reactive application, for example</p>
+<ul>
+<li>a main loop</li>
+<li>a time-triggering environment</li>
+<li>an event-triggering environment</li>
+</ul>
+<p>This MoC regains the simplicity of threaded programs, the composability of sequential subprograms, and the efficiency of event-driven program organisation.</p>
+<h3 id="blech-is-a-companion-to-cc">Blech is a companion to C/C++</h3>
+<p>Blech compiles to <em>clean</em> C - the common subset of C and C++.
+Therefore, Blech programs can easily be integrated into existing embedded projects.</p>
+<p>Embedded hardware usually comes with driver software written in C.
+Useful libraries written in C/C++ already exist, for almost everything.
+There is no need to rewrite everything in Blech, existing C libraries can be used from Blech programs directly.</p>
+<p>This 2-way integration simplifies the necessary separation between</p>
+<ul>
+<li>an asynchronous environment that drives the Blech program</li>
+<li>and the synchronous application written in Blech with the support of further C/C++ libraries.</li>
+</ul>
+<p>Blech is a German word and roughly translates as bare metal.
+As its name suggests, a Blech program can run in pretty much anything:</p>
+<ul>
+<li>directly on &ldquo;the Blech&rdquo; in an embedded device,</li>
+<li>on top of a realtime OS,</li>
+<li>as a safety-critical component integrated via some middleware,</li>
+<li>in combination with a simulation model.</li>
+</ul>
+<h3 id="blech-is-made-for-the-embedded-domain">Blech is made for the embedded domain</h3>
+<p>There is a list of requirements for Blech that has found its way into the language design:</p>
+<ul>
+<li>time-driven and event-driven program execution,</li>
+<li>predictable and deterministic semantics,</li>
+<li>synchronous concurrency,</li>
+<li>hard real-time,</li>
+<li>predictable memory usage and execution time,</li>
+<li>compile-time mechanism for structuring and variants,</li>
+<li>safe shared memory,</li>
+<li>safe type system,</li>
+<li>expressive and productive programming,</li>
+<li>a &ldquo;cool&rdquo; development environment.</li>
+</ul>
+<p>The Blech core language is designed to resolve frequently encountered issues with C/C++.
+With its domain focus and the synchronous MoC, we restrict the language to:</p>
+<ul>
+<li>no global variables,</li>
+<li>no undefined behaviour,</li>
+<li>no pointer aliasing problems,</li>
+<li>no address arithmetic,</li>
+<li>no machine-dependent types,</li>
+<li>no overflow, underflow, division-by-zero,</li>
+<li>no index out of bounds,</li>
+<li>no integer promotion,</li>
+<li>no unsafe casts,</li>
+<li>no side-effects in conditions,</li>
+<li>no dynamic memory allocation,</li>
+<li>no uninitialised variables,</li>
+<li>no shadowing,</li>
+<li>no race-conditions in concurrent code,</li>
+<li>no dynamic thread generation.</li>
+</ul>
+<p>These properties are guaranteed by the type system and several further compile-time analyses.
+Virtually anything that is usually required by embedded, realtime, or safety-oriented coding-conventions like MISRA C/C++ can be handled by the compiler.</p>
+<h3 id="the-future">The future</h3>
+<p>Blech, as currently released, is a working first step. 
+The new mechanisms and the semantics for synchronous imperative programming are fully implemented.
+The compiler generates clean C code.</p>
+<p>However, some of the sytactic elements are not yet translated. 
+Also, a few of the above safety checks are still missing. 
+Filling these gaps is a matter of effort and is done bit by bit. 
+Furthermore, there is a longer roadmap to enrich the language itself. 
+This requires more research and design.</p>
+<p>Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
+The module system shall support, information hiding, black-box reuse and white-box testing.
+It allows to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.</p>
+<p>We have planned mechanisms for:</p>
+<ul>
+<li>error handling,</li>
+<li>type-safe generics with predictable code size,</li>
+<li>multi-clock programming.</li>
+</ul>
+<p>Besides the already working VS Code language server plug-in we plan a minimal tool set for Blech:</p>
+<ul>
+<li>a test framework for regression tests of Blech components,</li>
+<li>a build system for mixed Blech/C projects.</li>
+</ul>
+<p>Due to Blech&rsquo;s statically guaranteed properties and its concurrent execution determinism, development tools become possible that are otherwise difficult to create.
+For example,</p>
+<ul>
+<li>a time-travel debugger for concurrent and parallel programs, or</li>
+<li>a deployment support tool.</li>
+</ul>
+<p>To follow upon and participate in the development visit the Blech homepage: <a href="www.blech-lang.org"><a href="http://www.blech-lang.org">www.blech-lang.org</a></a>
+.
+The documentation, examples, and plans for the evolution of the language can be found on the website.</p>
+<p>We are convinced and we hope that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.</p>
+<p>Stay tuned or &ndash; even better &ndash; participate.</p>
+
+	
+
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a  class="btn btn-primary  disabled"><span class="mr-1">←</span> Previous</a>
+  </li>
+    <a  class="btn btn-primary  disabled">Next <span class="ml-1">→</span></a>
+  </li>
+</ul>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="/about/privacy">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech contributors</small>
+        
+        <small class="ml-1"><a href="/about/privacy/" target="_blank">Privacy Policy</a></small>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="/js/main.min.ea0e1c1d3031374b4169d21358d2158ed173937d31fa6d66077b4e17a0c295b8.js" integrity="sha256-6g4cHTAxN0tBadITWNIVjtFzk30x&#43;m1mB3tOF6DClbg=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

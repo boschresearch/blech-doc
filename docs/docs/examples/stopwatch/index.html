@@ -20,23 +20,23 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Blinker | Blech</title><meta property="og:title" content="Blinker" />
-<meta property="og:description" content="A case study from the automotive domain.
+<title>Stopwatch | Blech</title><meta property="og:title" content="Stopwatch" />
+<meta property="og:description" content="Small example that shows the use of synchronous preemptions and uses an external C function.
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/examples/blinker/" />
-<meta property="article:modified_time" content="2020-05-18T13:31:28+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Blinker">
-<meta itemprop="description" content="A case study from the automotive domain.
+<meta property="og:url" content="https://www.blech-lang.org/docs/examples/stopwatch/" />
+<meta property="article:modified_time" content="2020-05-18T20:06:36+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Stopwatch">
+<meta itemprop="description" content="Small example that shows the use of synchronous preemptions and uses an external C function.
 ">
-<meta itemprop="dateModified" content="2020-05-18T13:31:28&#43;02:00" />
-<meta itemprop="wordCount" content="48">
+<meta itemprop="dateModified" content="2020-05-18T20:06:36&#43;02:00" />
+<meta itemprop="wordCount" content="105">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Blinker"/>
-<meta name="twitter:description" content="A case study from the automotive domain.
+<meta name="twitter:title" content="Stopwatch"/>
+<meta name="twitter:description" content="Small example that shows the use of synchronous preemptions and uses an external C function.
 "/>
 
 
@@ -471,13 +471,13 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsexamplesblinker" href="/docs/examples/blinker/">Blinker</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesblinker" href="/docs/examples/blinker/">Blinker</a>
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesstopwatch" href="/docs/examples/stopwatch/">Stopwatch</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsexamplesstopwatch" href="/docs/examples/stopwatch/">Stopwatch</a>
       
       
       
@@ -540,8 +540,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/examples/blinker.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blinker" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/examples/stopwatch.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Stopwatch" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -588,7 +588,7 @@
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/examples/blinker/">Blinker</a>
+	<a href="https://www.blech-lang.org/docs/examples/stopwatch/">Stopwatch</a>
 </li>
 
 	</ol>
@@ -596,16 +596,21 @@
 
             
 <div class="td-content">
-	<h1>Blinker</h1>
-    <div class="lead">A case study from the automotive domain.</div>
+	<h1>Stopwatch</h1>
+    <div class="lead">Small example that shows the use of synchronous preemptions and uses an external C function.</div>
 	       
-	<p>The first community made demo for Blech is the implementation of a <a href="https://github.com/frameworklabs/blinker" target="_blank">car’s blinker</a>
- running in a simulated curses environment.
-Making use of Blech&rsquo;s reactive programming model and concurrent composition, this example shows how a rather complex state management logic can be decomposed into individual simple building blocks.</p>
+	<p>This example illustrates synchronous control flow by means of a stopwatch: the <code>s</code> button starts and stops the measurement of time; the <code>r</code> button resets the watch to zero if no measurement is currently running, otherwise it shows the lap time.</p>
+<p>The example is discussed in detail in the paper <a href="https://doi.org/10.1007/978-3-030-31585-6_9" target="_blank">“Blech, Imperative Synchronous Programming!&quot;</a>
+.</p>
+<p>There various modifications of the example are discussed as well as some aspects of software engineering practice.
+The code sample provided here implements the final result from the paper.
+The provided c file and build script are tailored towards the Microsoft Windows system using the <code>cl</code> compiler.</p>
+<p><a href="CompleteStopwatch.zip">Code samples (zip)</a>
+</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 18, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/d3936cf24a8f88c43b0f68051d2cb340aaf90106">Added tutorial (d3936cf)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 18, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/e6ae76769855622d94579a99eb89d8e72994fe7c">Added stop watch example (e6ae767)</a>
 </div>
 </div>
 

@@ -645,9 +645,9 @@ In Rust this is called &lt;a href=&#34;../20_borrowing&#34;&gt;&lt;strong&gt;Bor
 on Software Engineering tutorial on Blech. It may be used on its own as a means
 to get a first impression of the language and get a Blech project up and running. To
 complete the programming assignments a Bosch XDK device is required.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;../Blech_Tutorial_BoCSE2019.pdf&#34;&gt;The tutorial (pdf)&lt;/a&gt;
+&lt;p&gt;&lt;a href=&#34;Blech_Tutorial_BoCSE2019.pdf&#34;&gt;The tutorial (pdf)&lt;/a&gt;
 &lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;../Code.zip&#34;&gt;Code samples (zip)&lt;/a&gt;
+&lt;p&gt;&lt;a href=&#34;Code.zip&#34;&gt;Code samples (zip)&lt;/a&gt;
 &lt;/p&gt;
 
       </description>
@@ -1978,6 +1978,27 @@ end
     </item>
     
     <item>
+      <title>Docs: Stopwatch</title>
+      <link>https://www.blech-lang.org/docs/examples/stopwatch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/stopwatch/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This example illustrates synchronous control flow by means of a stopwatch: the &lt;code&gt;s&lt;/code&gt; button starts and stops the measurement of time; the &lt;code&gt;r&lt;/code&gt; button resets the watch to zero if no measurement is currently running, otherwise it shows the lap time.&lt;/p&gt;
+&lt;p&gt;The example is discussed in detail in the paper &lt;a href=&#34;https://doi.org/10.1007/978-3-030-31585-6_9&#34; target=&#34;_blank&#34;&gt;“Blech, Imperative Synchronous Programming!&amp;quot;&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;There various modifications of the example are discussed as well as some aspects of software engineering practice.
+The code sample provided here implements the final result from the paper.
+The provided c file and build script are tailored towards the Microsoft Windows system using the &lt;code&gt;cl&lt;/code&gt; compiler.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;CompleteStopwatch.zip&#34;&gt;Code samples (zip)&lt;/a&gt;
+&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Declarations</title>
       <link>https://www.blech-lang.org/docs/user-manual/declarations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -2345,6 +2366,27 @@ function initRefStruct (refb: int32, refOther: int32) returns RefStruct shares r
 function initRefStruct ()(refb: int32) returns RefStruct shares refb
 
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Struct with references can only be assigned once, because a references need to be defined at the point of their declaration.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: React - a reaction test game</title>
+      <link>https://www.blech-lang.org/docs/examples/react/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/react/</guid>
+      <description>
+        
+        
+        &lt;p&gt;&lt;a href=&#34;https://github.com/frameworklabs/react&#34; target=&#34;_blank&#34;&gt;This example&lt;/a&gt;
+ implements a reaction test game for the &lt;a href=&#34;https://m5stack.com/products/stick-c&#34; target=&#34;_blank&#34;&gt;M5StickC&lt;/a&gt;
+ programmed in the Arduino environment with the help of Blech.
+Source and build instructions are &lt;a href=&#34;https://github.com/frameworklabs/react&#34; target=&#34;_blank&#34;&gt;available on GitHub&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s a nifty piece of work demonstrating how the state flow of the game and the passage of time can be handled in Blech.&lt;/p&gt;
+&lt;p&gt;Thank you very much &lt;a href=&#34;https://github.com/frameworklabs&#34; target=&#34;_blank&#34;&gt;@frameworklabs&lt;/a&gt;
+.&lt;/p&gt;
 
       </description>
     </item>

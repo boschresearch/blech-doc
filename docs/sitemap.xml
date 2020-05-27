@@ -54,7 +54,7 @@
   
   <url>
     <loc>https://www.blech-lang.org/docs/examples/virtuallock/</loc>
-    <lastmod>2020-05-18T13:31:28+02:00</lastmod>
+    <lastmod>2020-05-18T20:06:36+02:00</lastmod>
   </url>
   
   <url>
@@ -148,6 +148,11 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/docs/examples/stopwatch/</loc>
+    <lastmod>2020-05-18T20:06:36+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/docs/blechc-development/</loc>
     <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url>
@@ -160,6 +165,11 @@
   <url>
     <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/40_partials/</loc>
     <lastmod>2020-05-15T18:47:04+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.blech-lang.org/docs/examples/react/</loc>
+    <lastmod>2020-05-26T11:52:39+02:00</lastmod>
   </url>
   
   <url>
@@ -183,6 +193,11 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/blog/2020/05/27/the-purpose-of-blech/</loc>
+    <lastmod>2020-05-27T13:00:51+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/blog/2020/04/21/blech-compiler-version-0.5.1/</loc>
     <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url>
@@ -193,13 +208,8 @@
   </url>
   
   <url>
-    <loc>https://www.blech-lang.org/blog/2020/04/01/dummy-blog-post/</loc>
-    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.blech-lang.org/blog/2019/12/01/synchron-2019/</loc>
-    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
+    <lastmod>2020-05-25T11:27:13+02:00</lastmod>
   </url>
   
   <url>
@@ -239,7 +249,7 @@
   
   <url>
     <loc>https://www.blech-lang.org/</loc>
-    <lastmod>2020-04-29T10:34:06+02:00</lastmod>
+    <lastmod>2020-05-25T11:27:13+02:00</lastmod>
   </url>
   
 </urlset>
