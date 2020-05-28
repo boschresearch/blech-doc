@@ -12,16 +12,16 @@ Referred to in short as the *embedded domain*.
 
 There is a huge difference between the environments of a desktop, a server, or a mobile application 
 and a typical application in the embedded domain.
-Moreover, the embedded industry is huge -- including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.
+Moreover, the embedded industry is huge -- including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools. ??? Just because it's "huge" doesn't motivate anything yet ???
 
 ### The embedded domain is tough
 
-Embedded applications usually run on dedicated hardware to enable interaction with its specific physical environment.
+Embedded applications usually run on dedicated hardware to interact with a specific physical environment.
 More often than not, the hardware is resource-constrained in terms of memory and processing power. 
 To fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
 Applications must be reactive because of realtime requirements, and deterministic to make reactions predictable and repeatable under test.
 
-This mix of requirements imposes a huge burden on developers in terms of how to program their application.
+This mix of requirements imposes severe constraints on developers in terms of how to program their application.
 
 In principle, there are two ways to organize the code: event-driven or threaded.
 
