@@ -27,16 +27,21 @@ Referred to in short as the &lt;em&gt;embedded domain&lt;/em&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;why-blech&#34;&gt;Why Blech?&lt;/h2&gt;
 &lt;p&gt;There is a huge difference between the environments of a desktop, a server, or a mobile application 
 and a typical application in the embedded domain.
-Moreover, the embedded industry is huge &amp;ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.&lt;/p&gt;
+Moreover, the embedded industry is itself huge &amp;ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.&lt;/p&gt;
+&lt;!-- Just because it&#39;s &#34;huge&#34; doesn&#39;t of itself motivate anything yet - how about the following? --&gt; 
+&lt;p&gt;Mainstream discourse about programming, with its traditional IT focus, has tended to ignore these issues,
+with the result that the size and scope of these problems are seldom discussed or understood outside the confines
+of academic circles or highly proprietary walled garden approaches.&lt;/p&gt;
+&lt;p&gt;We want to change that.&lt;/p&gt;
 &lt;h3 id=&#34;the-embedded-domain-is-tough&#34;&gt;The embedded domain is tough&lt;/h3&gt;
-&lt;p&gt;Embedded applications usually run on dedicated hardware to enable interaction with its specific physical environment.
+&lt;p&gt;Embedded applications usually run on dedicated hardware to interact with a specific physical environment.
 More often than not, the hardware is resource-constrained in terms of memory and processing power. 
 To fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
 Applications must be reactive because of realtime requirements, and deterministic to make reactions predictable and repeatable under test.&lt;/p&gt;
-&lt;p&gt;This mix of requirements imposes a huge burden on developers in terms of how to program their application.&lt;/p&gt;
+&lt;p&gt;This mix of requirements imposes severe constraints on developers in terms of how to program their application.&lt;/p&gt;
 &lt;p&gt;In principle, there are two ways to organize the code: event-driven or threaded.&lt;/p&gt;
 &lt;p&gt;Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
-The programmer has to manually &lt;em&gt;rip&lt;/em&gt; the stack, and maintain the state across multiple events.
+The programmer has to manually &lt;em&gt;rip&lt;/em&gt; the stack &lt;!-- WTF does that mean? --&gt;, and maintain the state across multiple events.
 Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
 The disadvantage is that they are hard to write and even harder to read and reason about.&lt;/p&gt;
 &lt;p&gt;Threaded functions are easier to write and comprehend, since the program can be expressed as a sequence of actions, waiting for asynchronous input if needed.
@@ -46,8 +51,8 @@ and the composition of threaded functions creates the need for pre-emptive or co
 &lt;p&gt;As a consequence, applications are often written in an event-driven style.&lt;/p&gt;
 &lt;h3 id=&#34;c-programming-is-like-defusing-a-bomb&#34;&gt;C programming is like defusing a bomb&lt;/h3&gt;
 &lt;p&gt;Many areas in software development have benefitted from improvements made to programming languages. 
-Embedded systems are an exceptions to this. 
-C remains to be the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.&lt;/p&gt;
+Embedded systems are an exception to this. 
+C remains the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.&lt;/p&gt;
 &lt;p&gt;Of course, there are several languages like Ada, C++, or Rust that have the potential to improve certain aspects of embedded development.
 Due to its backwards compatability with C and its maturity, C++ is often preferred and used in many embedded projects.
 Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general-purpose languages, which only improve certain programming aspects and do not really reduce the complexity of embedded applications.&lt;/p&gt;
@@ -59,18 +64,18 @@ Being a new language, it benefits from the progress in programming languages ove
 With its domain focus, it is designed to guarantee important properties via the compiler.&lt;/p&gt;
 &lt;h3 id=&#34;the-blech-model-of-computation&#34;&gt;The Blech model of computation&lt;/h3&gt;
 &lt;p&gt;Blech is a synchronous language.&lt;/p&gt;
-&lt;p&gt;In a nutshell, the synchronous model of computation allows to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
+&lt;p&gt;In a nutshell, the synchronous model of computation allows us to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
 For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.&lt;/p&gt;
-&lt;p&gt;Blech allows to write subprograms, called &lt;em&gt;activities&lt;/em&gt;, that execute in &lt;em&gt;steps&lt;/em&gt;, as a sequence of actions which pause once a step is finished.
+&lt;p&gt;Blech allows us to write subprograms, called &lt;em&gt;activities&lt;/em&gt;, that execute in &lt;em&gt;steps&lt;/em&gt;, as a sequence of actions which pause once a step is finished.
 A synchronous language regards the trigger events that initiate these steps as the &lt;em&gt;ticks&lt;/em&gt; of a clock. 
 The ticks can either be periodically triggered by time, or aperiodically triggered by events.
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.&lt;/p&gt;
 &lt;p&gt;A Blech activity is a sequential control flow of statements that finishes a step by pausing at an &lt;em&gt;await&lt;/em&gt; statement. 
-The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
+The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick. &lt;!-- hier fehlt was. Etwa &#34;which is evaluated as soon ...&#34; ? --&gt;
 These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.&lt;/p&gt;
-&lt;p&gt;Actually, a concurrently composed application compiles to a sequential program that is driven by a clock.
+&lt;p&gt;Underneath the hood, a concurrently composed application compiles to a sequential program that is driven by a clock.
 A clock can be anything that drives a reactive application, for example&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;a main loop&lt;/li&gt;
@@ -90,7 +95,7 @@ There is no need to rewrite everything in Blech, existing C libraries can be use
 &lt;li&gt;and the synchronous application written in Blech with the support of further C/C++ libraries.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Blech is a German word and roughly translates as bare metal.
-As its name suggests, a Blech program can run in pretty much anything:&lt;/p&gt;
+As its name suggests, a Blech program can run on pretty much anything:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;directly on &amp;ldquo;the Blech&amp;rdquo; in an embedded device,&lt;/li&gt;
 &lt;li&gt;on top of a realtime OS,&lt;/li&gt;
@@ -98,7 +103,7 @@ As its name suggests, a Blech program can run in pretty much anything:&lt;/p&gt;
 &lt;li&gt;in combination with a simulation model.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;blech-is-made-for-the-embedded-domain&#34;&gt;Blech is made for the embedded domain&lt;/h3&gt;
-&lt;p&gt;There is a list of requirements for Blech that has found its way into the language design:&lt;/p&gt;
+&lt;p&gt;Here is a list of requirements for Blech that has found its way into the language design:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;time-driven and event-driven program execution,&lt;/li&gt;
 &lt;li&gt;predictable and deterministic semantics,&lt;/li&gt;
@@ -142,8 +147,8 @@ Filling these gaps is a matter of effort and is done bit by bit.
 Furthermore, there is a longer roadmap to enrich the language itself. 
 This requires more research and design.&lt;/p&gt;
 &lt;p&gt;Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
-The module system shall support, information hiding, black-box reuse and white-box testing.
-It allows to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.&lt;/p&gt;
+The module system will support information hiding, black-box reuse and white-box testing.
+It will allow us to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.&lt;/p&gt;
 &lt;p&gt;We have planned mechanisms for:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;error handling,&lt;/li&gt;
@@ -164,7 +169,7 @@ For example,&lt;/p&gt;
 &lt;p&gt;To follow upon and participate in the development visit the Blech homepage: &lt;a href=&#34;www.blech-lang.org&#34;&gt;&lt;a href=&#34;http://www.blech-lang.org&#34;&gt;www.blech-lang.org&lt;/a&gt;&lt;/a&gt;
 .
 The documentation, examples, and plans for the evolution of the language can be found on the website.&lt;/p&gt;
-&lt;p&gt;We are convinced and we hope that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.&lt;/p&gt;
+&lt;p&gt;We are convinced &lt;!-- make your mind up! --&gt; that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.&lt;/p&gt;
 &lt;p&gt;Stay tuned or &amp;ndash; even better &amp;ndash; participate.&lt;/p&gt;
 
       </description>

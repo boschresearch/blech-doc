@@ -22,24 +22,24 @@
 
 <title>The purpose of Blech | Blech</title><meta property="og:title" content="The purpose of Blech" />
 <meta property="og:description" content="Blech is a new language that aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain. Referred to in short as the embedded domain.
-Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools." />
+Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is itself huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/2020/05/27/the-purpose-of-blech/" />
 <meta property="article:published_time" content="2020-05-27T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-05-27T13:35:03+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-05-28T11:03:30+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="The purpose of Blech">
 <meta itemprop="description" content="Blech is a new language that aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain. Referred to in short as the embedded domain.
-Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.">
+Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is itself huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.">
 <meta itemprop="datePublished" content="2020-05-27T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-05-27T13:35:03&#43;02:00" />
-<meta itemprop="wordCount" content="1420">
+<meta itemprop="dateModified" content="2020-05-28T11:03:30&#43;02:00" />
+<meta itemprop="wordCount" content="1469">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="The purpose of Blech"/>
 <meta name="twitter:description" content="Blech is a new language that aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain. Referred to in short as the embedded domain.
-Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools."/>
+Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is itself huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools."/>
 
 
 
@@ -336,16 +336,21 @@ Referred to in short as the <em>embedded domain</em>.</p>
 <h2 id="why-blech">Why Blech?</h2>
 <p>There is a huge difference between the environments of a desktop, a server, or a mobile application 
 and a typical application in the embedded domain.
-Moreover, the embedded industry is huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.</p>
+Moreover, the embedded industry is itself huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.</p>
+<!-- Just because it's "huge" doesn't of itself motivate anything yet - how about the following? --> 
+<p>Mainstream discourse about programming, with its traditional IT focus, has tended to ignore these issues,
+with the result that the size and scope of these problems are seldom discussed or understood outside the confines
+of academic circles or highly proprietary walled garden approaches.</p>
+<p>We want to change that.</p>
 <h3 id="the-embedded-domain-is-tough">The embedded domain is tough</h3>
-<p>Embedded applications usually run on dedicated hardware to enable interaction with its specific physical environment.
+<p>Embedded applications usually run on dedicated hardware to interact with a specific physical environment.
 More often than not, the hardware is resource-constrained in terms of memory and processing power. 
 To fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
 Applications must be reactive because of realtime requirements, and deterministic to make reactions predictable and repeatable under test.</p>
-<p>This mix of requirements imposes a huge burden on developers in terms of how to program their application.</p>
+<p>This mix of requirements imposes severe constraints on developers in terms of how to program their application.</p>
 <p>In principle, there are two ways to organize the code: event-driven or threaded.</p>
 <p>Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
-The programmer has to manually <em>rip</em> the stack, and maintain the state across multiple events.
+The programmer has to manually <em>rip</em> the stack <!-- WTF does that mean? -->, and maintain the state across multiple events.
 Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
 The disadvantage is that they are hard to write and even harder to read and reason about.</p>
 <p>Threaded functions are easier to write and comprehend, since the program can be expressed as a sequence of actions, waiting for asynchronous input if needed.
@@ -355,8 +360,8 @@ and the composition of threaded functions creates the need for pre-emptive or co
 <p>As a consequence, applications are often written in an event-driven style.</p>
 <h3 id="c-programming-is-like-defusing-a-bomb">C programming is like defusing a bomb</h3>
 <p>Many areas in software development have benefitted from improvements made to programming languages. 
-Embedded systems are an exceptions to this. 
-C remains to be the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.</p>
+Embedded systems are an exception to this. 
+C remains the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.</p>
 <p>Of course, there are several languages like Ada, C++, or Rust that have the potential to improve certain aspects of embedded development.
 Due to its backwards compatability with C and its maturity, C++ is often preferred and used in many embedded projects.
 Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general-purpose languages, which only improve certain programming aspects and do not really reduce the complexity of embedded applications.</p>
@@ -368,18 +373,18 @@ Being a new language, it benefits from the progress in programming languages ove
 With its domain focus, it is designed to guarantee important properties via the compiler.</p>
 <h3 id="the-blech-model-of-computation">The Blech model of computation</h3>
 <p>Blech is a synchronous language.</p>
-<p>In a nutshell, the synchronous model of computation allows to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
+<p>In a nutshell, the synchronous model of computation allows us to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
 For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.</p>
-<p>Blech allows to write subprograms, called <em>activities</em>, that execute in <em>steps</em>, as a sequence of actions which pause once a step is finished.
+<p>Blech allows us to write subprograms, called <em>activities</em>, that execute in <em>steps</em>, as a sequence of actions which pause once a step is finished.
 A synchronous language regards the trigger events that initiate these steps as the <em>ticks</em> of a clock. 
 The ticks can either be periodically triggered by time, or aperiodically triggered by events.
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.</p>
 <p>A Blech activity is a sequential control flow of statements that finishes a step by pausing at an <em>await</em> statement. 
-The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
+The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick. <!-- hier fehlt was. Etwa "which is evaluated as soon ..." ? -->
 These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.</p>
-<p>Actually, a concurrently composed application compiles to a sequential program that is driven by a clock.
+<p>Underneath the hood, a concurrently composed application compiles to a sequential program that is driven by a clock.
 A clock can be anything that drives a reactive application, for example</p>
 <ul>
 <li>a main loop</li>
@@ -399,7 +404,7 @@ There is no need to rewrite everything in Blech, existing C libraries can be use
 <li>and the synchronous application written in Blech with the support of further C/C++ libraries.</li>
 </ul>
 <p>Blech is a German word and roughly translates as bare metal.
-As its name suggests, a Blech program can run in pretty much anything:</p>
+As its name suggests, a Blech program can run on pretty much anything:</p>
 <ul>
 <li>directly on &ldquo;the Blech&rdquo; in an embedded device,</li>
 <li>on top of a realtime OS,</li>
@@ -407,7 +412,7 @@ As its name suggests, a Blech program can run in pretty much anything:</p>
 <li>in combination with a simulation model.</li>
 </ul>
 <h3 id="blech-is-made-for-the-embedded-domain">Blech is made for the embedded domain</h3>
-<p>There is a list of requirements for Blech that has found its way into the language design:</p>
+<p>Here is a list of requirements for Blech that has found its way into the language design:</p>
 <ul>
 <li>time-driven and event-driven program execution,</li>
 <li>predictable and deterministic semantics,</li>
@@ -451,8 +456,8 @@ Filling these gaps is a matter of effort and is done bit by bit.
 Furthermore, there is a longer roadmap to enrich the language itself. 
 This requires more research and design.</p>
 <p>Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
-The module system shall support, information hiding, black-box reuse and white-box testing.
-It allows to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.</p>
+The module system will support information hiding, black-box reuse and white-box testing.
+It will allow us to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.</p>
 <p>We have planned mechanisms for:</p>
 <ul>
 <li>error handling,</li>
@@ -473,7 +478,7 @@ For example,</p>
 <p>To follow upon and participate in the development visit the Blech homepage: <a href="www.blech-lang.org"><a href="http://www.blech-lang.org">www.blech-lang.org</a></a>
 .
 The documentation, examples, and plans for the evolution of the language can be found on the website.</p>
-<p>We are convinced and we hope that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.</p>
+<p>We are convinced <!-- make your mind up! --> that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.</p>
 <p>Stay tuned or &ndash; even better &ndash; participate.</p>
 
 	
