@@ -12,7 +12,13 @@ Referred to in short as the *embedded domain*.
 
 There is a huge difference between the environments of a desktop, a server, or a mobile application 
 and a typical application in the embedded domain.
-Moreover, the embedded industry is huge -- including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools. ??? Just because it's "huge" doesn't motivate anything yet ???
+Moreover, the embedded industry is itself huge -- including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools. 
+<!-- Just because it's "huge" doesn't of itself motivate anything yet - how about the following? --> 
+Mainstream discourse about programming, with its traditional IT focus, has tended to ignore these issues,
+with the result that the size and scope of these problems are seldom discussed or understood outside the confines
+of academic circles or highly proprietary walled garden approaches.
+
+We want to change that.
 
 ### The embedded domain is tough
 
@@ -26,7 +32,7 @@ This mix of requirements imposes severe constraints on developers in terms of ho
 In principle, there are two ways to organize the code: event-driven or threaded.
 
 Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
-The programmer has to manually *rip* the stack, and maintain the state across multiple events.
+The programmer has to manually *rip* the stack <!-- WTF does that mean? -->, and maintain the state across multiple events.
 Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
 The disadvantage is that they are hard to write and even harder to read and reason about.
 
@@ -40,8 +46,8 @@ As a consequence, applications are often written in an event-driven style.
 ### C programming is like defusing a bomb
 
 Many areas in software development have benefitted from improvements made to programming languages. 
-Embedded systems are an exceptions to this. 
-C remains to be the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.
+Embedded systems are an exception to this. 
+C remains the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.
 
 Of course, there are several languages like Ada, C++, or Rust that have the potential to improve certain aspects of embedded development.
 Due to its backwards compatability with C and its maturity, C++ is often preferred and used in many embedded projects.
@@ -60,21 +66,21 @@ With its domain focus, it is designed to guarantee important properties via the 
 
 Blech is a synchronous language.
 
-In a nutshell, the synchronous model of computation allows to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
+In a nutshell, the synchronous model of computation allows us to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
 For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.
 
-Blech allows to write subprograms, called *activities*, that execute in *steps*, as a sequence of actions which pause once a step is finished.
+Blech allows us to write subprograms, called *activities*, that execute in *steps*, as a sequence of actions which pause once a step is finished.
 A synchronous language regards the trigger events that initiate these steps as the *ticks* of a clock. 
 The ticks can either be periodically triggered by time, or aperiodically triggered by events.
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.
 
 A Blech activity is a sequential control flow of statements that finishes a step by pausing at an *await* statement. 
-The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick.
+The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick. <!-- hier fehlt was. Etwa "which is evaluated as soon ..." ? -->
 These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.
 
-Actually, a concurrently composed application compiles to a sequential program that is driven by a clock.
+Underneath the hood, a concurrently composed application compiles to a sequential program that is driven by a clock.
 A clock can be anything that drives a reactive application, for example
 - a main loop
 - a time-triggering environment
@@ -96,7 +102,7 @@ This 2-way integration simplifies the necessary separation between
 - and the synchronous application written in Blech with the support of further C/C++ libraries.
 
 Blech is a German word and roughly translates as bare metal.
-As its name suggests, a Blech program can run in pretty much anything:
+As its name suggests, a Blech program can run on pretty much anything:
 
 - directly on "the Blech" in an embedded device,
 - on top of a realtime OS,
@@ -105,7 +111,7 @@ As its name suggests, a Blech program can run in pretty much anything:
 
 ### Blech is made for the embedded domain
 
-There is a list of requirements for Blech that has found its way into the language design:
+Here is a list of requirements for Blech that has found its way into the language design:
 
 - time-driven and event-driven program execution,
 - predictable and deterministic semantics,
@@ -154,8 +160,8 @@ Furthermore, there is a longer roadmap to enrich the language itself.
 This requires more research and design.
 
 Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
-The module system shall support, information hiding, black-box reuse and white-box testing.
-It allows to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.
+The module system will support information hiding, black-box reuse and white-box testing.
+It will allow us to deliver Blech modules as pre-compiled libraries with C header files and Blech module signatures.
 
 We have planned mechanisms for:
 - error handling,
@@ -174,7 +180,7 @@ For example,
 To follow upon and participate in the development visit the Blech homepage: [www.blech-lang.org](www.blech-lang.org).
 The documentation, examples, and plans for the evolution of the language can be found on the website.
 
-We are convinced and we hope that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.
+We are convinced <!-- make your mind up! --> that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.
 
 Stay tuned or -- even better -- participate.
 
