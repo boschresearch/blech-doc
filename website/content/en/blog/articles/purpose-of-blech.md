@@ -32,7 +32,7 @@ This mix of requirements imposes severe constraints on developers in terms of ho
 In principle, there are two ways to organize the code: event-driven or threaded.
 
 Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
-The programmer has to manually *rip* the stack <!-- WTF does that mean? -->, and maintain the state across multiple events.
+The programmer has to maintain the state across multiple events, and to manually combine these events into the required flow of control.
 Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
 The disadvantage is that they are hard to write and even harder to read and reason about.
 
@@ -76,7 +76,7 @@ The synchronous model of computation (MoC) assumes a minimum inter-arrival time 
 Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.
 
 A Blech activity is a sequential control flow of statements that finishes a step by pausing at an *await* statement. 
-The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick. <!-- hier fehlt was. Etwa "which is evaluated as soon ..." ? -->
+The await statement guards the continuation of the control flow with a condition, which is evaluated as soon as the next step is triggered by a tick.
 These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.
 
@@ -180,7 +180,7 @@ For example,
 To follow upon and participate in the development visit the Blech homepage: [www.blech-lang.org](www.blech-lang.org).
 The documentation, examples, and plans for the evolution of the language can be found on the website.
 
-We are convinced <!-- make your mind up! --> that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.
+We are convinced that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.
 
 Stay tuned or -- even better -- participate.
 

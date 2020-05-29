@@ -32,7 +32,7 @@ Why Blech? There is a huge difference between the environments of a desktop, a s
 Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is itself huge &ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.">
 <meta itemprop="datePublished" content="2020-05-27T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-05-28T11:03:30&#43;02:00" />
-<meta itemprop="wordCount" content="1469">
+<meta itemprop="wordCount" content="1478">
 
 
 
@@ -350,7 +350,7 @@ Applications must be reactive because of realtime requirements, and deterministi
 <p>This mix of requirements imposes severe constraints on developers in terms of how to program their application.</p>
 <p>In principle, there are two ways to organize the code: event-driven or threaded.</p>
 <p>Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
-The programmer has to manually <em>rip</em> the stack <!-- WTF does that mean? -->, and maintain the state across multiple events.
+The programmer has to maintain the state across multiple events, and to manually combine these events into the required flow of control.
 Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
 The disadvantage is that they are hard to write and even harder to read and reason about.</p>
 <p>Threaded functions are easier to write and comprehend, since the program can be expressed as a sequence of actions, waiting for asynchronous input if needed.
@@ -381,7 +381,7 @@ The ticks can either be periodically triggered by time, or aperiodically trigger
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.</p>
 <p>A Blech activity is a sequential control flow of statements that finishes a step by pausing at an <em>await</em> statement. 
-The await statement guards the continuation of the control flow with a condition, as soon as the next step is triggered by a tick. <!-- hier fehlt was. Etwa "which is evaluated as soon ..." ? -->
+The await statement guards the continuation of the control flow with a condition, which is evaluated as soon as the next step is triggered by a tick.
 These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.</p>
 <p>Underneath the hood, a concurrently composed application compiles to a sequential program that is driven by a clock.
@@ -478,7 +478,7 @@ For example,</p>
 <p>To follow upon and participate in the development visit the Blech homepage: <a href="www.blech-lang.org"><a href="http://www.blech-lang.org">www.blech-lang.org</a></a>
 .
 The documentation, examples, and plans for the evolution of the language can be found on the website.</p>
-<p>We are convinced <!-- make your mind up! --> that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.</p>
+<p>We are convinced that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.</p>
 <p>Stay tuned or &ndash; even better &ndash; participate.</p>
 
 	
