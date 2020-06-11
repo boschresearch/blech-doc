@@ -63,7 +63,7 @@ npm -g install vsce
 Install the Typescript node package. Typescript is a the typed superset of JavaScript, which is used to build the extension.
 
 ```
-npm -g install node-typescript
+npm -g install typescript
 ```
 
 Install the necessary node modules for this project.
@@ -89,9 +89,9 @@ Besides syntax highlighting the Blech Language Services consisting of two parts 
     The language server is build using dotnet. From the `ide` subdirector run:
     
     ```
-    dotnet publish -c Release -r win-x64
+    dotnet publish -c Release -o bin -r win-x64 
     ```
-    Choose your runtime above as necessary (`linux-x64`, `osx-x64`).
+    Choose your runtime above [as necessary](https://docs.microsoft.com/de-de/dotnet/core/rid-catalog) (`linux-x64`, `linux-arm64`, `osx-x64`).
 
 2. A VS code extension, which runs a client to the language server.
     To build and package the client and the server as an extension run: 
