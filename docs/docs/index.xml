@@ -852,7 +852,7 @@ Enclosed is a version of the Node Package Manager &lt;code&gt;npm&lt;/code&gt;.&
 &lt;p&gt;Install the node package &lt;code&gt;vsce&lt;/code&gt;, which is able to package VS Code extensions.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;npm -g install vsce
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install the Typescript node package. Typescript is a the typed superset of JavaScript, which is used to build the extension.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;npm -g install node-typescript
+&lt;pre&gt;&lt;code&gt;npm -g install typescript
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install the necessary node modules for this project.
 From the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;npm install
@@ -866,8 +866,9 @@ From the &lt;code&gt;ide&lt;/code&gt; subdirectory run&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;A language server written in F#, which is a small wrapper around the Blech compiler.&lt;/p&gt;
 &lt;p&gt;The language server is build using dotnet. From the &lt;code&gt;ide&lt;/code&gt; subdirector run:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;dotnet publish -c Release -r win-x64
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Choose your runtime above as necessary (&lt;code&gt;linux-x64&lt;/code&gt;, &lt;code&gt;osx-x64&lt;/code&gt;).&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dotnet publish -c Release -o bin -r win-x64 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Choose your runtime above &lt;a href=&#34;https://docs.microsoft.com/de-de/dotnet/core/rid-catalog&#34; target=&#34;_blank&#34;&gt;as necessary&lt;/a&gt;
+ (&lt;code&gt;linux-x64&lt;/code&gt;, &lt;code&gt;linux-arm64&lt;/code&gt;, &lt;code&gt;osx-x64&lt;/code&gt;).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;A VS code extension, which runs a client to the language server.

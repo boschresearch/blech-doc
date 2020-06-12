@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/getting-started/vsce/" />
-<meta property="article:modified_time" content="2020-04-30T19:16:37+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-06-12T00:27:00+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Blech Language Services - the VS Code extension">
 <meta itemprop="description" content="We use Visual Studio Code as an editor for Blech sources.  Learn how to build and install the Blech Language Services VS Code extension from source.
 ">
-<meta itemprop="dateModified" content="2020-04-30T19:16:37&#43;02:00" />
-<meta itemprop="wordCount" content="496">
+<meta itemprop="dateModified" content="2020-06-12T00:27:00&#43;02:00" />
+<meta itemprop="wordCount" content="499">
 
 
 
@@ -640,7 +640,7 @@ Enclosed is a version of the Node Package Manager <code>npm</code>.</p>
 <p>Install the node package <code>vsce</code>, which is able to package VS Code extensions.</p>
 <pre><code>npm -g install vsce
 </code></pre><p>Install the Typescript node package. Typescript is a the typed superset of JavaScript, which is used to build the extension.</p>
-<pre><code>npm -g install node-typescript
+<pre><code>npm -g install typescript
 </code></pre><p>Install the necessary node modules for this project.
 From the <code>ide</code> subdirectory run</p>
 <pre><code>npm install
@@ -654,8 +654,9 @@ From the <code>ide</code> subdirectory run</p>
 <li>
 <p>A language server written in F#, which is a small wrapper around the Blech compiler.</p>
 <p>The language server is build using dotnet. From the <code>ide</code> subdirector run:</p>
-<pre><code>dotnet publish -c Release -r win-x64
-</code></pre><p>Choose your runtime above as necessary (<code>linux-x64</code>, <code>osx-x64</code>).</p>
+<pre><code>dotnet publish -c Release -o bin -r win-x64 
+</code></pre><p>Choose your runtime above <a href="https://docs.microsoft.com/de-de/dotnet/core/rid-catalog" target="_blank">as necessary</a>
+ (<code>linux-x64</code>, <code>linux-arm64</code>, <code>osx-x64</code>).</p>
 </li>
 <li>
 <p>A VS code extension, which runs a client to the language server.
@@ -679,7 +680,7 @@ Furthermore, if you hover over an activity name, you should see its signature in
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 30, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/cae6d40425310c23d843963ecb92a55bf9c30a99">Links corrected. (cae6d40)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 12, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/48b42da312e44dea28c98220d41c3774f2e45866">Update vsce.md (48b42da)</a>
 </div>
 </div>
 
