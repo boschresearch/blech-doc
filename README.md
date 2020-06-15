@@ -94,7 +94,7 @@ Run the website without static site generation
 hugo serve
 ```
 
-Open the Blech site preview: http://localhost:1313/blech-doc/
+Open the Blech site preview: http://localhost:1313/
 
 #### Publish the static website content
 
