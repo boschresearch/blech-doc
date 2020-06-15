@@ -92,5 +92,27 @@ Source and build instructions are &lt;a href=&#34;https://github.com/frameworkla
       </description>
     </item>
     
+    <item>
+      <title>Docs: Decoding the DCF77 longwave time signal</title>
+      <link>https://www.blech-lang.org/docs/examples/dcf77/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/dcf77/</guid>
+      <description>
+        
+        
+        &lt;p&gt;DCF77 is a longwave radio signal which is widely used in Germany for time synchronization of clocks and watches.&lt;/p&gt;
+&lt;p&gt;This example implements the decoding of the DCF77 signal in Blech on &lt;em&gt;bare metal&lt;/em&gt; using an &lt;a href=&#34;https://www.st.com/en/evaluation-tools/stm32f4discovery.html&#34; target=&#34;_blank&#34;&gt;STM32 discovery board&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;A &lt;a href=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/&#34;&gt;blog post&lt;/a&gt;
+ accompanies the implementation, which explains the implementation details and the simplicity of the structured synchronous top-down design.&lt;/p&gt;
+&lt;p&gt;The sources are &lt;a href=&#34;https://github.com/mterber/blech-dcf77&#34; target=&#34;_blank&#34;&gt;available on GitHub&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;Thank you very much &lt;a href=&#34;https://github.com/mterber&#34; target=&#34;_blank&#34;&gt;@mterber&lt;/a&gt;
+ for this fine piece of work.&lt;/p&gt;
+
+      </description>
+    </item>
+    
   </channel>
 </rss>

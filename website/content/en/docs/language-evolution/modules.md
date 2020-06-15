@@ -20,7 +20,7 @@ A program file is a Blech code file (a ```.blc```-file) that needs exactly one a
 This activity is the *main* routine of a Blech program.
 A program can import other Blech modules for its implementation.
 A program itself cannot be imported by another Blech program - it is not a module.
-A program is always a top-level file of a Blech applicatiion
+A program is always a top-level file of a Blech application.
 
 
 ### Modules

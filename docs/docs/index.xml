@@ -2301,7 +2301,7 @@ A module can be imported to support the implementation of another module or a pr
 This activity is the &lt;em&gt;main&lt;/em&gt; routine of a Blech program.
 A program can import other Blech modules for its implementation.
 A program itself cannot be imported by another Blech program - it is not a module.
-A program is always a top-level file of a Blech applicatiion&lt;/p&gt;
+A program is always a top-level file of a Blech application.&lt;/p&gt;
 &lt;h3 id=&#34;modules&#34;&gt;Modules&lt;/h3&gt;
 &lt;p&gt;A module is a Blech code file that is marked as a module in the first code line&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;module mymodule
@@ -2470,6 +2470,28 @@ Source and build instructions are &lt;a href=&#34;https://github.com/frameworkla
 &lt;p&gt;It&amp;rsquo;s a nifty piece of work demonstrating how the state flow of the game and the passage of time can be handled in Blech.&lt;/p&gt;
 &lt;p&gt;Thank you very much &lt;a href=&#34;https://github.com/frameworklabs&#34; target=&#34;_blank&#34;&gt;@frameworklabs&lt;/a&gt;
 .&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Decoding the DCF77 longwave time signal</title>
+      <link>https://www.blech-lang.org/docs/examples/dcf77/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/examples/dcf77/</guid>
+      <description>
+        
+        
+        &lt;p&gt;DCF77 is a longwave radio signal which is widely used in Germany for time synchronization of clocks and watches.&lt;/p&gt;
+&lt;p&gt;This example implements the decoding of the DCF77 signal in Blech on &lt;em&gt;bare metal&lt;/em&gt; using an &lt;a href=&#34;https://www.st.com/en/evaluation-tools/stm32f4discovery.html&#34; target=&#34;_blank&#34;&gt;STM32 discovery board&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;A &lt;a href=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/&#34;&gt;blog post&lt;/a&gt;
+ accompanies the implementation, which explains the implementation details and the simplicity of the structured synchronous top-down design.&lt;/p&gt;
+&lt;p&gt;The sources are &lt;a href=&#34;https://github.com/mterber/blech-dcf77&#34; target=&#34;_blank&#34;&gt;available on GitHub&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;Thank you very much &lt;a href=&#34;https://github.com/mterber&#34; target=&#34;_blank&#34;&gt;@mterber&lt;/a&gt;
+ for this fine piece of work.&lt;/p&gt;
 
       </description>
     </item>
