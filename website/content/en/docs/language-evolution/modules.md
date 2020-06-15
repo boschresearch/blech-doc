@@ -2,6 +2,7 @@
 title: "Programs and modules - the Blech compilation units"
 linkTitle: "Modules"
 weight: 40
+toc_hide: true
 description: >
     Modules and programs - proposal for Blech compilation units.
 ---
