@@ -6,6 +6,9 @@ toc_hide: true
 description: >
     Modules and programs - proposal for Blech compilation units.
 ---
+{{% pageinfo %}}
+The modules proposal is work in progress.
+{{% /pageinfo %}}
 
 ## Introduction to compilation units
 
