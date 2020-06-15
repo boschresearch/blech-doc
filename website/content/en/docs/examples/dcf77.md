@@ -3,7 +3,7 @@ title: "Decoding the DCF77 longwave time signal"
 linkTitle: "DCF77 decoding"
 weight: 50
 description: >
-    A decoder for the DCF77 longwave time signal implemented in Blech on bare metal.
+    A decoder for the DCF77 longwave time signal implemented in Blech on bare metal
 
 ---
 
