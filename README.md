@@ -20,7 +20,7 @@ In a corporate setup behind a proxy use the [corresponding options](https://choc
 From time to time run an upgrade.
 ```
 choco upgrade chocolatey
-````
+```
 
 #### Install Hugo - the static site generator
 
@@ -121,12 +121,11 @@ For publishing just push the content of the `/docs` folder to the master branch.
 
 
 Give GitHub some time to deploy the content and open the Blech site on: 
+
+* https://blech-lang.org 
+* https://www.blech-lang.org
 * https://boschresearch.github.io/blech-doc
 
-and soon on:
-
-* http://blech-lang.org and 
-* http://www.blech-lang.org
 
 #### Check for broken links on the website
 
@@ -151,6 +150,13 @@ blc https://blech-lang.org -ro
 
 The last command only works in a network with commandline DNS access, i.e. without a proxy.
 
+## Creating content
+
+The [documentation for the Docsy Theme](https://www.docsy.dev/docs/adding-content/) explains how to create content.
+
+Creating a blog post is easy. The [Docsy example site shows how to do this](https://example.docsy.dev/blog/2018/10/06/easy-documentation-with-docsy/).
+
+Additional information can be found in the [TechOS theme documentation](https://temp.bep.is/td/docs/theme-documentation/).
 
 
 

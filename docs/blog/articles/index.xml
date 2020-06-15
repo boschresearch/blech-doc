@@ -14,6 +14,359 @@
     
     
     <item>
+      <title>Blog: Decoding the DCF77 Signal with Blech</title>
+      <link>https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/</link>
+      <pubDate>Mon, 15 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;what-is-dcf77&#34;&gt;What is DCF77?&lt;/h2&gt;
+&lt;p&gt;DCF77 is a longwave radio signal which is widely used in Germany for time synchronization of clocks and watches. The signal transmitter is located in Mainflingen (Germany) and controlled by the Physikalisch-Technische Bundesanstalt (PTB).&lt;/p&gt;
+&lt;p&gt;Information about the current time and date are modulated in a binary fashion onto a 77.5kHz radio carrier signal. On each second a so called &lt;em&gt;second mark&lt;/em&gt; is transmitted by reducing the carrier power for a certain amount of time. The duration of the reduction encodes either a &lt;em&gt;binary zero&lt;/em&gt; (100ms) or a &lt;em&gt;binary one&lt;/em&gt; (200ms). After a complete time code &amp;ndash; a sequence of 59 bits &amp;ndash; the process is repeated every full minute. For the 60th second there is no level change. This gap aids as a &lt;em&gt;synchronization mark&lt;/em&gt; for indicating the end of the current time code.&lt;/p&gt;
+&lt;p&gt;Please refer to the &lt;a href=&#34;https://www.ptb.de/cms/en/ptb/fachabteilungen/abt4/fb-44/ag-442/dissemination-of-legal-time/dcf77.html&#34; target=&#34;_blank&#34;&gt;homepage of the PTB&lt;/a&gt;
+ for further details about the technical setup and the time code of DCF77.&lt;/p&gt;
+&lt;h2 id=&#34;application-example-dcf77-decoder&#34;&gt;Application Example: DCF77 Decoder&lt;/h2&gt;
+&lt;p&gt;Our goal is to implement a simple DCF77 decoder based on a &lt;a href=&#34;https://www.st.com/en/evaluation-tools/stm32f4discovery.html&#34; target=&#34;_blank&#34;&gt;STM32F4DISCOVERY&lt;/a&gt;
+ board. For the user interface we use the on-board LEDs and push button. The application shall behave as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;After power-up the application waits until the DCF77 signal is stable. During this time all LEDs are turned on.&lt;/li&gt;
+&lt;li&gt;When the signal ist stable the decoding process starts automatically. All LEDs are turned off.&lt;/li&gt;
+&lt;li&gt;While the decoding is running the blue LED visualizes the current level of the time signal. If the signal is &lt;code&gt;HIGH&lt;/code&gt; the LED is turned off and vice versa. This means whenever a new second mark has been received the LED lights up for 100 or 200 milliseconds.&lt;/li&gt;
+&lt;li&gt;As soon as the synchronization mark has been captured the orange LED is turned on. This shows that capturing the time code is now actually in progress.&lt;/li&gt;
+&lt;li&gt;Finally, if the decoding has been successfully completed the green LED lights up while the orange one goes off. In case of an error the decoding stops immediately and the red LED is turned on.&lt;/li&gt;
+&lt;li&gt;Irrespective of success or error the user has to press the button in order to start a new decoding process.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In order to receive the DCF77 time signal an additional receiver module &amp;ndash; similar to &lt;a href=&#34;https://www.reichelt.de/dcf-77-receiver-module-dcf77-modul-p57772.html?&amp;amp;nbc=1&#34; target=&#34;_blank&#34;&gt;this&lt;/a&gt;
+ one &amp;ndash; is required. It basically receives and transforms the radio signal into a digital &lt;a href=&#34;https://en.wikipedia.org/wiki/Transistor%E2%80%93transistor_logic&#34; target=&#34;_blank&#34;&gt;low-voltage TTL&lt;/a&gt;
+ signal used as input for the microcontroller. The complete hardware setup is shown below.&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/hw_setup_hu079e24572fecd1035cc0e27f9fc88fc8_4204382_600x0_resize_q75_catmullrom.jpg&#34; width=&#34;600&#34; height=&#34;338&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Hardware setup of the DCF77 decoder: Discovery board (top) and RF receiver module with antenna (bottom).
+&lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
+&lt;p&gt;Jumper wires are used to connect the receiver module to the discovery board as follows:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;#&lt;/th&gt;
+&lt;th&gt;Pin (RF Module)&lt;/th&gt;
+&lt;th&gt;Pin (Discovery Board)&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Wire&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;Ground&lt;/td&gt;
+&lt;td&gt;blue&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Signal&lt;/td&gt;
+&lt;td&gt;PB7&lt;/td&gt;
+&lt;td&gt;DCF77 Signal&lt;/td&gt;
+&lt;td&gt;green&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;+&lt;/td&gt;
+&lt;td&gt;VDD&lt;/td&gt;
+&lt;td&gt;Supply Voltage&lt;/td&gt;
+&lt;td&gt;red&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Note that &lt;em&gt;PB7&lt;/em&gt; is a simple GPIO configured as digital input. By connecting an oscilloscope to PB7 we check that the receiver module is working as expected. The scope visualizes how the DCF77 bits literally &amp;ldquo;fly&amp;rdquo; &amp;ndash; so to speak &amp;ndash; into the microcontroller:&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/scope_hub36a3150171d15fb70dc7d6eab6ef70f_1185503_600x0_resize_catmullrom_2.png&#34; width=&#34;600&#34; height=&#34;360&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Oszilloscope capture of the DCF77 time signal on GPIO PB7.
+&lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
+&lt;p&gt;We can also see the synchronization mark (&lt;code&gt;SYNC&lt;/code&gt;) in which the 60th low pulse is omitted. This is the delimiter between the current bit sequence and the following. Finally, the discovery board communicates via USB with the &lt;a href=&#34;https://www.st.com/en/development-tools/stm32cubeide.html&#34; target=&#34;_blank&#34;&gt;software IDE&lt;/a&gt;
+ on the development machine for code flashing and debugging.&lt;/p&gt;
+&lt;h2 id=&#34;implementation-outline&#34;&gt;Implementation Outline&lt;/h2&gt;
+&lt;p&gt;In this section we outline the decoder implementation, thereby focusing on the Blech application part and its integration into the C execution environment. The complete source code project can be found &lt;a href=&#34;https://github.com/mterber/blech-dcf77.git&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
+. Two files are of particular interest:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mterber/blech-dcf77/blob/master/Core/Src/main.c&#34; target=&#34;_blank&#34;&gt;main.c&lt;/a&gt;
+ &amp;ndash; the main file of the C execution environment.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mterber/blech-dcf77/blob/master/Core/Blech/control.blc&#34; target=&#34;_blank&#34;&gt;control.blc&lt;/a&gt;
+ &amp;ndash; the Blech application part.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;interface-between-c-and-blech&#34;&gt;Interface between C and Blech&lt;/h3&gt;
+&lt;p&gt;The Blech application part is responsible for the following concerns:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Decoding the DCF77 signal &amp;ndash; requires the time signal level as &lt;em&gt;input&lt;/em&gt; from C to Blech.&lt;/li&gt;
+&lt;li&gt;Controlling the LEDs &amp;ndash; requires the state of the blue, orange, green and red LED as &lt;em&gt;output&lt;/em&gt; from Blech to C.&lt;/li&gt;
+&lt;li&gt;Reacting to button presses &amp;ndash; requires the state of the user button as &lt;em&gt;input&lt;/em&gt; from C to Blech.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The corresponding signature of the Blech entry point activity looks like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;// @param[in]   dcf77   The DCF77 signal level (true = &#39;HIGH&#39;).
+// @param[in]   btn     The user button state (true = &#39;PRESSED&#39;).
+// @param[out]  leds    The LED states (true = &#39;ON&#39;).
+@[EntryPoint]
+activity Main (dcf77: bool, btn: bool) (leds: LedStates)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that &lt;code&gt;LedStates&lt;/code&gt; is a user-defined structure in Blech which contains the state information of the four LEDs. This is done to make the interface less verbose, thereby improving the readability.&lt;/p&gt;
+&lt;h3 id=&#34;execution-scheme-and-integration-of-blech&#34;&gt;Execution Scheme and Integration of Blech&lt;/h3&gt;
+&lt;p&gt;The execution progress of a Blech program advances based on &lt;em&gt;ticks&lt;/em&gt;. A tick can be any sporadic or periodic event- or time-based trigger provided by the underlying hard- and software platform. For decoding DCF77 it is a common approach to periodically sample the time signal and measure the duration of the level changes. This means that the entire decoding logic is &lt;em&gt;purely time-driven&lt;/em&gt; based on a cyclic timer tick.&lt;/p&gt;
+&lt;p&gt;We follow this approach and execute the Blech application part every 10 milliseconds. This leads to a sample rate of 100Hz which is sufficiently fast in order to distinguish between a binary zero, a binary one and the synchronization mark. For the periodic execution, we take advantage of a simple delay function (&lt;code&gt;HAL_Delay&lt;/code&gt;) provided by the microcontroller&amp;rsquo;s driver library. An outline of &lt;code&gt;main.c&lt;/code&gt; is shown below.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&amp;#34;blech/control.h&amp;#34;      // Include C code generated from Blech.&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// ... init system ...
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#000&#34;&gt;blc_blech_control_init&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;();&lt;/span&gt;   &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// Init Blech execution context.
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#000&#34;&gt;perform_reaction&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;();&lt;/span&gt;         &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// Run boot reaction. 
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;while&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#000&#34;&gt;HAL_Delay&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;          &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// Suspend Blech execution for 10ms.
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;	    &lt;span style=&#34;color:#000&#34;&gt;perform_reaction&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;();&lt;/span&gt;     &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// Run next reaction.
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;perform_reaction&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// ... read inputs (DCF77 level + button state) ...
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#000&#34;&gt;blc_blech_control_tick&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;dcf77&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;btn&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;leds&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;   &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// Actually run Blech.
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// ... write outputs (new LED states) ...
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Basically, the main function initializes the system and the Blech execution context. It performs the very first reaction in Blech &amp;ndash; the &lt;em&gt;boot reaction&lt;/em&gt; &amp;ndash; and enters the infinite loop. Inside the loop, we repeatedly wait for the next tick to occur and perform the next reaction in Blech accordingly. The actual call of &lt;code&gt;blc_blech_control_tick&lt;/code&gt; is wrapped in &lt;code&gt;perform_reaction&lt;/code&gt; in order to encapsulate all the required steps for reading the Blech inputs and writing the Blech outputs.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+In this application, the Blech part is entirely time-triggered. All &lt;code&gt;await&lt;/code&gt; statements react in response to the periodic 10 milliseconds tick. Thus, calling &lt;code&gt;await true&lt;/code&gt; &amp;ndash; which means &amp;ldquo;await the next Blech tick&amp;rdquo; &amp;ndash; will suspend the running trail for the next 10 milliseconds. This allows to implement a time-driven counter for measuring durations, e.g. of the signal level changes (see &lt;a href=&#34;#capturing-the-synchronization-mark-and-the-bits&#34;&gt;here&lt;/a&gt;
+).
+&lt;/div&gt;
+
+&lt;p&gt;Keep in mind that calling &lt;code&gt;HAL_Delay&lt;/code&gt; is generally not a good solution with respect to efficiency. Internally, this function actively polls a variable which gets updated by the system tick timer. This means that the CPU is continously running at full speed and the main thread is blocked for anything else. A better approach would be to switch the microcontroller into sleep mode and implement a wakeup strategy based on interrupts for each tick. We are going to show this in another blog post. In this example, however, we follow the simple delay approach for the sake of simplicity.&lt;/p&gt;
+&lt;h3 id=&#34;hierarchical-software-structure&#34;&gt;Hierarchical Software Structure&lt;/h3&gt;
+&lt;p&gt;The entire complexity of the example application is broken down into seven &lt;em&gt;activites&lt;/em&gt; &amp;ndash; the reactive code abstraction entities in Blech &amp;ndash; as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Main&lt;/code&gt; &amp;ndash; This is the entry point and top level of the Blech program. It defines the interface between Blech and C (see &lt;a href=&#34;#execution-scheme-and-integration-of-blech&#34;&gt;here&lt;/a&gt;
+) and describes the application behaviour on a high abstraction level.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AwaitStableSignal&lt;/code&gt; &amp;ndash; This waits for the DCF77 time signal to become stable. When the system is powered up the RF receiver module needs some time to stabilize its oscillator and supply voltage. During this time the signal is not reliable.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Visualize&lt;/code&gt; &amp;ndash; This visualizes the DCF77 signal level using the blue LED.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Decode&lt;/code&gt; &amp;ndash; This actually decodes the DCF77 time signal.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CaptureTimeInfo&lt;/code&gt; &amp;ndash; This captures and decodes one time code, means one sequence of 59 bits which is transmitted every minute.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CaptureBit&lt;/code&gt; &amp;ndash; This captures one second mark and evaluates it to either a binary zero or a binary one.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CaptureSync&lt;/code&gt;&amp;ndash; This captures the synchronization mark.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following graph depicts the hierarchical decomposition and call dependency of the above activities. In particular, it shows that the DCF77 decoding relies on capturing the time code which, in its turn, relies on capturing the synchronization mark and the bits.&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 410px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/activity_tree_hu8eb9351a76627fa7002efdf26ac3730a_44992_400x0_resize_catmullrom_2.png&#34; width=&#34;400&#34; height=&#34;320&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Hierarchical call structure of activities.
+&lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
+&lt;p&gt;Note how easy it is to reuse the same piece of reactive code for different concerns in Blech &amp;ndash; &lt;code&gt;CaptureBit&lt;/code&gt; is used in &lt;code&gt;AwaitStableSignal&lt;/code&gt; and &lt;code&gt;CaptureTimeInfo&lt;/code&gt; likewise. In the former, we repeatedly run &lt;code&gt;CaptureBit&lt;/code&gt; until three consecutive bits have been successfully captured. Only then we consider the time signal to be stable.&lt;/p&gt;
+&lt;h3 id=&#34;the-applications-top-level&#34;&gt;The Application&amp;rsquo;s Top-Level&lt;/h3&gt;
+&lt;p&gt;We dig into the implementation starting at the top level. Inside the &lt;code&gt;Main&lt;/code&gt; activity, the program first awaits a stable DCF77 signal by running &lt;code&gt;AwaitStableSignal&lt;/code&gt;. This suspends the control flow until the signal is reliable. A &lt;em&gt;function&lt;/em&gt; call is used before to turn on all LEDs.&lt;/p&gt;
+&lt;p&gt;After that, the infinite &lt;code&gt;repeat&lt;/code&gt; loop is entered and all LEDs are turned off. By taking advantage of &lt;code&gt;cobegin&lt;/code&gt;, the main application trail is split into two concurrent trails. While the first one runs &lt;code&gt;Decode&lt;/code&gt; for performing the DCF77 decoding, the second one executes &lt;code&gt;Visualize&lt;/code&gt; in order to concurrently reflect the time signal level on the blue LED. Note that the second trail is marked as &lt;code&gt;weak&lt;/code&gt;. This means that, as soon as the first trail terminates, the second trail will be aborted &amp;ndash; both trails rejoin their control paths and continue as one. By this, it is pretty easy to describe that visualizing the signal level shall be done only while the decoding is running.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+Due to the synchronous computation model, abortion of trails is done only at the end of the current reaction when all trails have finished their job and are waiting for the next tick. Thus, trails are particularly &lt;em&gt;not&lt;/em&gt; interrupted at an arbitrary code location because this would lead to non-deterministic runtime behaviour!
+&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[EntryPoint]
+activity Main (dcf77: bool, btn: bool) (leds: LedStates)
+    ledsAllOn()(leds)
+    run AwaitStableSignal(dcf77)
+
+    repeat
+        ledsAllOff()(leds)      // Turn off all LEDs.
+    
+        var ti: TimeInfo        // The decoded time information.
+        var success: bool
+
+        cobegin
+            success = run Decode(dcf77)(ti, leds.orange)
+        with weak
+            run Visualize(dcf77)(leds.blue)
+        end
+
+        ledsAllOff()(leds)      // Turn off all LEDs.
+
+        if success then
+            leds.green = true   // Decode() succeeded -&amp;gt; green LED on.
+            // ... use &#39;ti&#39; for synchronizing the local clock ...
+        else
+            leds.red = true     // Decode() failed -&amp;gt; red LED on.
+        end
+
+        await btn               // Await user button press.
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After decoding has been finished, all LEDs are turned off again and we check for success or error. On success, the green LED is turned on while on error the red LED is turned on. Finally, the Blech program suspends until the push button is pressed by the user. Once this is done the whole process restarts.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+To keep the example simple, the button state is provided &lt;em&gt;as-is&lt;/em&gt; to the Blech program. This means we just pass the current value of the corresponding GPIO input register. Usually, however, it is common practice to apply a filter approach in software in order to suppress &lt;a href=&#34;https://en.wikipedia.org/wiki/Switch#Contact_bounce&#34; target=&#34;_blank&#34;&gt;bouncing&lt;/a&gt;
+. In another blog post we are going to show how this can be done in Blech.
+&lt;/div&gt;
+
+&lt;h3 id=&#34;visualizing-the-dcf77-signal&#34;&gt;Visualizing the DCF77 Signal&lt;/h3&gt;
+&lt;p&gt;Reflecting the time signal level on the LED is a pretty simple task in Blech. We establish an infinite loop which alternates between the signal levels. First, it awaits the high level for switching off the LED. Second, it awaits the low level for switching on the same LED. Third, the whole process repeats &amp;ndash; that&amp;rsquo;s it.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Visualize (dcf77: bool) (ledDcf77: bool)
+    repeat
+        await dcf77         // Await rising edge.
+        ledDcf77 = false    // Turn off LED.
+        await not dcf77     // Await falling edge.
+        ledDcf77 = true     // Turn on LED.
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that &lt;code&gt;Visualize&lt;/code&gt; does not even have to know which of the four LEDs it is actually turning on and off. There is no hardware dependency and all the required logic is encapsulated in an activity. Thus, we could easily select another LED or execute multiple instances of &lt;code&gt;Visualize&lt;/code&gt; concurrently in order to show the signal level on several LEDs at the same time.&lt;/p&gt;
+&lt;h3 id=&#34;capturing-the-synchronization-mark-and-the-bits&#34;&gt;Capturing the Synchronization Mark and the Bits&lt;/h3&gt;
+&lt;p&gt;For this functionality, we take advantage of the fact that the entire Blech application is purely time-triggered by the 10 milliseconds tick (see &lt;a href=&#34;#execution-scheme-and-integration-of-blech&#34;&gt;here&lt;/a&gt;
+). Based on that, we establish a time-based counter &lt;code&gt;len&lt;/code&gt; which measures the duration of the signal&amp;rsquo;s &lt;code&gt;HIGH&lt;/code&gt; level. Therefore, &lt;code&gt;len&lt;/code&gt; is incremented on each (10 milliseconds) tick using &lt;code&gt;await true&lt;/code&gt; in a loop. Once that counter has reached the required value (&amp;gt; 1200ms) we detect the synchronization mark and exit the loop.&lt;/p&gt;
+&lt;p&gt;If the signal level goes &lt;code&gt;LOW&lt;/code&gt; during the measurement the process has to be resetted. For this, we use the &lt;code&gt;when ... reset&lt;/code&gt; block in Blech which causes the contained code to restart from the first line if the given condition is met. So in this case the code will jump back to &lt;code&gt;var len: nat16 = 0&lt;/code&gt; as soon as the level drops.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity CaptureSync (dcf77: bool)
+    // Perform the measurement and restart if the level drops meanwhile.
+    when not dcf77 reset
+        var len: nat16 = 0
+        repeat
+            await true // Await next sys tick.
+            len = len + 1
+        until len &amp;gt; DCF77_SYNC_LEN end
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The implementation of &lt;code&gt;CaptureBit&lt;/code&gt; basically follows the same approach. It uses a time-driven counter for measuring the duration of the &lt;code&gt;LOW&lt;/code&gt; level instead. For this reason, we do not exemplify it in more detail here.&lt;/p&gt;
+&lt;h3 id=&#34;capture-and-decode-the-time-information&#34;&gt;Capture and Decode the Time Information&lt;/h3&gt;
+&lt;p&gt;Implementing the time information capture based on &lt;code&gt;CaptureSync&lt;/code&gt; and &lt;code&gt;CaptureBit&lt;/code&gt; becomes a trivial task. First, we capture the synchronization mark. Before and after that we turn off and on the associated LED (orange) respectively. Second, we enter the &lt;code&gt;while&lt;/code&gt; loop in which we collect the 59 time code bits by repeatedly calling &lt;code&gt;CaptureBit&lt;/code&gt;. Each successfully received bit is passed to &lt;code&gt;processBit&lt;/code&gt; in order to update the gathered time information in &lt;code&gt;ti&lt;/code&gt;. This means that decoding the DCF77 signal actually happens bit-wise on-the-fly. Finally, &lt;code&gt;CaptureTimeInfo&lt;/code&gt; terminates, thereby returning the success status and the decoded time information to the caller.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
+    ledSync = false // Turn off LED.
+    run CaptureSync(dcf77)
+    ledSync = true  // Turn on LED.
+
+    var success: bool = true
+    var parity: nat8 = 0
+    var i: nat8 = 0
+    
+    while success and (i &amp;lt;= 58) repeat // [0, 58]
+        var bit: nat8
+        success = run CaptureBit(dcf77)(bit)
+        
+        if success then
+            success = processBit(i, bit)(parity, ti)
+        end
+
+        i = i + 1
+    end
+
+    ledSync = false // Turn off LED.
+
+    return success
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The job of &lt;code&gt;Decode&lt;/code&gt; is to retrieve two consecutive time codes (&lt;code&gt;tmp&lt;/code&gt; and &lt;code&gt;ti&lt;/code&gt;) and apply a simple validity check by comparing them. A common approach is to check whether the second timestamp (&lt;code&gt;ti&lt;/code&gt;) is exactly one minute ahead of the first one (&lt;code&gt;tmp&lt;/code&gt;). If that is the case the second one is considered valid and returned to the caller &amp;ndash; the decoding is done.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Decode (dcf77: bool) (ti: TimeInfo, ledSync: bool) returns bool
+    var success: bool
+    var tmp: TimeInfo
+
+    success = run CaptureTimeInfo(dcf77)(tmp, ledSync)  // First capture.
+
+    if not success then
+        return false
+    end
+
+    success = run CaptureTimeInfo(dcf77)(ti, ledSync)   // Second capture.
+
+    if not success then
+        return false
+    end
+
+    return isTimeInfoValid(tmp, ti) // Check plausibility.
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The following video shows the DCF77 decoder in action. In focus are the four color LEDs and the user button on the left side. Watch the video to get in impression about how above Blech activities control the runtime behaviour.
+&lt;a href=&#34;https://youtu.be/KaX_LRlV4oI&#34; target=&#34;_blank&#34;&gt;
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/vid_thumb_huc0fefdc87aee5b67d4c7c252c53ee7a9_156721_600x0_resize_q75_catmullrom.JPG&#34; width=&#34;600&#34; height=&#34;338&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+    Video: The DCF77 decoder in action.
+    &lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;Above implementation outline shows that implementing DCF77 decoding is a straightforward job in Blech. The combination of the synchronous execution model and activities allows to divide the entire decoding complexity into smaller parts that are easier to program, comprehend and maintain. In particular, it is possible to compose these reactive functionalities in a hierarchical top-down fashion. All concurrent behaviour is deterministic by design and does not require any mutexing.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: The purpose of Blech</title>
       <link>https://www.blech-lang.org/blog/2020/05/27/the-purpose-of-blech/</link>
       <pubDate>Wed, 27 May 2020 00:00:00 +0000</pubDate>
@@ -22,9 +375,7 @@
       <description>
         
         
-        &lt;p&gt;Blech is a new language that aims to substantially boost productivity and the quality of applications in the embedded, reactive, safety- and realtime-critical domain.
-Referred to in short as the &lt;em&gt;embedded domain&lt;/em&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;why-blech&#34;&gt;Why Blech?&lt;/h2&gt;
+        &lt;h2 id=&#34;why-blech&#34;&gt;Why Blech?&lt;/h2&gt;
 &lt;p&gt;There is a huge difference between the environments of a desktop, a server, or a mobile application 
 and a typical application in the embedded domain.
 Moreover, the embedded industry is itself huge &amp;ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.&lt;/p&gt;

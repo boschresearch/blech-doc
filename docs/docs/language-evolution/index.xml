@@ -205,5 +205,87 @@ x = x | (x + 0b_1)
       </description>
     </item>
     
+    <item>
+      <title>Docs: Programs and modules - the Blech compilation units</title>
+      <link>https://www.blech-lang.org/docs/language-evolution/modules/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/language-evolution/modules/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;introduction-to-compilation-units&#34;&gt;Introduction to compilation units&lt;/h2&gt;
+&lt;p&gt;A compilation unit in Blech is a single file.
+A file can either be a complete Blech program or a module.
+A module can be imported to support the implementation of another module or a program.&lt;/p&gt;
+&lt;h3 id=&#34;programs&#34;&gt;Programs&lt;/h3&gt;
+&lt;p&gt;A program file is a Blech code file (a &lt;code&gt;.blc&lt;/code&gt;-file) that needs exactly one activity marked as  &lt;code&gt;@[EntryPoint]&lt;/code&gt;.
+This activity is the &lt;em&gt;main&lt;/em&gt; routine of a Blech program.
+A program can import other Blech modules for its implementation.
+A program itself cannot be imported by another Blech program - it is not a module.
+A program is always a top-level file of a Blech applicatiion&lt;/p&gt;
+&lt;h3 id=&#34;modules&#34;&gt;Modules&lt;/h3&gt;
+&lt;p&gt;A module is a Blech code file that is marked as a module in the first code line&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;module mymodule
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;By default, all internals of module are hidden, nothing is exposed.
+Inside a module everything is accessible in the normal declare-before-use order.&lt;/p&gt;
+&lt;p&gt;Every top-level declaration inside a module can be exposed to be used by an importing module or program.
+Different to other languages we do not use accessibility modifiers in front of declarations.
+Instead we require an explicit declaration of exposed top-level declarations.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;module mymodule exposes myActivity
+
+function f() ... end
+
+function MyActivity() 
+    f()
+    ...
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For exposing everything inside a module, which in usually is neither necessary nor recommended, there is a short cut &lt;code&gt;...&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;module myothermodule exposes ...  // every thing can be used by an importing compilation unti
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In order to use a module it needs to be imported by another compilation unit, for example a Blech program.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;import mymodule
+
+@[EntryPoint]
+activity MyMain()
+    run mymodule.MyActivity()
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;By default all imports are qualified with the module name.
+In order to shorten this, the imported module can be renamed.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;import mymodule as mm
+
+@[EntryPoint]
+activity MyMain()
+    run mm.MyActivity()
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In order to use an imported name without qualification is must be exposed at the import&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;import mymodule exposes MyActivity
+
+@[EntryPoint]
+activity MyMain()
+    run MyActivity()
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For exposing everything from an imported module, which is usually neither necessary nor recommended, you can use the short cut &lt;code&gt;...&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;import mymodule exposes ...
+
+@[EntryPoint]
+activity MyMain()
+    run MyActivity()
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Warning&lt;/h4&gt;
+Since Blech has a very rigid no-shadowing policy, you cannot redefine an exposed identifier.
+Therefore, use unqualified exposed imports sparingly.
+&lt;/div&gt;
+
+&lt;h3 id=&#34;signatures&#34;&gt;Signatures&lt;/h3&gt;
+&lt;h3 id=&#34;test-programs&#34;&gt;Test programs&lt;/h3&gt;
+&lt;h3 id=&#34;test-signatures&#34;&gt;Test signatures&lt;/h3&gt;
+&lt;h3 id=&#34;file-structure&#34;&gt;File structure&lt;/h3&gt;
+
+      </description>
+    </item>
+    
   </channel>
 </rss>
