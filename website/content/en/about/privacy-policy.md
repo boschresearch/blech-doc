@@ -1,23 +1,18 @@
 ---
 title: "Privacy policy"
-linkTitle: "Privacy"
+linkTitle: "Privacy policy"
 type: "docs"
-weight: 10
+weight: 20
 ---
 
-{{% pageinfo %}}
-All content of this page is preliminary
-{{% /pageinfo %}}
-
-
-## GitHub Pages Service
+### GitHub Pages Service
 
 This Website is hosted as a GitHub Pages website. 
 GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service. 
 See the [GitHub Privacy Statement](https://help.github.com/en/github/site-policy/github-privacy-statement) for details.
 
 
-## This Website
+### This Website
 
 This Website does **not** collect data or use cookies **by default**.
 
@@ -26,7 +21,7 @@ In order to improve the content and the experience on the website we kindly ask 
 - You can learn about cookies and site analytics at [www.cookiechoices.org](https://www.cookiechoices.org/)
 
 
-## Opt-in for Google Analytics
+### Opt-in for Google Analytics
 
 You can opt-in for site analytics, in this opt-in notice
 
@@ -47,14 +42,14 @@ We are interested in understanding
 
 Your IP-Adress is anonymized, so we do **not** store wether you have been to the site before.
 
-## Do not track
+### Do not track
 
 We respect your [Do-Not-Track](https://en.wikipedia.org/wiki/Do_Not_Track) settings if your browser requests this.
 
 This means, you will never see the above opt-in notice, if you configured your browser for Do-Not-Track.
 No cookies will be set. Google Analytics will not be used.
 
-## Linked services
+### Linked services
 
 This website contains links to other services. If you follow these links you should become aware of their terms of service.
 
@@ -70,7 +65,7 @@ We link to:
 
 Additional links might occur in the documentation and the blog posts.
 
-## Manage cookies
+### Manage cookies
 
 You can manually delete and restrict the use of cookies in your web browser. 
 

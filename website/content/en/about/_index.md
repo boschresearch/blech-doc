@@ -7,11 +7,7 @@ menu:
 type: "docs"
 ---
 
-{{% pageinfo %}}
-All content of this page is preliminary
-{{% /pageinfo %}}
-
-This website makes the Blech language documentation and the Blech compiler and the Blech tools accessible.
+This website makes the Blech language documentation, the Blech compiler, and the Blech tools accessible.
 
 * The website is a [**GitHub project page**](https://help.github.com/en/github/working-with-github-pages/about-github-pages) [`boschresearch.github.io/blech-doc`](https://boschresearch.github.io/blech-doc). 
 * The [**GitHub organization**](https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/about-organizations) is [`boschresearch`](https://github.com/boschresearch)
