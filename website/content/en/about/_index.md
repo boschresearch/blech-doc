@@ -1,6 +1,6 @@
 ---
-title: About this website
-linkTitle: About
+title: About us
+linkTitle: About us
 menu:
   main:
     weight: 10

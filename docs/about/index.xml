@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blech – About this website</title>
+    <title>Blech – About us</title>
     <link>https://www.blech-lang.org/about/</link>
-    <description>Recent content in About this website on Blech</description>
+    <description>Recent content in About us on Blech</description>
     <generator>Hugo -- gohugo.io</generator>
     
 	  <atom:link href="https://www.blech-lang.org/about/index.xml" rel="self" type="application/rss+xml" />
