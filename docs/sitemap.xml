@@ -18,6 +18,11 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/about/corporate-information/</loc>
+    <lastmod>2020-06-16T16:36:45+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/env-variables/</loc>
     <lastmod>2020-04-28T17:56:50+02:00</lastmod>
   </url>
@@ -40,11 +45,6 @@
   <url>
     <loc>https://www.blech-lang.org/docs/user-manual/notation/</loc>
     <lastmod>2020-04-19T17:45:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.blech-lang.org/about/privacy/</loc>
-    <lastmod>2020-04-27T15:05:53+02:00</lastmod>
   </url>
   
   <url>
@@ -83,13 +83,13 @@
   </url>
   
   <url>
-    <loc>https://www.blech-lang.org/about/contact/</loc>
-    <lastmod>2020-04-28T17:56:50+02:00</lastmod>
+    <loc>https://www.blech-lang.org/docs/user-manual/lexical/</loc>
+    <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.blech-lang.org/docs/user-manual/lexical/</loc>
-    <lastmod>2020-04-21T20:26:37+02:00</lastmod>
+    <loc>https://www.blech-lang.org/about/privacy-policy/</loc>
+    <lastmod>2020-06-16T16:36:45+02:00</lastmod>
   </url>
   
   <url>
@@ -164,7 +164,7 @@
   
   <url>
     <loc>https://www.blech-lang.org/docs/language-evolution/modules/</loc>
-    <lastmod>2020-06-15T15:55:47+02:00</lastmod>
+    <lastmod>2020-06-15T16:06:34+02:00</lastmod>
   </url>
   
   <url>
@@ -239,7 +239,7 @@
   
   <url>
     <loc>https://www.blech-lang.org/about/</loc>
-    <lastmod>2020-06-15T15:07:02+02:00</lastmod>
+    <lastmod>2020-06-16T16:36:45+02:00</lastmod>
   </url>
   
   <url>

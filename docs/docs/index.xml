@@ -83,6 +83,43 @@ For programmers familiar with Arduino these correspond to the &lt;code&gt;setup&
     </item>
     
     <item>
+      <title>About: Corporate information</title>
+      <link>https://www.blech-lang.org/about/corporate-information/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/about/corporate-information/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;name-and-address&#34;&gt;Name and address&lt;/h3&gt;
+&lt;p&gt;Robert Bosch GmbH &lt;br&gt;
+Corporate Research &lt;br&gt;
+Robert-Bosch-Campus 1&lt;br&gt;
+71272 Renningen &lt;br&gt;
+GERMANY&lt;/p&gt;
+&lt;h3 id=&#34;members-of-the-board-of-management&#34;&gt;Members of the Board of Management&lt;/h3&gt;
+&lt;p&gt;Dr. Volkmar Denner, Prof. Dr. Stefan Asenkerschbaumer, Dr. Michael Bolle, Dr. Christian Fischer, Dr. Stefan Hartung, Dr. Markus Heyn, Harald Kröger, Christoph Kübel, Rolf Najork, Uwe Raschke, Peter Tyroller&lt;/p&gt;
+&lt;h3 id=&#34;your-contact-at-bosch-research&#34;&gt;Your contact at Bosch Research&lt;/h3&gt;
+&lt;p&gt;&lt;i class=&#34;fas fa-envelope&#34;&gt;&lt;/i&gt; &lt;a href=&#34;mailto:opensource@bosch.com&#34;&gt;&lt;a href=&#34;mailto:opensource@bosch.com&#34;&gt;opensource@bosch.com&lt;/a&gt;&lt;/a&gt;
+ &lt;br&gt;
+&lt;i class=&#34;fas fa-link&#34;&gt;&lt;/i&gt; &lt;a href=&#34;https://www.bosch.com/research&#34; target=&#34;_blank&#34;&gt;&lt;a href=&#34;http://www.bosch.com/research&#34;&gt;www.bosch.com/research&lt;/a&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;register-entries&#34;&gt;Register Entries&lt;/h3&gt;
+&lt;p&gt;Registration Court: District Court Stuttgart HRB 14000&lt;/p&gt;
+&lt;h3 id=&#34;value-added-tax-identification-number&#34;&gt;Value-added tax identification number&lt;/h3&gt;
+&lt;p&gt;DE811128135&lt;/p&gt;
+&lt;h3 id=&#34;responsible-in-the-sense-of--55-abs-2-staatsvertrag-für-rundfunk-und-telemedien&#34;&gt;Responsible in the sense of § 55 Abs. 2 Staatsvertrag für Rundfunk und Telemedien&lt;/h3&gt;
+&lt;p&gt;Robert Bosch GmbH &lt;br&gt;
+Corporate Research &lt;br&gt;
+Franz-Josef Grosch&lt;br&gt;
+Robert-Bosch-Campus 1&lt;br&gt;
+71272 Renningen &lt;br&gt;
+GERMANY&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Accessing variables in the Blech environment</title>
       <link>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/env-variables/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -360,109 +397,6 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
 &lt;p&gt;Each rule begins with a name (which is the name defined by the rule) and &lt;code&gt;::=&lt;/code&gt;. A vertical bar (&lt;code&gt;|&lt;/code&gt;) is used to separate alternatives; it is the least binding operator in this notation. A star (&lt;code&gt;*&lt;/code&gt;) means zero or more repetitions of the preceding item; likewise, a plus (&lt;code&gt;+&lt;/code&gt;) means one or more repetitions, and a phrase enclosed in square brackets (&lt;code&gt;[ ]&lt;/code&gt;) means zero or one occurrences (in other words, the enclosed phrase is optional). The &lt;code&gt;+*+&lt;/code&gt; and &lt;code&gt;+&lt;/code&gt; operators bind as tightly as possible; parentheses are used for grouping. Literal strings are enclosed in quotes. White space is only meaningful to separate tokens. Rules are normally contained on a single line; rules with many alternatives may be formatted alternatively with each line after the first beginning with a vertical bar.&lt;/p&gt;
 &lt;p&gt;In lexical definitions (as the example above), two more conventions are used: Two literal characters separated by three dots mean a choice of any single character in the given (inclusive) range of ASCII characters. A phrase between angular brackets (&lt;code&gt;+&amp;lt;...&amp;gt;+&lt;/code&gt;) gives an informal description of the symbol defined; e.g., this could be used to describe the notion of ‘control character’ if needed.&lt;/p&gt;
 &lt;/blockquote&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>About: Privacy policy</title>
-      <link>https://www.blech-lang.org/about/privacy/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.blech-lang.org/about/privacy/</guid>
-      <description>
-        
-        
-        
-
-&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
-&lt;p&gt;All content of this page is preliminary&lt;/p&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&#34;github-pages-service&#34;&gt;GitHub Pages Service&lt;/h2&gt;
-&lt;p&gt;This Website is hosted as a GitHub Pages website. 
-GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service. 
-See the &lt;a href=&#34;https://help.github.com/en/github/site-policy/github-privacy-statement&#34; target=&#34;_blank&#34;&gt;GitHub Privacy Statement&lt;/a&gt;
- for details.&lt;/p&gt;
-&lt;h2 id=&#34;this-website&#34;&gt;This Website&lt;/h2&gt;
-&lt;p&gt;This Website does &lt;strong&gt;not&lt;/strong&gt; collect data or use cookies &lt;strong&gt;by default&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;In order to improve the content and the experience on the website we kindly ask you to allow the usage of site analytics. If you opt-in to this service we use cookies to collect anonymous usage data.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;You can learn about cookies and site analytics at &lt;a href=&#34;https://www.cookiechoices.org/&#34; target=&#34;_blank&#34;&gt;&lt;a href=&#34;http://www.cookiechoices.org&#34;&gt;www.cookiechoices.org&lt;/a&gt;&lt;/a&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;opt-in-for-google-analytics&#34;&gt;Opt-in for Google Analytics&lt;/h2&gt;
-&lt;p&gt;You can opt-in for site analytics, in this opt-in notice&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://www.blech-lang.org/images/opt-in-notice.png&#34; alt=&#34;Opt-in notice&#34;&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;If you &lt;code&gt;Opt-in&lt;/code&gt; we use site analytics to collect your anonymous {&amp;lt; resource usage data.&lt;/li&gt;
-&lt;li&gt;If you close &lt;code&gt;x&lt;/code&gt; this notice, no data will be collected.&lt;/li&gt;
-&lt;li&gt;We use a cookie to remember your decision.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;After your opt-in we use &lt;a href=&#34;https://marketingplatform.google.com/about/analytics/features/&#34; target=&#34;_blank&#34;&gt;Google Analytics&lt;/a&gt;
- tracking on
-this website, which uses cookies for this purpose.&lt;/p&gt;
-&lt;p&gt;We are interested in understanding&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;what pages you visited and for how long,&lt;/li&gt;
-&lt;li&gt;what site referred you to this web page,&lt;/li&gt;
-&lt;li&gt;what types of content and topic areas you are interested in,&lt;/li&gt;
-&lt;li&gt;including what content or sections never get viewed or used.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Your IP-Adress is anonymized, so we do &lt;strong&gt;not&lt;/strong&gt; store wether you have been to the site before.&lt;/p&gt;
-&lt;h2 id=&#34;do-not-track&#34;&gt;Do not track&lt;/h2&gt;
-&lt;p&gt;We respect your &lt;a href=&#34;https://en.wikipedia.org/wiki/Do_Not_Track&#34; target=&#34;_blank&#34;&gt;Do-Not-Track&lt;/a&gt;
- settings if your browser requests this.&lt;/p&gt;
-&lt;p&gt;This means, you will never see the above opt-in notice, if you configured your browser for Do-Not-Track.
-No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
-&lt;h2 id=&#34;linked-services&#34;&gt;Linked services&lt;/h2&gt;
-&lt;p&gt;This website contains links to other services. If you follow these links you should become aware of their terms of service.&lt;/p&gt;
-&lt;p&gt;We link to:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://help.github.com/en/github/site-policy/github-terms-of-service&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;
- for documentation, compiler and tools repositories.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://policies.google.com/terms&#34; target=&#34;_blank&#34;&gt;Google Groups&lt;/a&gt;
- for Blech user questions.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://slack.com/terms-of-service&#34; target=&#34;_blank&#34;&gt;Slack&lt;/a&gt;
- for Blech developer discussions.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://twitter.com/tos&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
- for announcements.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Additional links might occur in the documentation and the blog posts.&lt;/p&gt;
-&lt;h2 id=&#34;manage-cookies&#34;&gt;Manage cookies&lt;/h2&gt;
-&lt;p&gt;You can manually delete and restrict the use of cookies in your web browser.&lt;/p&gt;
-&lt;p&gt;Learn how to manage cookies for:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac&#34; target=&#34;_blank&#34;&gt;Apple Safari&lt;/a&gt;
-&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://support.google.com/chrome/bin/answer.py?hl=en-GB&amp;amp;answer=95647&amp;amp;p=cpn_cookies&#34; target=&#34;_blank&#34;&gt;Google Chrome&lt;/a&gt;
-&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://support.microsoft.com/help/4027947/microsoft-edge-delete-cookies&#34; target=&#34;_blank&#34;&gt;Microsoft Edge&lt;/a&gt;
-&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://support.microsoft.com/help/17442/windows-internet-explorer-delete-manage-cookies&#34; target=&#34;_blank&#34;&gt;Microsoft Internet Explorer&lt;/a&gt;
-&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://support.mozilla.org/products/firefox/protect-your-privacy/cookies&#34; target=&#34;_blank&#34;&gt;Mozilla Firefox&lt;/a&gt;
-&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
 
       </description>
     </item>
@@ -1085,49 +1019,6 @@ extern function stringCopy (formString: string)(toString: string)
     </item>
     
     <item>
-      <title>About: Contact information</title>
-      <link>https://www.blech-lang.org/about/contact/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.blech-lang.org/about/contact/</guid>
-      <description>
-        
-        
-        
-
-&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
-&lt;p&gt;All content of this page is preliminary&lt;/p&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&#34;name-and-address&#34;&gt;Name and address&lt;/h2&gt;
-&lt;p&gt;Robert Bosch GmbH &lt;br&gt;
-Robert-Bosch-Platz 1 &lt;br&gt;
-70839 Gerlingen-Schillerhöhe &lt;br&gt;
-GERMANY&lt;/p&gt;
-&lt;h2 id=&#34;members-of-the-board-of-management&#34;&gt;Members of the Board of Management&lt;/h2&gt;
-&lt;p&gt;Dr. Volkmar Denner, Prof. Dr. Stefan Asenkerschbaumer, Dr. Michael Bolle, Dr. Christian Fischer, Dr. Stefan Hartung, Dr. Markus Heyn, Harald Kröger, Christoph Kübel, Rolf Najork, Uwe Raschke, Peter Tyroller&lt;/p&gt;
-&lt;h2 id=&#34;your-contact-at-bosch-research&#34;&gt;Your contact at Bosch research&lt;/h2&gt;
-&lt;p&gt;&lt;i class=&#34;fas fa-envelope&#34;&gt;&lt;/i&gt; &lt;a href=&#34;mailto:opensource@bosch.com&#34;&gt;&lt;a href=&#34;mailto:opensource@bosch.com&#34;&gt;opensource@bosch.com&lt;/a&gt;&lt;/a&gt;
- &lt;br&gt;
-&lt;i class=&#34;fas fa-link&#34;&gt;&lt;/i&gt; &lt;a href=&#34;https://www.bosch.com/research&#34; target=&#34;_blank&#34;&gt;&lt;a href=&#34;http://www.bosch.com/research&#34;&gt;www.bosch.com/research&lt;/a&gt;&lt;/a&gt;
-&lt;/p&gt;
-&lt;h2 id=&#34;register-entries&#34;&gt;Register Entries&lt;/h2&gt;
-&lt;p&gt;Registration Court: District Court Stuttgart HRB 14000&lt;/p&gt;
-&lt;h2 id=&#34;value-added-tax-identification-number&#34;&gt;Value-added tax identification number&lt;/h2&gt;
-&lt;p&gt;DE811128135&lt;/p&gt;
-&lt;h2 id=&#34;responsible-for-the-content&#34;&gt;Responsible for the content&lt;/h2&gt;
-&lt;p&gt;Robert Bosch GmbH &lt;br&gt;
-Corporate Research &lt;br&gt;
-Franz-Josef Grosch&lt;br&gt;
-Robert-Bosch-Campus 1&lt;br&gt;
-71272 Renningen &lt;br&gt;
-GERMANY&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Lexical elements</title>
       <link>https://www.blech-lang.org/docs/user-manual/lexical/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1265,6 +1156,102 @@ We call this the &amp;ldquo;wildcard&amp;rdquo;. Wildcards are useful when you w
 &lt;span style=&#34;color:#000&#34;&gt;ExponentFloat&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;DigitPart&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;PointFloat&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;exponent&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;Exponent&lt;/span&gt;      ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;e&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;E&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;+&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;-&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;DigitPart&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>About: Privacy policy</title>
+      <link>https://www.blech-lang.org/about/privacy-policy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/about/privacy-policy/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;github-pages-service&#34;&gt;GitHub Pages Service&lt;/h3&gt;
+&lt;p&gt;This Website is hosted as a GitHub Pages website. 
+GitHub may collect User Personal Information from visitors to this GitHub Pages website, including logs of visitor IP addresses, to comply with legal obligations, and to maintain the security and integrity of this Website and the Service. 
+See the &lt;a href=&#34;https://help.github.com/en/github/site-policy/github-privacy-statement&#34; target=&#34;_blank&#34;&gt;GitHub Privacy Statement&lt;/a&gt;
+ for details.&lt;/p&gt;
+&lt;h3 id=&#34;this-website&#34;&gt;This Website&lt;/h3&gt;
+&lt;p&gt;This Website does &lt;strong&gt;not&lt;/strong&gt; collect data or use cookies &lt;strong&gt;by default&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In order to improve the content and the experience on the website we kindly ask you to allow the usage of site analytics. If you opt-in to this service we use cookies to collect anonymous usage data.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You can learn about cookies and site analytics at &lt;a href=&#34;https://www.cookiechoices.org/&#34; target=&#34;_blank&#34;&gt;&lt;a href=&#34;http://www.cookiechoices.org&#34;&gt;www.cookiechoices.org&lt;/a&gt;&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;opt-in-for-google-analytics&#34;&gt;Opt-in for Google Analytics&lt;/h3&gt;
+&lt;p&gt;You can opt-in for site analytics, in this opt-in notice&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.blech-lang.org/images/opt-in-notice.png&#34; alt=&#34;Opt-in notice&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you &lt;code&gt;Opt-in&lt;/code&gt; we use site analytics to collect your anonymous {&amp;lt; resource usage data.&lt;/li&gt;
+&lt;li&gt;If you close &lt;code&gt;x&lt;/code&gt; this notice, no data will be collected.&lt;/li&gt;
+&lt;li&gt;We use a cookie to remember your decision.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After your opt-in we use &lt;a href=&#34;https://marketingplatform.google.com/about/analytics/features/&#34; target=&#34;_blank&#34;&gt;Google Analytics&lt;/a&gt;
+ tracking on
+this website, which uses cookies for this purpose.&lt;/p&gt;
+&lt;p&gt;We are interested in understanding&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;what pages you visited and for how long,&lt;/li&gt;
+&lt;li&gt;what site referred you to this web page,&lt;/li&gt;
+&lt;li&gt;what types of content and topic areas you are interested in,&lt;/li&gt;
+&lt;li&gt;including what content or sections never get viewed or used.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Your IP-Adress is anonymized, so we do &lt;strong&gt;not&lt;/strong&gt; store wether you have been to the site before.&lt;/p&gt;
+&lt;h3 id=&#34;do-not-track&#34;&gt;Do not track&lt;/h3&gt;
+&lt;p&gt;We respect your &lt;a href=&#34;https://en.wikipedia.org/wiki/Do_Not_Track&#34; target=&#34;_blank&#34;&gt;Do-Not-Track&lt;/a&gt;
+ settings if your browser requests this.&lt;/p&gt;
+&lt;p&gt;This means, you will never see the above opt-in notice, if you configured your browser for Do-Not-Track.
+No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
+&lt;h3 id=&#34;linked-services&#34;&gt;Linked services&lt;/h3&gt;
+&lt;p&gt;This website contains links to other services. If you follow these links you should become aware of their terms of service.&lt;/p&gt;
+&lt;p&gt;We link to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://help.github.com/en/github/site-policy/github-terms-of-service&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;
+ for documentation, compiler and tools repositories.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://policies.google.com/terms&#34; target=&#34;_blank&#34;&gt;Google Groups&lt;/a&gt;
+ for Blech user questions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://slack.com/terms-of-service&#34; target=&#34;_blank&#34;&gt;Slack&lt;/a&gt;
+ for Blech developer discussions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/tos&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
+ for announcements.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Additional links might occur in the documentation and the blog posts.&lt;/p&gt;
+&lt;h3 id=&#34;manage-cookies&#34;&gt;Manage cookies&lt;/h3&gt;
+&lt;p&gt;You can manually delete and restrict the use of cookies in your web browser.&lt;/p&gt;
+&lt;p&gt;Learn how to manage cookies for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac&#34; target=&#34;_blank&#34;&gt;Apple Safari&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://support.google.com/chrome/bin/answer.py?hl=en-GB&amp;amp;answer=95647&amp;amp;p=cpn_cookies&#34; target=&#34;_blank&#34;&gt;Google Chrome&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://support.microsoft.com/help/4027947/microsoft-edge-delete-cookies&#34; target=&#34;_blank&#34;&gt;Microsoft Edge&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://support.microsoft.com/help/17442/windows-internet-explorer-delete-manage-cookies&#34; target=&#34;_blank&#34;&gt;Microsoft Internet Explorer&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://support.mozilla.org/products/firefox/protect-your-privacy/cookies&#34; target=&#34;_blank&#34;&gt;Mozilla Firefox&lt;/a&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
       </description>
     </item>
     
