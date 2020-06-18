@@ -25,12 +25,12 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/modules/" />
-<meta property="article:modified_time" content="2020-06-15T16:06:34+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-06-18T18:49:39+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Programs and modules - the Blech compilation units">
 <meta itemprop="description" content="Modules and programs - proposal for Blech compilation units.
 ">
-<meta itemprop="dateModified" content="2020-06-15T16:06:34&#43;02:00" />
-<meta itemprop="wordCount" content="390">
+<meta itemprop="dateModified" content="2020-06-18T18:49:39&#43;02:00" />
+<meta itemprop="wordCount" content="1181">
 
 
 
@@ -386,6 +386,12 @@
 
       
       
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docslanguage-evolutionmodules" href="/docs/language-evolution/modules/">Modules</a>
+      
+      
     </li>
   </ul>
 </ul>
@@ -563,14 +569,23 @@
   <ul>
     <li><a href="#introduction-to-compilation-units">Introduction to compilation units</a>
       <ul>
-        <li><a href="#programs">Programs</a></li>
-        <li><a href="#modules">Modules</a></li>
-        <li><a href="#signatures">Signatures</a></li>
-        <li><a href="#test-programs">Test programs</a></li>
-        <li><a href="#test-signatures">Test signatures</a></li>
-        <li><a href="#file-structure">File structure</a></li>
+        <li><a href="#program-files">Program files</a></li>
+        <li><a href="#module-files">Module files</a></li>
       </ul>
     </li>
+    <li><a href="#reusing-a-blech-file">Reusing a Blech file</a>
+      <ul>
+        <li><a href="#importing-a-blech-module-file-as-a-black-box">Importing a Blech module file as a black box</a></li>
+        <li><a href="#including-a-blech-module-file-as-a-white-box">Including a Blech module file as a white box</a></li>
+      </ul>
+    </li>
+    <li><a href="#importing-and-including">Importing and including</a>
+      <ul>
+        <li><a href="#no-implicit-export-for-imported-modules">No implicit export for imported modules</a></li>
+      </ul>
+    </li>
+    <li><a href="#whitebox-reuse-creates-more-dependencies">Whitebox reuse creates more dependencies</a></li>
+    <li><a href="#file-structure">File structure</a></li>
   </ul>
 </nav>
 
@@ -631,60 +646,81 @@
 <p>A compilation unit in Blech is a single file.
 A file can either be a complete Blech program or a module.
 A module can be imported to support the implementation of another module or a program.</p>
-<h3 id="programs">Programs</h3>
-<p>A program file is a Blech code file (a <code>.blc</code>-file) that needs exactly one activity marked as  <code>@[EntryPoint]</code>.
+<h3 id="program-files">Program files</h3>
+<p>A program file is a Blech code file (a <code>.blc</code>-file) that needs exactly one activity marked as  an <code>@[EntryPoint]</code>.
 This activity is the <em>main</em> routine of a Blech program.
-A program can import other Blech modules for its implementation.
-A program itself cannot be imported by another Blech program - it is not a module.
+The name of this entry point to your program can be choosen freely.
+A program can use other Blech files for its implementation.
 A program is always a top-level file of a Blech application.</p>
-<h3 id="modules">Modules</h3>
-<p>A module is a Blech code file that is marked as a module in the first code line</p>
-<pre><code class="language-blech" data-lang="blech">module mymodule
-</code></pre><p>By default, all internals of module are hidden, nothing is exposed.
-Inside a module everything is accessible in the normal declare-before-use order.</p>
-<p>Every top-level declaration inside a module can be exposed to be used by an importing module or program.
+<h3 id="module-files">Module files</h3>
+<p>A module file is a Blech code file that is supposed to be used for the implementation of other modules or programs.</p>
+<p>By default, all internals of a Blech code file are hidden.
+In order to become a module, a Blech code file must export at least one top-level declaration.
 Different to other languages we do not use accessibility modifiers in front of declarations.
-Instead we require an explicit declaration of exposed top-level declarations.</p>
-<pre><code class="language-blech" data-lang="blech">module mymodule exposes myActivity
+Instead, we require an explicit declaration of exported top-level declarations.</p>
+<pre><code class="language-blech" data-lang="blech">export TopLevelIdentifier
+</code></pre><p>Every top-level declaration inside a module file can be exported to be used by another module or program file.
+All neccessary declared identifiers must also be exported.
+Optionally, the exported identifiers can be classified for readability.</p>
+<pre><code class="language-blech" data-lang="blech">export T, MyActivity
 
-function f() ... end
+type T = int32
 
-function MyActivity() 
-    f()
+function f(x: T) ... end
+
+function MyActivity(x: T) 
+    f(x)
     ...
 end
-</code></pre><p>For exposing everything inside a module, which in usually is neither necessary nor recommended, there is a short cut <code>...</code>.</p>
-<pre><code class="language-blech" data-lang="blech">module myothermodule exposes ...  // every thing can be used by an importing compilation unti
-</code></pre><p>In order to use a module it needs to be imported by another compilation unit, for example a Blech program.</p>
-<pre><code class="language-blech" data-lang="blech">import mymodule
+</code></pre><p>In this example the export of activity <code>MyActivity</code> also requires the export of type alias <code>T</code>.
+The compiler checks the correctness of exports.
+It is a compiler error, if type <code>T</code> is not exported.
+For a correct module file an interface file is created that contains all compile-time information that is necessary to compile a Blech file that uses this module file.</p>
+<pre><code class="language-blech" data-lang="blech">module &quot;mymodule&quot;
+
+type T = int32
+
+function MyActivity(x: T)
+</code></pre><p>In order to allow that an interface file can flexibly be placed in the project or library file structure, an interface file also contains the module name it belongs to.
+The module name resembles a hierarchical file name. 
+We will discuss the project and file structure later on.</p>
+<h2 id="reusing-a-blech-file">Reusing a Blech file</h2>
+<p>The classical way of using a blech module file is by importing it and using it from outside.
+The internal details are hidden, only exported entities can be used.</p>
+<p>Especially for testing this is sometimes not enough because it only enables black-box test.
+For a white-box test, we need to access all the internal details.
+For this, we offer a second mechanism reuse mechanism.</p>
+<h3 id="importing-a-blech-module-file-as-a-black-box">Importing a Blech module file as a black box</h3>
+<p>In order to use a module file it needs to be imported by another compilation unit, for example a Blech program.</p>
+<pre><code class="language-blech" data-lang="blech">import m = &quot;mymodule&quot;
 
 @[EntryPoint]
 activity MyMain()
-    run mymodule.MyActivity()
+    run m.MyActivity()
 end
-</code></pre><p>By default all imports are qualified with the module name.
-In order to shorten this, the imported module can be renamed.</p>
-<pre><code class="language-blech" data-lang="blech">import mymodule as mm
+</code></pre><p>Again, <code>&quot;mymodule&quot;</code> resembles the file name of the module.
+In order order to use it we declare a Blech identifier for the module.
+It is fine to use any valid identifier, here <code>m</code>.
+By default all imports are qualified with this module name.
+In order to use an imported name without qualification is must be exposed at the import.</p>
+<pre><code class="language-blech" data-lang="blech">import m = &quot;mymodule&quot; exposes MyActivity
 
 @[EntryPoint]
 activity MyMain()
-    run mm.MyActivity()
+    var t: m.T 
+    run MyActivity(t)
 end
-</code></pre><p>In order to use an imported name without qualification is must be exposed at the import</p>
-<pre><code class="language-blech" data-lang="blech">import mymodule exposes MyActivity
+</code></pre><p>Note: The other exported entity &ndash; type <code>T</code> &ndash; can only be used, when qualifed with the module name.</p>
+<p>For exposing everything from an imported module, which is usually neither necessary nor recommended, you can use the short cut <code>...</code>.</p>
+<pre><code class="language-blech" data-lang="blech">import _ = &quot;mymodule&quot; exposes ...
 
 @[EntryPoint]
 activity MyMain()
-    run MyActivity()
+    var t: T 
+    run MyActivity(t)
 end
-</code></pre><p>For exposing everything from an imported module, which is usually neither necessary nor recommended, you can use the short cut <code>...</code>.</p>
-<pre><code class="language-blech" data-lang="blech">import mymodule exposes ...
+</code></pre><p>In this case, a wildcard <code>_</code> for the module name can be used.</p>
 
-@[EntryPoint]
-activity MyMain()
-    run MyActivity()
-end
-</code></pre>
 
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">Warning</h4>
@@ -692,14 +728,112 @@ Since Blech has a very rigid no-shadowing policy, you cannot redefine an exposed
 Therefore, use unqualified exposed imports sparingly.
 </div>
 
-<h3 id="signatures">Signatures</h3>
-<h3 id="test-programs">Test programs</h3>
-<h3 id="test-signatures">Test signatures</h3>
-<h3 id="file-structure">File structure</h3>
+<p>Usually, several <code>import</code> declarations are necessary for a module or program file.</p>
+<h3 id="including-a-blech-module-file-as-a-white-box">Including a Blech module file as a white box</h3>
+<p>Sometimes it is useful, to be able to access all the internal declarations of a module or program file.</p>
+<p>A typical situation, that requires such an ability are white-box tests.
+A test activity or function is similar to an addtional declaration inside the module itself.
+In order to keep the module clean, we want to able to separate the test.</p>
+<p>For this purpose, a Blech file can also be included.
+The including Blech file can either be a module or a program.</p>
+<p>Lets show the example of a simple test program.</p>
+<pre><code class="language-blech" data-lang="blech">include m = &quot;mymodule&quot;
+
+activity CreateInput ()(t:T)
+    ...
+end
+
+@[EntryPoint]
+activity MyTest()
+    var t: T
+    cobegin
+        run CreateInput()(x)
+    with
+        run m.MyActivity(x)
+    end
+end
+</code></pre><p><code>include</code> is very different to <code>import</code>.
+All entities, also hidden ones, of the blech module file <code>&quot;mymodule&quot;</code> are accessible.
+Include is for development purposes - like white box testing.
+You can only include a blech file, if its source code is available.
+In a library, without source code, a module file cannot be included as a white box.</p>
+<h2 id="importing-and-including">Importing and including</h2>
+<h3 id="no-implicit-export-for-imported-modules">No implicit export for imported modules</h3>
+<p>Assume the following two modules.</p>
+<p>Module file <code>pair.blc</code> only exports type alias <code>Pair</code>.</p>
+<pre><code class="language-blech" data-lang="blech">export Pair
+
+type Pair = [2]int32
+
+function fst(p: Pair) return int32
+    return p[0]
+end
+
+function snd(p: Pair) returns int32
+    return p[1]
+end
+</code></pre><p>Module file <code>usepair.blc</code> imports modul <code>pair</code>, but cannot access hidden functions <code>fst</code> and <code>snd</code>.</p>
+<pre><code class="language-blech" data-lang="blech">export sum
+
+import pair = &quot;pair&quot;
+
+function sum(p: pair.Pair) returns int32
+    return p[0] + p[1]
+end
+</code></pre><p>On successful compilation the compiler generates the following interface files</p>
+<p>Note: It is still open, if we should represent Blech interface files as valid Blech code or in some internal representation.</p>
+<p>For black-box use, module <code>&quot;pair&quot;</code> only exports type alias <code>Pair</code>.</p>
+<pre><code class="language-blech" data-lang="blech">module &quot;pair&quot;
+
+type Pair = [2]int32
+</code></pre><p>Module <code>&quot;usepair&quot;</code> requires an <code>import</code> of module <code>&quot;pair&quot;</code> and exports function <code>sum</code>.</p>
+<pre><code class="language-blech" data-lang="blech">module &quot;usepair&quot;
+import pair = &quot;pair&quot;
+
+function sum(p: pair.Pair) returns int32
+</code></pre><p>For black-box use, for example, a program that imports module file <code>&quot;usepair&quot;</code> also needs to import module file <code>&quot;pair&quot;</code>.</p>
+<pre><code class="language-blech" data-lang="blech">import usep = &quot;usepair&quot;
+import p = &quot;pair&quot;
+
+@[EntryPoint]
+activity Main()
+    var p: p.Pair
+    _ = usep.sum(p)
+    await true
+end
+</code></pre><p>Note: Module <code>&quot;pair&quot;</code> is <strong>not</strong> imported indirectly via the import of module <code>&quot;usepair&quot;</code>.</p>
+<h2 id="whitebox-reuse-creates-more-dependencies">Whitebox reuse creates more dependencies</h2>
+<p>Let&rsquo;s modify module file  <code>&quot;usepair.blc&quot;</code> by white-box <code>include</code> of module <code>&quot;pair&quot;</code>.
+Now, we can use the internal, not exported functions <code>fst</code> and <code>snd</code>.</p>
+<pre><code class="language-blech" data-lang="blech">export sum
+
+include pair = &quot;pair&quot;
+
+function sum(p: pair.Pair) returns int32
+    return pair.fst(p) + pair.snd(p)
+end
+</code></pre><p>The interface file for module <code>&quot;pair&quot;</code> remains unchanged.</p>
+<p>The situation changes if nothing is exported from module file <code>&quot;pair.blc&quot;</code>.</p>
+<pre><code class="language-blech" data-lang="blech">export _
+
+type Pair = [2]int32
+
+function fst(p: Pair) return int32
+    return p[0]
+end
+
+function snd(p: Pair) returns int32
+    return p[1]
+end
+</code></pre><p>Then, the interface for module <code>&quot;usepair&quot;</code> cannot be generated because there is no way to make type <code>Pair</code> visible for black-box use.
+The compiler reports and error.</p>
+<p>In general white-box reuse creates more internal dependencies and makes it more difficult to create a clean black-box interface.</p>
+<p>Therefore, it only recommended for development purposes and cannot be used when no source code is availabe. For example, when importing from an installed library.</p>
+<h2 id="file-structure">File structure</h2>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 15, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/07b52f4bb5851965756fbd17836ab844132a10fd">Marked as draft. (07b52f4)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 18, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/37dd0c7c872dd6d4c82c68fbc7163c17724074d7">Modules draft (37dd0c7)</a>
 </div>
 </div>
 
