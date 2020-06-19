@@ -31,12 +31,13 @@ A program is always a top-level file of a Blech application.
 A module file is a Blech code file that is supposed to be used for the implementation of other modules or programs.
 
 By default, all internals of a Blech code file are hidden.
-In order to become a module, a Blech code file must export at least one top-level declaration.
+In order to become a module, a Blech code file must be marked as a `module` and export at least one top-level declaration or a wildcard, see below. TODO: Add a relref here, how?.
+
 Different to other languages we do not use accessibility modifiers in front of declarations.
 Instead, we require an explicit declaration of exported top-level declarations.
 
 ```blech
-export TopLevelIdentifier
+module exposes TopLevelIdentifier
 ```
 
 Every top-level declaration inside a module file can be exported to be used by another module or program file.
@@ -45,7 +46,7 @@ Optionally, the exported identifiers can be classified for readability.
 
 
 ```blech
-export T, MyActivity
+module exposes T, MyActivity
 
 type T = int32
 
@@ -63,27 +64,21 @@ It is a compiler error, if type `T` is not exported.
 For a correct module file an interface file is created that contains all compile-time information that is necessary to compile a Blech file that uses this module file.
 
 ```blech
-module "mymodule"
+signature
 
 type T = int32
 
 function MyActivity(x: T)
 ```
-In order to allow that an interface file can flexibly be placed in the project or library file structure, an interface file also contains the module name it belongs to.
-The module name resembles a hierarchical file name. 
-We will discuss the project and file structure later on.
 
 ## Reusing a Blech file
 
-The classical way of using a blech module file is by importing it and using it from outside.
-The internal details are hidden, only exported entities can be used.
-
-Especially for testing this is sometimes not enough because it only enables black-box test.
-For a white-box test, we need to access all the internal details.
-For this, we offer a second mechanism reuse mechanism.
+In order to reuse a blech module file it needs to be imported.
+Only exported entities can be used.
+The internal - non-exposed - entities are hidden.
 
 
-### Importing a Blech module file as a black box
+### Importing a Blech module file for use in a program or another module
 
 In order to use a module file it needs to be imported by another compilation unit, for example a Blech program.
 
@@ -135,44 +130,6 @@ Therefore, use unqualified exposed imports sparingly.
 
 Usually, several `import` declarations are necessary for a module or program file.
 
-### Including a Blech module file as a white box
-
-Sometimes it is useful, to be able to access all the internal declarations of a module or program file.
-
-A typical situation, that requires such an ability are white-box tests.
-A test activity or function is similar to an addtional declaration inside the module itself.
-In order to keep the module clean, we want to able to separate the test.
-
-For this purpose, a Blech file can also be included.
-The including Blech file can either be a module or a program.
-
-Lets show the example of a simple test program.
-
-```blech
-include m = "mymodule"
-
-activity CreateInput ()(t:T)
-    ...
-end
-
-@[EntryPoint]
-activity MyTest()
-    var t: T
-    cobegin
-        run CreateInput()(x)
-    with
-        run m.MyActivity(x)
-    end
-end
-```
-
-`include` is very different to `import`.
-All entities, also hidden ones, of the blech module file `"mymodule"` are accessible.
-Include is for development purposes - like white box testing.
-You can only include a blech file, if its source code is available.
-In a library, without source code, a module file cannot be included as a white box.
-
-## Importing and including
 
 ### No implicit export for imported modules
 
@@ -181,7 +138,7 @@ Assume the following two modules.
 Module file `pair.blc` only exports type alias `Pair`.
 
 ```blech
-export Pair
+module exposes Pair
 
 type Pair = [2]int32
 
@@ -197,23 +154,23 @@ end
 Module file `usepair.blc` imports modul `pair`, but cannot access hidden functions `fst` and `snd`.
 
 ```blech
-export sum
-
 import pair = "pair"
 
+module exposes sum
+
+function snd(p: Pair) return int32
+    return p[2]
+end
+
 function sum(p: pair.Pair) returns int32
-    return p[0] + p[1]
+    return p[0] + snd(p)
 end
 ```
 
 On successful compilation the compiler generates the following interface files
 
-Note: It is still open, if we should represent Blech interface files as valid Blech code or in some internal representation.
-
-For black-box use, module `"pair"` only exports type alias `Pair`.
-
 ```blech
-module "pair"
+signature
 
 type Pair = [2]int32
 ```
@@ -221,54 +178,54 @@ type Pair = [2]int32
 Module `"usepair"` requires an `import` of module `"pair"` and exports function `sum`.
 
 ```blech
-module "usepair"
 import pair = "pair"
+
+signature
 
 function sum(p: pair.Pair) returns int32
 ```
 
-For black-box use, for example, a program that imports module file `"usepair"` also needs to import module file `"pair"`. 
+For reuse, a program that imports module file `"usepair"` also needs to import module file `"pair"`. 
 
 ```blech
-import usep = "usepair"
+import up = "usepair"
 import p = "pair"
 
 @[EntryPoint]
 activity Main()
     var p: p.Pair
-    _ = usep.sum(p)
+    _ = up.sum(p)
     await true
 end
 ```
 
-Note: Module `"pair"` is **not** imported indirectly via the import of module `"usepair"`.
+Note: Module `"pair"` is **not** exported indirectly via the import of module `"usepair"`.
 
-
-## Whitebox reuse creates more dependencies
-
-Let's modify module file  `"usepair.blc"` by white-box `include` of module `"pair"`.
-Now, we can use the internal, not exported functions `fst` and `snd`.
+The following program cannot be compiled.
 
 ```blech
-export sum
+import up = "usepair"
 
-include pair = "pair"
-
-function sum(p: pair.Pair) returns int32
-    return pair.fst(p) + pair.snd(p)
+@[EntryPoint]
+activity Main()
+    var p: up.pair.Pair
+              ^^^^--- unknown identifier
+    _ = up.sum(p)
+    await true
 end
 ```
 
-The interface file for module `"pair"` remains unchanged.
+### Exporting nothing
 
-The situation changes if nothing is exported from module file `"pair.blc"`.
+For development purposes it might be useful to expose nothing until a module can be used.
+A wildcard `_` can be used for this purpose.
 
 ```blech
-export _
+module exposes _
 
 type Pair = [2]int32
 
-function fst(p: Pair) return int32
+function fst(p: Pair) returns int32
     return p[0]
 end
 
@@ -277,12 +234,72 @@ function snd(p: Pair) returns int32
 end
 ```
 
-Then, the interface for module `"usepair"` cannot be generated because there is no way to make type `Pair` visible for black-box use.
-The compiler reports and error.
 
-In general white-box reuse creates more internal dependencies and makes it more difficult to create a clean black-box interface.
+### Exporting everything
 
-Therefore, it only recommended for development purposes and cannot be used when no source code is availabe. For example, when importing from an installed library.
+Sometimes it might be useful to expose everything in a module.
+There is a shortcut `...` for this.
+
+```blech
+module exposes ...
+
+type Pair = [2]int32
+
+function fst(p: Pair) returns int32
+    return p[0]
+end
+
+function snd(p: Pair) returns int32
+    return p[1]
+end
+```
+
+### Exporting abstract types as new types
+
+Sometimes it is useful to hide the implementation of a type, from its importers.
+You can create a `newtype` for this purpose.
+
+```blech
+module exposes Pair, set, fst, snd
+
+newtype Pair = [2]int32
+
+function set(fst: int32, snd: int32) returns Pair
+    return {fst, snd}
+end
+
+function fst(p: Pair) returns int32
+    return p[0]
+end
+
+function snd(p: Pair) returns int32
+    return p[1]
+end
+```
+
+Since the internal structure is unknown additional functions must be exposed.
+The module's signature does not expose the internal type structure.
+
+```blech
+signature
+
+newtype Pair
+
+function set(fst: int32, snd: int32) returns Pair
+
+function fst(p: Pair) returns int32
+
+function snd(p: Pair) returns int32
+```
+
+### Non-cyclic import hierarchy
+
+The compiler takes care for non-cyclic import dependencies.
+Cyclic-import dependencies are flaged as a dependency error.
+
+In order to compile a program or module file, every imported module is compiled recursively, if necessary.
+Every imported module only needs to be loaded once.
+
 
 ## File structure
 
