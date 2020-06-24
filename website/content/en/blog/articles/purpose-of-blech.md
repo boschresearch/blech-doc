@@ -153,7 +153,7 @@ Blech, as currently released, is a working first step.
 The new mechanisms and the semantics for synchronous imperative programming are fully implemented.
 The compiler generates clean C code.
 
-However, some of the sytactic elements are not yet translated. 
+However, some of the syntactic elements are not yet translated. 
 Also, a few of the above safety checks are still missing. 
 Filling these gaps is a matter of effort and is done bit by bit. 
 Furthermore, there is a longer roadmap to enrich the language itself. 
