@@ -26,13 +26,13 @@
 Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/declarations/" />
-<meta property="article:modified_time" content="2020-04-29T13:21:43+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-07-04T01:07:11+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Declarations">
 <meta itemprop="description" content="Declarations introduce new names for entities in the program. Declarable entities include
  activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
 Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here.">
-<meta itemprop="dateModified" content="2020-04-29T13:21:43&#43;02:00" />
-<meta itemprop="wordCount" content="2867">
+<meta itemprop="dateModified" content="2020-07-04T01:07:11&#43;02:00" />
+<meta itemprop="wordCount" content="2889">
 
 
 
@@ -655,7 +655,7 @@ Composite statements, such as the <code>repeat</code> loop introduce their state
 
 
 <div class="alert alert-info" role="alert">
-
+<h4 class="alert-heading">Note</h4>
 Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
 </div>
 
@@ -665,7 +665,7 @@ The definition may refer to names that were previously declared.</p>
 
 
 <div class="alert alert-warning" role="alert">
-
+<h4 class="alert-heading">Important</h4>
 Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
 </div>
 
@@ -676,9 +676,12 @@ Declare before use! Even if, for example, functions are defined on the same scop
 </code></pre></div><p>A variable declaration:</p>
 <pre><code class="language-blech" data-lang="blech">var x: int32 = 17
 </code></pre><p>The type is either a built-in type or a name of a user defined type.
-Built-in types are discussed in the next chapter.
-Type declarations are discussed in the next section.</p>
-<p>Initialisers are expressions that evaluate to a value that matches this declaration&rsquo;s data type. Expressions (including literals) will be discussed in a later chapter.</p>
+Built-in types are discussed in the <a href="../types">Types chapter</a>
+.
+Type declarations are discussed <a href="#user-defined-types">below</a>
+.</p>
+<p>Initialisers are expressions that evaluate to a value that matches this declaration&rsquo;s data type. Expressions (including literals) are discussed in the <a href="../expressions">Expressions chapter</a>
+.</p>
 <h3 id="qualifiers">Qualifiers</h3>
 <p>There are four possible qualifiers.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Qualifier</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;const&#34;</span> | <span style="color:#000">&#34;param&#34;</span> | <span style="color:#000">&#34;let&#34;</span> | <span style="color:#000">&#34;var&#34;</span>
@@ -715,7 +718,7 @@ end
 </code></pre>
 
 <div class="alert alert-info" role="alert">
-
+<h4 class="alert-heading">Note</h4>
 No global variables in Blech!
 We deliberately prohibit the use of <code>let</code> and <code>var</code> outside subprogram scopes because we believe this leads to better understandable, easier to integrate and unit-testable programs.
 </div>
@@ -723,7 +726,7 @@ We deliberately prohibit the use of <code>let</code> and <code>var</code> outsid
 
 
 <div class="alert alert-warning" role="alert">
-
+<h4 class="alert-heading">Important</h4>
 Confusion may arise about the difference between <code>param</code> and <code>let</code>.
 They both qualify immutable data in memory.
 They could be even stored in the same way which however is a compiler implementation detail and none of the concerns of the programmer.
@@ -736,7 +739,7 @@ As stated above, <code>param</code> data cannot be changed by the running progra
 
 
 <div class="alert alert-warning" role="alert">
-
+<h4 class="alert-heading">Important</h4>
 The word &ldquo;parameter&rdquo; appears in two notions. One is the &ldquo;formal parameter&rdquo; of a function or activity.
 The other is the &ldquo;param&rdquo; qualifier for immutable data.
 The first parametrises a function (ar activity), the second parametrises a whole binary.
@@ -745,11 +748,13 @@ We try to make clear which one we mean throughout this document. Usually it shou
 
 <h2 id="user-defined-types">User defined types</h2>
 <p>The programmer may define a data structure using the <code>struct</code> keyword.
+See the chapter on <a href="../types/#structure-types">struct types</a>
+ for more details.
 
 
-<div class="alert alert-primary" role="alert">
-<h4 class="alert-heading">TODO</h4>
-See the chapter on <a href="/docs/user-manual/types/#structure-types">struct types</a> for more details.
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Info</h4>
+As the implementation of the compiler progresses there will be more user definable types.
 </div>
 </p>
 <h2 id="subprograms">Subprograms</h2>
@@ -797,8 +802,13 @@ Annotations are required to tell the compiler how to code-generate access to the
 </code></pre></div><p>Obviously, external functions have no body and external variables cannot be initialised.
 As before, external functions may be characterised as <code>singleton</code> which means such a function may not be called concurrently. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Calling such a function concurrently would violate the synchrony assumptions and lead to unexpected results.</p>
 <p>External declarations additionally require annotations which we introduce by example below.</p>
-<p>[IMPORTANT]
-Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&rsquo;ll point out a few caveats below.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Important</h4>
+Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&rsquo;ll point out a few caveats below.
+</div>
+
 <h3 id="external-constants">External constants</h3>
 <p>In C, constant values may be defined using macros or <code>const</code> variables.
 In order to make these values available in Blech, external constants may be declared.
@@ -818,8 +828,13 @@ While you can, for example, use a Blech constant to parametrise an array length,
 <h3 id="local-external-variables">Local external variables</h3>
 <p>The aforementioned constants may be declared in local scopes as well.
 Additionally, local Blech variables that link to external global variables may be declared inside activities (but not in functions).</p>
-<p>[NOTE]
-There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Info</h4>
+There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.
+</div>
+
 <p>Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
 These variables follow the same rules as the usual activity-local variables.</p>
 <p>Read-only external variables are annotated with the <code>CInput</code> annotation.</p>
@@ -829,7 +844,7 @@ extern let isButtonPressed: bool
 <p>The declaration creates a local variable inside the enclosing activity.
 It serves as a copy-in buffer.
 When the activity starts a reaction the value of <code>PIN_7</code> is copied into <code>isButtonPressed</code>.
-Within the Blech program we can only access the buffer <code>isButtonPressed</code> and thereby have the guarantee that the value does not change during one reaction.
+Within the Blech program we can only access the buffer <code>isButtonPressed</code> and thereby have the guarantee that the value does not change during the reaction.
 This corresponds to the semantics of activity input parameters.</p>
 <p>An activity that declares an immutable external variable does not become a singleton.
 Concurrent instances may exist but they may contain different values for the same external variable if it is volatile.</p>
@@ -869,11 +884,12 @@ extern function ceiling(i: float64) returns float64
 <p>In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.</p>
-<pre><code class="language-blech" data-lang="blech">extern function myCFunction(i: float64) returns float64
+<pre><code class="language-blech" data-lang="blech">@[CFunction (source=&quot;impl.c&quot;)]
+extern function myCFunction(i: float64) returns float64
 </code></pre><p>Assume the above declaration is written in a Blech file called <code>MyFile.blc</code>, then the code generator will produce a header file <code>MyFile.h</code> with the following code:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">// extern functions to be implemented in C
 </span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">blc_float64</span> <span style="color:#000">blc_MyFile_myCFunction</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#000">blc_float64</span> <span style="color:#000">blc_i</span><span style="color:#000;font-weight:bold">);</span>
-</code></pre></div><p>It is up to the C programmer now to include this header in his implementation and provide an actual definition of this function.</p>
+</code></pre></div><p>It is up to the C programmer now to include this header in his implementation file <code>impl.c</code> and provide an actual definition of this function.</p>
 <h3 id="remarks-on-caveats-when-interfacing-with-c">Remarks on caveats when interfacing with C</h3>
 <h4 id="types">Types</h4>
 <p>Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.</p>
@@ -908,7 +924,7 @@ It is up to the programmer to know what are the effects of the external function
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 29, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/745cee52f11299de31185f6403bdc032dabe8c7d">Migratred implementation documentation to markdown. Deleted obsolete files. (745cee5)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 4, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6bf93c2b1488bb6733c278060063a22b2429807a">Completed transformation of asciidoc documentation to markdown and fixed a few typos (6bf93c2)</a>
 </div>
 </div>
 

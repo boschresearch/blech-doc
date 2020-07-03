@@ -26,12 +26,12 @@
 name ::= lc_letter (lc_letter | &#34;_&#34;)* lc_letter ::= &#34;a&#34;." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/notation/" />
-<meta property="article:modified_time" content="2020-04-19T17:45:00+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-07-04T01:07:11+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Notation">
 <meta itemprop="description" content="We use a modified Backus-Naur form notation to describe the Blech language syntax. The modifications to the original BNF make the rules look more like regular expressions. We follow the same notation conventions as the Python language documentation. Here is what they write about notation:
  The descriptions of lexical analysis and syntax use a modified BNF grammar notation. This uses the following style of definition:
 name ::= lc_letter (lc_letter | &#34;_&#34;)* lc_letter ::= &#34;a&#34;.">
-<meta itemprop="dateModified" content="2020-04-19T17:45:00&#43;02:00" />
+<meta itemprop="dateModified" content="2020-07-04T01:07:11&#43;02:00" />
 <meta itemprop="wordCount" content="322">
 
 
@@ -623,13 +623,13 @@ We follow the same notation conventions as the <a href="https://docs.python.org/
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">name</span>      ::<span style="color:#ce5c00;font-weight:bold">=</span>  lc_<span style="color:#000">letter</span> <span style="color:#000;font-weight:bold">(</span>lc_<span style="color:#000">letter</span> | <span style="color:#000">&#34;_&#34;</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span>
 lc_<span style="color:#000">letter</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>  <span style="color:#000">&#34;a&#34;</span>...<span style="color:#000">&#34;z&#34;</span>
 </code></pre></div><p>The first line says that a <code>name</code> is an <code>lc_letter</code> followed by a sequence of zero or more <code>lc_letter</code>s and underscores. An <code>lc_letter</code> in turn is any of the single characters <code>'a'</code> through <code>'z'</code>. (This rule is actually adhered to for the names defined in lexical and grammar rules in this document.)</p>
-<p>Each rule begins with a name (which is the name defined by the rule) and <code>::=</code>. A vertical bar (<code>|</code>) is used to separate alternatives; it is the least binding operator in this notation. A star (<code>*</code>) means zero or more repetitions of the preceding item; likewise, a plus (<code>+</code>) means one or more repetitions, and a phrase enclosed in square brackets (<code>[ ]</code>) means zero or one occurrences (in other words, the enclosed phrase is optional). The <code>+*+</code> and <code>+</code> operators bind as tightly as possible; parentheses are used for grouping. Literal strings are enclosed in quotes. White space is only meaningful to separate tokens. Rules are normally contained on a single line; rules with many alternatives may be formatted alternatively with each line after the first beginning with a vertical bar.</p>
-<p>In lexical definitions (as the example above), two more conventions are used: Two literal characters separated by three dots mean a choice of any single character in the given (inclusive) range of ASCII characters. A phrase between angular brackets (<code>+&lt;...&gt;+</code>) gives an informal description of the symbol defined; e.g., this could be used to describe the notion of ‘control character’ if needed.</p>
+<p>Each rule begins with a name (which is the name defined by the rule) and <code>::=</code>. A vertical bar (<code>|</code>) is used to separate alternatives; it is the least binding operator in this notation. A star (<code>*</code>) means zero or more repetitions of the preceding item; likewise, a plus (<code>+</code>) means one or more repetitions, and a phrase enclosed in square brackets (<code>[ ]</code>) means zero or one occurrences (in other words, the enclosed phrase is optional). The <code>*</code> and <code>+</code> operators bind as tightly as possible; parentheses are used for grouping. Literal strings are enclosed in quotes. White space is only meaningful to separate tokens. Rules are normally contained on a single line; rules with many alternatives may be formatted alternatively with each line after the first beginning with a vertical bar.</p>
+<p>In lexical definitions (as the example above), two more conventions are used: Two literal characters separated by three dots mean a choice of any single character in the given (inclusive) range of ASCII characters. A phrase between angular brackets (<code>&lt;...&gt;</code>) gives an informal description of the symbol defined; e.g., this could be used to describe the notion of ‘control character’ if needed.</p>
 </blockquote>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 19, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/62f23ed2abda33e65ee72384bc613113e28f99e2">More structure, started legal infos Started to move asiidoc to markdown (62f23ed)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 4, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6bf93c2b1488bb6733c278060063a22b2429807a">Completed transformation of asciidoc documentation to markdown and fixed a few typos (6bf93c2)</a>
 </div>
 </div>
 

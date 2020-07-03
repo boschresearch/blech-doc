@@ -25,12 +25,12 @@
 Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/controlflow/moc/" />
-<meta property="article:modified_time" content="2020-04-21T20:26:37+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-07-04T01:07:11+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Model of execution">
 <meta itemprop="description" content="Reactive execution Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself. It interacts with a so-called environment that triggers a reaction of the Blech program.
 Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs.">
-<meta itemprop="dateModified" content="2020-04-21T20:26:37&#43;02:00" />
-<meta itemprop="wordCount" content="792">
+<meta itemprop="dateModified" content="2020-07-04T01:07:11&#43;02:00" />
+<meta itemprop="wordCount" content="793">
 
 
 
@@ -678,7 +678,7 @@ Note that this deliberately excludes programs where threads are mutually (cyclic
 
 
 <div class="alert alert-warning" role="alert">
-
+<h4 class="alert-heading">Important</h4>
 There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
 </div>
 
@@ -686,7 +686,7 @@ There is at most one writer per shared variable. The writer must finish its last
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 4, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6bf93c2b1488bb6733c278060063a22b2429807a">Completed transformation of asciidoc documentation to markdown and fixed a few typos (6bf93c2)</a>
 </div>
 </div>
 

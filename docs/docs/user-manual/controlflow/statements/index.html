@@ -25,12 +25,12 @@
 Activities and functions Control flow is organised with two kinds of procedures: activities and functions. Functions are used like in any other imperative language. In Blech they have two parameter lists to support causality analysis." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/controlflow/statements/" />
-<meta property="article:modified_time" content="2020-04-21T20:26:37+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-07-04T01:07:11+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Statements">
 <meta itemprop="description" content="In its core, Blech is an imperative language. Blech strictly separates between statements that govern the flow of control and expressions that evaluate to a value. Both, a statement and an expression may have side-effects.
 Activities and functions Control flow is organised with two kinds of procedures: activities and functions. Functions are used like in any other imperative language. In Blech they have two parameter lists to support causality analysis.">
-<meta itemprop="dateModified" content="2020-04-21T20:26:37&#43;02:00" />
-<meta itemprop="wordCount" content="2583">
+<meta itemprop="dateModified" content="2020-07-04T01:07:11&#43;02:00" />
+<meta itemprop="wordCount" content="2584">
 
 
 
@@ -654,21 +654,16 @@ Both, a statement and an expression may have side-effects.</p>
 <p>Control flow is organised with two kinds of procedures: <em>activities</em> and <em>functions</em>.
 Functions are used like in any other imperative language.
 In Blech they have two parameter lists to support causality analysis.</p>
-
-
-<div class="alert alert-primary" role="alert">
-<h4 class="alert-heading">TODO</h4>
-See the section on &laquo;decl:subprogs,subprogram declarations&raquo; for more details.
-</div>
-
+<p>See the section on <a href="../../declarations/#subprograms">subprogram declarations</a>
+ for more details.</p>
 <p>Functions must terminate within a reaction. Therefore they are said to be instantaneous.</p>
 <p>Activities are called similarly to functions but their execution continues until it reaches a pause to end the current reaction.
 In the next reaction they resume from the location they have paused and continue execution until the next pause.
 Each reaction of an activity must end after finitely many computation steps.
 However the activity itself may perform an unbounded number of reactions and never terminate.
 It may also terminate after a finite number of reactions.
-In nay case, activities must not be instantaneous&ndash;they need to pause at least once before termination.
-The values of local variables in activities are kept from one reaction to the next.</p>
+In any case, activities must not be instantaneous&mdash;they need to pause at least once before termination.
+The values of local variables in activities are stored from one reaction to the next.</p>
 <p>Activities may call other activities or functions.
 Functions however can only call other functions.</p>
 <h2 id="synchronous-statements">Synchronous statements</h2>
@@ -738,7 +733,7 @@ end
     // usage
     result = run A(array, 7)(output)
 </code></pre><h3 id="cobegin">Cobegin</h3>
-<p>Concurrent composition is done with the <code>cobegin</code> statement.</p>
+<p>Concurrent composition is expressed with the <code>cobegin</code> statement.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ForkJoin</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;cobegin&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;weak&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">StmtBlock</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;with&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;weak&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">StmtBlock</span><span style="color:#000;font-weight:bold">)</span>+ <span style="color:#000">&#34;end&#34;</span>
 </code></pre></div><p>Using <code>cobegin</code> it is possible to compose arbitrary pieces of code.
 The goal is not to parallelise to gain execution speed.
@@ -748,7 +743,7 @@ The code generator will actually sequentialise the code in a causally correct or
 
 
 <div class="alert alert-info" role="alert">
-
+<h4 class="alert-heading">Note</h4>
 In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
 </div>
 
@@ -851,7 +846,7 @@ In this case the preemption is irrelevant for the flow of control.</p>
 
 
 <div class="alert alert-warning" role="alert">
-
+<h4 class="alert-heading">Important</h4>
 The preemption condition is <em>not</em> checked when the control flow enters the body.
 The <code>when</code> condition is only checked when control flow resumes from within the body.
 Wrap the preemption inside an <code>if</code> statement in case you want to check the condition before entering the body.
@@ -971,7 +966,7 @@ end
 In order to avoid an if-then-else cascade <code>setSpeed</code> tests the prerequisites individually and returns in case some of them is not met.</p>
 <p>Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.</p>
 <p>Activities may only return from their main thread.
-In other words <code>return</code> must not occur inside any branch of a <code>cobegin</code> statement.</p>
+In other words <code>return</code> must not occur inside a branch of a <code>cobegin</code> statement.</p>
 <p>Mind the difference between activity return values and activity output values.
 Outputs are set in every reaction of the activity.
 A return value is returned precisely once in the reaction that terminates the activity.</p>
@@ -1020,7 +1015,7 @@ end
 </code></pre>
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 4, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6bf93c2b1488bb6733c278060063a22b2429807a">Completed transformation of asciidoc documentation to markdown and fixed a few typos (6bf93c2)</a>
 </div>
 </div>
 

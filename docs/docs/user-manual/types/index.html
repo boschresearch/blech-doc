@@ -26,13 +26,13 @@ Often the domains overlap between types. Also operations may be overloaded for m
 For example, signed integers and unsigned integers share some interval in which calculations may be carried out and interpreted as either one. Another example is that operations such as addition may have different implementations depending on type (and machine architecture): addition of 16-bit unsigned integers on a 16-bit machine invokes a different set of machine instructions than addition of 32-bit unsigned integers on that same machine." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/types/" />
-<meta property="article:modified_time" content="2020-04-21T20:26:37+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-07-04T01:07:11+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Types">
 <meta itemprop="description" content="A type defines a domain &ndash; a set of values &ndash; a representation for those values and a set of operations on those values.
 Often the domains overlap between types. Also operations may be overloaded for multiple types. This provides the programmer with some versatility:
 For example, signed integers and unsigned integers share some interval in which calculations may be carried out and interpreted as either one. Another example is that operations such as addition may have different implementations depending on type (and machine architecture): addition of 16-bit unsigned integers on a 16-bit machine invokes a different set of machine instructions than addition of 32-bit unsigned integers on that same machine.">
-<meta itemprop="dateModified" content="2020-04-21T20:26:37&#43;02:00" />
-<meta itemprop="wordCount" content="1631">
+<meta itemprop="dateModified" content="2020-07-04T01:07:11&#43;02:00" />
+<meta itemprop="wordCount" content="1628">
 
 
 
@@ -650,9 +650,9 @@ It enforces type annotations and explicit casts whenever the type of an expressi
 <h2 id="boolean-type">Boolean type</h2>
 <p>Blech distinguishes a <code>bool</code> type with two values: <code>true</code> and <code>false</code>.
 Boolean values may be combined using the binary <code>and</code> and <code>or</code> operators.
-A boolean value is inverted by the unary <code>not</code> operator.
+A Boolean value is inverted by the unary <code>not</code> operator.
 All comparisons are admissible.
-Expressions which evaluate to a boolean value are called <em>conditions</em>.</p>
+Expressions which evaluate to a Boolean value are called <em>conditions</em>.</p>
 <p>In Blech, it is required that conditions that determine the control flow must be side-effect free.
 For example, the statements <code>await</code>, <code>abort</code>, <code>reset</code>, <code>repeat..until</code>, <code>while</code>, <code>if</code> all require side-effect free conditions.
 The reason is that the evaluation of a condition should not change the program&rsquo;s state.
@@ -662,26 +662,43 @@ Other imperative control flow statements such as loops or the <code>if</code> st
 <h2 id="integer-types">Integer types</h2>
 <p>Integer types are divided into three categories: natural numbers, signed integer numbers and &ldquo;bits&rdquo;.
 Each one exist in four sizes that indicate the number of bits needed in a machine to represent a value of this type: 8, 16, 32, 64.</p>
-<p>.Integer types
-[cols=&quot;2*&quot;,grid=rows]
-|===
-| <code>nat8</code>, <code>nat16</code>, <code>nat32</code>, <code>nat64</code> | Natural numbers
-| <code>int8</code>, <code>int16</code>, <code>int32</code>, <code>int64</code> | Signed integer numbers
-| <code>bits8</code>, <code>bits16</code>, <code>bits32</code>, <code>bits64</code> | Bits
-|===</p>
+<table>
+<thead>
+<tr>
+<th>Integer types</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nat8</code>, <code>nat16</code>, <code>nat32</code>, <code>nat64</code></td>
+<td>Natural numbers</td>
+</tr>
+<tr>
+<td><code>int8</code>, <code>int16</code>, <code>int32</code>, <code>int64</code></td>
+<td>Signed integer numbers</td>
+</tr>
+<tr>
+<td><code>bits8</code>, <code>bits16</code>, <code>bits32</code>, <code>bits64</code></td>
+<td>Bits</td>
+</tr>
+</tbody>
+</table>
 <p>The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length <code>N</code> with a range of <code>0</code> to <code>2^N -1</code> from integer numbers centred around 0 with a range of <code>2^(N-1)</code> to <code>2^(N-1) -1</code>.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
-Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
+However, by design, the operations on both kinds of numbers prohibit overflows.
+Computations must stay within the representable domain. 
+<em>In a future implementation an overflow either causes the program to crash or to mitigate it using saturation arithmetic depending on the build mode.</em>
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the <code>bitsX</code> type is introduced.
-The bits type of length <code>N</code> have the same value range as the natural numbers of the same length.</p>
+The bits types of length <code>N</code> have the same value range as the natural numbers of the same length.</p>
 <p>It is possible to cast between all three types without information loss so long as the size remains unchanged.</p>
 <p>All integral types types admit all arithmetic and comparison operators.
 The <code>bitsX</code> types additionally admit bitwise operations.</p>
 <h2 id="floating-point-types">Floating-point types</h2>
 <p>Blech provides the two most commonly used floating point types <code>float32</code> and <code>float64</code>.
 The language assumes an implementation of these according to IEEE standards.
-In the generated code they are mapped to C&rsquo;s <code>float</code> and <code>double</code> respectively (see section on &laquo;types:blechconf,blechconf.h&raquo; below).</p>
+In the generated code they are mapped to C&rsquo;s <code>float</code> and <code>double</code> respectively (see section on <a href="#blechconfh">blechconf.h</a>
+ below).</p>
 <p>Note that the C standard does not guarantee an IEEE compliant implementation of its floating point types nor does it require that <code>float</code> and <code>double</code> are distinct types at all.
 It is the system integrators responsibility to ensure that the C compiler at hand does fulfil Blech&rsquo;s assumptions.</p>
 <p>Floating point types admit all arithmetic and comparison operators.</p>
@@ -694,7 +711,7 @@ It is not possible to declare an array data type with an unspecified length.</p>
     /* ... */
 end
 </code></pre><p>The function <code>f</code> expects one read-only argument <code>a</code>.
-It is two dimensional array (a table) with 4 rows and 5 columns.
+It is a two dimensional array (a table) with 4 rows and 5 columns.
 Each cell contains a <code>float32</code> number.</p>
 <p>Unlike C, in Blech the lengths appear before the payload type in the type declaration.</p>
 <p>Elements of an array are accessed using a subscription operation <code>[]</code>.
@@ -775,8 +792,7 @@ end
 var s: S
 /* ... */
 resetS()(s)
-</code></pre><p>[[types:blechconf]]</p>
-<h2 id="blechconfh">blechconf.h</h2>
+</code></pre><h2 id="blechconfh">blechconf.h</h2>
 <p>Blech compiles to C.
 Hence code generation has to map Blech types to C types.
 The file <code>blechconf.h</code> specifies this mapping.
@@ -808,7 +824,7 @@ It is up to the system integrator to ensure that this mapping is valid for the C
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 21, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/a4d14402508bc3a21c758690672b9adb073e4658">User manual now markdown Improved analytics opt-in (a4d1440)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 4, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6bf93c2b1488bb6733c278060063a22b2429807a">Completed transformation of asciidoc documentation to markdown and fixed a few typos (6bf93c2)</a>
 </div>
 </div>
 

@@ -31,8 +31,8 @@ We follow the same notation conventions as the &lt;a href=&#34;https://docs.pyth
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;name&lt;/span&gt;      ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;  lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;
 lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;  &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;a&amp;#34;&lt;/span&gt;...&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;z&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first line says that a &lt;code&gt;name&lt;/code&gt; is an &lt;code&gt;lc_letter&lt;/code&gt; followed by a sequence of zero or more &lt;code&gt;lc_letter&lt;/code&gt;s and underscores. An &lt;code&gt;lc_letter&lt;/code&gt; in turn is any of the single characters &lt;code&gt;&#39;a&#39;&lt;/code&gt; through &lt;code&gt;&#39;z&#39;&lt;/code&gt;. (This rule is actually adhered to for the names defined in lexical and grammar rules in this document.)&lt;/p&gt;
-&lt;p&gt;Each rule begins with a name (which is the name defined by the rule) and &lt;code&gt;::=&lt;/code&gt;. A vertical bar (&lt;code&gt;|&lt;/code&gt;) is used to separate alternatives; it is the least binding operator in this notation. A star (&lt;code&gt;*&lt;/code&gt;) means zero or more repetitions of the preceding item; likewise, a plus (&lt;code&gt;+&lt;/code&gt;) means one or more repetitions, and a phrase enclosed in square brackets (&lt;code&gt;[ ]&lt;/code&gt;) means zero or one occurrences (in other words, the enclosed phrase is optional). The &lt;code&gt;+*+&lt;/code&gt; and &lt;code&gt;+&lt;/code&gt; operators bind as tightly as possible; parentheses are used for grouping. Literal strings are enclosed in quotes. White space is only meaningful to separate tokens. Rules are normally contained on a single line; rules with many alternatives may be formatted alternatively with each line after the first beginning with a vertical bar.&lt;/p&gt;
-&lt;p&gt;In lexical definitions (as the example above), two more conventions are used: Two literal characters separated by three dots mean a choice of any single character in the given (inclusive) range of ASCII characters. A phrase between angular brackets (&lt;code&gt;+&amp;lt;...&amp;gt;+&lt;/code&gt;) gives an informal description of the symbol defined; e.g., this could be used to describe the notion of ‘control character’ if needed.&lt;/p&gt;
+&lt;p&gt;Each rule begins with a name (which is the name defined by the rule) and &lt;code&gt;::=&lt;/code&gt;. A vertical bar (&lt;code&gt;|&lt;/code&gt;) is used to separate alternatives; it is the least binding operator in this notation. A star (&lt;code&gt;*&lt;/code&gt;) means zero or more repetitions of the preceding item; likewise, a plus (&lt;code&gt;+&lt;/code&gt;) means one or more repetitions, and a phrase enclosed in square brackets (&lt;code&gt;[ ]&lt;/code&gt;) means zero or one occurrences (in other words, the enclosed phrase is optional). The &lt;code&gt;*&lt;/code&gt; and &lt;code&gt;+&lt;/code&gt; operators bind as tightly as possible; parentheses are used for grouping. Literal strings are enclosed in quotes. White space is only meaningful to separate tokens. Rules are normally contained on a single line; rules with many alternatives may be formatted alternatively with each line after the first beginning with a vertical bar.&lt;/p&gt;
+&lt;p&gt;In lexical definitions (as the example above), two more conventions are used: Two literal characters separated by three dots mean a choice of any single character in the given (inclusive) range of ASCII characters. A phrase between angular brackets (&lt;code&gt;&amp;lt;...&amp;gt;&lt;/code&gt;) gives an informal description of the symbol defined; e.g., this could be used to describe the notion of ‘control character’ if needed.&lt;/p&gt;
 &lt;/blockquote&gt;
 
       </description>
@@ -164,7 +164,7 @@ We call this the &amp;ldquo;wildcard&amp;rdquo;. Wildcards are useful when you w
 
 &lt;span style=&#34;color:#000&#34;&gt;BinInteger&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0b&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+
 &lt;span style=&#34;color:#000&#34;&gt;OctInteger&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0o&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;...&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;7&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+
-&lt;span style=&#34;color:#000&#34;&gt;HexInteger&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0x&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;...&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;7&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Digit&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;a&amp;#34;&lt;/span&gt;...&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;f&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;A&amp;#34;&lt;/span&gt;...&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;F&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+  
+&lt;span style=&#34;color:#000&#34;&gt;HexInteger&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0x&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Digit&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;a&amp;#34;&lt;/span&gt;...&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;f&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;A&amp;#34;&lt;/span&gt;...&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;F&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+  
 &lt;span style=&#34;color:#000&#34;&gt;DecInteger&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NonZeroDigit&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;([&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Digit&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;([&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;
 
 &lt;span style=&#34;color:#000&#34;&gt;Integer&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;DecInteger&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;BinInteger&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;OctInteger&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;HexInteger&lt;/span&gt;
@@ -222,7 +222,7 @@ Composite statements, such as the &lt;code&gt;repeat&lt;/code&gt; loop introduce
 
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
 Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
 &lt;/div&gt;
 
@@ -232,7 +232,7 @@ The definition may refer to names that were previously declared.&lt;/p&gt;
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
 Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
 &lt;/div&gt;
 
@@ -243,9 +243,12 @@ Declare before use! Even if, for example, functions are defined on the same scop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A variable declaration:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: int32 = 17
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The type is either a built-in type or a name of a user defined type.
-Built-in types are discussed in the next chapter.
-Type declarations are discussed in the next section.&lt;/p&gt;
-&lt;p&gt;Initialisers are expressions that evaluate to a value that matches this declaration&amp;rsquo;s data type. Expressions (including literals) will be discussed in a later chapter.&lt;/p&gt;
+Built-in types are discussed in the &lt;a href=&#34;../types&#34;&gt;Types chapter&lt;/a&gt;
+.
+Type declarations are discussed &lt;a href=&#34;#user-defined-types&#34;&gt;below&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;Initialisers are expressions that evaluate to a value that matches this declaration&amp;rsquo;s data type. Expressions (including literals) are discussed in the &lt;a href=&#34;../expressions&#34;&gt;Expressions chapter&lt;/a&gt;
+.&lt;/p&gt;
 &lt;h3 id=&#34;qualifiers&#34;&gt;Qualifiers&lt;/h3&gt;
 &lt;p&gt;There are four possible qualifiers.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;const&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;param&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt;
@@ -282,7 +285,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
 No global variables in Blech!
 We deliberately prohibit the use of &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; outside subprogram scopes because we believe this leads to better understandable, easier to integrate and unit-testable programs.
 &lt;/div&gt;
@@ -290,7 +293,7 @@ We deliberately prohibit the use of &lt;code&gt;let&lt;/code&gt; and &lt;code&gt
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
 Confusion may arise about the difference between &lt;code&gt;param&lt;/code&gt; and &lt;code&gt;let&lt;/code&gt;.
 They both qualify immutable data in memory.
 They could be even stored in the same way which however is a compiler implementation detail and none of the concerns of the programmer.
@@ -303,7 +306,7 @@ As stated above, &lt;code&gt;param&lt;/code&gt; data cannot be changed by the ru
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
 The word &amp;ldquo;parameter&amp;rdquo; appears in two notions. One is the &amp;ldquo;formal parameter&amp;rdquo; of a function or activity.
 The other is the &amp;ldquo;param&amp;rdquo; qualifier for immutable data.
 The first parametrises a function (ar activity), the second parametrises a whole binary.
@@ -312,11 +315,13 @@ We try to make clear which one we mean throughout this document. Usually it shou
 
 &lt;h2 id=&#34;user-defined-types&#34;&gt;User defined types&lt;/h2&gt;
 &lt;p&gt;The programmer may define a data structure using the &lt;code&gt;struct&lt;/code&gt; keyword.
+See the chapter on &lt;a href=&#34;../types/#structure-types&#34;&gt;struct types&lt;/a&gt;
+ for more details.
 
 
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;TODO&lt;/h4&gt;
-See the chapter on &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/types/#structure-types&#34;&gt;struct types&lt;/a&gt; for more details.
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Info&lt;/h4&gt;
+As the implementation of the compiler progresses there will be more user definable types.
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;h2 id=&#34;subprograms&#34;&gt;Subprograms&lt;/h2&gt;
@@ -364,8 +369,13 @@ Annotations are required to tell the compiler how to code-generate access to the
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Obviously, external functions have no body and external variables cannot be initialised.
 As before, external functions may be characterised as &lt;code&gt;singleton&lt;/code&gt; which means such a function may not be called concurrently. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Calling such a function concurrently would violate the synchrony assumptions and lead to unexpected results.&lt;/p&gt;
 &lt;p&gt;External declarations additionally require annotations which we introduce by example below.&lt;/p&gt;
-&lt;p&gt;[IMPORTANT]
-Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&amp;rsquo;ll point out a few caveats below.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
+Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&amp;rsquo;ll point out a few caveats below.
+&lt;/div&gt;
+
 &lt;h3 id=&#34;external-constants&#34;&gt;External constants&lt;/h3&gt;
 &lt;p&gt;In C, constant values may be defined using macros or &lt;code&gt;const&lt;/code&gt; variables.
 In order to make these values available in Blech, external constants may be declared.
@@ -385,8 +395,13 @@ While you can, for example, use a Blech constant to parametrise an array length,
 &lt;h3 id=&#34;local-external-variables&#34;&gt;Local external variables&lt;/h3&gt;
 &lt;p&gt;The aforementioned constants may be declared in local scopes as well.
 Additionally, local Blech variables that link to external global variables may be declared inside activities (but not in functions).&lt;/p&gt;
-&lt;p&gt;[NOTE]
-There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Info&lt;/h4&gt;
+There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.
+&lt;/div&gt;
+
 &lt;p&gt;Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
 These variables follow the same rules as the usual activity-local variables.&lt;/p&gt;
 &lt;p&gt;Read-only external variables are annotated with the &lt;code&gt;CInput&lt;/code&gt; annotation.&lt;/p&gt;
@@ -396,7 +411,7 @@ extern let isButtonPressed: bool
 &lt;p&gt;The declaration creates a local variable inside the enclosing activity.
 It serves as a copy-in buffer.
 When the activity starts a reaction the value of &lt;code&gt;PIN_7&lt;/code&gt; is copied into &lt;code&gt;isButtonPressed&lt;/code&gt;.
-Within the Blech program we can only access the buffer &lt;code&gt;isButtonPressed&lt;/code&gt; and thereby have the guarantee that the value does not change during one reaction.
+Within the Blech program we can only access the buffer &lt;code&gt;isButtonPressed&lt;/code&gt; and thereby have the guarantee that the value does not change during the reaction.
 This corresponds to the semantics of activity input parameters.&lt;/p&gt;
 &lt;p&gt;An activity that declares an immutable external variable does not become a singleton.
 Concurrent instances may exist but they may contain different values for the same external variable if it is volatile.&lt;/p&gt;
@@ -436,11 +451,12 @@ extern function ceiling(i: float64) returns float64
 &lt;p&gt;In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;extern function myCFunction(i: float64) returns float64
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (source=&amp;quot;impl.c&amp;quot;)]
+extern function myCFunction(i: float64) returns float64
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Assume the above declaration is written in a Blech file called &lt;code&gt;MyFile.blc&lt;/code&gt;, then the code generator will produce a header file &lt;code&gt;MyFile.h&lt;/code&gt; with the following code:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// extern functions to be implemented in C
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;blc_float64&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_MyFile_myCFunction&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_float64&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It is up to the C programmer now to include this header in his implementation and provide an actual definition of this function.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It is up to the C programmer now to include this header in his implementation file &lt;code&gt;impl.c&lt;/code&gt; and provide an actual definition of this function.&lt;/p&gt;
 &lt;h3 id=&#34;remarks-on-caveats-when-interfacing-with-c&#34;&gt;Remarks on caveats when interfacing with C&lt;/h3&gt;
 &lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
 &lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
@@ -500,9 +516,9 @@ It enforces type annotations and explicit casts whenever the type of an expressi
 &lt;h2 id=&#34;boolean-type&#34;&gt;Boolean type&lt;/h2&gt;
 &lt;p&gt;Blech distinguishes a &lt;code&gt;bool&lt;/code&gt; type with two values: &lt;code&gt;true&lt;/code&gt; and &lt;code&gt;false&lt;/code&gt;.
 Boolean values may be combined using the binary &lt;code&gt;and&lt;/code&gt; and &lt;code&gt;or&lt;/code&gt; operators.
-A boolean value is inverted by the unary &lt;code&gt;not&lt;/code&gt; operator.
+A Boolean value is inverted by the unary &lt;code&gt;not&lt;/code&gt; operator.
 All comparisons are admissible.
-Expressions which evaluate to a boolean value are called &lt;em&gt;conditions&lt;/em&gt;.&lt;/p&gt;
+Expressions which evaluate to a Boolean value are called &lt;em&gt;conditions&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;In Blech, it is required that conditions that determine the control flow must be side-effect free.
 For example, the statements &lt;code&gt;await&lt;/code&gt;, &lt;code&gt;abort&lt;/code&gt;, &lt;code&gt;reset&lt;/code&gt;, &lt;code&gt;repeat..until&lt;/code&gt;, &lt;code&gt;while&lt;/code&gt;, &lt;code&gt;if&lt;/code&gt; all require side-effect free conditions.
 The reason is that the evaluation of a condition should not change the program&amp;rsquo;s state.
@@ -512,26 +528,43 @@ Other imperative control flow statements such as loops or the &lt;code&gt;if&lt;
 &lt;h2 id=&#34;integer-types&#34;&gt;Integer types&lt;/h2&gt;
 &lt;p&gt;Integer types are divided into three categories: natural numbers, signed integer numbers and &amp;ldquo;bits&amp;rdquo;.
 Each one exist in four sizes that indicate the number of bits needed in a machine to represent a value of this type: 8, 16, 32, 64.&lt;/p&gt;
-&lt;p&gt;.Integer types
-[cols=&amp;quot;2*&amp;quot;,grid=rows]
-|===
-| &lt;code&gt;nat8&lt;/code&gt;, &lt;code&gt;nat16&lt;/code&gt;, &lt;code&gt;nat32&lt;/code&gt;, &lt;code&gt;nat64&lt;/code&gt; | Natural numbers
-| &lt;code&gt;int8&lt;/code&gt;, &lt;code&gt;int16&lt;/code&gt;, &lt;code&gt;int32&lt;/code&gt;, &lt;code&gt;int64&lt;/code&gt; | Signed integer numbers
-| &lt;code&gt;bits8&lt;/code&gt;, &lt;code&gt;bits16&lt;/code&gt;, &lt;code&gt;bits32&lt;/code&gt;, &lt;code&gt;bits64&lt;/code&gt; | Bits
-|===&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Integer types&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nat8&lt;/code&gt;, &lt;code&gt;nat16&lt;/code&gt;, &lt;code&gt;nat32&lt;/code&gt;, &lt;code&gt;nat64&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Natural numbers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;int8&lt;/code&gt;, &lt;code&gt;int16&lt;/code&gt;, &lt;code&gt;int32&lt;/code&gt;, &lt;code&gt;int64&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Signed integer numbers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;bits8&lt;/code&gt;, &lt;code&gt;bits16&lt;/code&gt;, &lt;code&gt;bits32&lt;/code&gt;, &lt;code&gt;bits64&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Bits&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;p&gt;The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length &lt;code&gt;N&lt;/code&gt; with a range of &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;2^N -1&lt;/code&gt; from integer numbers centred around 0 with a range of &lt;code&gt;2^(N-1)&lt;/code&gt; to &lt;code&gt;2^(N-1) -1&lt;/code&gt;.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
-Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
+However, by design, the operations on both kinds of numbers prohibit overflows.
+Computations must stay within the representable domain. 
+&lt;em&gt;In a future implementation an overflow either causes the program to crash or to mitigate it using saturation arithmetic depending on the build mode.&lt;/em&gt;
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the &lt;code&gt;bitsX&lt;/code&gt; type is introduced.
-The bits type of length &lt;code&gt;N&lt;/code&gt; have the same value range as the natural numbers of the same length.&lt;/p&gt;
+The bits types of length &lt;code&gt;N&lt;/code&gt; have the same value range as the natural numbers of the same length.&lt;/p&gt;
 &lt;p&gt;It is possible to cast between all three types without information loss so long as the size remains unchanged.&lt;/p&gt;
 &lt;p&gt;All integral types types admit all arithmetic and comparison operators.
 The &lt;code&gt;bitsX&lt;/code&gt; types additionally admit bitwise operations.&lt;/p&gt;
 &lt;h2 id=&#34;floating-point-types&#34;&gt;Floating-point types&lt;/h2&gt;
 &lt;p&gt;Blech provides the two most commonly used floating point types &lt;code&gt;float32&lt;/code&gt; and &lt;code&gt;float64&lt;/code&gt;.
 The language assumes an implementation of these according to IEEE standards.
-In the generated code they are mapped to C&amp;rsquo;s &lt;code&gt;float&lt;/code&gt; and &lt;code&gt;double&lt;/code&gt; respectively (see section on &amp;laquo;types:blechconf,blechconf.h&amp;raquo; below).&lt;/p&gt;
+In the generated code they are mapped to C&amp;rsquo;s &lt;code&gt;float&lt;/code&gt; and &lt;code&gt;double&lt;/code&gt; respectively (see section on &lt;a href=&#34;#blechconfh&#34;&gt;blechconf.h&lt;/a&gt;
+ below).&lt;/p&gt;
 &lt;p&gt;Note that the C standard does not guarantee an IEEE compliant implementation of its floating point types nor does it require that &lt;code&gt;float&lt;/code&gt; and &lt;code&gt;double&lt;/code&gt; are distinct types at all.
 It is the system integrators responsibility to ensure that the C compiler at hand does fulfil Blech&amp;rsquo;s assumptions.&lt;/p&gt;
 &lt;p&gt;Floating point types admit all arithmetic and comparison operators.&lt;/p&gt;
@@ -544,7 +577,7 @@ It is not possible to declare an array data type with an unspecified length.&lt;
     /* ... */
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The function &lt;code&gt;f&lt;/code&gt; expects one read-only argument &lt;code&gt;a&lt;/code&gt;.
-It is two dimensional array (a table) with 4 rows and 5 columns.
+It is a two dimensional array (a table) with 4 rows and 5 columns.
 Each cell contains a &lt;code&gt;float32&lt;/code&gt; number.&lt;/p&gt;
 &lt;p&gt;Unlike C, in Blech the lengths appear before the payload type in the type declaration.&lt;/p&gt;
 &lt;p&gt;Elements of an array are accessed using a subscription operation &lt;code&gt;[]&lt;/code&gt;.
@@ -625,8 +658,7 @@ end
 var s: S
 /* ... */
 resetS()(s)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;[[types:blechconf]]&lt;/p&gt;
-&lt;h2 id=&#34;blechconfh&#34;&gt;blechconf.h&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;blechconfh&#34;&gt;blechconf.h&lt;/h2&gt;
 &lt;p&gt;Blech compiles to C.
 Hence code generation has to map Blech types to C types.
 The file &lt;code&gt;blechconf.h&lt;/code&gt; specifies this mapping.
@@ -670,7 +702,7 @@ It is up to the system integrator to ensure that this mapping is valid for the C
         
         &lt;p&gt;The nomenclature in Blech is similar to that in C.
 There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues).
-Blech does allow to create function references and thus we have no designators.&lt;/p&gt;
+Blech does not allow to create function references and thus we have no designators.&lt;/p&gt;
 &lt;h2 id=&#34;operator-precedence&#34;&gt;Operator precedence&lt;/h2&gt;
 &lt;p&gt;The expression grammar below will not specify the precedence of operators.
 This allows for a concise presentation.
@@ -738,7 +770,8 @@ They are composed using operators.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Atom&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;Literal&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;{}&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;ArrayLiteral&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;StructLiteral&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;ParenthForm&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that the term &amp;ldquo;atom&amp;rdquo; is not to be taken too literally because array and structure literals may contain arbitrary expressions themselves.&lt;/p&gt;
 &lt;h3 id=&#34;identifiers&#34;&gt;Identifiers&lt;/h3&gt;
-&lt;p&gt;An identifier occurring as an atom is a name. See section Identifiers and keywords for lexical definition.&lt;/p&gt;
+&lt;p&gt;An identifier occurring as an atom is a name. See section &lt;a href=&#34;../lexical/#identifiers&#34;&gt;Identifiers&lt;/a&gt;
+ for a lexical definition.&lt;/p&gt;
 &lt;h3 id=&#34;literals&#34;&gt;Literals&lt;/h3&gt;
 &lt;p&gt;Blech supports various numeric literals:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Literal&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;BoolLiteral&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;Integer&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;FloatNumber&lt;/span&gt;
@@ -756,18 +789,18 @@ It can be explicitly annotated using a type annotation.&lt;/p&gt;
 1: int8     // 1 byte signed integer
 1: bits32   // 4 bytes long word
 1: float32  // single precision floating point number
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;====&lt;/p&gt;
-&lt;p&gt;The lexical analysis of &lt;code&gt;Literal&lt;/code&gt; above suggests there are three kinds of literals.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The lexical analysis of &lt;code&gt;Literal&lt;/code&gt; above suggests there are three kinds of literals.
 In fact, we distinguish two kinds of integers.
 Binary, octal and hexadecimal integer literals form the group of &lt;em&gt;bits literals&lt;/em&gt;.
 They may be interpreted as a byte word of some length or as a natural number of some length.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;0xFF: nat32    // 4 byte natural number with value 255
 0b101: bit8    // 1 byte word with value 5
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;They cannot be treated as a signed integer because depending on the length and the machine&amp;rsquo;s representation of negative numbers they might yield a negative or positive value.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;a name=&#34;bitsandints&#34;&gt;&lt;/a&gt;
+They cannot be treated as a signed integer because depending on the length and the machine&amp;rsquo;s representation of negative numbers they might yield a negative or positive value.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;0xFF: int8    // error! Would be -1 if represented in two&#39;s complement
 0xFF: int16   // error! Would be 255 in a two byte word
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Also, bits literals cannot be interpreted as floating point numbers.
-For the exact specification of floating point numbers a hexadecimal float literal will be introduced.&lt;/p&gt;
+&lt;em&gt;For the exact specification of floating point numbers a hexadecimal float literal will be introduced.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Decimal integers&lt;/em&gt; may be interpreted as any kind of numeric type as long as the value fits the domain. The example above shows the straightforward use case with the literal &lt;code&gt;1&lt;/code&gt;. Below some corner cases are exemplified:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;-2: nat16     // error! Outside range of natural numbers
 -200: int8    // error! Outside range [-128..127]
@@ -788,7 +821,8 @@ let b = a + 17
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;In line 1, the 9 is deduced to have type &lt;code&gt;int32&lt;/code&gt; because the left hand side is already typed.
-Note that a bits literal cannot be used to initialise an integer for reasons explained &amp;laquo;expr:bitsliterals,above&amp;raquo;.&lt;/p&gt;
+Note that a bits literal cannot be used to initialise an integer for reasons explained &lt;a href=&#34;#bitsandints&#34;&gt;above&lt;/a&gt;
+.&lt;/p&gt;
 &lt;p&gt;In line 2, the literal &lt;code&gt;17&lt;/code&gt; is deduced to be &lt;code&gt;int32&lt;/code&gt;, then a signed 32-bit addition is performed and &lt;code&gt;b&lt;/code&gt; is also deduced to be an &lt;code&gt;int32&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;complex-literals&#34;&gt;Complex literals&lt;/h3&gt;
 &lt;h4 id=&#34;reset-literal&#34;&gt;Reset literal&lt;/h4&gt;
@@ -803,7 +837,8 @@ The reset literal, as the name suggests, is most useful to set a modified data s
 x = {}    // now x == {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
 The same is true for arrays with struct payloads.
-See the section on &amp;laquo;types:struct,struct types&amp;raquo; for more details.&lt;/p&gt;
+See the section on &lt;a href=&#34;../types/#structure-types&#34;&gt;Structure types&lt;/a&gt;
+ for more details.&lt;/p&gt;
 &lt;h4 id=&#34;array-literals&#34;&gt;Array literals&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ArrayLiteral&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;{&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CellInit&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CellInit&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;}&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;CellInit&lt;/span&gt;     ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;IndexExpr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt;
@@ -886,16 +921,19 @@ t.y = {a = 7}     // implicitly b = 0
 &lt;h2 id=&#34;subscriptions&#34;&gt;Subscriptions&lt;/h2&gt;
 &lt;p&gt;A subscripting expression selects an item of an array:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Subscription&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;  &lt;span style=&#34;color:#000&#34;&gt;Primary&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;[&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Expression&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;]&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The index expression must return a value that is non-negative an smaller than the array length.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The index expression must return a value that is non-negative and smaller than the array length.
 Otherwise the program will crash in debug build mode and saturate to array index bounds in release mode.&lt;/p&gt;
-&lt;p&gt;[IMPORTANT]
-The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
+The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.
+&lt;/div&gt;
+
 &lt;h2 id=&#34;calls&#34;&gt;Calls&lt;/h2&gt;
 &lt;p&gt;A call calls a function with a possibly empty series of arguments:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;FunctionCallExpr&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;[IMPORTANT]
-TODO: Currently the Rhs/LhsArgLists are defined in controlflow.adoc. Restructure?!&lt;/p&gt;
-&lt;h2 id=&#34;all-computation-expressions&#34;&gt;All computation expressions&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;all-computation-expressions&#34;&gt;All computation expressions&lt;/h2&gt;
 &lt;p&gt;All expressions above are concerned with retrieving a single value from some data structure. (With the exception of function calls).
 Now all expressions are presented which take a value (or two) and produce a new value from it (those).
 The following rule gives an overview of the remaining expression syntax.&lt;/p&gt;
@@ -912,7 +950,8 @@ The following rule gives an overview of the remaining expression syntax.&lt;/p&g
     | &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;and&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt;
     | &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;or&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt;
     | &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;as&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;as!&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;lowest&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;precedence&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Operator precedence has been discussed &amp;laquo;expr:precedence,above&amp;raquo;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Operator precedence has been discussed &lt;a href=&#34;#operator-precedence&#34;&gt;above&lt;/a&gt;
+.&lt;/p&gt;
 &lt;h3 id=&#34;unary-operations&#34;&gt;Unary operations&lt;/h3&gt;
 &lt;p&gt;The unary &lt;code&gt;-&lt;/code&gt; (minus) operator yields the negation of its numeric argument.
 If the argument is a literal without an annotation, it may not be a binary, octal or hexadecimal number because these are supposed to be some &lt;code&gt;bitX&lt;/code&gt; type without a known length (yet) and the result of a minus cannot be defined.&lt;/p&gt;
@@ -922,7 +961,8 @@ It cannot be applied to a literal without a type annotation.&lt;/p&gt;
 &lt;h3 id=&#34;binary-arithmetic-operations&#34;&gt;Binary arithmetic operations&lt;/h3&gt;
 &lt;p&gt;The binary arithmetic operations require that the arguments are of some numeric type.&lt;/p&gt;
 &lt;p&gt;The arithmetic operations work as expected on all arithmetic types.
-See the sections on &amp;laquo;types:arithmetic,arithmetic types&amp;raquo; for details regarding overflow handling.&lt;/p&gt;
+See the sections on &lt;a href=&#34;../types/#integer-types&#34;&gt;arithmetic types&lt;/a&gt;
+ for details regarding overflow handling.&lt;/p&gt;
 &lt;p&gt;The arguments&amp;rsquo; types may differ only in size.
 When they differ, the smaller size value is lifted implicitly to the larger size.
 The operation is then carried out on (possibly lifted) arguments of the same type.&lt;/p&gt;
@@ -935,7 +975,8 @@ var u = x + 1
 In the context of the addition in line 3, the smaller type is lifted to the larger, effectively making &lt;code&gt;x&lt;/code&gt; an &lt;code&gt;int16&lt;/code&gt;.
 Then, 16-bit signed addition is carried out producing an &lt;code&gt;int16&lt;/code&gt; typed result.
 This result is stored into &lt;code&gt;z&lt;/code&gt; making it a &lt;code&gt;int16&lt;/code&gt; variable, too.&lt;/p&gt;
-&lt;p&gt;In line 4, the literal &lt;code&gt;1&lt;/code&gt; is deduced to be of type &lt;code&gt;int8&lt;/code&gt; in the context of this expression (cf. paragraph on &amp;laquo;expr:deduction,type deduction&amp;raquo; for literals).
+&lt;p&gt;In line 4, the literal &lt;code&gt;1&lt;/code&gt; is deduced to be of type &lt;code&gt;int8&lt;/code&gt; in the context of this expression (cf. paragraph on &lt;a href=&#34;#type-deduction-for-literals&#34;&gt;type deduction&lt;/a&gt;
+ for literals).
 Then, 8-bit signed addition is carried out producing an &lt;code&gt;int8&lt;/code&gt; typed result.
 This result is stored into &lt;code&gt;u&lt;/code&gt; making it a &lt;code&gt;int8&lt;/code&gt; variable, too.&lt;/p&gt;
 &lt;p&gt;The following snippet shows typical caveats.&lt;/p&gt;
@@ -966,12 +1007,18 @@ The code only specifies that the result will be stored in an &lt;code&gt;int32&l
 &lt;p&gt;In line 3, the previous issue was resolved by specifying that &lt;code&gt;49&lt;/code&gt; should be treated as an &lt;code&gt;int8&lt;/code&gt;.
 Thus the other operand must be an &lt;code&gt;int8&lt;/code&gt; as well but the given literal is outside the &lt;code&gt;int8&lt;/code&gt; domain.
 (In this particular case, writing &lt;code&gt;(49: int8) + (-128)&lt;/code&gt; would solve the problem due to the asymmetry of signed integers.)&lt;/p&gt;
-&lt;p&gt;The last line shows on operation on different types (of the same size).
+&lt;p&gt;The last line shows an operation on different types (of the same size).
 Addition for natural numbers must not overflow while addition for bits will wrap around.
 It is not clear which one should be used here.
 Either &lt;code&gt;a&lt;/code&gt; or &lt;code&gt;b&lt;/code&gt; need to be explicitly cast using the &lt;code&gt;as&lt;/code&gt; operator to resolve this issue.&lt;/p&gt;
 &lt;h3 id=&#34;bitwise-operations&#34;&gt;Bitwise operations&lt;/h3&gt;
-&lt;p&gt;// TODO&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+
+// TODO
+&lt;/div&gt;
+
 &lt;h3 id=&#34;comparison-operations&#34;&gt;Comparison operations&lt;/h3&gt;
 &lt;p&gt;Unlike C, in Blech equality and inequality have the same priority as the ordering operators.
 Furthermore the precedence of comparison operators is lower than that of any arithmetic, shifting or bitwise operation.&lt;/p&gt;
@@ -980,7 +1027,7 @@ Hence chaining comparisons is possible syntactically but makes little sense.&lt;
 &lt;h4 id=&#34;comparison-chaining&#34;&gt;Comparison chaining&lt;/h4&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var b = 4 &amp;lt; 5 &amp;lt;= false // evaluates to true &amp;lt;= false which is false
 var c = 4 &amp;lt; 5 &amp;lt;= 6 // type error: cannot compare true &amp;lt;= 6
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is different to C because in Blech booleans and numbers are incomparable.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is different to C because in Blech Booleans and numbers are incomparable.&lt;/p&gt;
 &lt;h4 id=&#34;comparison-lifting&#34;&gt;Comparison lifting&lt;/h4&gt;
 &lt;p&gt;Comparison operators lift their arguments to a common sized type like arithmetic operators do (see above).
 Additionally, comparisons permit using literals that would require a larger domain.
@@ -1019,7 +1066,13 @@ x = f as int16       // error! impossible to cast floating point to integral typ
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The restrictions on the casts do not rule out runtime errors.
 At the same time they prevent some manipulations that are possible in C.
 For example, it is not possible to interpret a floating point as a bits type and change individual bits.&lt;/p&gt;
-&lt;p&gt;// TODO is the description of &lt;code&gt;as&lt;/code&gt; correct? Are there restrictions, bugs, features?&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+
+// TODO is the description of &lt;code&gt;as&lt;/code&gt; correct? Are there restrictions, bugs, features?
+&lt;/div&gt;
+
 &lt;h3 id=&#34;evaluation-order&#34;&gt;Evaluation order&lt;/h3&gt;
 &lt;p&gt;Undefined at the moment. Evaluated by the C compiler.&lt;/p&gt;
 

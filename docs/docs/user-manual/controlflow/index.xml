@@ -71,7 +71,7 @@ Note that this deliberately excludes programs where threads are mutually (cyclic
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
 There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
 &lt;/div&gt;
 
@@ -96,21 +96,16 @@ Both, a statement and an expression may have side-effects.&lt;/p&gt;
 &lt;p&gt;Control flow is organised with two kinds of procedures: &lt;em&gt;activities&lt;/em&gt; and &lt;em&gt;functions&lt;/em&gt;.
 Functions are used like in any other imperative language.
 In Blech they have two parameter lists to support causality analysis.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;TODO&lt;/h4&gt;
-See the section on &amp;laquo;decl:subprogs,subprogram declarations&amp;raquo; for more details.
-&lt;/div&gt;
-
+&lt;p&gt;See the section on &lt;a href=&#34;../../declarations/#subprograms&#34;&gt;subprogram declarations&lt;/a&gt;
+ for more details.&lt;/p&gt;
 &lt;p&gt;Functions must terminate within a reaction. Therefore they are said to be instantaneous.&lt;/p&gt;
 &lt;p&gt;Activities are called similarly to functions but their execution continues until it reaches a pause to end the current reaction.
 In the next reaction they resume from the location they have paused and continue execution until the next pause.
 Each reaction of an activity must end after finitely many computation steps.
 However the activity itself may perform an unbounded number of reactions and never terminate.
 It may also terminate after a finite number of reactions.
-In nay case, activities must not be instantaneous&amp;ndash;they need to pause at least once before termination.
-The values of local variables in activities are kept from one reaction to the next.&lt;/p&gt;
+In any case, activities must not be instantaneous&amp;mdash;they need to pause at least once before termination.
+The values of local variables in activities are stored from one reaction to the next.&lt;/p&gt;
 &lt;p&gt;Activities may call other activities or functions.
 Functions however can only call other functions.&lt;/p&gt;
 &lt;h2 id=&#34;synchronous-statements&#34;&gt;Synchronous statements&lt;/h2&gt;
@@ -180,7 +175,7 @@ end
     // usage
     result = run A(array, 7)(output)
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;cobegin&#34;&gt;Cobegin&lt;/h3&gt;
-&lt;p&gt;Concurrent composition is done with the &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
+&lt;p&gt;Concurrent composition is expressed with the &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ForkJoin&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;cobegin&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;with&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+ &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using &lt;code&gt;cobegin&lt;/code&gt; it is possible to compose arbitrary pieces of code.
 The goal is not to parallelise to gain execution speed.
@@ -190,7 +185,7 @@ The code generator will actually sequentialise the code in a causally correct or
 
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
 In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
 &lt;/div&gt;
 
@@ -293,7 +288,7 @@ In this case the preemption is irrelevant for the flow of control.&lt;/p&gt;
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
 The preemption condition is &lt;em&gt;not&lt;/em&gt; checked when the control flow enters the body.
 The &lt;code&gt;when&lt;/code&gt; condition is only checked when control flow resumes from within the body.
 Wrap the preemption inside an &lt;code&gt;if&lt;/code&gt; statement in case you want to check the condition before entering the body.
@@ -413,7 +408,7 @@ end
 In order to avoid an if-then-else cascade &lt;code&gt;setSpeed&lt;/code&gt; tests the prerequisites individually and returns in case some of them is not met.&lt;/p&gt;
 &lt;p&gt;Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.&lt;/p&gt;
 &lt;p&gt;Activities may only return from their main thread.
-In other words &lt;code&gt;return&lt;/code&gt; must not occur inside any branch of a &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
+In other words &lt;code&gt;return&lt;/code&gt; must not occur inside a branch of a &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
 &lt;p&gt;Mind the difference between activity return values and activity output values.
 Outputs are set in every reaction of the activity.
 A return value is returned precisely once in the reaction that terminates the activity.&lt;/p&gt;

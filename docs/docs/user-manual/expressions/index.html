@@ -21,24 +21,24 @@
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
 <title>Expressions | Blech</title><meta property="og:title" content="Expressions" />
-<meta property="og:description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does allow to create function references and thus we have no designators.
+<meta property="og:description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does not allow to create function references and thus we have no designators.
 Operator precedence The expression grammar below will not specify the precedence of operators. This allows for a concise presentation. Therefore this section specifies the precedence separately.
 All operators are left associative in Blech." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/expressions/" />
-<meta property="article:modified_time" content="2020-04-28T14:43:48+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-07-04T01:07:11+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Expressions">
-<meta itemprop="description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does allow to create function references and thus we have no designators.
+<meta itemprop="description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does not allow to create function references and thus we have no designators.
 Operator precedence The expression grammar below will not specify the precedence of operators. This allows for a concise presentation. Therefore this section specifies the precedence separately.
 All operators are left associative in Blech.">
-<meta itemprop="dateModified" content="2020-04-28T14:43:48&#43;02:00" />
-<meta itemprop="wordCount" content="2771">
+<meta itemprop="dateModified" content="2020-07-04T01:07:11&#43;02:00" />
+<meta itemprop="wordCount" content="2762">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Expressions"/>
-<meta name="twitter:description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does allow to create function references and thus we have no designators.
+<meta name="twitter:description" content="The nomenclature in Blech is similar to that in C. There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues). Blech does not allow to create function references and thus we have no designators.
 Operator precedence The expression grammar below will not specify the precedence of operators. This allows for a concise presentation. Therefore this section specifies the precedence separately.
 All operators are left associative in Blech."/>
 
@@ -645,7 +645,7 @@ All operators are left associative in Blech."/>
 	       
 	<p>The nomenclature in Blech is similar to that in C.
 There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues).
-Blech does allow to create function references and thus we have no designators.</p>
+Blech does not allow to create function references and thus we have no designators.</p>
 <h2 id="operator-precedence">Operator precedence</h2>
 <p>The expression grammar below will not specify the precedence of operators.
 This allows for a concise presentation.
@@ -713,7 +713,8 @@ They are composed using operators.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Atom</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> | <span style="color:#000">Literal</span> | <span style="color:#000">&#34;{}&#34;</span> | <span style="color:#000">ArrayLiteral</span> | <span style="color:#000">StructLiteral</span> | <span style="color:#000">ParenthForm</span>
 </code></pre></div><p>Note that the term &ldquo;atom&rdquo; is not to be taken too literally because array and structure literals may contain arbitrary expressions themselves.</p>
 <h3 id="identifiers">Identifiers</h3>
-<p>An identifier occurring as an atom is a name. See section Identifiers and keywords for lexical definition.</p>
+<p>An identifier occurring as an atom is a name. See section <a href="../lexical/#identifiers">Identifiers</a>
+ for a lexical definition.</p>
 <h3 id="literals">Literals</h3>
 <p>Blech supports various numeric literals:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Literal</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">BoolLiteral</span> | <span style="color:#000">Integer</span> | <span style="color:#000">FloatNumber</span>
@@ -731,18 +732,18 @@ It can be explicitly annotated using a type annotation.</p>
 1: int8     // 1 byte signed integer
 1: bits32   // 4 bytes long word
 1: float32  // single precision floating point number
-</code></pre><p>====</p>
-<p>The lexical analysis of <code>Literal</code> above suggests there are three kinds of literals.
+</code></pre><p>The lexical analysis of <code>Literal</code> above suggests there are three kinds of literals.
 In fact, we distinguish two kinds of integers.
 Binary, octal and hexadecimal integer literals form the group of <em>bits literals</em>.
 They may be interpreted as a byte word of some length or as a natural number of some length.</p>
 <pre><code class="language-blech" data-lang="blech">0xFF: nat32    // 4 byte natural number with value 255
 0b101: bit8    // 1 byte word with value 5
-</code></pre><p>They cannot be treated as a signed integer because depending on the length and the machine&rsquo;s representation of negative numbers they might yield a negative or positive value.</p>
+</code></pre><p><a name="bitsandints"></a>
+They cannot be treated as a signed integer because depending on the length and the machine&rsquo;s representation of negative numbers they might yield a negative or positive value.</p>
 <pre><code class="language-blech" data-lang="blech">0xFF: int8    // error! Would be -1 if represented in two's complement
 0xFF: int16   // error! Would be 255 in a two byte word
 </code></pre><p>Also, bits literals cannot be interpreted as floating point numbers.
-For the exact specification of floating point numbers a hexadecimal float literal will be introduced.</p>
+<em>For the exact specification of floating point numbers a hexadecimal float literal will be introduced.</em></p>
 <p><em>Decimal integers</em> may be interpreted as any kind of numeric type as long as the value fits the domain. The example above shows the straightforward use case with the literal <code>1</code>. Below some corner cases are exemplified:</p>
 <pre><code class="language-blech" data-lang="blech">-2: nat16     // error! Outside range of natural numbers
 -200: int8    // error! Outside range [-128..127]
@@ -763,7 +764,8 @@ let b = a + 17
 </code></pre></td></tr></table>
 </div>
 </div><p>In line 1, the 9 is deduced to have type <code>int32</code> because the left hand side is already typed.
-Note that a bits literal cannot be used to initialise an integer for reasons explained &laquo;expr:bitsliterals,above&raquo;.</p>
+Note that a bits literal cannot be used to initialise an integer for reasons explained <a href="#bitsandints">above</a>
+.</p>
 <p>In line 2, the literal <code>17</code> is deduced to be <code>int32</code>, then a signed 32-bit addition is performed and <code>b</code> is also deduced to be an <code>int32</code>.</p>
 <h3 id="complex-literals">Complex literals</h3>
 <h4 id="reset-literal">Reset literal</h4>
@@ -778,7 +780,8 @@ The reset literal, as the name suggests, is most useful to set a modified data s
 x = {}    // now x == {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
 </code></pre><p>The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
 The same is true for arrays with struct payloads.
-See the section on &laquo;types:struct,struct types&raquo; for more details.</p>
+See the section on <a href="../types/#structure-types">Structure types</a>
+ for more details.</p>
 <h4 id="array-literals">Array literals</h4>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ArrayLiteral</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;{&#34;</span> <span style="color:#000">CellInit</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;,&#34;</span> <span style="color:#000">CellInit</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">&#34;}&#34;</span>
 <span style="color:#000">CellInit</span>     ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">IndexExpr</span> <span style="color:#000">&#34;=&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">Expr</span>
@@ -861,16 +864,19 @@ t.y = {a = 7}     // implicitly b = 0
 <h2 id="subscriptions">Subscriptions</h2>
 <p>A subscripting expression selects an item of an array:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Subscription</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>  <span style="color:#000">Primary</span> <span style="color:#000">&#34;[&#34;</span> <span style="color:#000">Expression</span> <span style="color:#000">&#34;]&#34;</span>
-</code></pre></div><p>The index expression must return a value that is non-negative an smaller than the array length.
+</code></pre></div><p>The index expression must return a value that is non-negative and smaller than the array length.
 Otherwise the program will crash in debug build mode and saturate to array index bounds in release mode.</p>
-<p>[IMPORTANT]
-The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Important</h4>
+The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.
+</div>
+
 <h2 id="calls">Calls</h2>
 <p>A call calls a function with a possibly empty series of arguments:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">FunctionCallExpr</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000">RhsArgList</span> <span style="color:#000">LhsArgList</span>
-</code></pre></div><p>[IMPORTANT]
-TODO: Currently the Rhs/LhsArgLists are defined in controlflow.adoc. Restructure?!</p>
-<h2 id="all-computation-expressions">All computation expressions</h2>
+</code></pre></div><h2 id="all-computation-expressions">All computation expressions</h2>
 <p>All expressions above are concerned with retrieving a single value from some data structure. (With the exception of function calls).
 Now all expressions are presented which take a value (or two) and produce a new value from it (those).
 The following rule gives an overview of the remaining expression syntax.</p>
@@ -887,7 +893,8 @@ The following rule gives an overview of the remaining expression syntax.</p>
     | <span style="color:#000">Expr</span> <span style="color:#000">&#34;and&#34;</span> <span style="color:#000">Expr</span>
     | <span style="color:#000">Expr</span> <span style="color:#000">&#34;or&#34;</span> <span style="color:#000">Expr</span>
     | <span style="color:#000">Expr</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;as&#34;</span> <span style="color:#000">Type</span> | <span style="color:#000">Expr</span> <span style="color:#000">&#34;as!&#34;</span> <span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">lowest</span> <span style="color:#000">precedence</span><span style="color:#000;font-weight:bold">)</span>
-</code></pre></div><p>Operator precedence has been discussed &laquo;expr:precedence,above&raquo;.</p>
+</code></pre></div><p>Operator precedence has been discussed <a href="#operator-precedence">above</a>
+.</p>
 <h3 id="unary-operations">Unary operations</h3>
 <p>The unary <code>-</code> (minus) operator yields the negation of its numeric argument.
 If the argument is a literal without an annotation, it may not be a binary, octal or hexadecimal number because these are supposed to be some <code>bitX</code> type without a known length (yet) and the result of a minus cannot be defined.</p>
@@ -897,7 +904,8 @@ It cannot be applied to a literal without a type annotation.</p>
 <h3 id="binary-arithmetic-operations">Binary arithmetic operations</h3>
 <p>The binary arithmetic operations require that the arguments are of some numeric type.</p>
 <p>The arithmetic operations work as expected on all arithmetic types.
-See the sections on &laquo;types:arithmetic,arithmetic types&raquo; for details regarding overflow handling.</p>
+See the sections on <a href="../types/#integer-types">arithmetic types</a>
+ for details regarding overflow handling.</p>
 <p>The arguments&rsquo; types may differ only in size.
 When they differ, the smaller size value is lifted implicitly to the larger size.
 The operation is then carried out on (possibly lifted) arguments of the same type.</p>
@@ -910,7 +918,8 @@ var u = x + 1
 In the context of the addition in line 3, the smaller type is lifted to the larger, effectively making <code>x</code> an <code>int16</code>.
 Then, 16-bit signed addition is carried out producing an <code>int16</code> typed result.
 This result is stored into <code>z</code> making it a <code>int16</code> variable, too.</p>
-<p>In line 4, the literal <code>1</code> is deduced to be of type <code>int8</code> in the context of this expression (cf. paragraph on &laquo;expr:deduction,type deduction&raquo; for literals).
+<p>In line 4, the literal <code>1</code> is deduced to be of type <code>int8</code> in the context of this expression (cf. paragraph on <a href="#type-deduction-for-literals">type deduction</a>
+ for literals).
 Then, 8-bit signed addition is carried out producing an <code>int8</code> typed result.
 This result is stored into <code>u</code> making it a <code>int8</code> variable, too.</p>
 <p>The following snippet shows typical caveats.</p>
@@ -941,12 +950,18 @@ The code only specifies that the result will be stored in an <code>int32</code> 
 <p>In line 3, the previous issue was resolved by specifying that <code>49</code> should be treated as an <code>int8</code>.
 Thus the other operand must be an <code>int8</code> as well but the given literal is outside the <code>int8</code> domain.
 (In this particular case, writing <code>(49: int8) + (-128)</code> would solve the problem due to the asymmetry of signed integers.)</p>
-<p>The last line shows on operation on different types (of the same size).
+<p>The last line shows an operation on different types (of the same size).
 Addition for natural numbers must not overflow while addition for bits will wrap around.
 It is not clear which one should be used here.
 Either <code>a</code> or <code>b</code> need to be explicitly cast using the <code>as</code> operator to resolve this issue.</p>
 <h3 id="bitwise-operations">Bitwise operations</h3>
-<p>// TODO</p>
+
+
+<div class="alert alert-warning" role="alert">
+
+// TODO
+</div>
+
 <h3 id="comparison-operations">Comparison operations</h3>
 <p>Unlike C, in Blech equality and inequality have the same priority as the ordering operators.
 Furthermore the precedence of comparison operators is lower than that of any arithmetic, shifting or bitwise operation.</p>
@@ -955,7 +970,7 @@ Hence chaining comparisons is possible syntactically but makes little sense.</p>
 <h4 id="comparison-chaining">Comparison chaining</h4>
 <pre><code class="language-blech" data-lang="blech">var b = 4 &lt; 5 &lt;= false // evaluates to true &lt;= false which is false
 var c = 4 &lt; 5 &lt;= 6 // type error: cannot compare true &lt;= 6
-</code></pre><p>This is different to C because in Blech booleans and numbers are incomparable.</p>
+</code></pre><p>This is different to C because in Blech Booleans and numbers are incomparable.</p>
 <h4 id="comparison-lifting">Comparison lifting</h4>
 <p>Comparison operators lift their arguments to a common sized type like arithmetic operators do (see above).
 Additionally, comparisons permit using literals that would require a larger domain.
@@ -994,13 +1009,19 @@ x = f as int16       // error! impossible to cast floating point to integral typ
 </code></pre><p>The restrictions on the casts do not rule out runtime errors.
 At the same time they prevent some manipulations that are possible in C.
 For example, it is not possible to interpret a floating point as a bits type and change individual bits.</p>
-<p>// TODO is the description of <code>as</code> correct? Are there restrictions, bugs, features?</p>
+
+
+<div class="alert alert-warning" role="alert">
+
+// TODO is the description of <code>as</code> correct? Are there restrictions, bugs, features?
+</div>
+
 <h3 id="evaluation-order">Evaluation order</h3>
 <p>Undefined at the moment. Evaluated by the C compiler.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 28, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/b8a28b28e472fd89b28d51fc3d378c17f498f363">Updated Markdown version of user manual. Removed obsolete files (b8a28b2)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 4, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6bf93c2b1488bb6733c278060063a22b2429807a">Completed transformation of asciidoc documentation to markdown and fixed a few typos (6bf93c2)</a>
 </div>
 </div>
 
