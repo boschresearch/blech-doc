@@ -8,7 +8,7 @@ description: >
 
 The nomenclature in Blech is similar to that in C.
 There are typed memory locations (objects), left hand side expressions (lvalues) and right hand side expressions (rvalues).
-Blech does allow to create function references and thus we have no designators.
+Blech does not allow to create function references and thus we have no designators.
 
 ## Operator precedence
 The expression grammar below will not specify the precedence of operators.
@@ -49,7 +49,7 @@ Note that the term "atom" is not to be taken too literally because array and str
 
 ### Identifiers
 
-An identifier occurring as an atom is a name. See section Identifiers and keywords for lexical definition.
+An identifier occurring as an atom is a name. See section [Identifiers](../lexical/#identifiers) for a lexical definition.
 
 ### Literals
 
@@ -79,7 +79,6 @@ It can be explicitly annotated using a type annotation.
 1: bits32   // 4 bytes long word
 1: float32  // single precision floating point number
 ```
-====
 
 The lexical analysis of `Literal` above suggests there are three kinds of literals.
 In fact, we distinguish two kinds of integers.
@@ -91,6 +90,7 @@ They may be interpreted as a byte word of some length or as a natural number of 
 0b101: bit8    // 1 byte word with value 5
 ```
 
+<a name="bitsandints"></a>
 They cannot be treated as a signed integer because depending on the length and the machine's representation of negative numbers they might yield a negative or positive value.
 
 ```blech
@@ -99,7 +99,7 @@ They cannot be treated as a signed integer because depending on the length and t
 ```
 
 Also, bits literals cannot be interpreted as floating point numbers.
-For the exact specification of floating point numbers a hexadecimal float literal will be introduced.
+*For the exact specification of floating point numbers a hexadecimal float literal will be introduced.*
 
 _Decimal integers_ may be interpreted as any kind of numeric type as long as the value fits the domain. The example above shows the straightforward use case with the literal `1`. Below some corner cases are exemplified:
 
@@ -124,7 +124,7 @@ let b = a + 17
 ```
 
 In line 1, the 9 is deduced to have type `int32` because the left hand side is already typed.
-Note that a bits literal cannot be used to initialise an integer for reasons explained <<expr:bitsliterals,above>>.
+Note that a bits literal cannot be used to initialise an integer for reasons explained [above](#bitsandints).
 
 In line 2, the literal `17` is deduced to be `int32`, then a signed 32-bit addition is performed and `b` is also deduced to be an `int32`.
 
@@ -151,7 +151,7 @@ x = {}    // now x == {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
 
 The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
 The same is true for arrays with struct payloads.
-See the section on <<types:struct,struct types>> for more details.
+See the section on [Structure types](../types/#structure-types) for more details.
 
 #### Array literals
 
@@ -281,11 +281,12 @@ A subscripting expression selects an item of an array:
 Subscription ::=  Primary "[" Expression "]"
 ```
 
-The index expression must return a value that is non-negative an smaller than the array length.
+The index expression must return a value that is non-negative and smaller than the array length.
 Otherwise the program will crash in debug build mode and saturate to array index bounds in release mode.
 
-[IMPORTANT]
+{{< alert title="Important" color="warning">}}
 The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.
+{{< /alert >}}
 
 ## Calls
 
@@ -295,8 +296,6 @@ A call calls a function with a possibly empty series of arguments:
 FunctionCallExpr ::= Identifier RhsArgList LhsArgList
 ```
 
-[IMPORTANT]
-TODO: Currently the Rhs/LhsArgLists are defined in controlflow.adoc. Restructure?!
 
 ## All computation expressions
 
@@ -320,7 +319,7 @@ Expr ::=
     | Expr ":" Type | Expr "as" Type | Expr "as!" Type (lowest precedence)
 ```
 
-Operator precedence has been discussed <<expr:precedence,above>>.
+Operator precedence has been discussed [above](#operator-precedence).
 
 ### Unary operations
 
@@ -337,7 +336,7 @@ The unary `not` operator yields the opposite of its Boolean argument.
 The binary arithmetic operations require that the arguments are of some numeric type.
 
 The arithmetic operations work as expected on all arithmetic types.
-See the sections on <<types:arithmetic,arithmetic types>> for details regarding overflow handling.
+See the sections on [arithmetic types](../types/#integer-types) for details regarding overflow handling.
 
 The arguments' types may differ only in size.
 When they differ, the smaller size value is lifted implicitly to the larger size.
@@ -357,7 +356,7 @@ In the context of the addition in line 3, the smaller type is lifted to the larg
 Then, 16-bit signed addition is carried out producing an `int16` typed result.
 This result is stored into `z` making it a `int16` variable, too.
 
-In line 4, the literal `1` is deduced to be of type `int8` in the context of this expression (cf. paragraph on <<expr:deduction,type deduction>> for literals).
+In line 4, the literal `1` is deduced to be of type `int8` in the context of this expression (cf. paragraph on [type deduction](#type-deduction-for-literals) for literals).
 Then, 8-bit signed addition is carried out producing an `int8` typed result.
 This result is stored into `u` making it a `int8` variable, too.
 
@@ -382,14 +381,16 @@ In line 3, the previous issue was resolved by specifying that `49` should be tre
 Thus the other operand must be an `int8` as well but the given literal is outside the `int8` domain.
 (In this particular case, writing `(49: int8) + (-128)` would solve the problem due to the asymmetry of signed integers.) 
 
-The last line shows on operation on different types (of the same size).
+The last line shows an operation on different types (of the same size).
 Addition for natural numbers must not overflow while addition for bits will wrap around.
 It is not clear which one should be used here.
 Either `a` or `b` need to be explicitly cast using the `as` operator to resolve this issue.
 
 
 ### Bitwise operations
+{{< alert color="warning">}}
 // TODO
+{{< /alert >}}
 
 ### Comparison operations
 
@@ -406,7 +407,7 @@ var b = 4 < 5 <= false // evaluates to true <= false which is false
 var c = 4 < 5 <= 6 // type error: cannot compare true <= 6
 ```
 
-This is different to C because in Blech booleans and numbers are incomparable.
+This is different to C because in Blech Booleans and numbers are incomparable.
 
 #### Comparison lifting
 
@@ -465,8 +466,9 @@ The restrictions on the casts do not rule out runtime errors.
 At the same time they prevent some manipulations that are possible in C.
 For example, it is not possible to interpret a floating point as a bits type and change individual bits.
 
+{{< alert color="warning">}}
 // TODO is the description of `as` correct? Are there restrictions, bugs, features?
-
+{{< /alert >}}
 ### Evaluation order
 
 Undefined at the moment. Evaluated by the C compiler.

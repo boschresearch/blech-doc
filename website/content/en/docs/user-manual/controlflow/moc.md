@@ -65,7 +65,7 @@ In essence, for every variable there is a write-before-read policy in every reac
 This allows for normal sequential imperative programming within a thread and at the same time leverages the expressiveness and simplicity of synchronous concurrent programming.
 Note that this deliberately excludes programs where threads are mutually (cyclically) dependent within a reaction.
 
-{{% alert color="warning" %}}
+{{% alert title="Important" color="warning" %}}
 
 There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
 

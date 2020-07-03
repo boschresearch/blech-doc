@@ -28,9 +28,9 @@ The following sections precisely describe which types exist, what their domains 
 
 Blech distinguishes a `bool` type with two values: `true` and `false`.
 Boolean values may be combined using the binary `and` and `or` operators.
-A boolean value is inverted by the unary `not` operator.
+A Boolean value is inverted by the unary `not` operator.
 All comparisons are admissible.
-Expressions which evaluate to a boolean value are called _conditions_.
+Expressions which evaluate to a Boolean value are called _conditions_.
 
 In Blech, it is required that conditions that determine the control flow must be side-effect free.
 For example, the statements `await`, `abort`, `reset`, `repeat..until`, `while`, `if` all require side-effect free conditions.
@@ -44,20 +44,19 @@ Other imperative control flow statements such as loops or the `if` statement fol
 Integer types are divided into three categories: natural numbers, signed integer numbers and "bits".
 Each one exist in four sizes that indicate the number of bits needed in a machine to represent a value of this type: 8, 16, 32, 64.
 
-.Integer types
-[cols="2*",grid=rows]
-|===
-| `nat8`, `nat16`, `nat32`, `nat64` | Natural numbers
-| `int8`, `int16`, `int32`, `int64` | Signed integer numbers
-| `bits8`, `bits16`, `bits32`, `bits64` | Bits
-|===
+| Integer types |
+| -- | -- |
+| `nat8`, `nat16`, `nat32`, `nat64` | Natural numbers |
+| `int8`, `int16`, `int32`, `int64` | Signed integer numbers |
+| `bits8`, `bits16`, `bits32`, `bits64` | Bits |
 
 The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length `N` with a range of `0` to `2^N -1` from integer numbers centred around 0 with a range of `2^(N-1)` to `2^(N-1) -1`.
-However, by design, the operations on both kinds of numbers prohibit overflows.Computations must stay within the representable domain. 
-Depending on the build mode an overflow causes the program to crash or to mitigate it using saturation arithmetic.
+However, by design, the operations on both kinds of numbers prohibit overflows.
+Computations must stay within the representable domain. 
+*In a future implementation an overflow either causes the program to crash or to mitigate it using saturation arithmetic depending on the build mode.*
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the `bitsX` type is introduced.
-The bits type of length `N` have the same value range as the natural numbers of the same length.
+The bits types of length `N` have the same value range as the natural numbers of the same length.
 
 It is possible to cast between all three types without information loss so long as the size remains unchanged.
 
@@ -67,7 +66,7 @@ The `bitsX` types additionally admit bitwise operations.
 ## Floating-point types
 Blech provides the two most commonly used floating point types `float32` and `float64`.
 The language assumes an implementation of these according to IEEE standards.
-In the generated code they are mapped to C's `float` and `double` respectively (see section on <<types:blechconf,blechconf.h>> below).
+In the generated code they are mapped to C's `float` and `double` respectively (see section on [blechconf.h](#blechconfh) below).
 
 Note that the C standard does not guarantee an IEEE compliant implementation of its floating point types nor does it require that `float` and `double` are distinct types at all.
 It is the system integrators responsibility to ensure that the C compiler at hand does fulfil Blech's assumptions.
@@ -88,7 +87,7 @@ end
 ```
 
 The function `f` expects one read-only argument `a`.
-It is two dimensional array (a table) with 4 rows and 5 columns.
+It is a two dimensional array (a table) with 4 rows and 5 columns.
 Each cell contains a `float32` number.
 
 Unlike C, in Blech the lengths appear before the payload type in the type declaration.
@@ -198,7 +197,6 @@ var s: S
 resetS()(s)
 ```
 
-[[types:blechconf]]
 ## blechconf.h
 
 Blech compiles to C.

@@ -119,7 +119,7 @@ NonZeroDigit ::= "1"..."9"
 
 BinInteger ::= "0b" ( ["_"] ( "0" | "1" ) )+
 OctInteger ::= "0o" ( ["_"] "0"..."7" )+
-HexInteger ::= "0x" ( ["_"] "0"..."7" ["_"] (Digit | "a"..."f" | "A"..."F") )+  
+HexInteger ::= "0x" ( ["_"] (Digit | "a"..."f" | "A"..."F") )+  
 DecInteger ::= NonZeroDigit (["_"] Digit)* | "0" (["_"] "0")*
 
 Integer ::= DecInteger | BinInteger | OctInteger | HexInteger

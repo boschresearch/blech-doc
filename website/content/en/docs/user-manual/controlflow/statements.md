@@ -16,9 +16,7 @@ Control flow is organised with two kinds of procedures: _activities_ and _functi
 Functions are used like in any other imperative language.
 In Blech they have two parameter lists to support causality analysis.
 
-{{% alert title="TODO" %}}
-See the section on <<decl:subprogs,subprogram declarations>> for more details.
-{{% /alert %}}
+See the section on [subprogram declarations](../../declarations/#subprograms) for more details.
 
 Functions must terminate within a reaction. Therefore they are said to be instantaneous.
 
@@ -27,8 +25,8 @@ In the next reaction they resume from the location they have paused and continue
 Each reaction of an activity must end after finitely many computation steps.
 However the activity itself may perform an unbounded number of reactions and never terminate.
 It may also terminate after a finite number of reactions.
-In nay case, activities must not be instantaneous--they need to pause at least once before termination.
-The values of local variables in activities are kept from one reaction to the next.
+In any case, activities must not be instantaneous---they need to pause at least once before termination.
+The values of local variables in activities are stored from one reaction to the next.
 
 Activities may call other activities or functions.
 Functions however can only call other functions.
@@ -110,7 +108,7 @@ end
 
 ### Cobegin
 
-Concurrent composition is done with the `cobegin` statement.
+Concurrent composition is expressed with the `cobegin` statement.
 
 ```abnf
 ForkJoin ::= "cobegin" ["weak"] StmtBlock ("with" ["weak"] StmtBlock)+ "end"
@@ -122,7 +120,7 @@ Rather this the language construct to express that two (or more) functionalities
 As such concurrency is rather a modelling concept in Blech.
 The code generator will actually sequentialise the code in a causally correct order.
 
-{{< alert color="info" >}}
+{{< alert title="Note" color="info" >}}
 In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
 {{< /alert >}}
 
@@ -241,7 +239,7 @@ where `hasTerminated` is a fresh boolean variable.
 It is, of course, possible that the body is left instantaneously within one reaction.
 In this case the preemption is irrelevant for the flow of control.
 
-{{< alert color="warning">}}
+{{< alert title="Important" color="warning">}}
 The preemption condition is *not* checked when the control flow enters the body.
 The `when` condition is only checked when control flow resumes from within the body.
 Wrap the preemption inside an `if` statement in case you want to check the condition before entering the body.
@@ -398,7 +396,7 @@ In order to avoid an if-then-else cascade `setSpeed` tests the prerequisites ind
 Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.
 
 Activities may only return from their main thread.
-In other words `return` must not occur inside any branch of a `cobegin` statement.
+In other words `return` must not occur inside a branch of a `cobegin` statement.
 
 Mind the difference between activity return values and activity output values.
 Outputs are set in every reaction of the activity.

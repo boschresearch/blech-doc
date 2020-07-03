@@ -26,7 +26,7 @@ For example, a function body is a local scope.
 Variables defined in this scope are visible in this function but not outside of it.
 Composite statements, such as the `repeat` loop introduce their statement-local scope. This allows to introduce a variable that is visible during the iteration through this loop and not outside of it.
 
-{{< alert color="info" >}}
+{{< alert title= "Note" color="info" >}}
 Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
 {{< /alert >}}
 
@@ -34,7 +34,7 @@ In Blech, declarations not only introduce a name but also _define_ what this nam
 That is the block of statements that are executed when this functions is called.
 The definition may refer to names that were previously declared.
 
-{{< alert color="warning">}}
+{{< alert title="Important" color="warning">}}
 Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
 {{< /alert >}}
 
@@ -55,10 +55,10 @@ var x: int32 = 17
 ```
 
 The type is either a built-in type or a name of a user defined type.
-Built-in types are discussed in the next chapter.
-Type declarations are discussed in the next section.
+Built-in types are discussed in the [Types chapter](../types).
+Type declarations are discussed [below](#user-defined-types).
 
-Initialisers are expressions that evaluate to a value that matches this declaration's data type. Expressions (including literals) will be discussed in a later chapter.
+Initialisers are expressions that evaluate to a value that matches this declaration's data type. Expressions (including literals) are discussed in the [Expressions chapter](../expressions).
 
 ### Qualifiers
 
@@ -110,12 +110,12 @@ function f()
 end
 ```
 
-{{< alert color="info" >}}
+{{< alert title="Note" color="info" >}}
 No global variables in Blech!
 We deliberately prohibit the use of `let` and `var` outside subprogram scopes because we believe this leads to better understandable, easier to integrate and unit-testable programs.
 {{< /alert >}}
 
-{{< alert color="warning">}}
+{{< alert title="Important" color="warning">}}
 Confusion may arise about the difference between `param` and `let`.
 They both qualify immutable data in memory.
 They could be even stored in the same way which however is a compiler implementation detail and none of the concerns of the programmer.
@@ -125,7 +125,7 @@ Once the scope is left and re-entered, the value of that `let` variable may be r
 As stated above, ```param``` data cannot be changed by the running program at all, it is completely static.
 {{< /alert >}}
 
-{{< alert color="warning">}}
+{{< alert title="Important" color="warning">}}
 The word "parameter" appears in two notions. One is the "formal parameter" of a function or activity.
 The other is the "param" qualifier for immutable data.
 The first parametrises a function (ar activity), the second parametrises a whole binary.
@@ -135,8 +135,9 @@ We try to make clear which one we mean throughout this document. Usually it shou
 ##  User defined types
 
 The programmer may define a data structure using the `struct` keyword.
-{{< alert title="TODO" >}}
-See the chapter on [struct types](/docs/user-manual/types/#structure-types) for more details.
+See the chapter on [struct types](../types/#structure-types) for more details.
+{{< alert title="Info" color="info">}}
+As the implementation of the compiler progresses there will be more user definable types.
 {{< /alert >}}
 
 ## Subprograms
@@ -205,8 +206,9 @@ As before, external functions may be characterised as `singleton` which means su
 
 External declarations additionally require annotations which we introduce by example below.
 
-[IMPORTANT]
+{{< alert title="Important" color="warning">}}
 Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We'll point out a few caveats below.
+{{< /alert >}}
 
 ### External constants
 
@@ -237,8 +239,9 @@ By design the Blech compiler generates C code that links with other C code but a
 The aforementioned constants may be declared in local scopes as well.
 Additionally, local Blech variables that link to external global variables may be declared inside activities (but not in functions).
 
-[NOTE]
+{{< alert title="Info" color="info">}}
 There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.
+{{< /alert >}}
 
 Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
 These variables follow the same rules as the usual activity-local variables.
@@ -255,7 +258,7 @@ This example assumes there is either a C macro or a C variable `PIN_7` that retu
 The declaration creates a local variable inside the enclosing activity.
 It serves as a copy-in buffer.
 When the activity starts a reaction the value of `PIN_7` is copied into `isButtonPressed`.
-Within the Blech program we can only access the buffer `isButtonPressed` and thereby have the guarantee that the value does not change during one reaction.
+Within the Blech program we can only access the buffer `isButtonPressed` and thereby have the guarantee that the value does not change during the reaction.
 This corresponds to the semantics of activity input parameters.
 
 An activity that declares an immutable external variable does not become a singleton.
@@ -317,6 +320,7 @@ However, it may become useful in the future once a build system can make sense o
 
 
 ```blech
+@[CFunction (source="impl.c")]
 extern function myCFunction(i: float64) returns float64
 ```
 
@@ -328,7 +332,7 @@ Assume the above declaration is written in a Blech file called `MyFile.blc`, the
 blc_float64 blc_MyFile_myCFunction (const blc_float64 blc_i);
 ```
 
-It is up to the C programmer now to include this header in his implementation and provide an actual definition of this function.
+It is up to the C programmer now to include this header in his implementation file `impl.c` and provide an actual definition of this function.
 
 ### Remarks on caveats when interfacing with C
 
