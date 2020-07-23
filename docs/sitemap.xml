@@ -88,6 +88,11 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/docs/blechc-development/pctree/</loc>
+    <lastmod>2020-07-11T12:26:42+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/about/privacy-policy/</loc>
     <lastmod>2020-06-16T16:55:43+02:00</lastmod>
   </url>
@@ -203,8 +208,13 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/</loc>
+    <lastmod>2020-07-23T10:02:44+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/</loc>
-    <lastmod>2020-06-15T14:58:43+02:00</lastmod>
+    <lastmod>2020-07-23T08:48:40+02:00</lastmod>
   </url>
   
   <url>

@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.69.2" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>The basic idea behind Blech – A practitioner&#39;s point of view | Blech</title><meta property="og:title" content="The basic idea behind Blech – A practitioner&#39;s point of view" />
+<meta property="og:description" content="Maintaining control over the increasing complexity of today&#39;s embedded systems is the main goal of Blech. Therefore, Blech lifts embedded programming to a higher level of abstraction. But what does that actually mean? In this article we consider this from a practitioner&#39;s point of view.   
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" />
+<meta property="article:published_time" content="2020-07-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-07-23T10:02:44+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="The basic idea behind Blech – A practitioner&#39;s point of view">
+<meta itemprop="description" content="Maintaining control over the increasing complexity of today&#39;s embedded systems is the main goal of Blech. Therefore, Blech lifts embedded programming to a higher level of abstraction. But what does that actually mean? In this article we consider this from a practitioner&#39;s point of view.   
+">
+<meta itemprop="datePublished" content="2020-07-22T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-07-23T10:02:44&#43;02:00" />
+<meta itemprop="wordCount" content="3070">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="The basic idea behind Blech – A practitioner&#39;s point of view"/>
+<meta name="twitter:description" content="Maintaining control over the increasing complexity of today&#39;s embedded systems is the main goal of Blech. Therefore, Blech lifts embedded programming to a higher level of abstraction. But what does that actually mean? In this article we consider this from a practitioner&#39;s point of view.   
+"/>
+
+
+
+
+
+
+
+<link rel="preload" href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" as="style">
+<link href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+<script src=https://www.blech-lang.org/js/opt-in.js></script>
+
+
+
+  </head>
+  <body class="td-page td-blog">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/about/" ><span>About us</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/docs/" ><span>Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/blog/" ><span class="active">Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/community/" ><span>Community</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Blog</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blog">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/articles/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Articles</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blogarticles">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view" href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/">The basic idea behind Blech</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200615decoding-the-dcf77-signal-with-blech" href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">DCF77 decoding</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200527the-purpose-of-blech" href="/blog/2020/05/27/the-purpose-of-blech/">The purpose of Blech</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/releases/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Releases</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogreleases">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200421blech-compiler-version-051" href="/blog/2020/04/21/blech-compiler-version-0.5.1/">blechc 0.5.1</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200420blech-vs-code-extension-052" href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">vsce 0.5.2</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/events/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Events</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogevents">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20191201synchron-2019" href="/blog/2019/12/01/synchron-2019/">Synchron 2019</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20190710wcet-2019-keynote" href="/blog/2019/07/10/wcet-2019-keynote/">WCET 2019</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/articles/core-idea/index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=The%20basic%20idea%20behind%20Blech%20%e2%80%93%20A%20practitioner&amp;#39;s%20point%20of%20view" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#application-example-uart-communication">Application example: UART communication</a></li>
+    <li><a href="#implementation-schemes-in-c">Implementation schemes in C</a>
+      <ul>
+        <li><a href="#the-blocking-style">The blocking style</a></li>
+        <li><a href="#the-event-based-style">The event-based style</a></li>
+      </ul>
+    </li>
+    <li><a href="#a-higher-abstraction-level---the-pseudo-blocking-style">A higher abstraction level - the pseudo-blocking style</a></li>
+    <li><a href="#concurrency-in-blech">Concurrency in Blech</a>
+      <ul>
+        <li><a href="#concurrency-versus-single-threaded-c-code----a-contradiction">Concurrency versus single-threaded C code &ndash; a contradiction?</a></li>
+        <li><a href="#single-core-applications">Single-core applications</a></li>
+        <li><a href="#multi-core-applications">Multi-core applications</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5 pr-md-4" role="main">
+            <a class="btn btn-sm -bg-secondary td-rss-button d-none d-lg-block" href="https://www.blech-lang.org/blog/articles/index.xml" target="_blank">
+              RSS <i class="fa fa-rss ml-2 "></i>
+            </a>
+            
+<div class="td-content">
+	<h1>The basic idea behind Blech – A practitioner&#39;s point of view</h1>
+	<div class="lead">Maintaining control over the increasing complexity of today&rsquo;s embedded systems is the main goal of Blech. Therefore, Blech lifts embedded programming to a higher level of abstraction. But what does that actually mean? In this article we consider this from a practitioner&rsquo;s point of view.</div>
+	<div class="td-byline mb-4">
+		By <b>Matthias Terber</b> |
+		<time datetime="2020-07-22" class="text-muted">Wednesday, July 22, 2020</time>
+	</div>
+	<h2 id="application-example-uart-communication">Application example: UART communication</h2>
+<p>Let us consider a simple embedded use case. We want to implement a <a href="https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter" target="_blank">UART</a>
+ communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other. The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions.</p>
+<p>Apart from the sole functional correctness it is important that the application is generally compatible with the stringent constraints of the embedded domain. That is, very limited resources &ndash; <em>computation time</em> and <em>memory</em> &ndash; and possible <em>realtime requirements</em>. Keeping the embedded software reactive is key in order to handle realtime-critical events in time.</p>
+<p>Below sections discuss different implementation schemes in C and Blech for realizing the buffer transmission.</p>
+<h2 id="implementation-schemes-in-c">Implementation schemes in C</h2>
+<p>In the following section we consider the pros and cons of two popular programming styles for implementing the UART communication in C. The focus is on software engineering and suitability for the embedded domain.</p>
+<h3 id="the-blocking-style">The blocking style</h3>
+<p>Let us assume that we &ndash; as software developers &ndash; do not have any experience in writing embedded code and we do not know anything about the stringent constraints imposed by the embedded domain. We just (naively) start by implementing a function <code>send_buffer</code> that encapsulates all the details required for data transmission. This approach is reasonable and natural because this is what we have been taught in school and at the university. Motivated by several fundamental software engineering principles such as abstraction, separation of concerns, encapsulation and so forth we develop the solution below:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">send_buffer</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">u8</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">buf</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">u16</span> <span style="color:#000">len</span><span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">u16</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">&lt;</span> <span style="color:#000">len</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span><span style="color:#ce5c00;font-weight:bold">++</span><span style="color:#000;font-weight:bold">)</span>
+    <span style="color:#000;font-weight:bold">{</span>
+        <span style="color:#204a87;font-weight:bold">while</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000">UART1_FLAG_TXE</span><span style="color:#000;font-weight:bold">);</span>
+        <span style="color:#000">UART1</span><span style="color:#ce5c00;font-weight:bold">-&gt;</span><span style="color:#000">DR</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">buf</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">];</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>We pass the buffer and its length to the function. Then, we loop over the buffer. For each byte, we first wait for the UART device to become ready, second copy the next byte into the UART data register and third check whether or not we have reached the end of the buffer &ndash; it is as simple as that.</p>
+<p>In this approach, everything related to the transmission is <em>local</em>. With local I not only mean the data in sense of local variables. I also mean the code &ndash; the knowledge &ndash; that is required to describe all necessary steps that have to be done. This makes it not only easy to comprehend how the transmission actually works but also facilitates its usage, debugging and maintenance. If something is not working as expected or if we want to change or extend the procedure in some way we know that <code>send_buffer</code> is the sole code block to look at.</p>
+<p>However, there is a high price to be paid in order to obtain above encapsulation benefits. If we want to encapsulate the transmission of an entire buffer &ndash; and not only of single bytes &ndash; a call of <code>send_buffer</code> must inevitably outlive the transmission of multiple bytes. For this, its code has to be implemented in a <em>blocking</em> fashion so that it does not terminate once a single byte has been sent out. This becomes apparent from Line 5 in which we wait for the UART device to finish the transmission of the current byte. A <code>while</code> loop polls the corresponding UART flag in order to block the control flow of <code>send_buffer</code> before it proceeds with the next byte. The runtime behaviour of <code>send_buffer</code> is exemplarily depicted below:</p>
+<p><img src="oszi_1.png" alt=""></p>
+<p>Above example scope capture shows the transmission of a 3-byte buffer. <code>SW</code> indicates when the CPU is busy (<code>SW -&gt; HIGH</code>) with executing <code>send_buffer</code> while <code>TX</code> shows the physical output signal of the UART hardware. It is easy to see that the entire processing time is eaten up by <code>send_buffer</code> until the last byte has been sent out. This causes several drawbacks:</p>
+<ul>
+<li>The thread calling <code>send_buffer</code> is blocked for anything else. No other code can run concurrently so that
+<ul>
+<li>no other concerns of the embedded system can be processed.</li>
+<li>no other (important) events can be handled meanwhile.</li>
+</ul>
+</li>
+<li>The CPU continuously runs at full speed leading to high consumption of processing time and energy.</li>
+<li>The call stack of <code>send_buffer</code> is not freed so that memory cannot be reused for other concerns meanwhile.</li>
+</ul>
+<p>Remember that, depending on the UART baudrate and the length of the buffer, above conditions can be true for a significant period of time. Consider a typical UART baudrate of 115.200bit/s and a buffer length of 1024bit. In this case, one execution of <code>send_buffer</code> would already block your software for 8.88 milliseconds &ndash; a small eternity in the embedded domain! Thus, in sum, this approach leads to <em>poor reactivity</em> and <em>high resource consumption</em>.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Conclusion</h4>
+<p>As a conclusion we can say that the <em>blocking style</em> makes it generally</p>
+<ul>
+<li><strong>easy</strong> to fulfil software engineering principles.</li>
+<li><strong>hard</strong> to fulfil constraints of the embedded domain.</li>
+</ul>
+
+</div>
+
+<h3 id="the-event-based-style">The event-based style</h3>
+<p>Due to above limitations, practically all embedded software solutions decide in favour of the stringent embedded constraints and follow a non-blocking, <em>event-based</em> style instead. In this approach, code is executed only if necessary. That is, whenever an <em>event</em> &ndash; a noteable change of the environment &ndash; has happened.</p>
+<p>Event-driven behaviour, however, is not supported by C on language level. Typical workarounds rely on <em>statemachines</em> and <em>callbacks</em> that are executed in an asynchronous-concurrent fashion. See the example below:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#204a87;font-weight:bold">static</span> <span style="color:#000">u8</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">_buf</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">u16</span> <span style="color:#000">_len</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">u16</span> <span style="color:#000">_tx</span><span style="color:#000;font-weight:bold">;</span>
+
+<span style="color:#000">ISR</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">UART1_TX</span><span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#000">_tx</span><span style="color:#ce5c00;font-weight:bold">++</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">_tx</span> <span style="color:#ce5c00;font-weight:bold">&lt;</span> <span style="color:#000">_len</span><span style="color:#000;font-weight:bold">)</span>
+    <span style="color:#000;font-weight:bold">{</span>
+        <span style="color:#000">UART1</span><span style="color:#ce5c00;font-weight:bold">-&gt;</span><span style="color:#000">DR</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">_buf</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">_tx</span><span style="color:#000;font-weight:bold">];</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">send_buffer</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">u8</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">buf</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">u16</span> <span style="color:#000">len</span><span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">while</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000">UART1_FLAG_TXE</span><span style="color:#000;font-weight:bold">);</span>
+    <span style="color:#000">_buf</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">buf</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#000">_len</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">len</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#000">_tx</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span>
+    <span style="color:#000">UART1</span><span style="color:#ce5c00;font-weight:bold">-&gt;</span><span style="color:#000">DR</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">_buf</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">_tx</span><span style="color:#000;font-weight:bold">];</span>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>In this solution, <code>send_buffer</code> is only used to <em>initiate</em> the buffer transfer. It waits for the UART device to become ready, saves the buffer, its length and a transmission counter as global variables, and finally writes the first buffer byte into the UART data register. Then, in contrast to the blocking style above, <code>send_buffer</code> immediately terminates although not even a single byte has been actually transmittet yet.</p>
+<p>Once the first byte has physically left the UART device, the hardware automatically executes the interrupt service routine in Line 12 which picks the next byte from the buffer and triggers its transmission. This process repeats for each byte until the entire buffer has been transferred. Ultimately, the buffer transmission is driven by a chain of callbacks that advances the progress step by step. The corresponding runtime behaviour of this approach is shown below:</p>
+<p><img src="oszi_2.png" alt=""></p>
+<p>This time, the CPU is only busy when a new byte transmission is to be triggered. Meanwhile it could either process other concerns, react on other events or go to sleep in order to save energy. Since <code>send_buffer</code> terminates after each byte its stack space is freed and can be easily reused for something else. By this, the event-driven approach perfectly fits the embedded domain.</p>
+<p>However, all the valuable software engineering benefits of the blocking approach are gone. The functionality &ldquo;buffer transmission&rdquo; is now torn apart a function, an interrupt service routine and a set of global variables. This eliminates locality and requires me &ndash; the software developer &ndash; to implement <em>manual stack</em> and <em>state management</em> in order to maintain the program state across several function and ISR calls respectively.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+Remember that stack and state management are actually low-level tasks done by the <a href="https://de.wikipedia.org/wiki/Prozessor" target="_blank">CPU</a>
+, using a program counter and a set of working registers, in order to reduce the burden of the software developer. Now, with statemachines and callbacks, we have to do this tedious and error-prone job in my high-level programming realm &ndash; doesn&rsquo;t that sound kind of inherently contradictory and counterproductive?
+</div>
+
+<p>All the data (the stack) that has to outlive multiple function calls, e.g. the pointer of the buffer, the buffer length and the transmission counter, have to be stored in global memory. The latter by itself entails a whole line up of engineering drawbacks. In addition, the asynchronous event-driven execution of <code>send_buffer</code> and the interrupt service routine provokes concurrency bugs and non-deterministic runtime behaviour by design. By the way, what will happen if <code>send_buffer</code> is called while a buffer transmission is still ongoing?</p>
+<p>The progress of the program (the state) is encoded in a statemachine that advances on each event. On the one hand, statemachines are generally a very efficient and well understood technology in order to describe and execute event-driven behaviour for and by <em>machines</em> respectively. But, on the other hand, statemachines are less suitable for <em>humans</em>, especially when it comes to readability and comprehensibility.</p>
+<p>In statemachines, <em>state is explicit</em> while <em>control flow is implicit</em>. This makes it easy to generically describe and perform single computation steps by transition tables based on the current state and the current input. But for us &ndash; as software developers &ndash; this is <em>not</em> the natural understanding with what we have grown up. We are used to write code in a sequential fashion in which control flow is paramount. State is only implicitly given by the current code line that is to be executed and the set of variables. When looking at a statemachine implementation, irrespective of whether it is given as C code or a graphical drawing, it is generally difficult to comprehend the sequence of decisions and commands that have to be taken and executed in order to realize a certain functionality.</p>
+<p>Finally, think about how you would establish automated tests for this kind of code. You could write unit tests for each of the functions &ndash; which is by itself not easy because they internally rely on global variables &ndash; but this only covers the behaviour of your software on a per event basis. With this approach, it is really difficult to systematically test the behaviour over time across several reactions. Not only because the code is highly distributed but also because the runtime behaviour is inherently non-deterministic and hence not reproducible.</p>
+<p>To sum it up, the event-based style encourages software solutions that are difficult to program, comprehend, test and maintain.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Conclusion</h4>
+<p>As a conclusion we can say that the <em>event-based style</em> makes it generally</p>
+<ul>
+<li><strong>hard</strong> to fulfil software engineering principles.</li>
+<li><strong>easy</strong> to fulfil constraints of the embedded domain.</li>
+</ul>
+
+</div>
+
+<h2 id="a-higher-abstraction-level---the-pseudo-blocking-style">A higher abstraction level - the pseudo-blocking style</h2>
+<p>Looking back to above implementation schemes the following becomes apparent:</p>
+<ul>
+<li>The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.</li>
+<li>The event-driven style, on the other hand, perfectly matches the stringent embedded constraints but it seems that we figuratively fallback to a lower level of programming.</li>
+</ul>
+<p>What if we lived in a <em>perfect world</em> where we could cherry-pick and combine the advantages of both approaches? &ndash; Welcome to Blech!</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Basic Idea</h4>
+The basic idea behind Blech is to let the software developer write code in a <em>blocking fashion</em> (good software quality) and systematically compile it into an efficient, deterministic, <em>event-driven</em> statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech <em>lifting embedded programming to the next level</em>.
+</div>
+
+<p>This concept is what I call the <em>pseudo-blocking</em> style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.</p>
+<p>The following code snippet shows how the buffer transmission can look like in Blech:</p>
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;UART_isReady&quot;, header = &quot;uart.h&quot;)]
+extern singleton function uart_isReady() returns bool
+@[CFunction (binding = &quot;UART_sendByte&quot;, header = &quot;uart.h&quot;)]
+extern singleton function uart_sendByte(val: nat8)
+
+const LEN: nat16 = 20
+
+activity SendBuffer (buf: [LEN]nat8, len: nat16)
+    var i: nat16 = 0
+    repeat
+        await uart_isReady()
+        uart_sendByte(buf[i])
+        i = i + 1
+    until (i &gt;= len) or (i &gt;= LEN) end
+end
+</code></pre><p>In the first four lines we declare the signatures of two external C functions that can be called by Blech in order to actually interact with the UART hardware. After that, an <em>activity</em> is used to encapsulate all the data transmission code. We pass the buffer and its length as parameters. A <code>repeat</code> loop is subsequently used to</p>
+<ol>
+<li>suspend the activity until the UART is ready for transmission (Line 11).</li>
+<li>write the next buffer byte to the UART data register (Line 12).</li>
+<li>repeat from (1) until the end of buffer has been reached.</li>
+</ol>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+In the C environment, <code>ISR (UART1_TX)</code> is used to generate an event for triggering the Blech program. This means that <code>await uart_isReady()</code> will return as soon as possible after a byte has been transmitted &ndash; we do not have to wait until the next periodic <code>sysTick</code> for instance.
+</div>
+
+<p>You may have already noticed that this solution looks very similar compared to the blocking style above. In fact, it has all of its software engineering benefits but none of its drawbacks. Above Blech code is translated by the Blech compiler into an event-driven state machine implementation that only logically simulates the blocking behaviour of <code>await</code> for the software developer while your code actually remains reactive all the time. By this, the Blech solution effectively combines the advantages of both implementation schemes known from C.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Conclusion</h4>
+<p>As a conclusion we can say that the <em>pseudo-blocking style</em> makes it generally</p>
+<ul>
+<li><strong>easy</strong> to fulfil software engineering principles.</li>
+<li><strong>easy</strong> to fulfil constraints of the embedded domain.</li>
+</ul>
+
+</div>
+
+<h2 id="concurrency-in-blech">Concurrency in Blech</h2>
+<p>Concurrency is one of the key concerns in embedded programming. The traditional, asynchronous execution style of concurrent threads is known to induce a line-up of engineering problems such as race conditions, data inconsistencies, potential deadlocks and non-deterministic runtime behaviour. In Blech, however, all these issues are eliminated by language design due to the synchronous model of computation.</p>
+<p>Let us slightly extend above example. We want to make an LED blink on every system tick, e.g. every millisecond, while a buffer transmission is in progress. At this point, we are aware that blinking an LED with such a high frequency is generally not useful since it is not visible for the human eye. Here, we just use it for demonstration purpose to show how easy it is to express concurrent behaviour by taking advantage of Blech&rsquo;s <code>cobegin</code> statement:</p>
+<pre><code class="language-blech" data-lang="blech">activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
+    cobegin   // Buffer transmission.
+        run SendBuffer(buf, len)
+    with weak // LED flashing.
+        repeat
+            led = false
+            await sysTick
+            led = true
+            await sysTick
+        end
+    end
+end
+</code></pre><p>In <code>SendBufferBlinking</code>, we just need to run the existing code of <code>SendBuffer</code> in one trail of the <code>cobegin</code> and add a second, concurrent trail that is responsible for flashing the LED &ndash; that&rsquo;s it. The second trail is <code>weak</code> so that it will be aborted as soon as the buffer transmission in the first trail has been completed. Note that <code>sysTick</code> is a new input which provides the system tick event for switchting the LED on and off.</p>
+<h3 id="concurrency-versus-single-threaded-c-code----a-contradiction">Concurrency versus single-threaded C code &ndash; a contradiction?</h3>
+<p>At this point, when people read that any Blech program is compiled into <em>single-threaded</em> C code, they are sometimes slightly confused. On the one hand, Blech advertises language level support for describing concurrent behaviour but, at the same time, it produces sequential, single-threaded code only. So how can that even work?</p>
+<p>In order to understand this we have to distinguish between two different designs of concurrency. First, <em>physical concurrency</em> aims to increase reliability and / or performance by running software on real parallel or distributed hardware platforms, e.g. multi-core architectures, at the same time. Second, <em>logical concurrency</em> aims to provide a convenient and natural way to compose a system as a set of parallel, cooperating components. Physical and logical concurrency can be the same &ndash; but they do not have to!</p>
+<p>Blech, in its current development state, provides support for logical concurrency only. At a first glance, this might look like a major limitation compared to conventional solutions in which the notion of <em>threads</em> allows to run several lines of execution on different processors at the same time. On closer inspection, however, it becomes apparent that this is actually not the case.</p>
+<h3 id="single-core-applications">Single-core applications</h3>
+<p>A major part of today&rsquo;s embedded systems still relies on single-core hardware architectures which exclude physical concurrency by design. This means that, even with asynchronous threads, it is impossible to execute two commands concurrently at the same time; the entire software is strictly sequential. As a consequence, for this significant amount of embedded use cases, Blech has no disadvantages with respect to concurrency.</p>
+<p>Quite the contrary, in Blech the sequentialization is done systematically <em>during compile time</em> based on the synchronous model of computation &ndash; no non-deterministic scheduling decisions during runtime; no arbitrary interleavings of concurrent code; no race conditions and data inconsistencies. Finally, this leads to sequential code with deterministic and reproducible runtime behaviour &ndash; <em>the</em> major advantage that makes Blech outperform conventional, asynchronous languages in the embedded domain.</p>
+<h3 id="multi-core-applications">Multi-core applications</h3>
+<p>In multi-core applications where physical concurrency is mandatory Blech is still applicable. Considering a dual-core processor for example, we can have two instances of either the same or different Blech programs where each of them is running on a different core! By this, we basically create two <em>synchronous islands</em> &ndash; so to speak &ndash; that locally benefit from executing synchronous code while, from a global view, running asynchronously with respect to each other. This solution is particularly suitable for applications in which the concerns handled by core A constitute a high independence with respect to those of core B and vice versa.</p>
+<p>What we cannot express in Blech today is concurrent runtime behaviour across multiple cores. That is, the <code>cobegin</code> statement cannot be used to describe how two concurrent trails, for example, are to be deployed, started, executed and rejoined across two different processor cores. But remember that this is not possible with threads too! The notion of threads does not say anything about how data and control flow is shared between multiple, concurrent hardware architectures.</p>
+<p>Blech&rsquo;s long term goal, however, is to provide support for multi-core systems and hence physical concurrency on language level too.</p>
+
+	
+
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" class="btn btn-primary "><span class="mr-1">←</span> Previous</a>
+  </li>
+    <a  class="btn btn-primary  disabled">Next <span class="ml-1">→</span></a>
+  </li>
+</ul>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="/about/">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech contributors</small>
+        
+        <small class="ml-1"><a href="/about/privacy-policy/" style="color: skyblue" target="_blank">Privacy Policy</a></small>
+        
+          <p class="mt-2"><a href="/about/corporate-information/" style="color: skyblue">Corporate information</a></p>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="/js/main.min.ea0e1c1d3031374b4169d21358d2158ed173937d31fa6d66077b4e17a0c295b8.js" integrity="sha256-6g4cHTAxN0tBadITWNIVjtFzk30x&#43;m1mB3tOF6DClbg=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

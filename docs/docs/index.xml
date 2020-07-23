@@ -1160,6 +1160,78 @@ We call this the &amp;ldquo;wildcard&amp;rdquo;. Wildcards are useful when you w
     </item>
     
     <item>
+      <title>Docs: Program counter trees</title>
+      <link>https://www.blech-lang.org/docs/blechc-development/pctree/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/blechc-development/pctree/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;program-counters&#34;&gt;Program counters&lt;/h2&gt;
+&lt;p&gt;An activity&amp;rsquo;s program state is given by the position(s) which control flow resides in and the evaluation of local variables and parameters.&lt;/p&gt;
+&lt;p&gt;This information is stored in a data structure which we call the &lt;em&gt;activity context&lt;/em&gt;.
+In particular, the control flow position(s) are given by those fields in the activity context which we call &lt;em&gt;program counters&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Remember that the control flow of an activity is decomposed into a block graph after causality analysis. 
+The individual blocks are &lt;em&gt;scheduled&lt;/em&gt; (ordered) according to a topological sort algorithm. &lt;em&gt;(Details on the block graph are to be documented elsewhere)&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The value of a program counter identifies the block that the control flow of an activity is currently in. 
+For block number &lt;code&gt;i&lt;/code&gt; the corresponding program counter has value &lt;code&gt;2i&lt;/code&gt; if control flow is about to enter this block in the current reaction step. 
+The program counter has value &lt;code&gt;2i + 1&lt;/code&gt; if block &lt;code&gt;i&lt;/code&gt; will be entered in the &lt;em&gt;next&lt;/em&gt; reaction.
+A program counter which is &lt;code&gt;0&lt;/code&gt; indicates that control flow has terminated (in the corresponding thread of execution, see below).&lt;/p&gt;
+&lt;p&gt;An activity may contain concurrent code (expressed by the &lt;code&gt;cobegin&lt;/code&gt; statement) and therefore control flow may be forked into several &lt;em&gt;threads of execution&lt;/em&gt;.
+This is why an activity may reside in &lt;em&gt;several&lt;/em&gt; control flow points at the same time.
+Each thread is represented by an individual program counter.
+Thus there is always at least one program counter for the activities &lt;em&gt;root thread&lt;/em&gt; and possibly more for subthreads which are forked by &lt;code&gt;cobegin&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;pc-tree&#34;&gt;PC tree&lt;/h2&gt;
+&lt;p&gt;The Blech compiler constructs a so-called program counter tree (pc tree) for every activity.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#000&#34;&gt;mainpc&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDecl&lt;/span&gt;
+        &lt;span style=&#34;color:#000&#34;&gt;thread&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Thread&lt;/span&gt;
+        &lt;span style=&#34;color:#000&#34;&gt;subPCs&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;list&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A pc tree corresponds to a thread and maintains the program counter &lt;code&gt;mainpc&lt;/code&gt; for this &lt;code&gt;thread&lt;/code&gt;.
+If this thread forks control flow then &lt;code&gt;subPCs&lt;/code&gt; contains a list of corresponding subthread program counter trees.
+The activity context of a single-threaded activity will only have a flat pc tree in which &lt;code&gt;subPCs&lt;/code&gt; is an empty list.&lt;/p&gt;
+&lt;p&gt;
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+A pc tree corresponds to one activity only.
+Subactivities which are possibly called have their own activity context with their own pc trees.
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+The pc tree will be flattened to a list during the generation of C code. This is because the tree structure is helpful &lt;em&gt;during&lt;/em&gt; code generation but the generated C code itself does not benefit from a nested tree structure and would only clutter type definitions.
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;constructing-the-tree&#34;&gt;Constructing the tree&lt;/h2&gt;
+&lt;p&gt;The only function for constructing pc trees which is used outside the &lt;code&gt;CodeGenContext.fs&lt;/code&gt; file is &lt;code&gt;Compilation.addPc&lt;/code&gt;.
+Every time a new block is translated in &lt;code&gt;ActivityTranslator.fs&lt;/code&gt; this function is called once:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;curComp&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Compilation&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;addPc&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curComp&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;block&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;pc&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The given &lt;code&gt;pc&lt;/code&gt; is a &lt;code&gt;ParamDecl&lt;/code&gt; which contains all info about the program counter variable itself.
+The given &lt;code&gt;block&lt;/code&gt; is a &lt;code&gt;Block&lt;/code&gt; instance corresponding to this program counter and contains all necessary thread information.
+&lt;code&gt;addPc&lt;/code&gt; returns a new &lt;code&gt;Compilation&lt;/code&gt; instance.&lt;/p&gt;
+&lt;p&gt;The logics of &lt;code&gt;addPc&lt;/code&gt; are rather simple:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;if the given compilation does not yet have an activity context (i.e. we have just started translating the very first block of this activity), create a new context with a new pc tree.&lt;/li&gt;
+&lt;li&gt;if the given compilation has an activity context and its pc tree already contains the given program counter, do nothing and return the unmodified compilation (happens when we translate the second, third,&amp;hellip; n-th block along the same thread of execution)&lt;/li&gt;
+&lt;li&gt;otherwise there is an activity context with a pc tree which however does not yet have this particular program counter &amp;ndash;&amp;gt; call &lt;code&gt;PCtree.add&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &amp;lsquo;magic&amp;rsquo; happens in &lt;code&gt;PCtree.add&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;given the thread information, a list of ancestors (root to given thread) is constructed&lt;/li&gt;
+&lt;li&gt;the list is used to navigate through the pc tree to find to ancestor to which a new sub tree is added&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;using-the-pc-tree&#34;&gt;Using the pc tree&lt;/h2&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>About: Privacy policy</title>
       <link>https://www.blech-lang.org/about/privacy-policy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

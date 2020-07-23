@@ -20,24 +20,24 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Decoding the DCF77 Signal with Blech | Blech</title><meta property="og:title" content="Decoding the DCF77 Signal with Blech" />
+<title>Decoding the DCF77 signal with Blech | Blech</title><meta property="og:title" content="Decoding the DCF77 signal with Blech" />
 <meta property="og:description" content="Radio-controlled clocks and watches in Germany usually rely on the DCF77 signal for time synchronization. In this article we demonstrate a structured top-down implementation approach for decoding the DCF77 time information using Blech.
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" />
 <meta property="article:published_time" content="2020-06-15T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-06-15T14:58:43+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Decoding the DCF77 Signal with Blech">
+<meta property="article:modified_time" content="2020-07-23T08:48:40+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Decoding the DCF77 signal with Blech">
 <meta itemprop="description" content="Radio-controlled clocks and watches in Germany usually rely on the DCF77 signal for time synchronization. In this article we demonstrate a structured top-down implementation approach for decoding the DCF77 time information using Blech.
 ">
 <meta itemprop="datePublished" content="2020-06-15T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-06-15T14:58:43&#43;02:00" />
+<meta itemprop="dateModified" content="2020-07-23T08:48:40&#43;02:00" />
 <meta itemprop="wordCount" content="2771">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Decoding the DCF77 Signal with Blech"/>
+<meta name="twitter:title" content="Decoding the DCF77 signal with Blech"/>
 <meta name="twitter:description" content="Radio-controlled clocks and watches in Germany usually rely on the DCF77 signal for time synchronization. In this article we demonstrate a structured top-down implementation approach for decoding the DCF77 time information using Blech.
 "/>
 
@@ -47,16 +47,17 @@
 
 
 
-<link rel="preload" href="/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" as="style">
-<link href="/scss/main.min.1bbc47118b749a3a5e02a87f34c6fef6de9d8f67632ff2cf9cdb3b8a4001b7cb.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" as="style">
+<link href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" rel="stylesheet" integrity="">
 
 
 <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
 
 <script src=https://www.blech-lang.org/js/opt-in.js></script>
+
 
 
   </head>
@@ -142,7 +143,7 @@
     </button>
   </form>
   
-  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
     
     
 
@@ -180,7 +181,13 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20200615decoding-the-dcf77-signal-with-blech" href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">DCF77 Decoding</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view" href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/">The basic idea behind Blech</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20200615decoding-the-dcf77-signal-with-blech" href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">DCF77 decoding</a>
       
       
       
@@ -291,7 +298,7 @@
 
 
 <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/articles/blech-dcf77/index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Decoding%20the%20DCF77%20Signal%20with%20Blech" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Decoding%20the%20DCF77%20signal%20with%20Blech" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -306,16 +313,16 @@
 <nav id="TableOfContents">
   <ul>
     <li><a href="#what-is-dcf77">What is DCF77?</a></li>
-    <li><a href="#application-example-dcf77-decoder">Application Example: DCF77 Decoder</a></li>
-    <li><a href="#implementation-outline">Implementation Outline</a>
+    <li><a href="#application-example-dcf77-decoder">Application example: DCF77 decoder</a></li>
+    <li><a href="#implementation-outline">Implementation outline</a>
       <ul>
         <li><a href="#interface-between-c-and-blech">Interface between C and Blech</a></li>
-        <li><a href="#execution-scheme-and-integration-of-blech">Execution Scheme and Integration of Blech</a></li>
-        <li><a href="#hierarchical-software-structure">Hierarchical Software Structure</a></li>
-        <li><a href="#the-applications-top-level">The Application&rsquo;s Top-Level</a></li>
-        <li><a href="#visualizing-the-dcf77-signal">Visualizing the DCF77 Signal</a></li>
-        <li><a href="#capturing-the-synchronization-mark-and-the-bits">Capturing the Synchronization Mark and the Bits</a></li>
-        <li><a href="#capture-and-decode-the-time-information">Capture and Decode the Time Information</a></li>
+        <li><a href="#execution-scheme-and-integration-of-blech">Execution scheme and integration of Blech</a></li>
+        <li><a href="#hierarchical-software-structure">Hierarchical software structure</a></li>
+        <li><a href="#the-applications-top-level">The application&rsquo;s top-level</a></li>
+        <li><a href="#visualizing-the-dcf77-signal">Visualizing the DCF77 signal</a></li>
+        <li><a href="#capturing-the-synchronization-mark-and-the-bits">Capturing the synchronization mark and the bits</a></li>
+        <li><a href="#capture-and-decode-the-time-information">Capture and decode the time information</a></li>
       </ul>
     </li>
     <li><a href="#conclusion">Conclusion</a></li>
@@ -331,7 +338,7 @@
             </a>
             
 <div class="td-content">
-	<h1>Decoding the DCF77 Signal with Blech</h1>
+	<h1>Decoding the DCF77 signal with Blech</h1>
 	<div class="lead">Radio-controlled clocks and watches in Germany usually rely on the DCF77 signal for time synchronization. In this article we demonstrate a structured top-down implementation approach for decoding the DCF77 time information using Blech.</div>
 	<div class="td-byline mb-4">
 		By <b>Matthias Terber</b> |
@@ -342,7 +349,7 @@
 <p>Information about the current time and date are modulated in a binary fashion onto a 77.5kHz radio carrier signal. On each second a so called <em>second mark</em> is transmitted by reducing the carrier power for a certain amount of time. The duration of the reduction encodes either a <em>binary zero</em> (100ms) or a <em>binary one</em> (200ms). After a complete time code &ndash; a sequence of 59 bits &ndash; the process is repeated every full minute. For the 60th second there is no level change. This gap aids as a <em>synchronization mark</em> for indicating the end of the current time code.</p>
 <p>Please refer to the <a href="https://www.ptb.de/cms/en/ptb/fachabteilungen/abt4/fb-44/ag-442/dissemination-of-legal-time/dcf77.html" target="_blank">homepage of the PTB</a>
  for further details about the technical setup and the time code of DCF77.</p>
-<h2 id="application-example-dcf77-decoder">Application Example: DCF77 Decoder</h2>
+<h2 id="application-example-dcf77-decoder">Application example: DCF77 decoder</h2>
 <p>Our goal is to implement a simple DCF77 decoder based on a <a href="https://www.st.com/en/evaluation-tools/stm32f4discovery.html" target="_blank">STM32F4DISCOVERY</a>
  board. For the user interface we use the on-board LEDs and push button. The application shall behave as follows:</p>
 <ul>
@@ -428,7 +435,7 @@ Oszilloscope capture of the DCF77 time signal on GPIO PB7.
 </div>
 <p>We can also see the synchronization mark (<code>SYNC</code>) in which the 60th low pulse is omitted. This is the delimiter between the current bit sequence and the following. Finally, the discovery board communicates via USB with the <a href="https://www.st.com/en/development-tools/stm32cubeide.html" target="_blank">software IDE</a>
  on the development machine for code flashing and debugging.</p>
-<h2 id="implementation-outline">Implementation Outline</h2>
+<h2 id="implementation-outline">Implementation outline</h2>
 <p>In this section we outline the decoder implementation, thereby focusing on the Blech application part and its integration into the C execution environment. The complete source code project can be found <a href="https://github.com/mterber/blech-dcf77.git" target="_blank">here</a>
 . Two files are of particular interest:</p>
 <ul>
@@ -451,7 +458,7 @@ Oszilloscope capture of the DCF77 time signal on GPIO PB7.
 @[EntryPoint]
 activity Main (dcf77: bool, btn: bool) (leds: LedStates)
 </code></pre><p>Note that <code>LedStates</code> is a user-defined structure in Blech which contains the state information of the four LEDs. This is done to make the interface less verbose, thereby improving the readability.</p>
-<h3 id="execution-scheme-and-integration-of-blech">Execution Scheme and Integration of Blech</h3>
+<h3 id="execution-scheme-and-integration-of-blech">Execution scheme and integration of Blech</h3>
 <p>The execution progress of a Blech program advances based on <em>ticks</em>. A tick can be any sporadic or periodic event- or time-based trigger provided by the underlying hard- and software platform. For decoding DCF77 it is a common approach to periodically sample the time signal and measure the duration of the level changes. This means that the entire decoding logic is <em>purely time-driven</em> based on a cyclic timer tick.</p>
 <p>We follow this approach and execute the Blech application part every 10 milliseconds. This leads to a sample rate of 100Hz which is sufficiently fast in order to distinguish between a binary zero, a binary one and the synchronization mark. For the periodic execution, we take advantage of a simple delay function (<code>HAL_Delay</code>) provided by the microcontroller&rsquo;s driver library. An outline of <code>main.c</code> is shown below.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
@@ -506,7 +513,7 @@ In this application, the Blech part is entirely time-triggered. All <code>await<
 </div>
 
 <p>Keep in mind that calling <code>HAL_Delay</code> is generally not a good solution with respect to efficiency. Internally, this function actively polls a variable which gets updated by the system tick timer. This means that the CPU is continously running at full speed and the main thread is blocked for anything else. A better approach would be to switch the microcontroller into sleep mode and implement a wakeup strategy based on interrupts for each tick. We are going to show this in another blog post. In this example, however, we follow the simple delay approach for the sake of simplicity.</p>
-<h3 id="hierarchical-software-structure">Hierarchical Software Structure</h3>
+<h3 id="hierarchical-software-structure">Hierarchical software structure</h3>
 <p>The entire complexity of the example application is broken down into seven <em>activites</em> &ndash; the reactive code abstraction entities in Blech &ndash; as follows:</p>
 <ul>
 <li><code>Main</code> &ndash; This is the entry point and top level of the Blech program. It defines the interface between Blech and C (see <a href="#execution-scheme-and-integration-of-blech">here</a>
@@ -537,7 +544,7 @@ Hierarchical call structure of activities.
 	
 </div>
 <p>Note how easy it is to reuse the same piece of reactive code for different concerns in Blech &ndash; <code>CaptureBit</code> is used in <code>AwaitStableSignal</code> and <code>CaptureTimeInfo</code> likewise. In the former, we repeatedly run <code>CaptureBit</code> until three consecutive bits have been successfully captured. Only then we consider the time signal to be stable.</p>
-<h3 id="the-applications-top-level">The Application&rsquo;s Top-Level</h3>
+<h3 id="the-applications-top-level">The application&rsquo;s top-level</h3>
 <p>We dig into the implementation starting at the top level. Inside the <code>Main</code> activity, the program first awaits a stable DCF77 signal by running <code>AwaitStableSignal</code>. This suspends the control flow until the signal is reliable. A <em>function</em> call is used before to turn on all LEDs.</p>
 <p>After that, the infinite <code>repeat</code> loop is entered and all LEDs are turned off. By taking advantage of <code>cobegin</code>, the main application trail is split into two concurrent trails. While the first one runs <code>Decode</code> for performing the DCF77 decoding, the second one executes <code>Visualize</code> in order to concurrently reflect the time signal level on the blue LED. Note that the second trail is marked as <code>weak</code>. This means that, as soon as the first trail terminates, the second trail will be aborted &ndash; both trails rejoin their control paths and continue as one. By this, it is pretty easy to describe that visualizing the signal level shall be done only while the decoding is running.</p>
 
@@ -585,7 +592,7 @@ To keep the example simple, the button state is provided <em>as-is</em> to the B
 . In another blog post we are going to show how this can be done in Blech.
 </div>
 
-<h3 id="visualizing-the-dcf77-signal">Visualizing the DCF77 Signal</h3>
+<h3 id="visualizing-the-dcf77-signal">Visualizing the DCF77 signal</h3>
 <p>Reflecting the time signal level on the LED is a pretty simple task in Blech. We establish an infinite loop which alternates between the signal levels. First, it awaits the high level for switching off the LED. Second, it awaits the low level for switching on the same LED. Third, the whole process repeats &ndash; that&rsquo;s it.</p>
 <pre><code class="language-blech" data-lang="blech">activity Visualize (dcf77: bool) (ledDcf77: bool)
     repeat
@@ -596,7 +603,7 @@ To keep the example simple, the button state is provided <em>as-is</em> to the B
     end
 end
 </code></pre><p>Note that <code>Visualize</code> does not even have to know which of the four LEDs it is actually turning on and off. There is no hardware dependency and all the required logic is encapsulated in an activity. Thus, we could easily select another LED or execute multiple instances of <code>Visualize</code> concurrently in order to show the signal level on several LEDs at the same time.</p>
-<h3 id="capturing-the-synchronization-mark-and-the-bits">Capturing the Synchronization Mark and the Bits</h3>
+<h3 id="capturing-the-synchronization-mark-and-the-bits">Capturing the synchronization mark and the bits</h3>
 <p>For this functionality, we take advantage of the fact that the entire Blech application is purely time-triggered by the 10 milliseconds tick (see <a href="#execution-scheme-and-integration-of-blech">here</a>
 ). Based on that, we establish a time-based counter <code>len</code> which measures the duration of the signal&rsquo;s <code>HIGH</code> level. Therefore, <code>len</code> is incremented on each (10 milliseconds) tick using <code>await true</code> in a loop. Once that counter has reached the required value (&gt; 1200ms) we detect the synchronization mark and exit the loop.</p>
 <p>If the signal level goes <code>LOW</code> during the measurement the process has to be resetted. For this, we use the <code>when ... reset</code> block in Blech which causes the contained code to restart from the first line if the given condition is met. So in this case the code will jump back to <code>var len: nat16 = 0</code> as soon as the level drops.</p>
@@ -611,7 +618,7 @@ end
     end
 end
 </code></pre><p>The implementation of <code>CaptureBit</code> basically follows the same approach. It uses a time-driven counter for measuring the duration of the <code>LOW</code> level instead. For this reason, we do not exemplify it in more detail here.</p>
-<h3 id="capture-and-decode-the-time-information">Capture and Decode the Time Information</h3>
+<h3 id="capture-and-decode-the-time-information">Capture and decode the time information</h3>
 <p>Implementing the time information capture based on <code>CaptureSync</code> and <code>CaptureBit</code> becomes a trivial task. First, we capture the synchronization mark. Before and after that we turn off and on the associated LED (orange) respectively. Second, we enter the <code>while</code> loop in which we collect the 59 time code bits by repeatedly calling <code>CaptureBit</code>. Each successfully received bit is passed to <code>processBit</code> in order to update the gathered time information in <code>ti</code>. This means that decoding the DCF77 signal actually happens bit-wise on-the-fly. Finally, <code>CaptureTimeInfo</code> terminates, thereby returning the success status and the decoded time information to the caller.</p>
 <pre><code class="language-blech" data-lang="blech">activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
     ledSync = false // Turn off LED.
@@ -684,7 +691,7 @@ end
   <li>
     <a href="/blog/2020/05/27/the-purpose-of-blech/" class="btn btn-primary "><span class="mr-1">←</span> Previous</a>
   </li>
-    <a  class="btn btn-primary  disabled">Next <span class="ml-1">→</span></a>
+    <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" class="btn btn-primary ">Next <span class="ml-1">→</span></a>
   </li>
 </ul>
 

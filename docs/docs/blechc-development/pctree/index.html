@@ -20,23 +20,23 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Blinker | Blech</title><meta property="og:title" content="Blinker" />
-<meta property="og:description" content="A case study from the automotive domain.
+<title>Program counter trees | Blech</title><meta property="og:title" content="Program counter trees" />
+<meta property="og:description" content="This explains the how &#34;program counter&#34; variables are used to memorise the control flow location(s) a Blech program resides in and how such program counters are managed in a tree structure in the code generator.
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/examples/blinker/" />
-<meta property="article:modified_time" content="2020-05-18T13:31:28+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Blinker">
-<meta itemprop="description" content="A case study from the automotive domain.
+<meta property="og:url" content="https://www.blech-lang.org/docs/blechc-development/pctree/" />
+<meta property="article:modified_time" content="2020-07-11T12:26:42+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Program counter trees">
+<meta itemprop="description" content="This explains the how &#34;program counter&#34; variables are used to memorise the control flow location(s) a Blech program resides in and how such program counters are managed in a tree structure in the code generator.
 ">
-<meta itemprop="dateModified" content="2020-05-18T13:31:28&#43;02:00" />
-<meta itemprop="wordCount" content="48">
+<meta itemprop="dateModified" content="2020-07-11T12:26:42&#43;02:00" />
+<meta itemprop="wordCount" content="631">
 
 
 
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Blinker"/>
-<meta name="twitter:description" content="A case study from the automotive domain.
+<meta name="twitter:title" content="Program counter trees"/>
+<meta name="twitter:description" content="This explains the how &#34;program counter&#34; variables are used to memorise the control flow location(s) a Blech program resides in and how such program counters are managed in a tree structure in the code generator.
 "/>
 
 
@@ -409,10 +409,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
+    <a  href="/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
   </li>
   <ul>
-    <li class="collapse " id="docsblechc-development">
+    <li class="collapse show" id="docsblechc-development">
       
       
       
@@ -425,7 +425,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentpctree" href="/docs/blechc-development/pctree/">PC trees</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentpctree" href="/docs/blechc-development/pctree/">PC trees</a>
       
       
       
@@ -468,10 +468,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/examples/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blech examples</a>
+    <a  href="/docs/examples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blech examples</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsexamples">
+    <li class="collapse " id="docsexamples">
       
       
       
@@ -484,7 +484,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsexamplesblinker" href="/docs/examples/blinker/">Blinker</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsexamplesblinker" href="/docs/examples/blinker/">Blinker</a>
       
       
       
@@ -559,8 +559,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/examples/blinker.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blinker" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/pctree.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Program%20counter%20trees" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -571,6 +571,15 @@
 
 
 
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#program-counters">Program counters</a></li>
+    <li><a href="#pc-tree">PC tree</a></li>
+    <li><a href="#constructing-the-tree">Constructing the tree</a></li>
+    <li><a href="#using-the-pc-tree">Using the pc tree</a></li>
+  </ul>
+</nav>
 
 
 
@@ -600,14 +609,14 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="https://www.blech-lang.org/docs/examples/">Blech examples</a>
+	<a href="https://www.blech-lang.org/docs/blechc-development/">Blechc development</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/examples/blinker/">Blinker</a>
+	<a href="https://www.blech-lang.org/docs/blechc-development/pctree/">PC trees</a>
 </li>
 
 	</ol>
@@ -615,16 +624,72 @@
 
             
 <div class="td-content">
-	<h1>Blinker</h1>
-    <div class="lead">A case study from the automotive domain.</div>
+	<h1>Program counter trees</h1>
+    <div class="lead">This explains the how &ldquo;program counter&rdquo; variables are used to memorise the control flow location(s) a Blech program resides in and how such program counters are managed in a tree structure in the code generator.</div>
 	       
-	<p>The first community made demo for Blech is the implementation of a <a href="https://github.com/frameworklabs/blinker" target="_blank">car’s blinker</a>
- running in a simulated curses environment.
-Making use of Blech&rsquo;s reactive programming model and concurrent composition, this example shows how a rather complex state management logic can be decomposed into individual simple building blocks.</p>
+	<h2 id="program-counters">Program counters</h2>
+<p>An activity&rsquo;s program state is given by the position(s) which control flow resides in and the evaluation of local variables and parameters.</p>
+<p>This information is stored in a data structure which we call the <em>activity context</em>.
+In particular, the control flow position(s) are given by those fields in the activity context which we call <em>program counters</em>.</p>
+<p>Remember that the control flow of an activity is decomposed into a block graph after causality analysis. 
+The individual blocks are <em>scheduled</em> (ordered) according to a topological sort algorithm. <em>(Details on the block graph are to be documented elsewhere)</em>.</p>
+<p>The value of a program counter identifies the block that the control flow of an activity is currently in. 
+For block number <code>i</code> the corresponding program counter has value <code>2i</code> if control flow is about to enter this block in the current reaction step. 
+The program counter has value <code>2i + 1</code> if block <code>i</code> will be entered in the <em>next</em> reaction.
+A program counter which is <code>0</code> indicates that control flow has terminated (in the corresponding thread of execution, see below).</p>
+<p>An activity may contain concurrent code (expressed by the <code>cobegin</code> statement) and therefore control flow may be forked into several <em>threads of execution</em>.
+This is why an activity may reside in <em>several</em> control flow points at the same time.
+Each thread is represented by an individual program counter.
+Thus there is always at least one program counter for the activities <em>root thread</em> and possibly more for subthreads which are forked by <code>cobegin</code>.</p>
+<h2 id="pc-tree">PC tree</h2>
+<p>The Blech compiler constructs a so-called program counter tree (pc tree) for every activity.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#204a87;font-weight:bold">type</span> <span style="color:#000">PCtree</span> <span style="color:#ce5c00;font-weight:bold">=</span>
+    <span style="color:#ce5c00;font-weight:bold">{</span>
+        <span style="color:#000">mainpc</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">ParamDecl</span>
+        <span style="color:#000">thread</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">Thread</span>
+        <span style="color:#000">subPCs</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">PCtree</span> <span style="color:#204a87;font-weight:bold">list</span>
+    <span style="color:#ce5c00;font-weight:bold">}</span>
+</code></pre></div><p>A pc tree corresponds to a thread and maintains the program counter <code>mainpc</code> for this <code>thread</code>.
+If this thread forks control flow then <code>subPCs</code> contains a list of corresponding subthread program counter trees.
+The activity context of a single-threaded activity will only have a flat pc tree in which <code>subPCs</code> is an empty list.</p>
+<p>
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+A pc tree corresponds to one activity only.
+Subactivities which are possibly called have their own activity context with their own pc trees.
+</div>
+
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+The pc tree will be flattened to a list during the generation of C code. This is because the tree structure is helpful <em>during</em> code generation but the generated C code itself does not benefit from a nested tree structure and would only clutter type definitions.
+</div>
+</p>
+<h2 id="constructing-the-tree">Constructing the tree</h2>
+<p>The only function for constructing pc trees which is used outside the <code>CodeGenContext.fs</code> file is <code>Compilation.addPc</code>.
+Every time a new block is translated in <code>ActivityTranslator.fs</code> this function is called once:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#000">curComp</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">Compilation</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">addPc</span> <span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000">curComp</span> <span style="color:#000">block</span> <span style="color:#000">pc</span>
+</code></pre></div><p>The given <code>pc</code> is a <code>ParamDecl</code> which contains all info about the program counter variable itself.
+The given <code>block</code> is a <code>Block</code> instance corresponding to this program counter and contains all necessary thread information.
+<code>addPc</code> returns a new <code>Compilation</code> instance.</p>
+<p>The logics of <code>addPc</code> are rather simple:</p>
+<ul>
+<li>if the given compilation does not yet have an activity context (i.e. we have just started translating the very first block of this activity), create a new context with a new pc tree.</li>
+<li>if the given compilation has an activity context and its pc tree already contains the given program counter, do nothing and return the unmodified compilation (happens when we translate the second, third,&hellip; n-th block along the same thread of execution)</li>
+<li>otherwise there is an activity context with a pc tree which however does not yet have this particular program counter &ndash;&gt; call <code>PCtree.add</code>.</li>
+</ul>
+<p>The &lsquo;magic&rsquo; happens in <code>PCtree.add</code>:</p>
+<ul>
+<li>given the thread information, a list of ancestors (root to given thread) is constructed</li>
+<li>the list is used to navigate through the pc tree to find to ancestor to which a new sub tree is added</li>
+</ul>
+<h2 id="using-the-pc-tree">Using the pc tree</h2>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 18, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/d3936cf24a8f88c43b0f68051d2cb340aaf90106">Added tutorial (d3936cf)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 11, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/de33df200985dad2729bb2f01231cc0d9caef2a8">Added implementation documentation on pc trees (de33df2)</a>
 </div>
 </div>
 

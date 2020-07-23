@@ -14,7 +14,240 @@
     
     
     <item>
-      <title>Blog: Decoding the DCF77 Signal with Blech</title>
+      <title>Blog: The basic idea behind Blech – A practitioner&#39;s point of view</title>
+      <link>https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/</link>
+      <pubDate>Wed, 22 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;application-example-uart-communication&#34;&gt;Application example: UART communication&lt;/h2&gt;
+&lt;p&gt;Let us consider a simple embedded use case. We want to implement a &lt;a href=&#34;https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter&#34; target=&#34;_blank&#34;&gt;UART&lt;/a&gt;
+ communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other. The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions.&lt;/p&gt;
+&lt;p&gt;Apart from the sole functional correctness it is important that the application is generally compatible with the stringent constraints of the embedded domain. That is, very limited resources &amp;ndash; &lt;em&gt;computation time&lt;/em&gt; and &lt;em&gt;memory&lt;/em&gt; &amp;ndash; and possible &lt;em&gt;realtime requirements&lt;/em&gt;. Keeping the embedded software reactive is key in order to handle realtime-critical events in time.&lt;/p&gt;
+&lt;p&gt;Below sections discuss different implementation schemes in C and Blech for realizing the buffer transmission.&lt;/p&gt;
+&lt;h2 id=&#34;implementation-schemes-in-c&#34;&gt;Implementation schemes in C&lt;/h2&gt;
+&lt;p&gt;In the following section we consider the pros and cons of two popular programming styles for implementing the UART communication in C. The focus is on software engineering and suitability for the embedded domain.&lt;/p&gt;
+&lt;h3 id=&#34;the-blocking-style&#34;&gt;The blocking style&lt;/h3&gt;
+&lt;p&gt;Let us assume that we &amp;ndash; as software developers &amp;ndash; do not have any experience in writing embedded code and we do not know anything about the stringent constraints imposed by the embedded domain. We just (naively) start by implementing a function &lt;code&gt;send_buffer&lt;/code&gt; that encapsulates all the details required for data transmission. This approach is reasonable and natural because this is what we have been taught in school and at the university. Motivated by several fundamental software engineering principles such as abstraction, separation of concerns, encapsulation and so forth we develop the solution below:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;send_buffer&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;u8&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;++&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;UART1_FLAG_TXE&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
+        &lt;span style=&#34;color:#000&#34;&gt;UART1&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;DR&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;];&lt;/span&gt;
+    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;We pass the buffer and its length to the function. Then, we loop over the buffer. For each byte, we first wait for the UART device to become ready, second copy the next byte into the UART data register and third check whether or not we have reached the end of the buffer &amp;ndash; it is as simple as that.&lt;/p&gt;
+&lt;p&gt;In this approach, everything related to the transmission is &lt;em&gt;local&lt;/em&gt;. With local I not only mean the data in sense of local variables. I also mean the code &amp;ndash; the knowledge &amp;ndash; that is required to describe all necessary steps that have to be done. This makes it not only easy to comprehend how the transmission actually works but also facilitates its usage, debugging and maintenance. If something is not working as expected or if we want to change or extend the procedure in some way we know that &lt;code&gt;send_buffer&lt;/code&gt; is the sole code block to look at.&lt;/p&gt;
+&lt;p&gt;However, there is a high price to be paid in order to obtain above encapsulation benefits. If we want to encapsulate the transmission of an entire buffer &amp;ndash; and not only of single bytes &amp;ndash; a call of &lt;code&gt;send_buffer&lt;/code&gt; must inevitably outlive the transmission of multiple bytes. For this, its code has to be implemented in a &lt;em&gt;blocking&lt;/em&gt; fashion so that it does not terminate once a single byte has been sent out. This becomes apparent from Line 5 in which we wait for the UART device to finish the transmission of the current byte. A &lt;code&gt;while&lt;/code&gt; loop polls the corresponding UART flag in order to block the control flow of &lt;code&gt;send_buffer&lt;/code&gt; before it proceeds with the next byte. The runtime behaviour of &lt;code&gt;send_buffer&lt;/code&gt; is exemplarily depicted below:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;oszi_1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Above example scope capture shows the transmission of a 3-byte buffer. &lt;code&gt;SW&lt;/code&gt; indicates when the CPU is busy (&lt;code&gt;SW -&amp;gt; HIGH&lt;/code&gt;) with executing &lt;code&gt;send_buffer&lt;/code&gt; while &lt;code&gt;TX&lt;/code&gt; shows the physical output signal of the UART hardware. It is easy to see that the entire processing time is eaten up by &lt;code&gt;send_buffer&lt;/code&gt; until the last byte has been sent out. This causes several drawbacks:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The thread calling &lt;code&gt;send_buffer&lt;/code&gt; is blocked for anything else. No other code can run concurrently so that
+&lt;ul&gt;
+&lt;li&gt;no other concerns of the embedded system can be processed.&lt;/li&gt;
+&lt;li&gt;no other (important) events can be handled meanwhile.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The CPU continuously runs at full speed leading to high consumption of processing time and energy.&lt;/li&gt;
+&lt;li&gt;The call stack of &lt;code&gt;send_buffer&lt;/code&gt; is not freed so that memory cannot be reused for other concerns meanwhile.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Remember that, depending on the UART baudrate and the length of the buffer, above conditions can be true for a significant period of time. Consider a typical UART baudrate of 115.200bit/s and a buffer length of 1024bit. In this case, one execution of &lt;code&gt;send_buffer&lt;/code&gt; would already block your software for 8.88 milliseconds &amp;ndash; a small eternity in the embedded domain! Thus, in sum, this approach leads to &lt;em&gt;poor reactivity&lt;/em&gt; and &lt;em&gt;high resource consumption&lt;/em&gt;.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;As a conclusion we can say that the &lt;em&gt;blocking style&lt;/em&gt; makes it generally&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;easy&lt;/strong&gt; to fulfil software engineering principles.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;hard&lt;/strong&gt; to fulfil constraints of the embedded domain.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;the-event-based-style&#34;&gt;The event-based style&lt;/h3&gt;
+&lt;p&gt;Due to above limitations, practically all embedded software solutions decide in favour of the stringent embedded constraints and follow a non-blocking, &lt;em&gt;event-based&lt;/em&gt; style instead. In this approach, code is executed only if necessary. That is, whenever an &lt;em&gt;event&lt;/em&gt; &amp;ndash; a noteable change of the environment &amp;ndash; has happened.&lt;/p&gt;
+&lt;p&gt;Event-driven behaviour, however, is not supported by C on language level. Typical workarounds rely on &lt;em&gt;statemachines&lt;/em&gt; and &lt;em&gt;callbacks&lt;/em&gt; that are executed in an asynchronous-concurrent fashion. See the example below:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u8&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
+
+&lt;span style=&#34;color:#000&#34;&gt;ISR&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;UART1_TX&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;++&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#000&#34;&gt;UART1&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;DR&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;];&lt;/span&gt;
+    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;send_buffer&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;u8&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;UART1_FLAG_TXE&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
+    &lt;span style=&#34;color:#000&#34;&gt;_buf&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color:#000&#34;&gt;_len&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color:#000&#34;&gt;UART1&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;DR&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;];&lt;/span&gt;
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In this solution, &lt;code&gt;send_buffer&lt;/code&gt; is only used to &lt;em&gt;initiate&lt;/em&gt; the buffer transfer. It waits for the UART device to become ready, saves the buffer, its length and a transmission counter as global variables, and finally writes the first buffer byte into the UART data register. Then, in contrast to the blocking style above, &lt;code&gt;send_buffer&lt;/code&gt; immediately terminates although not even a single byte has been actually transmittet yet.&lt;/p&gt;
+&lt;p&gt;Once the first byte has physically left the UART device, the hardware automatically executes the interrupt service routine in Line 12 which picks the next byte from the buffer and triggers its transmission. This process repeats for each byte until the entire buffer has been transferred. Ultimately, the buffer transmission is driven by a chain of callbacks that advances the progress step by step. The corresponding runtime behaviour of this approach is shown below:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;oszi_2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This time, the CPU is only busy when a new byte transmission is to be triggered. Meanwhile it could either process other concerns, react on other events or go to sleep in order to save energy. Since &lt;code&gt;send_buffer&lt;/code&gt; terminates after each byte its stack space is freed and can be easily reused for something else. By this, the event-driven approach perfectly fits the embedded domain.&lt;/p&gt;
+&lt;p&gt;However, all the valuable software engineering benefits of the blocking approach are gone. The functionality &amp;ldquo;buffer transmission&amp;rdquo; is now torn apart a function, an interrupt service routine and a set of global variables. This eliminates locality and requires me &amp;ndash; the software developer &amp;ndash; to implement &lt;em&gt;manual stack&lt;/em&gt; and &lt;em&gt;state management&lt;/em&gt; in order to maintain the program state across several function and ISR calls respectively.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+Remember that stack and state management are actually low-level tasks done by the &lt;a href=&#34;https://de.wikipedia.org/wiki/Prozessor&#34; target=&#34;_blank&#34;&gt;CPU&lt;/a&gt;
+, using a program counter and a set of working registers, in order to reduce the burden of the software developer. Now, with statemachines and callbacks, we have to do this tedious and error-prone job in my high-level programming realm &amp;ndash; doesn&amp;rsquo;t that sound kind of inherently contradictory and counterproductive?
+&lt;/div&gt;
+
+&lt;p&gt;All the data (the stack) that has to outlive multiple function calls, e.g. the pointer of the buffer, the buffer length and the transmission counter, have to be stored in global memory. The latter by itself entails a whole line up of engineering drawbacks. In addition, the asynchronous event-driven execution of &lt;code&gt;send_buffer&lt;/code&gt; and the interrupt service routine provokes concurrency bugs and non-deterministic runtime behaviour by design. By the way, what will happen if &lt;code&gt;send_buffer&lt;/code&gt; is called while a buffer transmission is still ongoing?&lt;/p&gt;
+&lt;p&gt;The progress of the program (the state) is encoded in a statemachine that advances on each event. On the one hand, statemachines are generally a very efficient and well understood technology in order to describe and execute event-driven behaviour for and by &lt;em&gt;machines&lt;/em&gt; respectively. But, on the other hand, statemachines are less suitable for &lt;em&gt;humans&lt;/em&gt;, especially when it comes to readability and comprehensibility.&lt;/p&gt;
+&lt;p&gt;In statemachines, &lt;em&gt;state is explicit&lt;/em&gt; while &lt;em&gt;control flow is implicit&lt;/em&gt;. This makes it easy to generically describe and perform single computation steps by transition tables based on the current state and the current input. But for us &amp;ndash; as software developers &amp;ndash; this is &lt;em&gt;not&lt;/em&gt; the natural understanding with what we have grown up. We are used to write code in a sequential fashion in which control flow is paramount. State is only implicitly given by the current code line that is to be executed and the set of variables. When looking at a statemachine implementation, irrespective of whether it is given as C code or a graphical drawing, it is generally difficult to comprehend the sequence of decisions and commands that have to be taken and executed in order to realize a certain functionality.&lt;/p&gt;
+&lt;p&gt;Finally, think about how you would establish automated tests for this kind of code. You could write unit tests for each of the functions &amp;ndash; which is by itself not easy because they internally rely on global variables &amp;ndash; but this only covers the behaviour of your software on a per event basis. With this approach, it is really difficult to systematically test the behaviour over time across several reactions. Not only because the code is highly distributed but also because the runtime behaviour is inherently non-deterministic and hence not reproducible.&lt;/p&gt;
+&lt;p&gt;To sum it up, the event-based style encourages software solutions that are difficult to program, comprehend, test and maintain.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;As a conclusion we can say that the &lt;em&gt;event-based style&lt;/em&gt; makes it generally&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;hard&lt;/strong&gt; to fulfil software engineering principles.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;easy&lt;/strong&gt; to fulfil constraints of the embedded domain.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;a-higher-abstraction-level---the-pseudo-blocking-style&#34;&gt;A higher abstraction level - the pseudo-blocking style&lt;/h2&gt;
+&lt;p&gt;Looking back to above implementation schemes the following becomes apparent:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.&lt;/li&gt;
+&lt;li&gt;The event-driven style, on the other hand, perfectly matches the stringent embedded constraints but it seems that we figuratively fallback to a lower level of programming.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;What if we lived in a &lt;em&gt;perfect world&lt;/em&gt; where we could cherry-pick and combine the advantages of both approaches? &amp;ndash; Welcome to Blech!&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Basic Idea&lt;/h4&gt;
+The basic idea behind Blech is to let the software developer write code in a &lt;em&gt;blocking fashion&lt;/em&gt; (good software quality) and systematically compile it into an efficient, deterministic, &lt;em&gt;event-driven&lt;/em&gt; statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech &lt;em&gt;lifting embedded programming to the next level&lt;/em&gt;.
+&lt;/div&gt;
+
+&lt;p&gt;This concept is what I call the &lt;em&gt;pseudo-blocking&lt;/em&gt; style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.&lt;/p&gt;
+&lt;p&gt;The following code snippet shows how the buffer transmission can look like in Blech:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;UART_isReady&amp;quot;, header = &amp;quot;uart.h&amp;quot;)]
+extern singleton function uart_isReady() returns bool
+@[CFunction (binding = &amp;quot;UART_sendByte&amp;quot;, header = &amp;quot;uart.h&amp;quot;)]
+extern singleton function uart_sendByte(val: nat8)
+
+const LEN: nat16 = 20
+
+activity SendBuffer (buf: [LEN]nat8, len: nat16)
+    var i: nat16 = 0
+    repeat
+        await uart_isReady()
+        uart_sendByte(buf[i])
+        i = i + 1
+    until (i &amp;gt;= len) or (i &amp;gt;= LEN) end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the first four lines we declare the signatures of two external C functions that can be called by Blech in order to actually interact with the UART hardware. After that, an &lt;em&gt;activity&lt;/em&gt; is used to encapsulate all the data transmission code. We pass the buffer and its length as parameters. A &lt;code&gt;repeat&lt;/code&gt; loop is subsequently used to&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;suspend the activity until the UART is ready for transmission (Line 11).&lt;/li&gt;
+&lt;li&gt;write the next buffer byte to the UART data register (Line 12).&lt;/li&gt;
+&lt;li&gt;repeat from (1) until the end of buffer has been reached.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+In the C environment, &lt;code&gt;ISR (UART1_TX)&lt;/code&gt; is used to generate an event for triggering the Blech program. This means that &lt;code&gt;await uart_isReady()&lt;/code&gt; will return as soon as possible after a byte has been transmitted &amp;ndash; we do not have to wait until the next periodic &lt;code&gt;sysTick&lt;/code&gt; for instance.
+&lt;/div&gt;
+
+&lt;p&gt;You may have already noticed that this solution looks very similar compared to the blocking style above. In fact, it has all of its software engineering benefits but none of its drawbacks. Above Blech code is translated by the Blech compiler into an event-driven state machine implementation that only logically simulates the blocking behaviour of &lt;code&gt;await&lt;/code&gt; for the software developer while your code actually remains reactive all the time. By this, the Blech solution effectively combines the advantages of both implementation schemes known from C.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;As a conclusion we can say that the &lt;em&gt;pseudo-blocking style&lt;/em&gt; makes it generally&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;easy&lt;/strong&gt; to fulfil software engineering principles.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;easy&lt;/strong&gt; to fulfil constraints of the embedded domain.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;concurrency-in-blech&#34;&gt;Concurrency in Blech&lt;/h2&gt;
+&lt;p&gt;Concurrency is one of the key concerns in embedded programming. The traditional, asynchronous execution style of concurrent threads is known to induce a line-up of engineering problems such as race conditions, data inconsistencies, potential deadlocks and non-deterministic runtime behaviour. In Blech, however, all these issues are eliminated by language design due to the synchronous model of computation.&lt;/p&gt;
+&lt;p&gt;Let us slightly extend above example. We want to make an LED blink on every system tick, e.g. every millisecond, while a buffer transmission is in progress. At this point, we are aware that blinking an LED with such a high frequency is generally not useful since it is not visible for the human eye. Here, we just use it for demonstration purpose to show how easy it is to express concurrent behaviour by taking advantage of Blech&amp;rsquo;s &lt;code&gt;cobegin&lt;/code&gt; statement:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
+    cobegin   // Buffer transmission.
+        run SendBuffer(buf, len)
+    with weak // LED flashing.
+        repeat
+            led = false
+            await sysTick
+            led = true
+            await sysTick
+        end
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In &lt;code&gt;SendBufferBlinking&lt;/code&gt;, we just need to run the existing code of &lt;code&gt;SendBuffer&lt;/code&gt; in one trail of the &lt;code&gt;cobegin&lt;/code&gt; and add a second, concurrent trail that is responsible for flashing the LED &amp;ndash; that&amp;rsquo;s it. The second trail is &lt;code&gt;weak&lt;/code&gt; so that it will be aborted as soon as the buffer transmission in the first trail has been completed. Note that &lt;code&gt;sysTick&lt;/code&gt; is a new input which provides the system tick event for switchting the LED on and off.&lt;/p&gt;
+&lt;h3 id=&#34;concurrency-versus-single-threaded-c-code----a-contradiction&#34;&gt;Concurrency versus single-threaded C code &amp;ndash; a contradiction?&lt;/h3&gt;
+&lt;p&gt;At this point, when people read that any Blech program is compiled into &lt;em&gt;single-threaded&lt;/em&gt; C code, they are sometimes slightly confused. On the one hand, Blech advertises language level support for describing concurrent behaviour but, at the same time, it produces sequential, single-threaded code only. So how can that even work?&lt;/p&gt;
+&lt;p&gt;In order to understand this we have to distinguish between two different designs of concurrency. First, &lt;em&gt;physical concurrency&lt;/em&gt; aims to increase reliability and / or performance by running software on real parallel or distributed hardware platforms, e.g. multi-core architectures, at the same time. Second, &lt;em&gt;logical concurrency&lt;/em&gt; aims to provide a convenient and natural way to compose a system as a set of parallel, cooperating components. Physical and logical concurrency can be the same &amp;ndash; but they do not have to!&lt;/p&gt;
+&lt;p&gt;Blech, in its current development state, provides support for logical concurrency only. At a first glance, this might look like a major limitation compared to conventional solutions in which the notion of &lt;em&gt;threads&lt;/em&gt; allows to run several lines of execution on different processors at the same time. On closer inspection, however, it becomes apparent that this is actually not the case.&lt;/p&gt;
+&lt;h3 id=&#34;single-core-applications&#34;&gt;Single-core applications&lt;/h3&gt;
+&lt;p&gt;A major part of today&amp;rsquo;s embedded systems still relies on single-core hardware architectures which exclude physical concurrency by design. This means that, even with asynchronous threads, it is impossible to execute two commands concurrently at the same time; the entire software is strictly sequential. As a consequence, for this significant amount of embedded use cases, Blech has no disadvantages with respect to concurrency.&lt;/p&gt;
+&lt;p&gt;Quite the contrary, in Blech the sequentialization is done systematically &lt;em&gt;during compile time&lt;/em&gt; based on the synchronous model of computation &amp;ndash; no non-deterministic scheduling decisions during runtime; no arbitrary interleavings of concurrent code; no race conditions and data inconsistencies. Finally, this leads to sequential code with deterministic and reproducible runtime behaviour &amp;ndash; &lt;em&gt;the&lt;/em&gt; major advantage that makes Blech outperform conventional, asynchronous languages in the embedded domain.&lt;/p&gt;
+&lt;h3 id=&#34;multi-core-applications&#34;&gt;Multi-core applications&lt;/h3&gt;
+&lt;p&gt;In multi-core applications where physical concurrency is mandatory Blech is still applicable. Considering a dual-core processor for example, we can have two instances of either the same or different Blech programs where each of them is running on a different core! By this, we basically create two &lt;em&gt;synchronous islands&lt;/em&gt; &amp;ndash; so to speak &amp;ndash; that locally benefit from executing synchronous code while, from a global view, running asynchronously with respect to each other. This solution is particularly suitable for applications in which the concerns handled by core A constitute a high independence with respect to those of core B and vice versa.&lt;/p&gt;
+&lt;p&gt;What we cannot express in Blech today is concurrent runtime behaviour across multiple cores. That is, the &lt;code&gt;cobegin&lt;/code&gt; statement cannot be used to describe how two concurrent trails, for example, are to be deployed, started, executed and rejoined across two different processor cores. But remember that this is not possible with threads too! The notion of threads does not say anything about how data and control flow is shared between multiple, concurrent hardware architectures.&lt;/p&gt;
+&lt;p&gt;Blech&amp;rsquo;s long term goal, however, is to provide support for multi-core systems and hence physical concurrency on language level too.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Blog: Decoding the DCF77 signal with Blech</title>
       <link>https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/</link>
       <pubDate>Mon, 15 Jun 2020 00:00:00 +0000</pubDate>
       
@@ -27,7 +260,7 @@
 &lt;p&gt;Information about the current time and date are modulated in a binary fashion onto a 77.5kHz radio carrier signal. On each second a so called &lt;em&gt;second mark&lt;/em&gt; is transmitted by reducing the carrier power for a certain amount of time. The duration of the reduction encodes either a &lt;em&gt;binary zero&lt;/em&gt; (100ms) or a &lt;em&gt;binary one&lt;/em&gt; (200ms). After a complete time code &amp;ndash; a sequence of 59 bits &amp;ndash; the process is repeated every full minute. For the 60th second there is no level change. This gap aids as a &lt;em&gt;synchronization mark&lt;/em&gt; for indicating the end of the current time code.&lt;/p&gt;
 &lt;p&gt;Please refer to the &lt;a href=&#34;https://www.ptb.de/cms/en/ptb/fachabteilungen/abt4/fb-44/ag-442/dissemination-of-legal-time/dcf77.html&#34; target=&#34;_blank&#34;&gt;homepage of the PTB&lt;/a&gt;
  for further details about the technical setup and the time code of DCF77.&lt;/p&gt;
-&lt;h2 id=&#34;application-example-dcf77-decoder&#34;&gt;Application Example: DCF77 Decoder&lt;/h2&gt;
+&lt;h2 id=&#34;application-example-dcf77-decoder&#34;&gt;Application example: DCF77 decoder&lt;/h2&gt;
 &lt;p&gt;Our goal is to implement a simple DCF77 decoder based on a &lt;a href=&#34;https://www.st.com/en/evaluation-tools/stm32f4discovery.html&#34; target=&#34;_blank&#34;&gt;STM32F4DISCOVERY&lt;/a&gt;
  board. For the user interface we use the on-board LEDs and push button. The application shall behave as follows:&lt;/p&gt;
 &lt;ul&gt;
@@ -113,7 +346,7 @@ Oszilloscope capture of the DCF77 time signal on GPIO PB7.
 &lt;/div&gt;
 &lt;p&gt;We can also see the synchronization mark (&lt;code&gt;SYNC&lt;/code&gt;) in which the 60th low pulse is omitted. This is the delimiter between the current bit sequence and the following. Finally, the discovery board communicates via USB with the &lt;a href=&#34;https://www.st.com/en/development-tools/stm32cubeide.html&#34; target=&#34;_blank&#34;&gt;software IDE&lt;/a&gt;
  on the development machine for code flashing and debugging.&lt;/p&gt;
-&lt;h2 id=&#34;implementation-outline&#34;&gt;Implementation Outline&lt;/h2&gt;
+&lt;h2 id=&#34;implementation-outline&#34;&gt;Implementation outline&lt;/h2&gt;
 &lt;p&gt;In this section we outline the decoder implementation, thereby focusing on the Blech application part and its integration into the C execution environment. The complete source code project can be found &lt;a href=&#34;https://github.com/mterber/blech-dcf77.git&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
 . Two files are of particular interest:&lt;/p&gt;
 &lt;ul&gt;
@@ -136,7 +369,7 @@ Oszilloscope capture of the DCF77 time signal on GPIO PB7.
 @[EntryPoint]
 activity Main (dcf77: bool, btn: bool) (leds: LedStates)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that &lt;code&gt;LedStates&lt;/code&gt; is a user-defined structure in Blech which contains the state information of the four LEDs. This is done to make the interface less verbose, thereby improving the readability.&lt;/p&gt;
-&lt;h3 id=&#34;execution-scheme-and-integration-of-blech&#34;&gt;Execution Scheme and Integration of Blech&lt;/h3&gt;
+&lt;h3 id=&#34;execution-scheme-and-integration-of-blech&#34;&gt;Execution scheme and integration of Blech&lt;/h3&gt;
 &lt;p&gt;The execution progress of a Blech program advances based on &lt;em&gt;ticks&lt;/em&gt;. A tick can be any sporadic or periodic event- or time-based trigger provided by the underlying hard- and software platform. For decoding DCF77 it is a common approach to periodically sample the time signal and measure the duration of the level changes. This means that the entire decoding logic is &lt;em&gt;purely time-driven&lt;/em&gt; based on a cyclic timer tick.&lt;/p&gt;
 &lt;p&gt;We follow this approach and execute the Blech application part every 10 milliseconds. This leads to a sample rate of 100Hz which is sufficiently fast in order to distinguish between a binary zero, a binary one and the synchronization mark. For the periodic execution, we take advantage of a simple delay function (&lt;code&gt;HAL_Delay&lt;/code&gt;) provided by the microcontroller&amp;rsquo;s driver library. An outline of &lt;code&gt;main.c&lt;/code&gt; is shown below.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
@@ -191,7 +424,7 @@ In this application, the Blech part is entirely time-triggered. All &lt;code&gt;
 &lt;/div&gt;
 
 &lt;p&gt;Keep in mind that calling &lt;code&gt;HAL_Delay&lt;/code&gt; is generally not a good solution with respect to efficiency. Internally, this function actively polls a variable which gets updated by the system tick timer. This means that the CPU is continously running at full speed and the main thread is blocked for anything else. A better approach would be to switch the microcontroller into sleep mode and implement a wakeup strategy based on interrupts for each tick. We are going to show this in another blog post. In this example, however, we follow the simple delay approach for the sake of simplicity.&lt;/p&gt;
-&lt;h3 id=&#34;hierarchical-software-structure&#34;&gt;Hierarchical Software Structure&lt;/h3&gt;
+&lt;h3 id=&#34;hierarchical-software-structure&#34;&gt;Hierarchical software structure&lt;/h3&gt;
 &lt;p&gt;The entire complexity of the example application is broken down into seven &lt;em&gt;activites&lt;/em&gt; &amp;ndash; the reactive code abstraction entities in Blech &amp;ndash; as follows:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Main&lt;/code&gt; &amp;ndash; This is the entry point and top level of the Blech program. It defines the interface between Blech and C (see &lt;a href=&#34;#execution-scheme-and-integration-of-blech&#34;&gt;here&lt;/a&gt;
@@ -222,7 +455,7 @@ Hierarchical call structure of activities.
 	
 &lt;/div&gt;
 &lt;p&gt;Note how easy it is to reuse the same piece of reactive code for different concerns in Blech &amp;ndash; &lt;code&gt;CaptureBit&lt;/code&gt; is used in &lt;code&gt;AwaitStableSignal&lt;/code&gt; and &lt;code&gt;CaptureTimeInfo&lt;/code&gt; likewise. In the former, we repeatedly run &lt;code&gt;CaptureBit&lt;/code&gt; until three consecutive bits have been successfully captured. Only then we consider the time signal to be stable.&lt;/p&gt;
-&lt;h3 id=&#34;the-applications-top-level&#34;&gt;The Application&amp;rsquo;s Top-Level&lt;/h3&gt;
+&lt;h3 id=&#34;the-applications-top-level&#34;&gt;The application&amp;rsquo;s top-level&lt;/h3&gt;
 &lt;p&gt;We dig into the implementation starting at the top level. Inside the &lt;code&gt;Main&lt;/code&gt; activity, the program first awaits a stable DCF77 signal by running &lt;code&gt;AwaitStableSignal&lt;/code&gt;. This suspends the control flow until the signal is reliable. A &lt;em&gt;function&lt;/em&gt; call is used before to turn on all LEDs.&lt;/p&gt;
 &lt;p&gt;After that, the infinite &lt;code&gt;repeat&lt;/code&gt; loop is entered and all LEDs are turned off. By taking advantage of &lt;code&gt;cobegin&lt;/code&gt;, the main application trail is split into two concurrent trails. While the first one runs &lt;code&gt;Decode&lt;/code&gt; for performing the DCF77 decoding, the second one executes &lt;code&gt;Visualize&lt;/code&gt; in order to concurrently reflect the time signal level on the blue LED. Note that the second trail is marked as &lt;code&gt;weak&lt;/code&gt;. This means that, as soon as the first trail terminates, the second trail will be aborted &amp;ndash; both trails rejoin their control paths and continue as one. By this, it is pretty easy to describe that visualizing the signal level shall be done only while the decoding is running.&lt;/p&gt;
 
@@ -270,7 +503,7 @@ To keep the example simple, the button state is provided &lt;em&gt;as-is&lt;/em&
 . In another blog post we are going to show how this can be done in Blech.
 &lt;/div&gt;
 
-&lt;h3 id=&#34;visualizing-the-dcf77-signal&#34;&gt;Visualizing the DCF77 Signal&lt;/h3&gt;
+&lt;h3 id=&#34;visualizing-the-dcf77-signal&#34;&gt;Visualizing the DCF77 signal&lt;/h3&gt;
 &lt;p&gt;Reflecting the time signal level on the LED is a pretty simple task in Blech. We establish an infinite loop which alternates between the signal levels. First, it awaits the high level for switching off the LED. Second, it awaits the low level for switching on the same LED. Third, the whole process repeats &amp;ndash; that&amp;rsquo;s it.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Visualize (dcf77: bool) (ledDcf77: bool)
     repeat
@@ -281,7 +514,7 @@ To keep the example simple, the button state is provided &lt;em&gt;as-is&lt;/em&
     end
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that &lt;code&gt;Visualize&lt;/code&gt; does not even have to know which of the four LEDs it is actually turning on and off. There is no hardware dependency and all the required logic is encapsulated in an activity. Thus, we could easily select another LED or execute multiple instances of &lt;code&gt;Visualize&lt;/code&gt; concurrently in order to show the signal level on several LEDs at the same time.&lt;/p&gt;
-&lt;h3 id=&#34;capturing-the-synchronization-mark-and-the-bits&#34;&gt;Capturing the Synchronization Mark and the Bits&lt;/h3&gt;
+&lt;h3 id=&#34;capturing-the-synchronization-mark-and-the-bits&#34;&gt;Capturing the synchronization mark and the bits&lt;/h3&gt;
 &lt;p&gt;For this functionality, we take advantage of the fact that the entire Blech application is purely time-triggered by the 10 milliseconds tick (see &lt;a href=&#34;#execution-scheme-and-integration-of-blech&#34;&gt;here&lt;/a&gt;
 ). Based on that, we establish a time-based counter &lt;code&gt;len&lt;/code&gt; which measures the duration of the signal&amp;rsquo;s &lt;code&gt;HIGH&lt;/code&gt; level. Therefore, &lt;code&gt;len&lt;/code&gt; is incremented on each (10 milliseconds) tick using &lt;code&gt;await true&lt;/code&gt; in a loop. Once that counter has reached the required value (&amp;gt; 1200ms) we detect the synchronization mark and exit the loop.&lt;/p&gt;
 &lt;p&gt;If the signal level goes &lt;code&gt;LOW&lt;/code&gt; during the measurement the process has to be resetted. For this, we use the &lt;code&gt;when ... reset&lt;/code&gt; block in Blech which causes the contained code to restart from the first line if the given condition is met. So in this case the code will jump back to &lt;code&gt;var len: nat16 = 0&lt;/code&gt; as soon as the level drops.&lt;/p&gt;
@@ -296,7 +529,7 @@ end
     end
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The implementation of &lt;code&gt;CaptureBit&lt;/code&gt; basically follows the same approach. It uses a time-driven counter for measuring the duration of the &lt;code&gt;LOW&lt;/code&gt; level instead. For this reason, we do not exemplify it in more detail here.&lt;/p&gt;
-&lt;h3 id=&#34;capture-and-decode-the-time-information&#34;&gt;Capture and Decode the Time Information&lt;/h3&gt;
+&lt;h3 id=&#34;capture-and-decode-the-time-information&#34;&gt;Capture and decode the time information&lt;/h3&gt;
 &lt;p&gt;Implementing the time information capture based on &lt;code&gt;CaptureSync&lt;/code&gt; and &lt;code&gt;CaptureBit&lt;/code&gt; becomes a trivial task. First, we capture the synchronization mark. Before and after that we turn off and on the associated LED (orange) respectively. Second, we enter the &lt;code&gt;while&lt;/code&gt; loop in which we collect the 59 time code bits by repeatedly calling &lt;code&gt;CaptureBit&lt;/code&gt;. Each successfully received bit is passed to &lt;code&gt;processBit&lt;/code&gt; in order to update the gathered time information in &lt;code&gt;ti&lt;/code&gt;. This means that decoding the DCF77 signal actually happens bit-wise on-the-fly. Finally, &lt;code&gt;CaptureTimeInfo&lt;/code&gt; terminates, thereby returning the success status and the decoded time information to the caller.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
     ledSync = false // Turn off LED.
