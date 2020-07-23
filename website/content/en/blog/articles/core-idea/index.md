@@ -120,7 +120,7 @@ As a conclusion we can say that the *event-based style* makes it generally
 {{% /alert %}}
 
 
-## Lifting the level with Blech: The pseudo-blocking style
+## A higher abstraction level - the pseudo-blocking style
 
 Looking back to above implementation schemes the following becomes apparent:
 * The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.
