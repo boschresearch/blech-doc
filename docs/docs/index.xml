@@ -1917,11 +1917,17 @@ Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the d
         
         
         &lt;h2 id=&#34;branches&#34;&gt;Branches&lt;/h2&gt;
-&lt;p&gt;For the Blech compiler development we use branches and roughly follow the &lt;a href=&#34;https://gist.github.com/digitaljhelms/4287848&#34; target=&#34;_blank&#34;&gt;Git/Github branching standards &amp;amp; conventions&lt;/a&gt;
-&lt;/p&gt;
-&lt;p&gt;The contained &lt;a href=&#34;https://gist.github.com/digitaljhelms/4287848#workflow-diagram&#34; target=&#34;_blank&#34;&gt;workflow diagram&lt;/a&gt;
+&lt;p&gt;For the Blech compiler development we use branches and follow the article: &lt;a href=&#34;https://nvie.com/posts/a-successful-git-branching-model/&#34; target=&#34;_blank&#34;&gt;A successful Git branching model&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;The contained &lt;a href=&#34;https://nvie.com/img/git-model@2x.png&#34; target=&#34;_blank&#34;&gt;workflow diagram&lt;/a&gt;
  visualizes this in a nice way.&lt;/p&gt;
-&lt;p&gt;Since we did not release a stable version until now, we do not have stable branch but only a master branch that reflects the evolution of the language and gets tagged from time to time.&lt;/p&gt;
+&lt;p&gt;The main branches with a permanent lifetime are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;master&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;develop&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The branch &lt;code&gt;develop&lt;/code&gt; reflects the latest development steps, that are successfully build and tested.&lt;/p&gt;
+&lt;p&gt;Since we did not release a stable version until now, the &lt;code&gt;master&lt;/code&gt; branch reflects the evolution of the language and is tagged for pre-releases.&lt;/p&gt;
 
       </description>
     </item>

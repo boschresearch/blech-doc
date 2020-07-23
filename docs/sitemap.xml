@@ -128,11 +128,6 @@
   </url>
   
   <url>
-    <loc>https://www.blech-lang.org/docs/blechc-development/git-workflow/</loc>
-    <lastmod>2020-04-15T12:52:05+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.blech-lang.org/docs/user-manual/controlflow/</loc>
     <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url>
@@ -140,6 +135,11 @@
   <url>
     <loc>https://www.blech-lang.org/blog/events/</loc>
     <lastmod>2020-04-21T20:26:37+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.blech-lang.org/docs/blechc-development/git-workflow/</loc>
+    <lastmod>2020-04-15T12:52:05+02:00</lastmod>
   </url>
   
   <url>
@@ -209,7 +209,7 @@
   
   <url>
     <loc>https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/</loc>
-    <lastmod>2020-07-23T10:02:44+02:00</lastmod>
+    <lastmod>2020-07-23T10:29:15+02:00</lastmod>
   </url>
   
   <url>

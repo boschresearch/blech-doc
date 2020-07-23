@@ -30,7 +30,7 @@
 <meta itemprop="description" content="This explains how we use branches to enable our git workflow.
 ">
 <meta itemprop="dateModified" content="2020-04-15T12:52:05&#43;02:00" />
-<meta itemprop="wordCount" content="63">
+<meta itemprop="wordCount" content="77">
 
 
 
@@ -443,7 +443,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentgit-workflow" href="/docs/blechc-development/git-workflow/">Branches</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentgit-workflow" href="/docs/blechc-development/git-workflow/">Git workflow</a>
       
       
       
@@ -607,7 +607,7 @@
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/blechc-development/git-workflow/">Branches</a>
+	<a href="https://www.blech-lang.org/docs/blechc-development/git-workflow/">Git workflow</a>
 </li>
 
 	</ol>
@@ -619,11 +619,17 @@
     <div class="lead">This explains how we use branches to enable our git workflow.</div>
 	       
 	<h2 id="branches">Branches</h2>
-<p>For the Blech compiler development we use branches and roughly follow the <a href="https://gist.github.com/digitaljhelms/4287848" target="_blank">Git/Github branching standards &amp; conventions</a>
-</p>
-<p>The contained <a href="https://gist.github.com/digitaljhelms/4287848#workflow-diagram" target="_blank">workflow diagram</a>
+<p>For the Blech compiler development we use branches and follow the article: <a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank">A successful Git branching model</a>
+.</p>
+<p>The contained <a href="https://nvie.com/img/git-model@2x.png" target="_blank">workflow diagram</a>
  visualizes this in a nice way.</p>
-<p>Since we did not release a stable version until now, we do not have stable branch but only a master branch that reflects the evolution of the language and gets tagged from time to time.</p>
+<p>The main branches with a permanent lifetime are:</p>
+<ul>
+<li><code>master</code></li>
+<li><code>develop</code></li>
+</ul>
+<p>The branch <code>develop</code> reflects the latest development steps, that are successfully build and tested.</p>
+<p>Since we did not release a stable version until now, the <code>master</code> branch reflects the evolution of the language and is tagged for pre-releases.</p>
 
 	
 	
