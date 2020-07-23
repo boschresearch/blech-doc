@@ -157,7 +157,7 @@ Remember that stack and state management are actually low-level tasks done by th
 
 &lt;/div&gt;
 
-&lt;h2 id=&#34;a-higher-abstraction-level---the-pseudo-blocking-style&#34;&gt;A higher abstraction level - the pseudo-blocking style&lt;/h2&gt;
+&lt;h2 id=&#34;lifting-the-abstraction-level---the-pseudo-blocking-style&#34;&gt;Lifting the abstraction level - the pseudo-blocking style&lt;/h2&gt;
 &lt;p&gt;Looking back to above implementation schemes the following becomes apparent:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.&lt;/li&gt;
