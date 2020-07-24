@@ -26,13 +26,13 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" />
 <meta property="article:published_time" content="2020-07-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-07-23T10:29:15+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-07-24T17:40:09+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="The basic idea behind Blech – A practitioner&#39;s point of view">
 <meta itemprop="description" content="Maintaining control over the increasing complexity of today&#39;s embedded systems is the main goal of Blech. Therefore, Blech lifts embedded programming to a higher level of abstraction. But what does that actually mean? In this article we consider this from a practitioner&#39;s point of view.   
 ">
 <meta itemprop="datePublished" content="2020-07-22T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-07-23T10:29:15&#43;02:00" />
-<meta itemprop="wordCount" content="3070">
+<meta itemprop="dateModified" content="2020-07-24T17:40:09&#43;02:00" />
+<meta itemprop="wordCount" content="3174">
 
 
 
@@ -319,7 +319,7 @@
         <li><a href="#the-event-based-style">The event-based style</a></li>
       </ul>
     </li>
-    <li><a href="#lifting-the-abstraction-level---the-pseudo-blocking-style">Lifting the abstraction level - the pseudo-blocking style</a></li>
+    <li><a href="#lifting-the-abstraction-level----the-pseudo-blocking-style">Lifting the abstraction level &ndash; the pseudo-blocking style</a></li>
     <li><a href="#concurrency-in-blech">Concurrency in Blech</a>
       <ul>
         <li><a href="#concurrency-versus-single-threaded-c-code----a-contradiction">Concurrency versus single-threaded C code &ndash; a contradiction?</a></li>
@@ -347,7 +347,8 @@
 	</div>
 	<h2 id="application-example-uart-communication">Application example: UART communication</h2>
 <p>Let us consider a simple embedded use case. We want to implement a <a href="https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter" target="_blank">UART</a>
- communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other. The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions.</p>
+ communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other.</p>
+<p>The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions. That means that, in our example, the UART peripherial is directly controlled via its hardware registers. Writing a byte to the register <code>UART1-&gt;DR</code> causes the UART hardware interface to send that byte over the wire. While the transmission is in progress, the flag <code>UART1_FLAG_TXE</code> is <code>true</code>. The interface will automatically set the flag to <code>false</code> after it has finished sending the byte. At that time, it can also trigger an interrupt to indicate that the job is done.</p>
 <p>Apart from the sole functional correctness it is important that the application is generally compatible with the stringent constraints of the embedded domain. That is, very limited resources &ndash; <em>computation time</em> and <em>memory</em> &ndash; and possible <em>realtime requirements</em>. Keeping the embedded software reactive is key in order to handle realtime-critical events in time.</p>
 <p>Below sections discuss different implementation schemes in C and Blech for realizing the buffer transmission.</p>
 <h2 id="implementation-schemes-in-c">Implementation schemes in C</h2>
@@ -379,7 +380,23 @@
 </div><p>We pass the buffer and its length to the function. Then, we loop over the buffer. For each byte, we first wait for the UART device to become ready, second copy the next byte into the UART data register and third check whether or not we have reached the end of the buffer &ndash; it is as simple as that.</p>
 <p>In this approach, everything related to the transmission is <em>local</em>. With local I not only mean the data in sense of local variables. I also mean the code &ndash; the knowledge &ndash; that is required to describe all necessary steps that have to be done. This makes it not only easy to comprehend how the transmission actually works but also facilitates its usage, debugging and maintenance. If something is not working as expected or if we want to change or extend the procedure in some way we know that <code>send_buffer</code> is the sole code block to look at.</p>
 <p>However, there is a high price to be paid in order to obtain above encapsulation benefits. If we want to encapsulate the transmission of an entire buffer &ndash; and not only of single bytes &ndash; a call of <code>send_buffer</code> must inevitably outlive the transmission of multiple bytes. For this, its code has to be implemented in a <em>blocking</em> fashion so that it does not terminate once a single byte has been sent out. This becomes apparent from Line 5 in which we wait for the UART device to finish the transmission of the current byte. A <code>while</code> loop polls the corresponding UART flag in order to block the control flow of <code>send_buffer</code> before it proceeds with the next byte. The runtime behaviour of <code>send_buffer</code> is exemplarily depicted below:</p>
-<p><img src="oszi_1.png" alt=""></p>
+
+
+
+
+
+
+
+<div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
+	<img class="card-img-top" src="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_1_hu7a477f07b182b110426619a64863e79e_99242_800x0_resize_catmullrom_2.png" width="800" height="217">
+	
+	<div class="card-body px-0 pt-2 pb-0">
+		<p class="card-text">
+Exemplary scope capture of three byte transmission with software in polling mode.
+</p>
+	</div>
+	
+</div>
 <p>Above example scope capture shows the transmission of a 3-byte buffer. <code>SW</code> indicates when the CPU is busy (<code>SW -&gt; HIGH</code>) with executing <code>send_buffer</code> while <code>TX</code> shows the physical output signal of the UART hardware. It is easy to see that the entire processing time is eaten up by <code>send_buffer</code> until the last byte has been sent out. This causes several drawbacks:</p>
 <ul>
 <li>The thread calling <code>send_buffer</code> is blocked for anything else. No other code can run concurrently so that
@@ -453,7 +470,23 @@
 </div>
 </div><p>In this solution, <code>send_buffer</code> is only used to <em>initiate</em> the buffer transfer. It waits for the UART device to become ready, saves the buffer, its length and a transmission counter as global variables, and finally writes the first buffer byte into the UART data register. Then, in contrast to the blocking style above, <code>send_buffer</code> immediately terminates although not even a single byte has been actually transmittet yet.</p>
 <p>Once the first byte has physically left the UART device, the hardware automatically executes the interrupt service routine in Line 12 which picks the next byte from the buffer and triggers its transmission. This process repeats for each byte until the entire buffer has been transferred. Ultimately, the buffer transmission is driven by a chain of callbacks that advances the progress step by step. The corresponding runtime behaviour of this approach is shown below:</p>
-<p><img src="oszi_2.png" alt=""></p>
+
+
+
+
+
+
+
+<div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
+	<img class="card-img-top" src="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_2_hue664559e19091397989b194e3be32ca9_97431_800x0_resize_catmullrom_2.png" width="800" height="217">
+	
+	<div class="card-body px-0 pt-2 pb-0">
+		<p class="card-text">
+Exemplary scope capture of three byte transmission with software in event-driven mode.
+</p>
+	</div>
+	
+</div>
 <p>This time, the CPU is only busy when a new byte transmission is to be triggered. Meanwhile it could either process other concerns, react on other events or go to sleep in order to save energy. Since <code>send_buffer</code> terminates after each byte its stack space is freed and can be easily reused for something else. By this, the event-driven approach perfectly fits the embedded domain.</p>
 <p>However, all the valuable software engineering benefits of the blocking approach are gone. The functionality &ldquo;buffer transmission&rdquo; is now torn apart a function, an interrupt service routine and a set of global variables. This eliminates locality and requires me &ndash; the software developer &ndash; to implement <em>manual stack</em> and <em>state management</em> in order to maintain the program state across several function and ISR calls respectively.</p>
 
@@ -481,7 +514,7 @@ Remember that stack and state management are actually low-level tasks done by th
 
 </div>
 
-<h2 id="lifting-the-abstraction-level---the-pseudo-blocking-style">Lifting the abstraction level - the pseudo-blocking style</h2>
+<h2 id="lifting-the-abstraction-level----the-pseudo-blocking-style">Lifting the abstraction level &ndash; the pseudo-blocking style</h2>
 <p>Looking back to above implementation schemes the following becomes apparent:</p>
 <ul>
 <li>The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.</li>
@@ -492,7 +525,7 @@ Remember that stack and state management are actually low-level tasks done by th
 
 <div class="alert alert-info" role="alert">
 <h4 class="alert-heading">Basic Idea</h4>
-The basic idea behind Blech is to let the software developer write code in a <em>blocking fashion</em> (good software quality) and systematically compile it into an efficient, deterministic, <em>event-driven</em> statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech <em>lifting embedded programming to the next level</em>.
+The basic idea behind Blech is to let the software developer write code in a <em>blocking fashion</em> (good software quality) and systematically compile it into an efficient, deterministic, <em>event-driven</em> statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech <em>lifting embedded programming to a higher level of abstraction</em>.
 </div>
 
 <p>This concept is what I call the <em>pseudo-blocking</em> style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.</p>

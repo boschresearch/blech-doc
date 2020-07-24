@@ -24,7 +24,8 @@
         
         &lt;h2 id=&#34;application-example-uart-communication&#34;&gt;Application example: UART communication&lt;/h2&gt;
 &lt;p&gt;Let us consider a simple embedded use case. We want to implement a &lt;a href=&#34;https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter&#34; target=&#34;_blank&#34;&gt;UART&lt;/a&gt;
- communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other. The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions.&lt;/p&gt;
+ communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other.&lt;/p&gt;
+&lt;p&gt;The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions. That means that, in our example, the UART peripherial is directly controlled via its hardware registers. Writing a byte to the register &lt;code&gt;UART1-&amp;gt;DR&lt;/code&gt; causes the UART hardware interface to send that byte over the wire. While the transmission is in progress, the flag &lt;code&gt;UART1_FLAG_TXE&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt;. The interface will automatically set the flag to &lt;code&gt;false&lt;/code&gt; after it has finished sending the byte. At that time, it can also trigger an interrupt to indicate that the job is done.&lt;/p&gt;
 &lt;p&gt;Apart from the sole functional correctness it is important that the application is generally compatible with the stringent constraints of the embedded domain. That is, very limited resources &amp;ndash; &lt;em&gt;computation time&lt;/em&gt; and &lt;em&gt;memory&lt;/em&gt; &amp;ndash; and possible &lt;em&gt;realtime requirements&lt;/em&gt;. Keeping the embedded software reactive is key in order to handle realtime-critical events in time.&lt;/p&gt;
 &lt;p&gt;Below sections discuss different implementation schemes in C and Blech for realizing the buffer transmission.&lt;/p&gt;
 &lt;h2 id=&#34;implementation-schemes-in-c&#34;&gt;Implementation schemes in C&lt;/h2&gt;
@@ -56,7 +57,23 @@
 &lt;/div&gt;&lt;p&gt;We pass the buffer and its length to the function. Then, we loop over the buffer. For each byte, we first wait for the UART device to become ready, second copy the next byte into the UART data register and third check whether or not we have reached the end of the buffer &amp;ndash; it is as simple as that.&lt;/p&gt;
 &lt;p&gt;In this approach, everything related to the transmission is &lt;em&gt;local&lt;/em&gt;. With local I not only mean the data in sense of local variables. I also mean the code &amp;ndash; the knowledge &amp;ndash; that is required to describe all necessary steps that have to be done. This makes it not only easy to comprehend how the transmission actually works but also facilitates its usage, debugging and maintenance. If something is not working as expected or if we want to change or extend the procedure in some way we know that &lt;code&gt;send_buffer&lt;/code&gt; is the sole code block to look at.&lt;/p&gt;
 &lt;p&gt;However, there is a high price to be paid in order to obtain above encapsulation benefits. If we want to encapsulate the transmission of an entire buffer &amp;ndash; and not only of single bytes &amp;ndash; a call of &lt;code&gt;send_buffer&lt;/code&gt; must inevitably outlive the transmission of multiple bytes. For this, its code has to be implemented in a &lt;em&gt;blocking&lt;/em&gt; fashion so that it does not terminate once a single byte has been sent out. This becomes apparent from Line 5 in which we wait for the UART device to finish the transmission of the current byte. A &lt;code&gt;while&lt;/code&gt; loop polls the corresponding UART flag in order to block the control flow of &lt;code&gt;send_buffer&lt;/code&gt; before it proceeds with the next byte. The runtime behaviour of &lt;code&gt;send_buffer&lt;/code&gt; is exemplarily depicted below:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;oszi_1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_1_hu7a477f07b182b110426619a64863e79e_99242_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;217&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Exemplary scope capture of three byte transmission with software in polling mode.
+&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
 &lt;p&gt;Above example scope capture shows the transmission of a 3-byte buffer. &lt;code&gt;SW&lt;/code&gt; indicates when the CPU is busy (&lt;code&gt;SW -&amp;gt; HIGH&lt;/code&gt;) with executing &lt;code&gt;send_buffer&lt;/code&gt; while &lt;code&gt;TX&lt;/code&gt; shows the physical output signal of the UART hardware. It is easy to see that the entire processing time is eaten up by &lt;code&gt;send_buffer&lt;/code&gt; until the last byte has been sent out. This causes several drawbacks:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The thread calling &lt;code&gt;send_buffer&lt;/code&gt; is blocked for anything else. No other code can run concurrently so that
@@ -130,7 +147,23 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;In this solution, &lt;code&gt;send_buffer&lt;/code&gt; is only used to &lt;em&gt;initiate&lt;/em&gt; the buffer transfer. It waits for the UART device to become ready, saves the buffer, its length and a transmission counter as global variables, and finally writes the first buffer byte into the UART data register. Then, in contrast to the blocking style above, &lt;code&gt;send_buffer&lt;/code&gt; immediately terminates although not even a single byte has been actually transmittet yet.&lt;/p&gt;
 &lt;p&gt;Once the first byte has physically left the UART device, the hardware automatically executes the interrupt service routine in Line 12 which picks the next byte from the buffer and triggers its transmission. This process repeats for each byte until the entire buffer has been transferred. Ultimately, the buffer transmission is driven by a chain of callbacks that advances the progress step by step. The corresponding runtime behaviour of this approach is shown below:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;oszi_2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_2_hue664559e19091397989b194e3be32ca9_97431_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;217&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Exemplary scope capture of three byte transmission with software in event-driven mode.
+&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
 &lt;p&gt;This time, the CPU is only busy when a new byte transmission is to be triggered. Meanwhile it could either process other concerns, react on other events or go to sleep in order to save energy. Since &lt;code&gt;send_buffer&lt;/code&gt; terminates after each byte its stack space is freed and can be easily reused for something else. By this, the event-driven approach perfectly fits the embedded domain.&lt;/p&gt;
 &lt;p&gt;However, all the valuable software engineering benefits of the blocking approach are gone. The functionality &amp;ldquo;buffer transmission&amp;rdquo; is now torn apart a function, an interrupt service routine and a set of global variables. This eliminates locality and requires me &amp;ndash; the software developer &amp;ndash; to implement &lt;em&gt;manual stack&lt;/em&gt; and &lt;em&gt;state management&lt;/em&gt; in order to maintain the program state across several function and ISR calls respectively.&lt;/p&gt;
 
@@ -158,7 +191,7 @@ Remember that stack and state management are actually low-level tasks done by th
 
 &lt;/div&gt;
 
-&lt;h2 id=&#34;lifting-the-abstraction-level---the-pseudo-blocking-style&#34;&gt;Lifting the abstraction level - the pseudo-blocking style&lt;/h2&gt;
+&lt;h2 id=&#34;lifting-the-abstraction-level----the-pseudo-blocking-style&#34;&gt;Lifting the abstraction level &amp;ndash; the pseudo-blocking style&lt;/h2&gt;
 &lt;p&gt;Looking back to above implementation schemes the following becomes apparent:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.&lt;/li&gt;
@@ -169,7 +202,7 @@ Remember that stack and state management are actually low-level tasks done by th
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Basic Idea&lt;/h4&gt;
-The basic idea behind Blech is to let the software developer write code in a &lt;em&gt;blocking fashion&lt;/em&gt; (good software quality) and systematically compile it into an efficient, deterministic, &lt;em&gt;event-driven&lt;/em&gt; statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech &lt;em&gt;lifting embedded programming to the next level&lt;/em&gt;.
+The basic idea behind Blech is to let the software developer write code in a &lt;em&gt;blocking fashion&lt;/em&gt; (good software quality) and systematically compile it into an efficient, deterministic, &lt;em&gt;event-driven&lt;/em&gt; statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech &lt;em&gt;lifting embedded programming to a higher level of abstraction&lt;/em&gt;.
 &lt;/div&gt;
 
 &lt;p&gt;This concept is what I call the &lt;em&gt;pseudo-blocking&lt;/em&gt; style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.&lt;/p&gt;
@@ -287,7 +320,7 @@ end
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
 Hardware setup of the DCF77 decoder: Discovery board (top) and RF receiver module with antenna (bottom).
-&lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+&lt;/p&gt;
 	&lt;/div&gt;
 	
 &lt;/div&gt;
@@ -340,7 +373,7 @@ Hardware setup of the DCF77 decoder: Discovery board (top) and RF receiver modul
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
 Oszilloscope capture of the DCF77 time signal on GPIO PB7.
-&lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+&lt;/p&gt;
 	&lt;/div&gt;
 	
 &lt;/div&gt;
@@ -450,7 +483,7 @@ In this application, the Blech part is entirely time-triggered. All &lt;code&gt;
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
 Hierarchical call structure of activities.
-&lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+&lt;/p&gt;
 	&lt;/div&gt;
 	
 &lt;/div&gt;
@@ -589,7 +622,7 @@ end
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
     Video: The DCF77 decoder in action.
-    &lt;small class=&#34;text-muted&#34;&gt;&lt;br/&gt;Photo: Matthias Terber / CC-BY-SA&lt;/small&gt;&lt;/p&gt;
+    &lt;/p&gt;
 	&lt;/div&gt;
 	
 &lt;/div&gt;&lt;/a&gt;
