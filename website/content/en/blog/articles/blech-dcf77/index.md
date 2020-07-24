@@ -7,9 +7,6 @@ description: >
 author: Matthias Terber
 resources:
 - src: "**.{png,jpg}"
-  title: "Image #:counter"
-  params:
-    byline: "Photo: Matthias Terber / CC-BY-SA"
 ---
 
 ## What is DCF77?

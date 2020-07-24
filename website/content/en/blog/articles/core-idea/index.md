@@ -7,9 +7,6 @@ description: >
 author: Matthias Terber
 resources:
 - src: "**.{png,jpg}"
-  title: "Image #:counter"
-  params:
-    byline: "Photo: Matthias Terber / CC-BY-SA"
 ---
 
 ## Application example: UART communication
@@ -42,7 +39,9 @@ In this approach, everything related to the transmission is *local*. With local 
 
 However, there is a high price to be paid in order to obtain above encapsulation benefits. If we want to encapsulate the transmission of an entire buffer -- and not only of single bytes -- a call of `send_buffer` must inevitably outlive the transmission of multiple bytes. For this, its code has to be implemented in a *blocking* fashion so that it does not terminate once a single byte has been sent out. This becomes apparent from Line 5 in which we wait for the UART device to finish the transmission of the current byte. A `while` loop polls the corresponding UART flag in order to block the control flow of `send_buffer` before it proceeds with the next byte. The runtime behaviour of `send_buffer` is exemplarily depicted below:
 
-![](oszi_1.png)
+{{< imgproc oszi_1 Resize "800x" >}}
+Exemplary scope capture of three byte transmission with software in polling mode.
+{{< /imgproc >}}
 
 Above example scope capture shows the transmission of a 3-byte buffer. `SW` indicates when the CPU is busy (`SW -> HIGH`) with executing `send_buffer` while `TX` shows the physical output signal of the UART hardware. It is easy to see that the entire processing time is eaten up by `send_buffer` until the last byte has been sent out. This causes several drawbacks:
 
@@ -92,7 +91,9 @@ In this solution, `send_buffer` is only used to *initiate* the buffer transfer. 
 
 Once the first byte has physically left the UART device, the hardware automatically executes the interrupt service routine in Line 12 which picks the next byte from the buffer and triggers its transmission. This process repeats for each byte until the entire buffer has been transferred. Ultimately, the buffer transmission is driven by a chain of callbacks that advances the progress step by step. The corresponding runtime behaviour of this approach is shown below:
 
-![](oszi_2.png)
+{{< imgproc oszi_2 Resize "800x" >}}
+Exemplary scope capture of three byte transmission with software in event-driven mode.
+{{< /imgproc >}}
 
 This time, the CPU is only busy when a new byte transmission is to be triggered. Meanwhile it could either process other concerns, react on other events or go to sleep in order to save energy. Since `send_buffer` terminates after each byte its stack space is freed and can be easily reused for something else. By this, the event-driven approach perfectly fits the embedded domain.
 
