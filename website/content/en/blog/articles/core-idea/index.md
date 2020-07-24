@@ -10,7 +10,9 @@ resources:
 ---
 
 ## Application example: UART communication
-Let us consider a simple embedded use case. We want to implement a [UART](https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter) communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other. The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions. 
+Let us consider a simple embedded use case. We want to implement a [UART](https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter) communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other.
+
+The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions. That means that, in our example, the UART peripherial is directly controlled via its hardware registers. Writing a byte to the register `UART1->DR` causes the UART hardware interface to send that byte over the wire. While the transmission is in progress, the flag `UART1_FLAG_TXE` is `true`. The interface will automatically set the flag to `false` after it has finished sending the byte. At that time, it can also trigger an interrupt to indicate that the job is done.  
 
 Apart from the sole functional correctness it is important that the application is generally compatible with the stringent constraints of the embedded domain. That is, very limited resources -- *computation time* and *memory* -- and possible *realtime requirements*. Keeping the embedded software reactive is key in order to handle realtime-critical events in time.
 
