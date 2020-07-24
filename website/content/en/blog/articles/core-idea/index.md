@@ -7,13 +7,12 @@ description: >
 author: Matthias Terber
 resources:
 - src: "**.{png,jpg}"
-  title: "Image #:counter"
-  params:
-    byline: "Photo: Matthias Terber / CC-BY-SA"
 ---
 
 ## Application example: UART communication
-Let us consider a simple embedded use case. We want to implement a [UART](https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter) communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other. The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions. 
+Let us consider a simple embedded use case. We want to implement a [UART](https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter) communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other.
+
+The implementation is to be done on the bare metal; no operating system, no fancy hardware abstraction layers or library functions. That means that, in our example, the UART peripherial is directly controlled via its hardware registers. Writing a byte to the register `UART1->DR` causes the UART hardware interface to send that byte over the wire. While the transmission is in progress, the flag `UART1_FLAG_TXE` is `true`. The interface will automatically set the flag to `false` after it has finished sending the byte. At that time, it can also trigger an interrupt to indicate that the job is done.  
 
 Apart from the sole functional correctness it is important that the application is generally compatible with the stringent constraints of the embedded domain. That is, very limited resources -- *computation time* and *memory* -- and possible *realtime requirements*. Keeping the embedded software reactive is key in order to handle realtime-critical events in time.
 
@@ -42,7 +41,9 @@ In this approach, everything related to the transmission is *local*. With local 
 
 However, there is a high price to be paid in order to obtain above encapsulation benefits. If we want to encapsulate the transmission of an entire buffer -- and not only of single bytes -- a call of `send_buffer` must inevitably outlive the transmission of multiple bytes. For this, its code has to be implemented in a *blocking* fashion so that it does not terminate once a single byte has been sent out. This becomes apparent from Line 5 in which we wait for the UART device to finish the transmission of the current byte. A `while` loop polls the corresponding UART flag in order to block the control flow of `send_buffer` before it proceeds with the next byte. The runtime behaviour of `send_buffer` is exemplarily depicted below:
 
-![](oszi_1.png)
+{{< imgproc oszi_1 Resize "800x" >}}
+Exemplary scope capture of three byte transmission with software in polling mode.
+{{< /imgproc >}}
 
 Above example scope capture shows the transmission of a 3-byte buffer. `SW` indicates when the CPU is busy (`SW -> HIGH`) with executing `send_buffer` while `TX` shows the physical output signal of the UART hardware. It is easy to see that the entire processing time is eaten up by `send_buffer` until the last byte has been sent out. This causes several drawbacks:
 
@@ -92,7 +93,9 @@ In this solution, `send_buffer` is only used to *initiate* the buffer transfer. 
 
 Once the first byte has physically left the UART device, the hardware automatically executes the interrupt service routine in Line 12 which picks the next byte from the buffer and triggers its transmission. This process repeats for each byte until the entire buffer has been transferred. Ultimately, the buffer transmission is driven by a chain of callbacks that advances the progress step by step. The corresponding runtime behaviour of this approach is shown below:
 
-![](oszi_2.png)
+{{< imgproc oszi_2 Resize "800x" >}}
+Exemplary scope capture of three byte transmission with software in event-driven mode.
+{{< /imgproc >}}
 
 This time, the CPU is only busy when a new byte transmission is to be triggered. Meanwhile it could either process other concerns, react on other events or go to sleep in order to save energy. Since `send_buffer` terminates after each byte its stack space is freed and can be easily reused for something else. By this, the event-driven approach perfectly fits the embedded domain.
 
@@ -120,7 +123,7 @@ As a conclusion we can say that the *event-based style* makes it generally
 {{% /alert %}}
 
 
-## Lifting the abstraction level - the pseudo-blocking style
+## Lifting the abstraction level -- the pseudo-blocking style
 
 Looking back to above implementation schemes the following becomes apparent:
 * The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.
@@ -129,7 +132,7 @@ Looking back to above implementation schemes the following becomes apparent:
 What if we lived in a *perfect world* where we could cherry-pick and combine the advantages of both approaches? -- Welcome to Blech!
 
 {{% alert title="Basic Idea" color="info"%}}
-The basic idea behind Blech is to let the software developer write code in a *blocking fashion* (good software quality) and systematically compile it into an efficient, deterministic, *event-driven* statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech *lifting embedded programming to the next level*.
+The basic idea behind Blech is to let the software developer write code in a *blocking fashion* (good software quality) and systematically compile it into an efficient, deterministic, *event-driven* statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech *lifting embedded programming to a higher level of abstraction*.
 {{% /alert %}}
 
 This concept is what I call the *pseudo-blocking* style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.
