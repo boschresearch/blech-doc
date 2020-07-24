@@ -121,7 +121,7 @@ As a conclusion we can say that the *event-based style* makes it generally
 {{% /alert %}}
 
 
-## Lifting the abstraction level - the pseudo-blocking style
+## Lifting the abstraction level -- the pseudo-blocking style
 
 Looking back to above implementation schemes the following becomes apparent:
 * The blocking style, on the one hand, typically leads to good software quality but is generally not applicable in the embedded domain.
@@ -130,7 +130,7 @@ Looking back to above implementation schemes the following becomes apparent:
 What if we lived in a *perfect world* where we could cherry-pick and combine the advantages of both approaches? -- Welcome to Blech!
 
 {{% alert title="Basic Idea" color="info"%}}
-The basic idea behind Blech is to let the software developer write code in a *blocking fashion* (good software quality) and systematically compile it into an efficient, deterministic, *event-driven* statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech *lifting embedded programming to the next level*.
+The basic idea behind Blech is to let the software developer write code in a *blocking fashion* (good software quality) and systematically compile it into an efficient, deterministic, *event-driven* statemachine implementation (fit embedded domain). By this, Blech code allows to recover all the software engineering advantages mentioned above and, at the same time, fulfills the stringent embedded constraints. This combination is usually hard to achieve and makes Blech *lifting embedded programming to a higher level of abstraction*.
 {{% /alert %}}
 
 This concept is what I call the *pseudo-blocking* style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.
