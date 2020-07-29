@@ -204,11 +204,11 @@ At this point, when people read that any Blech program is compiled into *single-
 
 In order to understand this we have to distinguish between two different designs of concurrency. First, *physical concurrency* aims to increase reliability and / or performance by running software on real parallel or distributed hardware platforms, e.g. multi-core architectures, at the same time. Second, *logical concurrency* aims to provide a convenient and natural way to compose a system as a set of parallel, cooperating components. Physical and logical concurrency can be the same -- but they do not have to!
 
-Blech, in its current development state, provides support for logical concurrency only. At a first glance, this might look like a major limitation compared to conventional solutions in which the notion of *threads* allows to run several lines of execution on different processors at the same time. On closer inspection, however, it becomes apparent that this is actually not the case.
+Blech, in its current development state, allows to express logical concurrency only. The long term goal, however, is to provide support for multi-core systems and hence physical concurrency on language level too. Nevertheless, the existing feature set of Blech is powerful and beneficial already today.
 
 ### Single-core applications
 
-A major part of today's embedded systems still relies on single-core hardware architectures which exclude physical concurrency by design. This means that, even with asynchronous threads, it is impossible to execute two commands concurrently at the same time; the entire software is strictly sequential. As a consequence, for this significant amount of embedded use cases, Blech has no disadvantages with respect to concurrency.
+Single-core hardware architectures exclude physical concurrency by design. This means that, even with asynchronous threads, it is impossible to execute two commands concurrently at the same time; the entire software is strictly sequential. As a consequence, on single-core architectures, Blech has no disadvantages compared to conventional solutions with respect to concurrency.
 
 Quite the contrary, in Blech the sequentialization is done systematically *during compile time* based on the synchronous model of computation -- no non-deterministic scheduling decisions during runtime; no arbitrary interleavings of concurrent code; no race conditions and data inconsistencies. Finally, this leads to sequential code with deterministic and reproducible runtime behaviour -- *the* major advantage that makes Blech outperform conventional, asynchronous languages in the embedded domain.
 
@@ -218,4 +218,3 @@ In multi-core applications where physical concurrency is mandatory Blech is stil
 
 What we cannot express in Blech today is concurrent runtime behaviour across multiple cores. That is, the `cobegin` statement cannot be used to describe how two concurrent trails, for example, are to be deployed, started, executed and rejoined across two different processor cores. But remember that this is not possible with threads too! The notion of threads does not say anything about how data and control flow is shared between multiple, concurrent hardware architectures.
 
-Blech's long term goal, however, is to provide support for multi-core systems and hence physical concurrency on language level too.
