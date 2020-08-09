@@ -1,7 +1,7 @@
 ---
 title: "Error handling"
 linkTitle: "Error handling"
-weight: 30
+weight: 50
 description: >
   Evolution proposals for Blech error handling.
 ---
@@ -234,7 +234,7 @@ Since
 
 we recommend using single-mode failures and local error-management instead of complex multi-mode failures and raising errors accross several call-boundaries. 
 
-## Realtime Errors
+## Realtime errors
 
 For realtime systems it is convenient to be able to throw a built-in `RealtimeError` in order to handle deadline misses in the program.
 
@@ -286,7 +286,7 @@ Any calling activity up in the call-chain, can handle the realtime error
 ```
 activity DeadineMissHandler ()
     try
-        DoSomethingCritical ? ()
+        run DoSomethingCritical ? ()
     else
         handleDeadlineMiss()
     end
