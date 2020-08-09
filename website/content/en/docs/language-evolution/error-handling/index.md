@@ -1,4 +1,14 @@
-# Blech error handling
+---
+title: "Error handling"
+linkTitle: "Error handling"
+weight: 30
+description: >
+  Evolution proposals for Blech error handling.
+---
+
+{{% pageinfo %}}
+The error handling proposal is work in progress.
+{{% /pageinfo %}}
 
 
 ## Inspiration
@@ -39,15 +49,13 @@ Before we dive into the details, we like to bring to mind the experience with [M
 3. Abondenment covers the lion's share of cases and for most subprograms there is no need for exceptions.
 4. Ecouraging single modes of failure for subprograms can simplify a whole system dramatically.
 
-## Blech error types
-
-### Total and partial subprograms
+## Total and partial subprograms
 
 An ```activity``` or a ```function``` that never fails is called a total subprogram. Nevertheless at total subprgram can lead to program abandonment, when a bug occurs or a contract is violated. We assume that all bugs are eliminated - or mitigated - in the release code for a total subprogram.
 
 A subprogram that throws a recoverable error - or failure for short - is called a *partial* subprogram. For certain inputs, it may terminate with a recoverable error. Partial subprograms - and operators - are marked with a ```?``` behind the name. In the following we distinguish single-mode and multi-mode failures.
 
-### Single-mode failures
+## Single-mode failures
 
 A single-mode-failure partial subprogram has to be marked with ```?```, and is then allowed to fail with a ```throw``` statement.
 
@@ -226,7 +234,87 @@ Since
 
 we recommend using single-mode failures and local error-management instead of complex multi-mode failures and raising errors accross several call-boundaries. 
 
-### Expression handlers
+## Realtime Errors
+
+For realtime systems it is convenient to be able to throw a built-in `RealtimeError` in order to handle deadline misses in the program.
+
+A realtime error is not an error in the usual sense. It is thrown if a deadline miss is detected.
+
+In order to keep throwing realtime errors deterministic, there are 2 ways of detecting a realtime error.
+
+Either 
+
+1. a reaction takes too long and an `await` is reached after the next tick has arrived,
+
+or
+
+2. a reaction is already starting from an `await` after the next tick has arrived, which is even worse.
+
+Both situation can be detected via the generated code.
+In principle this works like the following:
+
+Just before an `await` is reached, the code "asks" the environment if the next tick has already arrived.
+If yes, it throws a realtime error. This is similar to a weak abort, of the code that is currently executed.
+
+When a reaction is started, before anything else is evalutated, the code "asks" the environment if the next tick has already arrived.
+If yes, it throws a realtime error.
+This is similar to a strong abort of the code, that otherwise would be executed.
+
+(?? Maybe we should differentiate these two kinds of realtime errors)
+
+There are two aspects of realtime errors to consider:
+
+1. Since a deadline miss can occur anywhere in a program, it is not useful to be prepared to handle a deadline miss everywhere.
+2. Once we get a delayed finish or - even worse - a delayed start at an `await` somewhere in the code, all finishes or starts that follow are also delayed.
+
+In order to handled realtime errors in a structure way we propose
+to declare realtime-critical activities in the following way.
+
+```
+activity DoSomethingCritical ? () throws RealtimeError
+
+    await condition 
+
+end
+```
+
+The generated code then checks deadline misses at the start and the end of every reaction - which is marked by `await`.
+Activities, which are not marked as real-time critical do not check deadline misses and do not throw realtime errors.
+
+Any calling activity up in the call-chain, can handle the realtime error
+
+```
+activity DeadineMissHandler ()
+    try
+        DoSomethingCritical ? ()
+    else
+        handleDeadlineMiss()
+    end
+end
+```
+
+If a deadline is missed, all realtime-critical running activities which are "too late" will throw and their callers
+must handled the deadline miss.
+In this way a deadline miss can be handled locally and deterministically, with individual countermeasures.
+
+Of course you need a strategy to cope with realtime errors.
+A very simple strategy would be a restart initiated via the entry point activity.
+In principal, you can implement an individual strategy for every realtime critical activity.
+
+Functions cannot throw realtime errors implicitly because they cannot await.
+Maybe we should also have a library function to query a deadline miss.
+
+```
+function testForDeadlineMiss ? () throws RealtimeError
+    if deadlineIsMissed() then 
+        throw RealtimeError
+    else
+        doTheCalculation()
+    end
+end
+```
+
+## Expression handlers
 
 In order to simplify local error handling we propose to allow handlers also inside expressions
 
@@ -245,7 +333,7 @@ For orthogonality reasons we also propose a ternary expression, to simpify decis
 
 Both expression forms do not have optional parts.
 
-### Code generation
+## Code generation
 
 Due to the static nature of Blech, all error types need a run-time representation. 
 This can be implemented as a statically fixed address of a memory location.
