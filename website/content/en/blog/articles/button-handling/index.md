@@ -1,5 +1,5 @@
 ---
-date: 2020-08-11
+date: 2020-08-12
 title: "Push button handling"
 linkTitle: "Push button handling"
 description: >
@@ -215,7 +215,11 @@ end
 
 
 ## Event detection and reaction
-In above sections, we showed how the raw button signals can be filtered in Blech. Now, we want to outline how the filtered signals `btns` can be used for detecting button events and how to perform a corresponding reaction. For this purpose, we have implemented a number of example activities that show different application scenarios. In each example we want to detect some kind of button event, subsequently turn on the red LED and finally, after some release condition is met, turn it off again.
+Above sections show how raw button signals can be filtered in Blech. Now, we want to use the filtered signals `btns` for detecting button events and performing a corresponding reaction. For this purpose, we have implemented some example activities that show different application use cases.
+
+In each example, we want to detect a certain type of button event and, as an example of an arbitrary event reaction, turn on the red LED of the discovery board. After a certain release condition is met, the red LED is turned off again.
+
+{{% alert title="Note" color="info"%}}At this point, the example activities do not have to care about signal glichtes, noise, bouncing or filtering in any way. In each reaction, they can fully rely on the output of the "upstream" filter activities -- so to speak -- and just focus on their own business. This means that both concerns, signal filtering and signal evaluation, are completely separated in our Blech program.{{% /alert %}}
 
 ### Example 1: Press button for at least *x* seconds
 In this example, the LED shall light up once `CENTER` has been pressed for at least two seconds. It shall stay on as long as the button is pressed and go off once it has been released.
@@ -334,7 +338,7 @@ activity Example04 (btns: ButtonStates) (led: bool)
 end
 ```
 
-In contrast to the other examples above, we have to actually measure the button press duration here. For this, we use two `repeat` loops. 
+In contrast to the other examples above, we actually measure the button press duration here. For this, we use two `repeat` loops. 
 
 The inner loop (Line 6) is used to measure the duration of the current button press which is detected in Line 7. It repeatedly awaits 10 milliseconds and increments the counter `i` for measuring the duration. The surrounding `when ... abort` automatically exits the inner loop as soon as the button is not pressed anymore.
 
@@ -344,7 +348,7 @@ Once we hit Line 13 we know that the current button press matches the given time
 
 ## Conclusion
 
-The below diagram depicts the architecture of the Blech program as function blocks. Moving from left to right, the three raw button signals `btnsRaw` are handed over from the C environment to the `Main` activity of Blech. At this point, they are forwared to the filter activity `FilterButtons` which, in its turn, passes each raw signal to a dedicated instance of `FilterSignal` likewise. The latter internally uses `AwaitStableLevel` for the actual filter process. Finally, the filtered signals `btns` are provided to the remaining, concurrent Blech code, e.g. `Visualize` for controlling the color LEDs or one of our `ExampleXX` activities as described above.
+The below diagram depicts the architecture of the Blech program as function blocks. Moving from left to right, the three raw button signals `btnsRaw` are handed over from the C environment to the `Main` activity of Blech. At this point, they are forwared to the filter activity `FilterButtons` which, in its turn, passes each raw signal to a dedicated instance of `FilterSignal` likewise. The latter internally uses `AwaitStableLevel` for the actual filter process. Finally, the filtered signals `btns` are provided to the remaining, concurrent Blech code, e.g. `Visualize` for controlling the color LEDs or one of our `Example` activities as described above.
 
 Note that `FilterButtons` and `FilterSignal` will never terminate. They are designed to run infinitely throughout the entire livetime of the Blech program. In contrast, `AwaitStableLevel` is called several times during runtime and terminates whenever the desired signal level is stable.
 
