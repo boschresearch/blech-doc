@@ -166,7 +166,7 @@ end
 
 After decoding has been finished, all LEDs are turned off again and we check for success or error. On success, the green LED is turned on while on error the red LED is turned on. Finally, the Blech program suspends until the push button is pressed by the user. Once this is done the whole process restarts.
 
-{{% alert title="Note" color="info"%}}To keep the example simple, the button state is provided *as-is* to the Blech program. This means we just pass the current value of the corresponding GPIO input register. Usually, however, it is common practice to apply a filter approach in software in order to suppress [bouncing](https://en.wikipedia.org/wiki/Switch#Contact_bounce). In [this blog post](/blog/2020/07/25/button-handling/) we are going to show how this can be done in Blech.{{% /alert %}}
+{{% alert title="Note" color="info"%}}To keep the example simple, the button state is provided *as-is* to the Blech program. This means we just pass the current value of the corresponding GPIO input register. Usually, however, it is common practice to apply a filter approach in software in order to suppress [bouncing](https://en.wikipedia.org/wiki/Switch#Contact_bounce). In [this blog post](/blog/2020/08/12/push-button-handling/) we are going to show how this can be done in Blech.{{% /alert %}}
 
 ### Visualizing the DCF77 signal
 Reflecting the time signal level on the LED is a pretty simple task in Blech. We establish an infinite loop which alternates between the signal levels. First, it awaits the high level for switching off the LED. Second, it awaits the low level for switching on the same LED. Third, the whole process repeats -- that's it.
