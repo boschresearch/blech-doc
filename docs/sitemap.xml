@@ -3,6 +3,10 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.blech-lang.org/docs/overview/</loc>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/blog/articles/</loc>
     <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url>
@@ -208,13 +212,18 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/blog/2020/08/12/push-button-handling/</loc>
+    <lastmod>2020-08-13T11:04:28+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/</loc>
-    <lastmod>2020-07-29T13:04:35+02:00</lastmod>
+    <lastmod>2020-08-13T11:04:28+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/</loc>
-    <lastmod>2020-07-24T17:40:09+02:00</lastmod>
+    <lastmod>2020-08-13T11:04:28+02:00</lastmod>
   </url>
   
   <url>
@@ -269,6 +278,7 @@
   
   <url>
     <loc>https://www.blech-lang.org/research/</loc>
+    <lastmod>2020-08-01T13:37:59+02:00</lastmod>
   </url>
   
   <url>

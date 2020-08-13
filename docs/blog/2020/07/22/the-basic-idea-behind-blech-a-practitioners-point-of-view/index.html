@@ -26,13 +26,13 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" />
 <meta property="article:published_time" content="2020-07-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-07-29T13:04:35+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-08-13T11:04:28+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="The basic idea behind Blech – A practitioner&#39;s point of view">
 <meta itemprop="description" content="Maintaining control over the increasing complexity of today&#39;s embedded systems is the main goal of Blech. Therefore, Blech lifts embedded programming to a higher level of abstraction. But what does that actually mean? In this article we consider this from a practitioner&#39;s point of view.   
 ">
 <meta itemprop="datePublished" content="2020-07-22T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-07-29T13:04:35&#43;02:00" />
-<meta itemprop="wordCount" content="3126">
+<meta itemprop="dateModified" content="2020-08-13T11:04:28&#43;02:00" />
+<meta itemprop="wordCount" content="3153">
 
 
 
@@ -47,8 +47,8 @@
 
 
 
-<link rel="preload" href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" as="style">
-<link href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.42dc6b8ab76e5a3843601757b90c05b0c30c1ace13d81c4da09433742b03f94c.css" as="style">
+<link href="/scss/main.min.42dc6b8ab76e5a3843601757b90c05b0c30c1ace13d81c4da09433742b03f94c.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -186,6 +186,12 @@
   <ul>
     <li class="collapse show" id="blogarticles">
       
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200812push-button-handling" href="/blog/2020/08/12/push-button-handling/">Push button handling</a>
       
       
       
@@ -355,6 +361,7 @@
 		By <b>Matthias Terber</b> |
 		<time datetime="2020-07-22" class="text-muted">Wednesday, July 22, 2020</time>
 	</div>
+	
 	<h2 id="application-example-uart-communication">Application example: UART communication</h2>
 <p>Let us consider a simple embedded use case. We want to implement a <a href="https://de.wikipedia.org/wiki/Universal_Asynchronous_Receiver_Transmitter" target="_blank">UART</a>
  communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to physically send them via the serial interface one after the other.</p>
@@ -540,9 +547,28 @@ The basic idea behind Blech is to let the software developer write code in a <em
 
 <p>This concept is what I call the <em>pseudo-blocking</em> style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.</p>
 <p>The following code snippet shows how the buffer transmission can look like in Blech:</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;UART_isReady&quot;, header = &quot;uart.h&quot;)]
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">@[CFunction (binding = &#34;UART_isReady&#34;, header = &#34;uart.h&#34;)]
 extern singleton function uart_isReady() returns bool
-@[CFunction (binding = &quot;UART_sendByte&quot;, header = &quot;uart.h&quot;)]
+@[CFunction (binding = &#34;UART_sendByte&#34;, header = &#34;uart.h&#34;)]
 extern singleton function uart_sendByte(val: nat8)
 
 const LEN: nat16 = 20
@@ -555,7 +581,9 @@ activity SendBuffer (buf: [LEN]nat8, len: nat16)
         i = i + 1
     until (i &gt;= len) or (i &gt;= LEN) end
 end
-</code></pre><p>In the first four lines we declare the signatures of two external C functions that can be called by Blech in order to actually interact with the UART hardware. After that, an <em>activity</em> is used to encapsulate all the data transmission code. We pass the buffer and its length as parameters. A <code>repeat</code> loop is subsequently used to</p>
+</code></pre></td></tr></table>
+</div>
+</div><p>In the first four lines we declare the signatures of two external C functions that can be called by Blech in order to actually interact with the UART hardware. After that, an <em>activity</em> is used to encapsulate all the data transmission code. We pass the buffer and its length as parameters. A <code>repeat</code> loop is subsequently used to</p>
 <ol>
 <li>suspend the activity until the UART is ready for transmission (Line 11).</li>
 <li>write the next buffer byte to the UART data register (Line 12).</li>
@@ -584,7 +612,23 @@ In the C environment, <code>ISR (UART1_TX)</code> is used to generate an event f
 <h2 id="concurrency-in-blech">Concurrency in Blech</h2>
 <p>Concurrency is one of the key concerns in embedded programming. The traditional, asynchronous execution style of concurrent threads is known to induce a line-up of engineering problems such as race conditions, data inconsistencies, potential deadlocks and non-deterministic runtime behaviour. In Blech, however, all these issues are eliminated by language design due to the synchronous model of computation.</p>
 <p>Let us slightly extend above example. We want to make an LED blink on every system tick, e.g. every millisecond, while a buffer transmission is in progress. At this point, we are aware that blinking an LED with such a high frequency is generally not useful since it is not visible for the human eye. Here, we just use it for demonstration purpose to show how easy it is to express concurrent behaviour by taking advantage of Blech&rsquo;s <code>cobegin</code> statement:</p>
-<pre><code class="language-blech" data-lang="blech">activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
     cobegin   // Buffer transmission.
         run SendBuffer(buf, len)
     with weak // LED flashing.
@@ -596,7 +640,9 @@ In the C environment, <code>ISR (UART1_TX)</code> is used to generate an event f
         end
     end
 end
-</code></pre><p>In <code>SendBufferBlinking</code>, we just need to run the existing code of <code>SendBuffer</code> in one trail of the <code>cobegin</code> and add a second, concurrent trail that is responsible for flashing the LED &ndash; that&rsquo;s it. The second trail is <code>weak</code> so that it will be aborted as soon as the buffer transmission in the first trail has been completed. Note that <code>sysTick</code> is a new input which provides the system tick event for switchting the LED on and off.</p>
+</code></pre></td></tr></table>
+</div>
+</div><p>In <code>SendBufferBlinking</code>, we just need to run the existing code of <code>SendBuffer</code> in one trail of the <code>cobegin</code> and add a second, concurrent trail that is responsible for flashing the LED &ndash; that&rsquo;s it. The second trail is <code>weak</code> so that it will be aborted as soon as the buffer transmission in the first trail has been completed. Note that <code>sysTick</code> is a new input which provides the system tick event for switchting the LED on and off.</p>
 <h3 id="concurrency-versus-single-threaded-c-code----a-contradiction">Concurrency versus single-threaded C code &ndash; a contradiction?</h3>
 <p>At this point, when people read that any Blech program is compiled into <em>single-threaded</em> C code, they are sometimes slightly confused. On the one hand, Blech advertises language level support for describing concurrent behaviour but, at the same time, it produces sequential, single-threaded code only. So how can that even work?</p>
 <p>In order to understand this we have to distinguish between two different designs of concurrency. First, <em>physical concurrency</em> aims to increase reliability and / or performance by running software on real parallel or distributed hardware platforms, e.g. multi-core architectures, at the same time. Second, <em>logical concurrency</em> aims to provide a convenient and natural way to compose a system as a set of parallel, cooperating components. Physical and logical concurrency can be the same &ndash; but they do not have to!</p>
@@ -614,7 +660,7 @@ end
   <li>
     <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" class="btn btn-primary "><span class="mr-1">←</span> Previous</a>
   </li>
-    <a  class="btn btn-primary  disabled">Next <span class="ml-1">→</span></a>
+    <a href="/blog/2020/08/12/push-button-handling/" class="btn btn-primary ">Next <span class="ml-1">→</span></a>
   </li>
 </ul>
 

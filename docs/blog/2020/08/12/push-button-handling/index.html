@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.69.2" />
+
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Push button handling | Blech</title><meta property="og:title" content="Push button handling" />
+<meta property="og:description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/blog/2020/08/12/push-button-handling/" />
+<meta property="article:published_time" content="2020-08-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-13T11:04:28+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Push button handling">
+<meta itemprop="description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
+">
+<meta itemprop="datePublished" content="2020-08-12T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-08-13T11:04:28&#43;02:00" />
+<meta itemprop="wordCount" content="3642">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Push button handling"/>
+<meta name="twitter:description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
+"/>
+
+
+
+
+
+
+
+<link rel="preload" href="/scss/main.min.42dc6b8ab76e5a3843601757b90c05b0c30c1ace13d81c4da09433742b03f94c.css" as="style">
+<link href="/scss/main.min.42dc6b8ab76e5a3843601757b90c05b0c30c1ace13d81c4da09433742b03f94c.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+<script src=https://www.blech-lang.org/js/opt-in.js></script>
+
+
+
+  </head>
+  <body class="td-page td-blog">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/about/" ><span>About us</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/docs/" ><span>Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/blog/" ><span class="active">Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/research/" ><span>Research</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Blog</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blog">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/articles/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Articles</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blogarticles">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20200812push-button-handling" href="/blog/2020/08/12/push-button-handling/">Push button handling</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view" href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/">The basic idea behind Blech</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200615decoding-the-dcf77-signal-with-blech" href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">DCF77 decoding</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200527the-purpose-of-blech" href="/blog/2020/05/27/the-purpose-of-blech/">The purpose of Blech</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/releases/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Releases</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogreleases">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200421blech-compiler-version-051" href="/blog/2020/04/21/blech-compiler-version-0.5.1/">blechc 0.5.1</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200420blech-vs-code-extension-052" href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">vsce 0.5.2</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/events/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Events</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogevents">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20191201synchron-2019" href="/blog/2019/12/01/synchron-2019/">Synchron 2019</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20190710wcet-2019-keynote" href="/blog/2019/07/10/wcet-2019-keynote/">WCET 2019</a>
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/articles/button-handling/index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Push%20button%20handling" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#application-example-push-button-handling">Application example: Push button handling</a></li>
+    <li><a href="#interlude-physical-time">Interlude: Physical time</a>
+      <ul>
+        <li><a href="#delay">Delay</a></li>
+        <li><a href="#timeout">Timeout</a></li>
+      </ul>
+    </li>
+    <li><a href="#signal-filter">Signal filter</a>
+      <ul>
+        <li><a href="#await-a-stable-level">Await a stable level</a></li>
+        <li><a href="#filter-a-single-button-signal">Filter a single button signal</a></li>
+        <li><a href="#filter-all-button-signals">Filter all button signals</a></li>
+      </ul>
+    </li>
+    <li><a href="#event-detection-and-reaction">Event detection and reaction</a>
+      <ul>
+        <li><a href="#example-1-press-button-for-at-least-x-seconds">Example 1: Press button for at least <em>x</em> seconds</a></li>
+        <li><a href="#example-2-two-buttons-have-to-be-pressed">Example 2: Two buttons have to be pressed</a></li>
+        <li><a href="#example-3-double-button-press">Example 3: Double button press</a></li>
+        <li><a href="#example-4-measure-the-button-press-duration">Example 4: Measure the button press duration</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5 pr-md-4" role="main">
+            <a class="btn btn-sm -bg-secondary td-rss-button d-none d-lg-block" href="https://www.blech-lang.org/blog/articles/index.xml" target="_blank">
+              RSS <i class="fa fa-rss ml-2 "></i>
+            </a>
+            
+<div class="td-content">
+	<h1>Push button handling</h1>
+	<div class="lead">Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program.</div>
+	<div class="td-byline mb-4">
+		By <b>Matthias Terber</b> |
+		<time datetime="2020-08-12" class="text-muted">Wednesday, August 12, 2020</time>
+	</div>
+	
+	<h2 id="application-example-push-button-handling">Application example: Push button handling</h2>
+<p>In this example three push buttons, <code>TOP</code>, <code>CENTER</code> and <code>BOTTOM</code>, are connected to our embedded system for user input. Like in our <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">previous blog post</a>
+ our hardware setup is based on a <a href="https://www.st.com/en/evaluation-tools/stm32f4discovery.html" target="_blank">STM32F4DISCOVERY</a>
+ board. The latter has four color LEDs, red, blue, green and orange, which we are going to use for showing the button states.</p>
+<p>Additionally, we connect a small breadboard with three general purpose push buttons. All buttons share a common electrical ground on the left-hand side of the breadboard. On the right-hand side, there is an individual signal wire for each button which is connected to a dedicated GPIO of the discovery board. The pull-up resistors of these GPIOs are active.</p>
+<p>Finally, we connect two probes of an oscilloscope. Channel 1 (<code>CH1</code>) connects to a debug pin which is set to <code>HIGH</code> while Blech code is executed. Channel 4 (<code>CH4</code>) connects to the output signal of <code>BOTTOM</code> for demonstration purpose. The complete setup is depicted below:</p>
+
+
+
+
+
+
+
+<div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
+	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_2.png" width="800" height="560">
+	
+	<div class="card-body px-0 pt-2 pb-0">
+		<p class="card-text">
+Hardware setup for the push button handling example.
+</p>
+	</div>
+	
+</div>
+<p>By default, the electrical contacts of the push buttons are open. Thus, the pull-ups on the discovery board will tie the button output signals to the supply voltage (<em>+3.3V</em>) while they are not pressed. If a button gets pressed it pulls the output signal to ground (<em>0V</em>). This means that, physically speaking, the buttons are <em>active-low</em> &ndash; the corresponding GPIO input register on the discovery board will be <code>0</code> if the button is pressed, <code>1</code> if it is not pressed.</p>
+<p>In order to make our Blech code more readable, we invert the <em>physical signal level</em> into a <em>logical signal level</em> as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Button state</th>
+<th>Physical signal level</th>
+<th>Logical signal level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>not pressed</td>
+<td>+3.3V (<code>HIGH</code>)</td>
+<td><code>false</code> (<code>LOW</code>)</td>
+</tr>
+<tr>
+<td>pressed</td>
+<td>+0.0V (<code>LOW</code>)</td>
+<td><code>true</code> (<code>HIGH</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>When passing the GPIO input register values from C to Blech <code>0</code> is changed to <code>1</code> and vice versa. Then, in Blech, the button signal states are mapped to <code>bool</code> variables. They will be <code>true</code> when the corresponding button is pressed, <code>false</code> if it is not pressed, thereby making the buttons <em>active-high</em> in software.</p>
+<p>The goal of this application example is to show how we can handle button inputs in Blech. This involves <a href="#signal-filter">filtering the button signals</a>
+, <a href="#event-detection-and-reaction">detecting a button event</a>
+ and finally properly react to that. In the following sections we examine this in more detail.</p>
+<p>The complete project source code is available <a href="https://github.com/mterber/blech-button" target="_blank">here</a>
+ on Github.</p>
+<h2 id="interlude-physical-time">Interlude: Physical time</h2>
+<p>In practically all embedded applications we have to describe temporal behaviour in our software &ndash; at least to a certain extent. The different use cases typically fall into two categories:</p>
+<ol>
+<li>
+<p><em>Delays</em>: Sometimes the embedded system is much faster than its (physical) environment. In order to account for this speed difference, an artificial slowdown of the embedded software is required. This means that we deliberately suspend the code execution until a certain amount of time &ndash; the <em>delay time</em> &ndash; has been passed.</p>
+</li>
+<li>
+<p><em>Timeouts</em>: Sometimes we just need to know whether a certain event, or sequence of events, has happend before or after a certain amount of time &ndash; the <em>timeout time</em> &ndash; has been elapsed. Depending on that the embedded software is going to behave differently.</p>
+</li>
+</ol>
+<p>Both types require to express physical time in our code. For this, we establish the same execution scheme for Blech as described in <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/#execution-scheme-and-integration-of-blech">this</a>
+ blog post. That is, the entire Blech code is <em>purely time-driven</em> based on a periodic system tick. Based on this, we can easily implement a small helper activity <code>AwaitMsec</code> in Blech for suspending the program for an arbitrary number of milliseconds. The maximal resolution is given by the period interval of the system tick which is set to <em>10 milliseconds</em> in this example.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">const MSEC_PER_SYSTICK: nat16 = 10
+
+activity AwaitMsec (msec: nat16)
+    var i: nat16 = msec / MSEC_PER_SYSTICK
+    repeat
+        await true
+        i = i - 1
+    until i == 0 end
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>Depending on the given number of milliseconds to wait, <code>AwaitMsec</code> first determines the corresponding number of system ticks (line 4). Second, it awaits the relevant number in a <code>repeat</code> loop (lines 5 &ndash; 8). Calling <code>run AwaitMsec(50)</code> causes the running trail to suspend for five system ticks for example. With this approach it is straight forward to implement <a href="#delay">delays</a>
+ and <a href="#timeout">timeouts</a>
+ in Blech.</p>
+<h3 id="delay">Delay</h3>
+<p>For realizing a delay of 120 milliseconds between two function calls <code>funcA()</code> and <code>funcB()</code> for instance we can directly use <code>AwaitMsec</code> as follows:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">funcA()
+run AwaitMsec(120)
+funcB()
+</code></pre></td></tr></table>
+</div>
+</div><p>This code snippet first executes function <code>funcA</code>, then suspends the running trail for 120 milliseconds (= 12 system ticks) and finally calls function <code>funcB</code>.</p>
+<h3 id="timeout">Timeout</h3>
+<p>For applying a timeout of 120 milliseconds onto an activity <code>SomeActivity</code> for instance we can use <code>AwaitMsec</code> in a concurrent trail as follows:</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">var done: bool = false
+var timeout: bool = false
+cobegin weak // Activity trail.
+	run SomeActivity()
+	done = true
+with weak    // Timeout trail.
+	run AwaitMsec(120)
+	timeout = true
+end
+// Evaluate &#39;done&#39; and &#39;timeout&#39; (see below table).
+</code></pre></td></tr></table>
+</div>
+</div><p>In this solution, we first declare two variables, <code>done</code> and <code>timeout</code>, which indicate whether or not <code>SomeActivity</code> has been completed in time (lines 1 &ndash; 2). Then, in the <code>cobegin</code>, we execute two concurrent trails in which the first one (lines 4 &ndash; 5) runs the actualy activity while the second one (lines 7 &ndash; 8) is responsible for checking the timeout.</p>
+<p>Both trails are <code>weak</code> so that they can abort each other depending on which event &ndash; the completion of the activity or the timeout expiry &ndash; happens first. Once the trails rejoin (line 10) we can use <code>done</code> and <code>timeout</code> to precisely distinguish the different scenarios as shown below:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th><code>done</code></th>
+<th><code>timeout</code></th>
+<th>Result</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><del>1</del></td>
+<td><del><code>false</code></del></td>
+<td><del><code>false</code></del></td>
+<td>-</td>
+<td><del>This is excluded by language design. At this point, at least one of the trails must have terminated before so that either <code>done</code> or <code>timeout</code> are <code>true</code>.</del></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>false</code></td>
+<td><code>true</code></td>
+<td><em>timeout</em></td>
+<td><code>SomeActivity</code> has not terminated in time.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>true</code></td>
+<td><code>false</code></td>
+<td><em>success</em></td>
+<td><code>SomeActivity</code> has terminated in time.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>true</code></td>
+<td><code>true</code></td>
+<td>?</td>
+<td><code>SomeActivity</code> has terminated in the same reaction in which the timeout time has elapsed. This means that, according to the synchronous model of computation, both events have happened simultaneously. In this case it is up to the application logic to treat this as <em>success</em>, <em>timeout</em> or maybe something else.</td>
+</tr>
+</tbody>
+</table>
+<!--
+Some of you might wonder why we need two variables for realizing the timeout. Is it not possible to just use one? We just want to know whether we succeeded or failed. So two states, `true` and `false`, should be sufficient -- right? Can't we do something like this:
+
+```blech
+//
+// !!! Erroneous Blech code. !!!
+//
+var success: bool = false
+cobegin weak
+	run SomeActivity()
+	success = true   // We succeeded!
+with weak
+	run AwaitMsec(120)
+	success = false  // We failed!
+end
+```
+
+The short answer is: No. A more elaborated explanation is the following:
+
+1. Due to the synchronous model of computation, this is technically not possible. If a variable *x* is shared across multiple concurrent trails at most one of them will be allowed to write to *x*. In the above code snippet `success` is shared between two concurrent trails that  modify it during runtime. If that was allowed the result of `success` -- after the trails have rejoined -- would depend on the execution order of these trails, making the runtime behaviour non-deterministic. As a consequence, this piece of code is reject by the Blech compiler.
+
+1. A second point is that we actually have three different, possible results and not only two. This becomes apparent when looking at above table. It is possible that the completion of the activity and the timeout expiry happen at the same time and hence fell into the same reaction. Depending on your application logic this special scenario might have to be treated in a completely different way. With one variable only it would be impossible to make a proper distinction here.
+-->
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+Again, note how easy it is in Blech to use the same piece of reactive code (<code>AwaitMsec</code>) for different concerns (delays and timeouts) likewise.
+</div>
+
+<h2 id="signal-filter">Signal filter</h2>
+<p>In order to provide a good user experience we want to detect only <em>notable</em> level changes of the button signals. Glitches and high frequent noise that might be caused by <a href="https://en.wikipedia.org/wiki/Switch#Contact_bounce" target="_blank">bouncing</a>
+ for instance shall be filtered
+out before we actually evaluate and consider the current button state in our software. For this purpose, we implement three dedicated activities, starting from bottom to top:</p>
+<h3 id="await-a-stable-level">Await a stable level</h3>
+<p>First, <code>AwaitStableLevel</code> is responsible for checking the stability of the button output signal. Input <code>lvl</code> is the signal level that shall be awaited until it is stable. Input <code>btnRaw</code> is the raw button signal as retrieved from the GPIO. For example, <code>run AwaitStableLevel(false, btns.top)</code> means we want to suspend execution until the logic level of button <code>TOP</code> is reliably <code>LOW</code>.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">const DEBOUNCE: nat8 = 5
+
+activity AwaitStableLevel (lvl: bool, btnRaw: bool)
+    var vote: nat8 = 0
+    repeat
+        run AwaitMsec(10)
+        if btnRaw == lvl then
+            vote = vote + 1 // Increment on match.
+        elseif vote &gt; 0 then
+            vote = vote - 1 // Decrement on mismatch.
+        end
+    until vote &gt;= DEBOUNCE end
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>In order to decide whether <code>lvl</code> is stable or not this activity establishes a very simple voting strategy. Every 10 milliseconds (line 6) it checks the current state of the button signal. If it is equal to <code>lvl</code> this is interpreted as <em>match</em> whereby <code>vote</code> gets incremented (lines 7 &ndash; 8). If it is not equal this is interpreted as <em>no match</em> whereby <code>vote</code> gets decremented (lines 9 &ndash; 10).</p>
+<p>As soon as five consecutive matches have been detected the signal is considered stable &ndash; the <code>repeat</code> loop exits (line 12) and <code>AwaitStableLevel</code> returns. Its runtime behaviour is illustrated in the oscilloscope capture below:</p>
+
+
+
+
+
+
+
+<div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
+	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_2.png" width="800" height="480">
+	
+	<div class="card-body px-0 pt-2 pb-0">
+		<p class="card-text">
+Oszilloscope capture of button sampling. CH1 shows the execution of the Blech code. Each peak is one run of the Blech tick function and hence constitutes one reaction respectively computation step according to the synchronous model of computation. CH4 is the raw button signal.
+</p>
+	</div>
+	
+</div>
+<p>Remember that <code>CH1</code> shows the debug pin signal which is pulled high whenever Blech code is running. Each yellow peak is one run of the Blech tick function and hence constitutes one reaction respectively computation step according to the synchronous model of computation. In particular, it is the <code>run AwaitMsec(10)</code> in <code>AwaitStableLevel</code> that causes our Blech code to get executed periodically, thereby determining the sampling rate of the button signals. The scope capture verifies that above <code>repeat</code> loop actually checks the current state of the button signal exactly every 10 milliseconds &ndash; the correct temporal behaviour as expressed in our Blech code.</p>
+<p>At the bottom of the scope capture you can see an exemplary run of <code>run AwaitStableLevel(true, btnsRaw.bottom)</code>. Remember that <code>CH4</code> shows the physical output signal of <code>BOTTOM</code> with inverted logic &ndash; we await <code>true</code> in our software, means 0V in hardware! As a consequence, the first two samples lead to a <em>no match</em> while the next five samples are <em>matches</em>. As soon as the fifth match has been captured the activity returns.</p>
+<h3 id="filter-a-single-button-signal">Filter a single button signal</h3>
+<p>Second, <code>FilterSignal</code> is responsible for filtering the signal of a <em>single</em> button. Input <code>btnRaw</code> is a raw button signal, output <code>btn</code>is the filtered one. Based on a simple <code>repeat</code> loop (lines 2 &ndash; 10), this activity continuously alternates <code>btn</code> between the two possible button states <code>false</code> (not pressed, line 3) and <code>true</code> (pressed, line 7):</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity FilterSignal (btnRaw: bool)(btn: bool)
+    repeat
+        btn = false
+        // Await transition: false -&gt; true
+        run AwaitStableLevel(true, btnRaw)
+        
+        btn = true
+        // Await transition: true -&gt; false
+        run AwaitStableLevel(false, btnRaw)
+    end
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>A transition from <code>false</code> to <code>true</code> is only done once the raw signal <code>btnRaw</code> is <code>true</code> and considered stable. The same applies vice versa for the transition from <code>true</code> to <code>false</code>. Checking the signal stability is done by <code>AwaitStableLevel</code> as shown above.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+Note that <code>FilterSignal</code> is completely hardware-independent. At development time, it does not need to know which hardware signal it is actually working on. It just implements the algorithm used for filtering a signal, irrespective of whether this signal belongs to button <code>TOP</code>, <code>CENTER</code> or <code>BOTTOM</code> – it does not even have to be a button signal at all. This allows to reuse and instantiate the same reactive code for different hardware entities. In conventional approaches, this is usually hard to achieve.
+</div>
+
+<h3 id="filter-all-button-signals">Filter all button signals</h3>
+<p>Third, <code>FilterButtons</code> is responsible for filtering the signal of <em>all</em> buttons. It is the top level activity with respect to filtering. Input <code>btnsRaw</code> are the raw button signals as retrieved from the GPIOs, output <code>btns</code> are the filtered button signals. Internally, this activity runs a dedicated filter activity for each individual button &ndash; <code>TOP</code>, <code>CENTER</code> and <code>BOTTOM</code>. These activities are concurrently composed in the same <code>cobegin</code> block. So <code>FilterButtons</code> is basically a wrapper for comfortably running three instances of <code>FilterSignal</code> concurrently.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity FilterButtons (btnsRaw: ButtonStates)(btns: ButtonStates)
+    cobegin
+        run FilterSignal(btnsRaw.top)(btns.top)
+    with
+        run FilterSignal(btnsRaw.center)(btns.center)
+    with
+        run FilterSignal(btnsRaw.bottom)(btns.bottom)
+    end
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>Later, in the <code>Main</code> activity of our Blech program, we can concurrently run <code>FilterButtons</code> with respect to the remaining code (see line 7 below). In each reaction, the filtered button signals <code>btns</code> are automatically updated (written) by <code>FilterButtons</code> in the first trail and can be used (read) by other activities in concurrent trails. Activity <code>Visualize</code>, for example, uses the filtered button signals in order to reflect the current button states on the color LEDs (line 10 below).</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">@[EntryPoint]
+activity Main (btnRaw: ButtonStates) (leds: LedStates)
+    // ...
+    var btns: ButtonStates
+    cobegin
+        // FilterButtons all button states.
+        run FilterButtons(btnRaw)(btns)
+    with
+        // Visualizes all button states.
+        run Visualize(btns)(leds.orange, leds.green, leds.blue)
+    // ... 
+end
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="event-detection-and-reaction">Event detection and reaction</h2>
+<p>Above sections show how raw button signals can be filtered in Blech. Now, we want to use the filtered signals <code>btns</code> for detecting button events and performing a corresponding reaction. For this purpose, we have implemented some example activities that show different application use cases.</p>
+<p>In each example, we want to detect a certain type of button event and, as an example of an arbitrary event reaction, turn on the red LED of the discovery board. After a certain release condition is met, the red LED is turned off again.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+At this point, the example activities do not have to care about signal glichtes, noise, bouncing or filtering in any way. In each reaction, they can fully rely on the output of the “upstream” filter activities – so to speak – and just focus on their own business. This means that both concerns, signal filtering and signal evaluation, are completely separated in our Blech program.
+</div>
+
+<h3 id="example-1-press-button-for-at-least-x-seconds">Example 1: Press button for at least <em>x</em> seconds</h3>
+<p>In this example, the LED shall light up once <code>CENTER</code> has been pressed for at least two seconds. It shall stay on as long as the button is pressed and go off once it has been released.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example01 (btns: ButtonStates) (led: bool)
+    when not btns.center reset
+        await btns.center
+        run AwaitMsec(2000)
+    end
+    led = true
+    await not btns.center
+    led = false
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>The first step is to wait until the button is pressed (line 3). After that, we use <code>AwaitMsec</code> in order to wait until two seconds have elapsed. If the button should be released meanwhile we automatically restart the process by taking advantage of Blech&rsquo;s <code>when ... reset</code> block (line 2).</p>
+<p>Once control flow reaches line 6, we know that <code>CENTER</code> has been pressed for two seconds and hence turn on the LED. Finally, we wait for the button to be released (line 7) and turn off the LED (line 8) as a consequence.</p>
+<h3 id="example-2-two-buttons-have-to-be-pressed">Example 2: Two buttons have to be pressed</h3>
+<p>In this example, the LED shall light up once <code>TOP</code> <em>and</em> <code>BOTTOM</code> are pressed. After that, it shall be turned off as soon as <em>both</em> buttons have been released.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example02 (btns: ButtonStates) (led: bool)
+    await btns.top and btns.bottom
+    led = true
+    await (not btns.top) and (not btns.bottom)
+    led = false
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>This implementation is trivial in Blech. In line 2, we wait until both buttons are pressed, then turn on the LED (line 3). Subsequently, we wait until none of the buttons are pressed (line 4) and finally turn off the LED (line 5).</p>
+<p>The simplicity of this piece of code is caused by the fact that we do not care about timing in this example. No matter when or how long the buttons are pressed, we only have to check whether their is at least one reaction in which both button signals are <code>true</code>. For detecting a real-world double button press a more sophisticated approach is usually required. We demonstrate this in <a href="#example-3-double-button-press">Example 3</a>
+.</p>
+<h3 id="example-3-double-button-press">Example 3: Double button press</h3>
+<p>In this example, the LED shall light up if a <em>double press</em> of <code>TOP</code> and <code>BOTTOM</code> is detected. After that, it shall be turned off once both buttons have been released. In contrast to <a href="#example-2-two-buttons-have-to-be-pressed">Example 2</a>
+, here it is important that both buttons are pressed within a certain amount of time. For example, we only accept a double press if the time gap between the two button presses is one second at most.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example03 (btns: ButtonStates) (led: bool)
+    let acceptedDelay: nat16 = 1000 // in milliseconds.
+    var success: bool
+    repeat
+        success = false
+        await (not btns.top) and (not btns.bottom)
+        await btns.top or btns.bottom
+
+        if btns.top and btns.bottom then
+            // Double press already detected.
+            success = true
+        elseif btns.top and not btns.bottom then
+            // Await BOTTOM within delay.
+            success = run AwaitOtherButton(btns.top, btns.bottom, acceptedDelay)
+        elseif not btns.top and btns.bottom then
+            // Await TOP within delay.
+            success = run AwaitOtherButton(btns.bottom, btns.top, acceptedDelay)
+        end
+    until success end
+
+    led = true
+    await (not btns.top) and (not btns.bottom)
+    led = false
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>The <code>repeat</code> loop in line 4 is used to check for the double press. First, we await the idle state &ndash; both buttons are not pressed. Second, we wait until at least one of the buttons has been pressed (line 7). Subsequently, we handle the different, possible scenarios:</p>
+<ol>
+<li>
+<p>Line 9: Both buttons are pressed. In this case, the double press is already detected. However, this case might be quite rare since it is difficult to perfectly push down both buttons at the same time so that they will be pressed in the same reaction.</p>
+</li>
+<li>
+<p>Line 12: <code>TOP</code> is pressed, <code>BOTTOM</code> not yet. In this case, we use <code>AwaitOtherButton</code> in order to await <code>BOTTOM</code> to get pressed within the accepted delay of one second. On success <code>repeat</code> exits. The implementation of <code>AwaitOtherButton</code> is shown below.</p>
+</li>
+<li>
+<p>Line 15: Same as in (2) but <code>TOP</code> and <code>BOTTOM</code> are exchanged.</p>
+</li>
+</ol>
+<p>In any case, once the repeat loop has been left, we know that a valid double press has been detected and hence turn on the LED. Finally, we wait until both buttons have been release and turn off the LED.</p>
+<p>The helper activity <code>AwaitOtherButton</code> demonstrates <a href="#timeout">timeout handling</a>
+ in Blech. We want to know if the second button <code>btn2</code> is pressed within the given amount of milliseconds (<code>msec</code>) and while the first button <code>btn1</code> is still pressed. So there are actually two conditions to be checked &ndash; the timeout and the current state of <code>btn1</code>.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity AwaitOtherButton (btn1: bool, btn2: bool, msec: nat16) returns bool
+    var success: bool = false
+    when not btn1 abort
+        cobegin weak
+            await btn2
+            success = true
+        with weak
+            run AwaitMsec(msec)
+        end
+    end
+    return success
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>For the first condition, we basically apply the same approach as <a href="#timeout">described above</a>
+ using a concurrent composition (line 4). Note that both trails are <code>weak</code> so that they can abort each other. Result variable <code>success</code> is only set to <code>true</code> (line 6) if the button press happens before the timeout. If there is a timeout &ndash; means <code>run AwaitMsec(msec)</code> returns &ndash; the <code>cobegin</code> rejoins and <code>success</code> is still <code>false</code>.</p>
+<p>For the second condition, we surround the concurrent composition with a <code>when ... abort</code> block that monitors the state of <code>btn1</code>. Once it is not pressed anymore the entire block aborts, again leaving <code>success</code> untouched (<code>false</code>). Finally, <code>AwaitOtherButton</code> returns the result which is then used by the caller to decide whether the second button has been pressed in time or not.</p>
+<h3 id="example-4-measure-the-button-press-duration">Example 4: Measure the button press duration</h3>
+<p>In this example, the LED shall light up if <code>CENTER</code> has been pressed between one and two seconds. After that, the LED shall be turned off once <code>TOP</code> has been pressed.</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example04 (btns: ButtonStates) (led: bool)
+    var i: nat32 = 0
+    repeat
+        await btns.center
+        when not btns.center abort
+            repeat
+                run AwaitMsec(10)
+                i = i + 1
+            end
+        end
+    until i &gt;= 1000 and i &lt;= 2000 end
+
+    led = true
+    await btns.top
+    led = false
+end
+</code></pre></td></tr></table>
+</div>
+</div><p>In contrast to the other examples above, we actually measure the button press duration here. For this, we use two <code>repeat</code> loops.</p>
+<p>The inner loop (lines 6 &ndash; 9) is used to measure the duration of the current button press which has been detected in line 4. It repeatedly awaits 10 milliseconds and increments the counter <code>i</code> for measuring the duration. The surrounding <code>when ... abort</code> automatically exits the inner loop as soon as the button is not pressed anymore. The outer loop (lines 3 &ndash; 11) is used to check whether <code>i</code> is in the desired time interval or not. If not, the entire process repeats.</p>
+<p>Once we hit line 13 we know that the current button press matches the given time interval. Consequently, the LED is switched on. Finally, we wait until <code>TOP</code> has been pressed in order to turn off the LED again.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The below diagram depicts the architecture of the Blech program as function blocks. Moving from left to right, the three raw button signals <code>btnsRaw</code> are handed over from the C environment to the <code>Main</code> activity of Blech. At this point, they are forwared to the filter activity <code>FilterButtons</code> which, in its turn, passes each raw signal to a dedicated instance of <code>FilterSignal</code> likewise. The latter internally uses <code>AwaitStableLevel</code> for the actual filter process. Finally, the filtered signals <code>btns</code> are provided to the remaining, concurrent Blech code, e.g. <code>Visualize</code> for controlling the color LEDs or one of our <code>Example</code> activities as described above.</p>
+<p>Note that <code>FilterButtons</code> and <code>FilterSignal</code> will never terminate. They are designed to run infinitely throughout the entire livetime of the Blech program. In contrast, <code>AwaitStableLevel</code> is called several times during runtime and terminates whenever the desired signal level is stable.</p>
+
+
+
+
+
+
+
+<div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
+	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_2.png" width="800" height="544">
+	
+	<div class="card-body px-0 pt-2 pb-0">
+		<p class="card-text">
+Architecture of the Blech program as function blocks.
+</p>
+	</div>
+	
+</div>
+<p>Last but not least, the block diagram shows that, on the top level, our Blech program behaves like a <em>reactive control block</em>. It receives the raw button signals as inputs, processes them based on events (and time) and finally outputs the corresponding control signals for the color LEDs.</p>
+
+	
+
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" class="btn btn-primary "><span class="mr-1">←</span> Previous</a>
+  </li>
+    <a  class="btn btn-primary  disabled">Next <span class="ml-1">→</span></a>
+  </li>
+</ul>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="/about/">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech contributors</small>
+        
+        <small class="ml-1"><a href="/about/privacy-policy/" style="color: skyblue" target="_blank">Privacy Policy</a></small>
+        
+          <p class="mt-2"><a href="/about/corporate-information/" style="color: skyblue">Corporate information</a></p>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script src="/js/main.min.ea0e1c1d3031374b4169d21358d2158ed173937d31fa6d66077b4e17a0c295b8.js" integrity="sha256-6g4cHTAxN0tBadITWNIVjtFzk30x&#43;m1mB3tOF6DClbg=" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>
