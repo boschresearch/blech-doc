@@ -64,7 +64,7 @@ The Blech application part is responsible for the following concerns:
 
 The corresponding signature of the Blech entry point activity looks like this:
 
-```blech
+```txt {linenos=true}
 // @param[in]   dcf77   The DCF77 signal level (true = 'HIGH').
 // @param[in]   btn     The user button state (true = 'PRESSED').
 // @param[out]  leds    The LED states (true = 'ON').
@@ -132,7 +132,7 @@ After that, the infinite `repeat` loop is entered and all LEDs are turned off. B
 
 {{% alert title="Note" color="info"%}}Due to the synchronous computation model, abortion of trails is done only at the end of the current reaction when all trails have finished their job and are waiting for the next tick. Thus, trails are particularly *not* interrupted at an arbitrary code location because this would lead to non-deterministic runtime behaviour!{{% /alert %}}
 
-```blech {linenos=table}
+```txt {linenos=true}
 @[EntryPoint]
 activity Main (dcf77: bool, btn: bool) (leds: LedStates)
     ledsAllOn()(leds)
@@ -171,7 +171,7 @@ After decoding has been finished, all LEDs are turned off again and we check for
 ### Visualizing the DCF77 signal
 Reflecting the time signal level on the LED is a pretty simple task in Blech. We establish an infinite loop which alternates between the signal levels. First, it awaits the high level for switching off the LED. Second, it awaits the low level for switching on the same LED. Third, the whole process repeats -- that's it.
 
-```blech {linenos=table}
+```txt {linenos=true}
 activity Visualize (dcf77: bool) (ledDcf77: bool)
     repeat
         await dcf77         // Await rising edge.
@@ -191,7 +191,7 @@ For this functionality, we take advantage of the fact that the entire Blech appl
 If the signal level goes `LOW` during the measurement the process has to be resetted. For this, we use the `when ... reset` block in Blech which causes the contained code to restart from the first line if the given condition is met. So in this case the code will jump back to `var len: nat16 = 0` as soon as the level drops.
 
 
-```blech
+```txt {linenos=true}
 activity CaptureSync (dcf77: bool)
     // Perform the measurement and restart if the level drops meanwhile.
     when not dcf77 reset
@@ -209,7 +209,7 @@ The implementation of `CaptureBit` basically follows the same approach. It uses 
 ### Capture and decode the time information
 Implementing the time information capture based on `CaptureSync` and `CaptureBit` becomes a trivial task. First, we capture the synchronization mark. Before and after that we turn off and on the associated LED (orange) respectively. Second, we enter the `while` loop in which we collect the 59 time code bits by repeatedly calling `CaptureBit`. Each successfully received bit is passed to `processBit` in order to update the gathered time information in `ti`. This means that decoding the DCF77 signal actually happens bit-wise on-the-fly. Finally, `CaptureTimeInfo` terminates, thereby returning the success status and the decoded time information to the caller.  
 
-```blech
+```txt {linenos=true}
 activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
     ledSync = false // Turn off LED.
     run CaptureSync(dcf77)
@@ -238,7 +238,7 @@ end
 
 The job of `Decode` is to retrieve two consecutive time codes (`tmp` and `ti`) and apply a simple validity check by comparing them. A common approach is to check whether the second timestamp (`ti`) is exactly one minute ahead of the first one (`tmp`). If that is the case the second one is considered valid and returned to the caller -- the decoding is done. 
 
-```blech
+```txt {linenos=true}
 activity Decode (dcf77: bool) (ti: TimeInfo, ledSync: bool) returns bool
     var success: bool
     var tmp: TimeInfo

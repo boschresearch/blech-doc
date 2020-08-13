@@ -45,25 +45,25 @@ In practically all embedded applications we have to describe temporal behaviour 
 
 Both types require to express physical time in our code. For this, we establish the same execution scheme for Blech as described in [this](/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/#execution-scheme-and-integration-of-blech) blog post. That is, the entire Blech code is *purely time-driven* based on a periodic system tick. Based on this, we can easily implement a small helper activity `AwaitMsec` in Blech for suspending the program for an arbitrary number of milliseconds. The maximal resolution is given by the period interval of the system tick which is set to *10 milliseconds* in this example.
 
-```blech
+```txt {linenos=true}
 const MSEC_PER_SYSTICK: nat16 = 10
 
 activity AwaitMsec (msec: nat16)
-	var i: nat16 = msec / MSEC_PER_SYSTICK
-	repeat
-		await true
-		i = i - 1
-	until i == 0 end
+    var i: nat16 = msec / MSEC_PER_SYSTICK
+    repeat
+        await true
+        i = i - 1
+    until i == 0 end
 end
 ```
 
-Depending on the given number of milliseconds to wait, `AwaitMsec` first determines the corresponding number of system ticks. Second, it awaits the relevant number in a `repeat` loop. Calling `run AwaitMsec(50)` causes the running trail to suspend for five system ticks for example. With this approach it is straight forward to implement [delays](#delay) and [timeouts](#timeout) in Blech.
+Depending on the given number of milliseconds to wait, `AwaitMsec` first determines the corresponding number of system ticks (line 4). Second, it awaits the relevant number in a `repeat` loop (lines 5 -- 8). Calling `run AwaitMsec(50)` causes the running trail to suspend for five system ticks for example. With this approach it is straight forward to implement [delays](#delay) and [timeouts](#timeout) in Blech.
 
 ### Delay
 
 For realizing a delay of 120 milliseconds between two function calls `funcA()` and `funcB()` for instance we can directly use `AwaitMsec` as follows:
 
-```blech
+```txt {linenos=true}
 funcA()
 run AwaitMsec(120)
 funcB()
@@ -74,7 +74,7 @@ This code snippet first executes function `funcA`, then suspends the running tra
 
 For applying a timeout of 120 milliseconds onto an activity `SomeActivity` for instance we can use `AwaitMsec` in a concurrent trail as follows:
 
-```blech
+```txt {linenos=true}
 var done: bool = false
 var timeout: bool = false
 cobegin weak // Activity trail.
@@ -84,11 +84,12 @@ with weak    // Timeout trail.
 	run AwaitMsec(120)
 	timeout = true
 end
-
 // Evaluate 'done' and 'timeout' (see below table).
 ```
 
-In this solution, we first declare two variables, `done` and `timeout`, which indicate whether or not `SomeActivity` has been completed in time. Then, in `cobegin`, we execute two concurrent trails in which the first one runs the actualy activity while the second one is responsible for checking the timeout. Both trails are `weak` so that they can abort each other depending on which event -- the completion of the activity or the timeout expiry -- happens first. Once the trails rejoin we can use `done` and `timeout` to precisely distinguish the different scenarios as shown below:
+In this solution, we first declare two variables, `done` and `timeout`, which indicate whether or not `SomeActivity` has been completed in time (lines 1 -- 2). Then, in the `cobegin`, we execute two concurrent trails in which the first one (lines 4 -- 5) runs the actualy activity while the second one (lines 7 -- 8) is responsible for checking the timeout. 
+
+Both trails are `weak` so that they can abort each other depending on which event -- the completion of the activity or the timeout expiry -- happens first. Once the trails rejoin (line 10) we can use `done` and `timeout` to precisely distinguish the different scenarios as shown below:
 
 | Scenario | `done`  | `timeout` | Result             | Note |
 |---|---------|-----------|--------------------|------|
@@ -132,23 +133,25 @@ out before we actually evaluate and consider the current button state in our sof
 ### Await a stable level
 First, `AwaitStableLevel` is responsible for checking the stability of the button output signal. Input `lvl` is the signal level that shall be awaited until it is stable. Input `btnRaw` is the raw button signal as retrieved from the GPIO. For example, `run AwaitStableLevel(false, btns.top)` means we want to suspend execution until the logic level of button `TOP` is reliably `LOW`.
 
-```blech
+```txt {linenos=true}
 const DEBOUNCE: nat8 = 5
 
 activity AwaitStableLevel (lvl: bool, btnRaw: bool)
-	var vote: nat8 = 0
-	repeat
-		run AwaitMsec(10)
-		if btnRaw == lvl then
-			vote = vote + 1 // Increment on match.
-		elseif vote > 0 then
-			vote = vote - 1 // Decrement on mismatch.
-		end
-	until vote >= DEBOUNCE end
+    var vote: nat8 = 0
+    repeat
+        run AwaitMsec(10)
+        if btnRaw == lvl then
+            vote = vote + 1 // Increment on match.
+        elseif vote > 0 then
+            vote = vote - 1 // Decrement on mismatch.
+        end
+    until vote >= DEBOUNCE end
 end
 ```
 
-In order to decide whether `lvl` is stable or not this activity establishes a very simple voting strategy. Every 10 milliseconds it checks the current state of the button signal. If it is equal to `lvl` this is interpreted as *match* whereby `vote` gets incremented. If it is not equal this is interpreted as *no match* whereby `vote` gets decremented. As soon as five consecutive matches have been detected the signal is considered stable and `AwaitStableLevel` returns. Its runtime behaviour is illustrated in the oscilloscope capture below:
+In order to decide whether `lvl` is stable or not this activity establishes a very simple voting strategy. Every 10 milliseconds (line 6) it checks the current state of the button signal. If it is equal to `lvl` this is interpreted as *match* whereby `vote` gets incremented (lines 7 -- 8). If it is not equal this is interpreted as *no match* whereby `vote` gets decremented (lines 9 -- 10).
+
+As soon as five consecutive matches have been detected the signal is considered stable -- the `repeat` loop exits (line 12) and `AwaitStableLevel` returns. Its runtime behaviour is illustrated in the oscilloscope capture below:
 
 {{< imgproc oszi_sampling_stable Resize "800x" >}}
 Oszilloscope capture of button sampling. CH1 shows the execution of the Blech code. Each peak is one run of the Blech tick function and hence constitutes one reaction respectively computation step according to the synchronous model of computation. CH4 is the raw button signal.
@@ -160,19 +163,19 @@ At the bottom of the scope capture you can see an exemplary run of `run AwaitSta
 
 ### Filter a single button signal
 
-Second, `FilterSignal` is responsible for filtering the signal of a *single* button. Input `btnRaw` is a raw button signal, output `btn`is the filtered one. Based on a simple `repeat` loop, this activity continuously alternates `btn` between the two possible button states `false` (not pressed) and `true` (pressed):
+Second, `FilterSignal` is responsible for filtering the signal of a *single* button. Input `btnRaw` is a raw button signal, output `btn`is the filtered one. Based on a simple `repeat` loop (lines 2 -- 10), this activity continuously alternates `btn` between the two possible button states `false` (not pressed, line 3) and `true` (pressed, line 7):
 
-```blech
+```txt {linenos=true}
 activity FilterSignal (btnRaw: bool)(btn: bool)
-	repeat
-		btn = false
-		// Await transition: false -> true
-		run AwaitStableLevel(true, btnRaw)
-		
-		btn = true
-		// Await transition: true -> false
-		run AwaitStableLevel(false, btnRaw)
-	end
+    repeat
+        btn = false
+        // Await transition: false -> true
+        run AwaitStableLevel(true, btnRaw)
+        
+        btn = true
+        // Await transition: true -> false
+        run AwaitStableLevel(false, btnRaw)
+    end
 end
 ```
 
@@ -184,32 +187,32 @@ A transition from `false` to `true` is only done once the raw signal `btnRaw` is
 
 Third, `FilterButtons` is responsible for filtering the signal of *all* buttons. It is the top level activity with respect to filtering. Input `btnsRaw` are the raw button signals as retrieved from the GPIOs, output `btns` are the filtered button signals. Internally, this activity runs a dedicated filter activity for each individual button -- `TOP`, `CENTER` and `BOTTOM`. These activities are concurrently composed in the same `cobegin` block. So `FilterButtons` is basically a wrapper for comfortably running three instances of `FilterSignal` concurrently.
 
-```blech
+```txt {linenos=true}
 activity FilterButtons (btnsRaw: ButtonStates)(btns: ButtonStates)
-	cobegin
-		run FilterSignal(btnsRaw.top)(btns.top)
-	with
-		run FilterSignal(btnsRaw.center)(btns.center)
-	with
-		run FilterSignal(btnsRaw.bottom)(btns.bottom)
-	end
+    cobegin
+        run FilterSignal(btnsRaw.top)(btns.top)
+    with
+        run FilterSignal(btnsRaw.center)(btns.center)
+    with
+        run FilterSignal(btnsRaw.bottom)(btns.bottom)
+    end
 end
 ```
 
-Later, in the `Main` activity of our Blech program, we can concurrently run `FilterButtons` with respect to the remaining code (see below). In each reaction, the filtered button signals `btns` are automatically updated (written) by `FilterButtons` in the first trail and can be used (read) by other activities in concurrent trails. Activity `Visualize`, for example, uses the filtered button signals in order to reflect the current button states on the color LEDs.
+Later, in the `Main` activity of our Blech program, we can concurrently run `FilterButtons` with respect to the remaining code (see line 7 below). In each reaction, the filtered button signals `btns` are automatically updated (written) by `FilterButtons` in the first trail and can be used (read) by other activities in concurrent trails. Activity `Visualize`, for example, uses the filtered button signals in order to reflect the current button states on the color LEDs (line 10 below).
 
-```blech
+```txt {linenos=true}
 @[EntryPoint]
 activity Main (btnRaw: ButtonStates) (leds: LedStates)
-	// ...
-	var btns: ButtonStates
-	cobegin
-		// FilterButtons all button states.
-		run FilterButtons(btnRaw)(btns)
-	with
-		// Visualizes all button states.
-		run Visualize(btns)(leds.orange, leds.green, leds.blue)
-	// ... 
+    // ...
+    var btns: ButtonStates
+    cobegin
+        // FilterButtons all button states.
+        run FilterButtons(btnRaw)(btns)
+    with
+        // Visualizes all button states.
+        run Visualize(btns)(leds.orange, leds.green, leds.blue)
+    // ... 
 end
 ```
 
@@ -224,94 +227,96 @@ In each example, we want to detect a certain type of button event and, as an exa
 ### Example 1: Press button for at least *x* seconds
 In this example, the LED shall light up once `CENTER` has been pressed for at least two seconds. It shall stay on as long as the button is pressed and go off once it has been released.
 
-```blech
+```txt {linenos=true}
 activity Example01 (btns: ButtonStates) (led: bool)
-	when not btns.center reset
-		await btns.center
-		run AwaitMsec(2000)
-	end
-	led = true
-	await not btns.center
-	led = false
+    when not btns.center reset
+        await btns.center
+        run AwaitMsec(2000)
+    end
+    led = true
+    await not btns.center
+    led = false
 end
 ```
 
-The first step is to wait until the button is pressed (Line 3). After that, we use `AwaitMsec` in order to wait until two seconds have elapsed. If the button should be released meanwhile we automatically restart the process by taking advantage of Blech's `reset` block (Line 2). Once control flow reaches Line 6, we know that `CENTER` has been pressed for two seconds and hence turn on the LED. Finally, we wait for the button to be released (Line 7) and turn off the LED (Line 8) as a consequence.
+The first step is to wait until the button is pressed (line 3). After that, we use `AwaitMsec` in order to wait until two seconds have elapsed. If the button should be released meanwhile we automatically restart the process by taking advantage of Blech's `when ... reset` block (line 2).
+
+Once control flow reaches line 6, we know that `CENTER` has been pressed for two seconds and hence turn on the LED. Finally, we wait for the button to be released (line 7) and turn off the LED (line 8) as a consequence.
 
 ### Example 2: Two buttons have to be pressed
 In this example, the LED shall light up once `TOP` *and* `BOTTOM` are pressed. After that, it shall be turned off as soon as *both* buttons have been released.
 
-```blech
+```txt {linenos=true}
 activity Example02 (btns: ButtonStates) (led: bool)
-	await btns.top and btns.bottom
-	led = true
-	await (not btns.top) and (not btns.bottom)
-	led = false
+    await btns.top and btns.bottom
+    led = true
+    await (not btns.top) and (not btns.bottom)
+    led = false
 end
 ```
 
-This implementation is trivial in Blech. In Line 2, we wait until both buttons are pressed, then turn on the LED (Line 3). Subsequently, we wait until none of the buttons are pressed in Line 4 and finally turn off the LED in Line 5.
+This implementation is trivial in Blech. In line 2, we wait until both buttons are pressed, then turn on the LED (line 3). Subsequently, we wait until none of the buttons are pressed (line 4) and finally turn off the LED (line 5).
 
 The simplicity of this piece of code is caused by the fact that we do not care about timing in this example. No matter when or how long the buttons are pressed, we only have to check whether their is at least one reaction in which both button signals are `true`. For detecting a real-world double button press a more sophisticated approach is usually required. We demonstrate this in [Example 3](#example-3-double-button-press).
 
 ### Example 3: Double button press
 In this example, the LED shall light up if a *double press* of `TOP` and `BOTTOM` is detected. After that, it shall be turned off once both buttons have been released. In contrast to [Example 2](#example-2-two-buttons-have-to-be-pressed), here it is important that both buttons are pressed within a certain amount of time. For example, we only accept a double press if the time gap between the two button presses is one second at most.
 
-```blech
+```txt {linenos=true}
 activity Example03 (btns: ButtonStates) (led: bool)
-	let acceptedDelay: nat16 = 1000 // in milliseconds.
-	var success: bool
-	repeat
-		success = false
-		await (not btns.top) and (not btns.bottom)
-		await btns.top or btns.bottom
+    let acceptedDelay: nat16 = 1000 // in milliseconds.
+    var success: bool
+    repeat
+        success = false
+        await (not btns.top) and (not btns.bottom)
+        await btns.top or btns.bottom
 
-		if btns.top and btns.bottom then
-			// Double press already detected.
-			success = true
-		elseif btns.top and not btns.bottom then
-			// Await BOTTOM within delay.
-			success = run AwaitOtherButton(btns.top, btns.bottom, acceptedDelay)
-		elseif not btns.top and btns.bottom then
-			// Await TOP within delay.
-			success = run AwaitOtherButton(btns.bottom, btns.top, acceptedDelay)
-		end
-	until success end
+        if btns.top and btns.bottom then
+            // Double press already detected.
+            success = true
+        elseif btns.top and not btns.bottom then
+            // Await BOTTOM within delay.
+            success = run AwaitOtherButton(btns.top, btns.bottom, acceptedDelay)
+        elseif not btns.top and btns.bottom then
+            // Await TOP within delay.
+            success = run AwaitOtherButton(btns.bottom, btns.top, acceptedDelay)
+        end
+    until success end
 
-	led = true
-	await (not btns.top) and (not btns.bottom)
-	led = false
+    led = true
+    await (not btns.top) and (not btns.bottom)
+    led = false
 end
 ```
 
-The `repeat` loop (Line 4) is used to check for the double press. First, we await the idle state -- both buttons are not pressed. Second, we wait until at least one of the buttons has been pressed (Line 7). Subsequently, we handle the different, possible scenarios:
+The `repeat` loop in line 4 is used to check for the double press. First, we await the idle state -- both buttons are not pressed. Second, we wait until at least one of the buttons has been pressed (line 7). Subsequently, we handle the different, possible scenarios:
 
-1. Both buttons are pressed. In this case, the double press is already detected. However, this case might be quite rare since it is difficult to perfectly push down both buttons at the same time so that they will be pressed in the same reaction.
+1. Line 9: Both buttons are pressed. In this case, the double press is already detected. However, this case might be quite rare since it is difficult to perfectly push down both buttons at the same time so that they will be pressed in the same reaction.
 
-1. `TOP` is pressed, `BOTTOM` not yet. In this case, we use `AwaitOtherButton` in order to await `BOTTOM` to get pressed within the accepted delay of one second. On success `repeat` exits. The implementation of `AwaitOtherButton` is shown below.
+1. Line 12: `TOP` is pressed, `BOTTOM` not yet. In this case, we use `AwaitOtherButton` in order to await `BOTTOM` to get pressed within the accepted delay of one second. On success `repeat` exits. The implementation of `AwaitOtherButton` is shown below.
 
-1. Same as in (2) but `TOP` and `BOTTOM` are exchanged.
+1. Line 15: Same as in (2) but `TOP` and `BOTTOM` are exchanged.
 
 In any case, once the repeat loop has been left, we know that a valid double press has been detected and hence turn on the LED. Finally, we wait until both buttons have been release and turn off the LED.
 
 The helper activity `AwaitOtherButton` demonstrates [timeout handling](#timeout) in Blech. We want to know if the second button `btn2` is pressed within the given amount of milliseconds (`msec`) and while the first button `btn1` is still pressed. So there are actually two conditions to be checked -- the timeout and the current state of `btn1`.
 
-```blech
+```txt {linenos=true}
 activity AwaitOtherButton (btn1: bool, btn2: bool, msec: nat16) returns bool
-	var success: bool = false
-	when not btn1 abort
-		cobegin weak
-			await btn2
-			success = true
-		with weak
-			run AwaitMsec(msec)
-		end
-	end
-	return success
+    var success: bool = false
+    when not btn1 abort
+        cobegin weak
+            await btn2
+            success = true
+        with weak
+            run AwaitMsec(msec)
+        end
+    end
+    return success
 end
 ```
 
-For the first condition, we basically apply the same approach as [described above](#timeout) using a concurrent composition (Line 4). Note that both trails are `weak` so that they can abort each other. Result variable `success` is only set to `true` if the button press happens before the timeout (Line 6). If there is a timeout -- means `run AwaitMsec(msec)` returns -- the `cobegin` rejoins and `success` is still `false`.
+For the first condition, we basically apply the same approach as [described above](#timeout) using a concurrent composition (line 4). Note that both trails are `weak` so that they can abort each other. Result variable `success` is only set to `true` (line 6) if the button press happens before the timeout. If there is a timeout -- means `run AwaitMsec(msec)` returns -- the `cobegin` rejoins and `success` is still `false`.
 
 For the second condition, we surround the concurrent composition with a `when ... abort` block that monitors the state of `btn1`. Once it is not pressed anymore the entire block aborts, again leaving `success` untouched (`false`). Finally, `AwaitOtherButton` returns the result which is then used by the caller to decide whether the second button has been pressed in time or not.
 
@@ -319,32 +324,30 @@ For the second condition, we surround the concurrent composition with a `when ..
 ### Example 4: Measure the button press duration
 In this example, the LED shall light up if `CENTER` has been pressed between one and two seconds. After that, the LED shall be turned off once `TOP` has been pressed. 
 
-```blech
+```txt {linenos=true}
 activity Example04 (btns: ButtonStates) (led: bool)
-	var i: nat32 = 0
-	repeat
-		await btns.center
-		when not btns.center abort
-			repeat
-				run AwaitMsec(10)
-				i = i + 1
-			end
-		end
-	until i >= 1000 and i <= 2000 end
+    var i: nat32 = 0
+    repeat
+        await btns.center
+        when not btns.center abort
+            repeat
+                run AwaitMsec(10)
+                i = i + 1
+            end
+        end
+    until i >= 1000 and i <= 2000 end
 
-	led = true
-	await btns.top
-	led = false
+    led = true
+    await btns.top
+    led = false
 end
 ```
 
 In contrast to the other examples above, we actually measure the button press duration here. For this, we use two `repeat` loops. 
 
-The inner loop (Line 6) is used to measure the duration of the current button press which is detected in Line 7. It repeatedly awaits 10 milliseconds and increments the counter `i` for measuring the duration. The surrounding `when ... abort` automatically exits the inner loop as soon as the button is not pressed anymore.
+The inner loop (lines 6 -- 9) is used to measure the duration of the current button press which has been detected in line 4. It repeatedly awaits 10 milliseconds and increments the counter `i` for measuring the duration. The surrounding `when ... abort` automatically exits the inner loop as soon as the button is not pressed anymore. The outer loop (lines 3 -- 11) is used to check whether `i` is in the desired time interval or not. If not, the entire process repeats.
 
-The outer loop (Line 3) is used to check whether `i` is in the desired time interval or not. If not, the entire process repeats.
-
-Once we hit Line 13 we know that the current button press matches the given time interval. Consequently, the LED is switched on. Finally, we wait until `TOP` has been pressed in order to turn off the LED again.
+Once we hit line 13 we know that the current button press matches the given time interval. Consequently, the LED is switched on. Finally, we wait until `TOP` has been pressed in order to turn off the LED again.
 
 ## Conclusion
 

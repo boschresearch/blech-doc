@@ -139,7 +139,7 @@ This concept is what I call the *pseudo-blocking* style. Your software looks and
 
 The following code snippet shows how the buffer transmission can look like in Blech:
 
-```blech {linenos=table}
+```txt {linenos=true}
 @[CFunction (binding = "UART_isReady", header = "uart.h")]
 extern singleton function uart_isReady() returns bool
 @[CFunction (binding = "UART_sendByte", header = "uart.h")]
@@ -181,7 +181,7 @@ Concurrency is one of the key concerns in embedded programming. The traditional,
 
 Let us slightly extend above example. We want to make an LED blink on every system tick, e.g. every millisecond, while a buffer transmission is in progress. At this point, we are aware that blinking an LED with such a high frequency is generally not useful since it is not visible for the human eye. Here, we just use it for demonstration purpose to show how easy it is to express concurrent behaviour by taking advantage of Blech's `cobegin` statement:
 
-```blech {linenos=table}
+```txt {linenos=true}
 activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
     cobegin   // Buffer transmission.
         run SendBuffer(buf, len)
