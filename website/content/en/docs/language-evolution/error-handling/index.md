@@ -61,7 +61,7 @@ A single-mode-failure partial subprogram has to be marked with ```?```, and is t
 
 ```blech
 function f ? () returns bool 
-    if <some thing is wrong> then 
+    if <something is wrong> then 
         throw
     end
     return true
@@ -95,7 +95,7 @@ end
 An error handler statement consist of a ```try``` block and an ```else``` part which does the recovering in case of a thrown error. Ommitting the optional ```else``` block just handles the error without any recovering. In order to do any cleanup in both cases, there is also an optional ```then``` block.
 
 ```blech
-function g () // does not throw and error
+function g () // does not throw an error
     var flag: bool
     try 
         flag = f?()
@@ -234,6 +234,20 @@ Since
 
 we recommend using single-mode failures and local error-management instead of complex multi-mode failures and raising errors accross several call-boundaries. 
 
+## Activities that throw
+
+An activity that throws an error is not guaranteed to pause at least once at an await.
+The other way round an activity that potentially throws allows instantenous control path
+
+This following relates to issue: [activities with instantaneous control path #15](https://github.com/boschresearch/blech/issues/15)
+
+With partial activites (activities that potentially throw) instaneous control path are allowed.
+
+```blech
+activity PotentiallyLongRunning1() returns nat8 throws RealTimeError
+
+activity PotentiallyLongRunning1(fstResult: nat8) throws RealTimeError
+```
 ## Realtime errors
 
 For realtime systems it is convenient to be able to throw a built-in `RealtimeError` in order to handle deadline misses in the program.
@@ -270,7 +284,7 @@ There are two aspects of realtime errors to consider:
 In order to handled realtime errors in a structure way we propose
 to declare realtime-critical activities in the following way.
 
-```
+```blech
 activity DoSomethingCritical ? () throws RealtimeError
 
     await condition 
@@ -283,7 +297,7 @@ Activities, which are not marked as real-time critical do not check deadline mis
 
 Any calling activity up in the call-chain, can handle the realtime error
 
-```
+```blech
 activity DeadineMissHandler ()
     try
         run DoSomethingCritical ? ()
@@ -304,7 +318,7 @@ In principal, you can implement an individual strategy for every realtime critic
 Functions cannot throw realtime errors implicitly because they cannot await.
 Maybe we should also have a library function to query a deadline miss.
 
-```
+```blech
 function testForDeadlineMiss ? () throws RealtimeError
     if deadlineIsMissed() then 
         throw RealtimeError
