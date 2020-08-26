@@ -68,6 +68,13 @@ This updates `out1` to a new value.
 Finally, if input `in2` is indeed less than 0 the activity terminates its execution.
 Otherwise the control flow loops around from line 5 back to line 2 and finally the reaction ends again in line 3.
 
+#### Example: Proceed with the next tick
+
+For example in time triggered systems we often just want to await the next period and proceed. This is simply expressed by
+```blech
+await true
+```
+
 ### Run
 An activity call is given by the following grammar.
 
@@ -204,6 +211,30 @@ end
 In this example there are no strong branches.
 The first branch to terminate will abort all others.
 In this example it means as soon as `isButtonPressed` or `hasReceivedSignal` is true (or both are true!) the `cobegin` statement terminates and control flow continues with the next statement.
+
+
+### Prev
+
+`prev` is not a statement but a special operator which is most useful in the context of a `cobegin` block.
+
+The introductory chapter explained [causality](../moc/#causality).
+In short, this means two concurrent branches may not write the same shared memory and furthermore cyclical read-write dependencies are prohibited as well.
+Sometimes however we need to express a quasi-cycle wherein one branch starts off with a value that has already been computed in the previous reaction. This is conveniently expressed using the `prev` operator.
+
+#### Example: Previous values
+
+```blech
+cobegin 
+    run A (prev x)(y)
+with 
+    run B (y)(x)
+end
+```
+
+Here, in every reaction, the _previous_ value of `x`, i.e. the result of the previous reaction, is given to `A` which performs a step and produces a new value for `y`. This is then used by `B` to produce a new _current_ value of `x`.
+
+`prev` can only be used where we expect to read a value. It cannot be used on a left-hand-side of an assignment or in an output argument position. `prev` may only be applied to values, identified by a name. It cannot be used on arbitrary expressions.
+When used on memory of complex data types, `prev` binds to the outermost part. For a structure `s` the expression `prev s.x` is to be read as `(prev s).x`.
 
 ### Abort and reset
 
@@ -401,6 +432,7 @@ Activities and functions that declare a return type must return a value of this 
 
 Activities may only return from their main thread.
 In other words `return` must not occur inside a branch of a `cobegin` statement.
+This is a design decision which avoids cases in which multiple branches could return a value and it is not clear which one "wins" the race. Furthermore, even if only one branch could return, it still would not be clear whether concurrent branches will execute their reactions entirely or not. For the sake of a clear and easy to understand semantics the above restriction is enforced.
 
 Mind the difference between activity return values and activity output values.
 Outputs are set in every reaction of the activity.

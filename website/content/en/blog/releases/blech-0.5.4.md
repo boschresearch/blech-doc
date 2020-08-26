@@ -2,7 +2,7 @@
 ---
 title: "Blech version 0.5.4"
 linkTitle: "Blech 0.5.4"
-date: 2020-08-2
+date: 2020-08-28
 ---
 
 We are happy to announce a new release of the Blech compiler and language services for VS Code.
