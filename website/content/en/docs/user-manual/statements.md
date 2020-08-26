@@ -1,7 +1,7 @@
 ---
 title: "Statements"
 linkTitle: "Statements"
-weight: 20
+weight: 30
 description: >
 
 ---
@@ -72,7 +72,8 @@ Otherwise the control flow loops around from line 5 back to line 2 and finally t
 An activity call is given by the following grammar.
 
 ```abnf
-ActivityCall ::= [(Identifier | Wildcard ) "="] "run" Identifier RhsArgList [LhsArgList]
+ActivityCall ::= "run" [Receiver "="] Identifier RhsArgList [LhsArgList]
+Receiver ::= (Wildcard | Identifier | ("var" | "let") Identifier [":" Type])
 RhsArgList ::= "()" | "(" RhsExpr ("," RhsExpr)* ")"
 LhsArgList ::= "()" | "(" LhsExpr ("," LhsExpr)* ")"
 ```
@@ -82,7 +83,7 @@ Arguments must be provided that match the callee's declaration in number and typ
 If the callee does not declare any outputs the second pair of parentheses may be dropped for readability.
 Input arguments must evaluate to a value that matches the declared type.
 Output arguments must evaluate to a memory location that the callee can read from and write to.
-If the callee is an activity that eventually terminates and declares a return value, this return value must be either received into some variable or ignored using a wildcard.
+If the callee is an activity that eventually terminates and declares a return value, this return value must be either received into some variable or ignored using a wildcard. The receiving variable is either a mutable variable declared earlier or can be declared inside the `run` statement. In this case it can also be declared as a read-only variable using `let`. The receiver may be used in the code sequentially after the `run` statement.
 
 When control flow reaches a `run` statement the sub-activity is immediately called and the control flow is handed over to the callee.
 It remains within the callee for as many reactions as it runs (but at least one reaction).
@@ -103,7 +104,10 @@ end
     var array: [8]int32 = {1, 2, 3, 4, 5, 6, 7, 8}
     var output: int32
     // usage
-    result = run A(array, 7)(output)
+    run result = A(array, 7)(output)
+
+    // alternative: declare receiver within "run"
+    run let result2 = A(array, 7)(output)
 ```
 
 ### Cobegin
@@ -369,7 +373,7 @@ This is not necessary for loops inside functions.
 ### Return
 
 ```abnf
-ReturnStmt ::= "return" [RhsExpr]
+ReturnStmt ::= "return" [RhsExpr] | "return" ActivityCall
 ```
 
 Void activities and functions can use `return` without an expression to terminate at some point before control flow reaches the last statement.
@@ -419,6 +423,16 @@ end
 
 In every reaction `in` is propagated to `B` and `out` is propagated from `C` to the caller.
 Only when `C` terminates the variable `retcode` is updated, the `cobegin` statement is terminated and the `retcode` is returned to the caller.
+
+Activities that simply terminate and pass on the value of their callee may use the syntactic sugar
+```blech
+return run A()
+```
+instead of the more verbose
+```blech
+run let foo = A()
+return foo
+```
 
 ### Function call
 
