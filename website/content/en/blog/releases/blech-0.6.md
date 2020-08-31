@@ -1,8 +1,8 @@
 
 ---
-title: "Blech version 0.5.4"
-linkTitle: "Blech 0.5.4"
-date: 2020-08-28
+title: "Blech version 0.6"
+linkTitle: "Blech 0.6"
+date: 2020-09-01
 ---
 
 We are happy to announce a new release of the Blech compiler and language services for VS Code.
@@ -18,6 +18,11 @@ Language features are:
   * `return run Act()` 
   
     Here the value returned by `Act` is directly returned further up.
+* It is now possible to reorder function parameters when linking to external C functions. This is useful to map Blech's input and output parameters to the single parameter list of a C function:
+```blech
+@[CFunction(binding = "myCfunction($2, $1)")]
+extern function doStuff(a: nat8)(b: nat8)
+```
 * Some annotations may contain string literals. We now support single and (indented) multi line string literals.
 
 On the technical side we have fixed a few bugs and issues and improved code generation.

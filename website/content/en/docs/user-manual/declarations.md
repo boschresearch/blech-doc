@@ -202,7 +202,7 @@ ExternDataDeclaration     ::= "extern" Qualifier Identifier ":" Type
 ```
 
 Obviously, external functions have no body and external variables cannot be initialised.
-As before, external functions may be characterised as `singleton` which means such a function may not be called concurrently. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Calling such a function concurrently would violate the synchrony assumptions and lead to unexpected results.
+As before, external functions may be characterised as `singleton` which means such a function may not be called concurrently with another instance of itself. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Invoking multiple instances of such a function concurrently would violate the synchrony assumptions and lead to unexpected results.
 
 External declarations additionally require annotations which we introduce by example below.
 
@@ -230,9 +230,9 @@ Both will evaluate whatever expression is given in the binding at runtime.
 This is the reason why external constants cannot be used for constant expression evaluation in Blech -- their value is unknown at compile time.
 While you can, for example, use a Blech constant to parametrise an array length, you cannot do so using an external constant.
 
-The `binding` annotation attribute may contain any expression that can be evaluated in C.
+The `binding` annotation attribute may contain any string which is a valid right hand side of a C macro.
 
-By design the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler "look into" C header or implementation files, nor does it try to evaluate any C-bindings.
+By design, the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler "look into" C header or implementation files, nor does it try to evaluate any C-bindings.
 
 ### Local external variables
 
@@ -302,17 +302,19 @@ Concurrent instances lead to a write-write conflict and compilation is rejected.
 
 There are two ways to link to external functions in Blech.
 
-1. Via direct binding to function name declared in an .h file
+1. Via direct binding a to function name declared in an .h file
 2. Via a wrapper to be implemented in some .c file.
 
-In the first case we annotate the name of the C function and the file wherein this function is declared.
+In the first case we annotate the call to the C function and the file wherein this function is declared. The call must list the parameters using a `$i` notation. In this way, we can map the input and output parameters of the Blech prototype to the positions of the C function.
 
 ```blech
-@[CFunction (binding = "ceil", header = "math.h")]
+@[CFunction (binding = "ceil($1)", header = "math.h")]
 extern function ceiling(i: float64) returns float64
 ```
 
 Inside the Blech program this function is now available through name `ceiling`.
+
+TODO: find a good example where output/input parameters have to be rearranged
 
 In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
@@ -338,7 +340,7 @@ It is up to the C programmer now to include this header in his implementation fi
 
 #### Types
 
-Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.
+Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types then a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.
 
 #### Parameter lists
 
@@ -350,7 +352,7 @@ For example, say we have an external function that takes an array of length 10 a
 The correct binding would look something like this:
 
 ```blech
-@[CFunction (binding = "sort", header = "utils.h")]
+@[CFunction (binding = "sort($1)", header = "utils.h")]
 extern function sort()(arr: [10]int32)
 ```
 
@@ -359,7 +361,7 @@ In this way, the Blech compiler knows that `sort` will modify the given array. W
 However, the programmer could erroneously declare the same function as follows:
 
 ```blech
-@[CFunction (binding = "sort", header = "utils.h")]
+@[CFunction (binding = "sort($1)", header = "utils.h")]
 extern function sort(arr: [10]int32)
 ```
 
@@ -375,7 +377,7 @@ extern singleton function doA()
 @[CFunction (binding = "foo", header = "head.h")]
 extern singleton function doB() 
 
-/* ... somewhere in an acitivity scope ... */
+/* ... somewhere in an activity scope ... */
 cobegin
    doA()
 with
@@ -385,3 +387,12 @@ end
 
 This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this _particular_ mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
 It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.
+
+#### Binding strings
+
+The `binding` part of an annotation
+TODO: mention (again) any piece of code that can be the right hand side of a macro may appear as binding
+bindings are strings 
+TODO (elsewhere): explain Blech strings of which there are single line and multi line ones
+explain indentation
+explain escaping
