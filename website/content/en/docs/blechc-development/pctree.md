@@ -23,7 +23,7 @@ A program counter which is `0` indicates that control flow has terminated (in th
 An activity may contain concurrent code (expressed by the `cobegin` statement) and therefore control flow may be forked into several *threads of execution*.
 This is why an activity may reside in *several* control flow points at the same time.
 Each thread is represented by an individual program counter.
-Thus there is always at least one program counter for the activities *root thread* and possibly more for subthreads which are forked by `cobegin`.
+Thus there is always at least one program counter for an activity's *root thread* and possibly more for subthreads which are forked by `cobegin`.
 
 ## PC tree
 The Blech compiler constructs a so-called program counter tree (pc tree) for every activity.
@@ -64,6 +64,16 @@ The logics of `addPc` are rather simple:
 
 The 'magic' happens in `PCtree.add`:
  - given the thread information, a list of ancestors (root to given thread) is constructed
- - the list is used to navigate through the pc tree to find to ancestor to which a new sub tree is added
+ - the list is used to navigate through the pc tree to find the ancestor to which a new sub tree is added
 
 ## Using the pc tree
+In `ActivityTranslator.fs` there is the function
+```fsharp
+let private findTreeFor (comp: Compilation) (node: Node) -> PCtree
+```
+which is vital to work with program counters.
+
+The tree structure is particularly exploited in
+```fsharp
+let private endThread comp node -> Doc
+```

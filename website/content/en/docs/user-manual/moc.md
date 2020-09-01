@@ -42,7 +42,7 @@ This semantics is very attractive to the programmer because concurrent programmi
 It is the single most crucial distinctive feature of synchronous programming languages in general, and Blech in particular.
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
-the distinction of individual reactions; and the distinction of a thread-local view and a global view on a shared memory.
+the distinction of individual reactions; and the distinction of a thread-local view and a global view on shared memory.
 
 Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
 Such programs are called causally correct or simply _causal_.
@@ -53,7 +53,7 @@ The next section explains what this means for Blech.
 The strict consistency memory model excludes write conflicts by definition.
 Since we think of program execution as reaction steps, this means causal programs must have at most one writer per shared variable in one reaction.
 In Blech we restrict this even further and require that there is at most one writer within a fork-join scope which is potentially executed for multiple reactions.
-This is made more precise in the subsequent chapter when we explain the `cobegin` statement.
+This is made more precise in the chapter when we [explain the `cobegin` statement](../statements/#cobegin).
 
 Furthermore, there is a "thread-local" view of shared variables and a "thread-global" view.
 We require that in the thread-global view every shared variable is set to one value by the writer that all other threads may read.

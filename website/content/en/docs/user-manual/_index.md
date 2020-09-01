@@ -11,15 +11,11 @@ description: >
 This user manual is work in progress.
 {{% /pageinfo %}}
 
-## Reactive embedded realtime programming
-
-A general introduction, design criteria and choices, ... (todo)
-
 ## User Reference Manual
 
 This is the user reference manual.
 It explains in detail the various elements of the Blech language and what they mean.
-This text may be regarded as specification of how the language looks syntactically and how the programs written in it shall behave.
+This text may be regarded as the specification of how the language looks syntactically and how the programs written in it shall behave.
 
 The Blech language is still evolving and its compiler to C is being implemented.
 Thus this manual reflects the subset of the language that is implemented in the master branch of the [Blech compiler repository](https://github.com/boschresearch/blech).

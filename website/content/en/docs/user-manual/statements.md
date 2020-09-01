@@ -1,7 +1,7 @@
 ---
 title: "Statements"
 linkTitle: "Statements"
-weight: 20
+weight: 30
 description: >
 
 ---
@@ -68,11 +68,19 @@ This updates `out1` to a new value.
 Finally, if input `in2` is indeed less than 0 the activity terminates its execution.
 Otherwise the control flow loops around from line 5 back to line 2 and finally the reaction ends again in line 3.
 
+#### Example: Proceed with the next tick
+
+For example in time triggered systems we often just want to await the next period and proceed. This is simply expressed by
+```blech
+await true
+```
+
 ### Run
 An activity call is given by the following grammar.
 
 ```abnf
-ActivityCall ::= [(Identifier | Wildcard ) "="] "run" Identifier RhsArgList [LhsArgList]
+ActivityCall ::= "run" [Receiver "="] Identifier RhsArgList [LhsArgList]
+Receiver ::= (Wildcard | Identifier | ("var" | "let") Identifier [":" Type])
 RhsArgList ::= "()" | "(" RhsExpr ("," RhsExpr)* ")"
 LhsArgList ::= "()" | "(" LhsExpr ("," LhsExpr)* ")"
 ```
@@ -82,7 +90,7 @@ Arguments must be provided that match the callee's declaration in number and typ
 If the callee does not declare any outputs the second pair of parentheses may be dropped for readability.
 Input arguments must evaluate to a value that matches the declared type.
 Output arguments must evaluate to a memory location that the callee can read from and write to.
-If the callee is an activity that eventually terminates and declares a return value, this return value must be either received into some variable or ignored using a wildcard.
+If the callee is an activity that eventually terminates and declares a return value, this return value must be either received into some variable or ignored using a wildcard. The receiving variable is either a mutable variable declared earlier or can be declared inside the `run` statement. In this case it can also be declared as a read-only variable using `let`. The receiver may be used in the code sequentially after the `run` statement.
 
 When control flow reaches a `run` statement the sub-activity is immediately called and the control flow is handed over to the callee.
 It remains within the callee for as many reactions as it runs (but at least one reaction).
@@ -103,7 +111,10 @@ end
     var array: [8]int32 = {1, 2, 3, 4, 5, 6, 7, 8}
     var output: int32
     // usage
-    result = run A(array, 7)(output)
+    run result = A(array, 7)(output)
+
+    // alternative: declare receiver within "run"
+    run let result2 = A(array, 7)(output)
 ```
 
 ### Cobegin
@@ -200,6 +211,30 @@ end
 In this example there are no strong branches.
 The first branch to terminate will abort all others.
 In this example it means as soon as `isButtonPressed` or `hasReceivedSignal` is true (or both are true!) the `cobegin` statement terminates and control flow continues with the next statement.
+
+
+### Prev
+
+`prev` is not a statement but a special operator which is most useful in the context of a `cobegin` block.
+
+The introductory chapter explained [causality](../moc/#causality).
+In short, this means two concurrent branches may not write the same shared memory and furthermore cyclical read-write dependencies are prohibited as well.
+Sometimes however we need to express a quasi-cycle wherein one branch starts off with a value that has already been computed in the previous reaction. This is conveniently expressed using the `prev` operator.
+
+#### Example: Previous values
+
+```blech
+cobegin 
+    run A (prev x)(y)
+with 
+    run B (y)(x)
+end
+```
+
+Here, in every reaction, the _previous_ value of `x`, i.e. the result of the previous reaction, is given to `A` which performs a step and produces a new value for `y`. This is then used by `B` to produce a new _current_ value of `x`.
+
+`prev` can only be used where we expect to read a value. It cannot be used on a left-hand-side of an assignment or in an output argument position. `prev` may only be applied to values, identified by a name. It cannot be used on arbitrary expressions.
+When used on memory of complex data types, `prev` binds to the outermost part. For a structure `s` the expression `prev s.x` is to be read as `(prev s).x`.
 
 ### Abort and reset
 
@@ -369,7 +404,7 @@ This is not necessary for loops inside functions.
 ### Return
 
 ```abnf
-ReturnStmt ::= "return" [RhsExpr]
+ReturnStmt ::= "return" [RhsExpr] | "return" ActivityCall
 ```
 
 Void activities and functions can use `return` without an expression to terminate at some point before control flow reaches the last statement.
@@ -397,6 +432,7 @@ Activities and functions that declare a return type must return a value of this 
 
 Activities may only return from their main thread.
 In other words `return` must not occur inside a branch of a `cobegin` statement.
+This is a design decision which avoids cases in which multiple branches could return a value and it is not clear which one "wins" the race. Furthermore, even if only one branch could return, it still would not be clear whether concurrent branches will execute their reactions entirely or not. For the sake of a clear and easy to understand semantics the above restriction is enforced.
 
 Mind the difference between activity return values and activity output values.
 Outputs are set in every reaction of the activity.
@@ -419,6 +455,16 @@ end
 
 In every reaction `in` is propagated to `B` and `out` is propagated from `C` to the caller.
 Only when `C` terminates the variable `retcode` is updated, the `cobegin` statement is terminated and the `retcode` is returned to the caller.
+
+Activities that simply terminate and pass on the value of their callee may use the syntactic sugar
+```blech
+return run A()
+```
+instead of the more verbose
+```blech
+run let foo = A()
+return foo
+```
 
 ### Function call
 
