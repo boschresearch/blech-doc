@@ -13,6 +13,670 @@
     
     
     <item>
+      <title>Blog: Blech version 0.6.0</title>
+      <link>https://www.blech-lang.org/blog/2020/09/01/blech-version-0.6.0/</link>
+      <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/09/01/blech-version-0.6.0/</guid>
+      <description>
+        
+        
+        &lt;p&gt;We are happy to announce a new release of the Blech compiler and language services for VS Code.&lt;/p&gt;
+&lt;p&gt;Language features are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/controlflow/statements/#run&#34;&gt;syntax of the statement &lt;code&gt;run&lt;/code&gt;&lt;/a&gt;
+ has changed. It now allows local variable declarations. &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/controlflow/statements/#return&#34;&gt;A &lt;code&gt;return&lt;/code&gt; statement&lt;/a&gt;
+ may now have an activity call as an argument:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;run foo = Act()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;used to be &lt;code&gt;foo = run Act()&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;run var foo = Act()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here &lt;code&gt;foo&lt;/code&gt; is declared in-place and can be used after the &lt;code&gt;run&lt;/code&gt; statement.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;return run Act()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here the value returned by &lt;code&gt;Act&lt;/code&gt; is directly returned further up.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It is now possible to reorder function parameters when linking to external C functions. This is useful to map Blech&amp;rsquo;s input and output parameters to the single parameter list of a C function:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  @[CFunction(binding = &amp;quot;myCfunction($2, $1)&amp;quot;)]
+  extern function doStuff(a: nat8)(b: nat8)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some annotations may contain string literals. We now support single and (indented) multi line string literals. This is useful if you want to define the right-hand side of a macro as your C-binding:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  @[CFunction (binding = &amp;quot;&amp;quot;&amp;quot;
+                         do {
+                           *$2 = $1;
+                           *$2 = *$2 + 1;
+                         } while (0)
+                         &amp;quot;&amp;quot;&amp;quot;)]
+  extern function doStuff(a: nat8)(b: nat8)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C. 
+&lt;code&gt;$1&lt;/code&gt; is input parameter &lt;code&gt;a: nat8&lt;/code&gt; which is passed by value because it has a simple type.
+&lt;code&gt;$2&lt;/code&gt; is output parameter &lt;code&gt;b: nat8&lt;/code&gt; which is passed by reference as a pointer.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On the technical side we have fixed a few bugs and issues and improved code generation.
+The latter now uses &amp;ldquo;activity contexts&amp;rdquo; to store activity local data and &lt;a href=&#34;https://www.blech-lang.org/docs/blechc-development/pctree/&#34;&gt;program counters&lt;/a&gt;
+ instead of passing around individual values.
+This is a preparation for the upcoming module system.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Blog: Push button handling</title>
+      <link>https://www.blech-lang.org/blog/2020/08/12/push-button-handling/</link>
+      <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/08/12/push-button-handling/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;application-example-push-button-handling&#34;&gt;Application example: Push button handling&lt;/h2&gt;
+&lt;p&gt;In this example three push buttons, &lt;code&gt;TOP&lt;/code&gt;, &lt;code&gt;CENTER&lt;/code&gt; and &lt;code&gt;BOTTOM&lt;/code&gt;, are connected to our embedded system for user input. Like in our &lt;a href=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/&#34;&gt;previous blog post&lt;/a&gt;
+ our hardware setup is based on a &lt;a href=&#34;https://www.st.com/en/evaluation-tools/stm32f4discovery.html&#34; target=&#34;_blank&#34;&gt;STM32F4DISCOVERY&lt;/a&gt;
+ board. The latter has four color LEDs, red, blue, green and orange, which we are going to use for showing the button states.&lt;/p&gt;
+&lt;p&gt;Additionally, we connect a small breadboard with three general purpose push buttons. All buttons share a common electrical ground on the left-hand side of the breadboard. On the right-hand side, there is an individual signal wire for each button which is connected to a dedicated GPIO of the discovery board. The pull-up resistors of these GPIOs are active.&lt;/p&gt;
+&lt;p&gt;Finally, we connect two probes of an oscilloscope. Channel 1 (&lt;code&gt;CH1&lt;/code&gt;) connects to a debug pin which is set to &lt;code&gt;HIGH&lt;/code&gt; while Blech code is executed. Channel 4 (&lt;code&gt;CH4&lt;/code&gt;) connects to the output signal of &lt;code&gt;BOTTOM&lt;/code&gt; for demonstration purpose. The complete setup is depicted below:&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;560&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Hardware setup for the push button handling example.
+&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
+&lt;p&gt;By default, the electrical contacts of the push buttons are open. Thus, the pull-ups on the discovery board will tie the button output signals to the supply voltage (&lt;em&gt;+3.3V&lt;/em&gt;) while they are not pressed. If a button gets pressed it pulls the output signal to ground (&lt;em&gt;0V&lt;/em&gt;). This means that, physically speaking, the buttons are &lt;em&gt;active-low&lt;/em&gt; &amp;ndash; the corresponding GPIO input register on the discovery board will be &lt;code&gt;0&lt;/code&gt; if the button is pressed, &lt;code&gt;1&lt;/code&gt; if it is not pressed.&lt;/p&gt;
+&lt;p&gt;In order to make our Blech code more readable, we invert the &lt;em&gt;physical signal level&lt;/em&gt; into a &lt;em&gt;logical signal level&lt;/em&gt; as follows:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Button state&lt;/th&gt;
+&lt;th&gt;Physical signal level&lt;/th&gt;
+&lt;th&gt;Logical signal level&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;not pressed&lt;/td&gt;
+&lt;td&gt;+3.3V (&lt;code&gt;HIGH&lt;/code&gt;)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;false&lt;/code&gt; (&lt;code&gt;LOW&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;pressed&lt;/td&gt;
+&lt;td&gt;+0.0V (&lt;code&gt;LOW&lt;/code&gt;)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;true&lt;/code&gt; (&lt;code&gt;HIGH&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;When passing the GPIO input register values from C to Blech &lt;code&gt;0&lt;/code&gt; is changed to &lt;code&gt;1&lt;/code&gt; and vice versa. Then, in Blech, the button signal states are mapped to &lt;code&gt;bool&lt;/code&gt; variables. They will be &lt;code&gt;true&lt;/code&gt; when the corresponding button is pressed, &lt;code&gt;false&lt;/code&gt; if it is not pressed, thereby making the buttons &lt;em&gt;active-high&lt;/em&gt; in software.&lt;/p&gt;
+&lt;p&gt;The goal of this application example is to show how we can handle button inputs in Blech. This involves &lt;a href=&#34;#signal-filter&#34;&gt;filtering the button signals&lt;/a&gt;
+, &lt;a href=&#34;#event-detection-and-reaction&#34;&gt;detecting a button event&lt;/a&gt;
+ and finally properly react to that. In the following sections we examine this in more detail.&lt;/p&gt;
+&lt;p&gt;The complete project source code is available &lt;a href=&#34;https://github.com/mterber/blech-button&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
+ on Github.&lt;/p&gt;
+&lt;h2 id=&#34;interlude-physical-time&#34;&gt;Interlude: Physical time&lt;/h2&gt;
+&lt;p&gt;In practically all embedded applications we have to describe temporal behaviour in our software &amp;ndash; at least to a certain extent. The different use cases typically fall into two categories:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Delays&lt;/em&gt;: Sometimes the embedded system is much faster than its (physical) environment. In order to account for this speed difference, an artificial slowdown of the embedded software is required. This means that we deliberately suspend the code execution until a certain amount of time &amp;ndash; the &lt;em&gt;delay time&lt;/em&gt; &amp;ndash; has been passed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Timeouts&lt;/em&gt;: Sometimes we just need to know whether a certain event, or sequence of events, has happend before or after a certain amount of time &amp;ndash; the &lt;em&gt;timeout time&lt;/em&gt; &amp;ndash; has been elapsed. Depending on that the embedded software is going to behave differently.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Both types require to express physical time in our code. For this, we establish the same execution scheme for Blech as described in &lt;a href=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/#execution-scheme-and-integration-of-blech&#34;&gt;this&lt;/a&gt;
+ blog post. That is, the entire Blech code is &lt;em&gt;purely time-driven&lt;/em&gt; based on a periodic system tick. Based on this, we can easily implement a small helper activity &lt;code&gt;AwaitMsec&lt;/code&gt; in Blech for suspending the program for an arbitrary number of milliseconds. The maximal resolution is given by the period interval of the system tick which is set to &lt;em&gt;10 milliseconds&lt;/em&gt; in this example.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;const MSEC_PER_SYSTICK: nat16 = 10
+
+activity AwaitMsec (msec: nat16)
+    var i: nat16 = msec / MSEC_PER_SYSTICK
+    repeat
+        await true
+        i = i - 1
+    until i == 0 end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Depending on the given number of milliseconds to wait, &lt;code&gt;AwaitMsec&lt;/code&gt; first determines the corresponding number of system ticks (line 4). Second, it awaits the relevant number in a &lt;code&gt;repeat&lt;/code&gt; loop (lines 5 &amp;ndash; 8). Calling &lt;code&gt;run AwaitMsec(50)&lt;/code&gt; causes the running trail to suspend for five system ticks for example. With this approach it is straight forward to implement &lt;a href=&#34;#delay&#34;&gt;delays&lt;/a&gt;
+ and &lt;a href=&#34;#timeout&#34;&gt;timeouts&lt;/a&gt;
+ in Blech.&lt;/p&gt;
+&lt;h3 id=&#34;delay&#34;&gt;Delay&lt;/h3&gt;
+&lt;p&gt;For realizing a delay of 120 milliseconds between two function calls &lt;code&gt;funcA()&lt;/code&gt; and &lt;code&gt;funcB()&lt;/code&gt; for instance we can directly use &lt;code&gt;AwaitMsec&lt;/code&gt; as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;funcA()
+run AwaitMsec(120)
+funcB()
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This code snippet first executes function &lt;code&gt;funcA&lt;/code&gt;, then suspends the running trail for 120 milliseconds (= 12 system ticks) and finally calls function &lt;code&gt;funcB&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;timeout&#34;&gt;Timeout&lt;/h3&gt;
+&lt;p&gt;For applying a timeout of 120 milliseconds onto an activity &lt;code&gt;SomeActivity&lt;/code&gt; for instance we can use &lt;code&gt;AwaitMsec&lt;/code&gt; in a concurrent trail as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;var done: bool = false
+var timeout: bool = false
+cobegin weak // Activity trail.
+	run SomeActivity()
+	done = true
+with weak    // Timeout trail.
+	run AwaitMsec(120)
+	timeout = true
+end
+// Evaluate &amp;#39;done&amp;#39; and &amp;#39;timeout&amp;#39; (see below table).
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In this solution, we first declare two variables, &lt;code&gt;done&lt;/code&gt; and &lt;code&gt;timeout&lt;/code&gt;, which indicate whether or not &lt;code&gt;SomeActivity&lt;/code&gt; has been completed in time (lines 1 &amp;ndash; 2). Then, in the &lt;code&gt;cobegin&lt;/code&gt;, we execute two concurrent trails in which the first one (lines 4 &amp;ndash; 5) runs the actualy activity while the second one (lines 7 &amp;ndash; 8) is responsible for checking the timeout.&lt;/p&gt;
+&lt;p&gt;Both trails are &lt;code&gt;weak&lt;/code&gt; so that they can abort each other depending on which event &amp;ndash; the completion of the activity or the timeout expiry &amp;ndash; happens first. Once the trails rejoin (line 10) we can use &lt;code&gt;done&lt;/code&gt; and &lt;code&gt;timeout&lt;/code&gt; to precisely distinguish the different scenarios as shown below:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Scenario&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;done&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;timeout&lt;/code&gt;&lt;/th&gt;
+&lt;th&gt;Result&lt;/th&gt;
+&lt;th&gt;Note&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;del&gt;1&lt;/del&gt;&lt;/td&gt;
+&lt;td&gt;&lt;del&gt;&lt;code&gt;false&lt;/code&gt;&lt;/del&gt;&lt;/td&gt;
+&lt;td&gt;&lt;del&gt;&lt;code&gt;false&lt;/code&gt;&lt;/del&gt;&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;&lt;del&gt;This is excluded by language design. At this point, at least one of the trails must have terminated before so that either &lt;code&gt;done&lt;/code&gt; or &lt;code&gt;timeout&lt;/code&gt; are &lt;code&gt;true&lt;/code&gt;.&lt;/del&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;false&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;em&gt;timeout&lt;/em&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;SomeActivity&lt;/code&gt; has not terminated in time.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;false&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;em&gt;success&lt;/em&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;SomeActivity&lt;/code&gt; has terminated in time.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;?&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;SomeActivity&lt;/code&gt; has terminated in the same reaction in which the timeout time has elapsed. This means that, according to the synchronous model of computation, both events have happened simultaneously. In this case it is up to the application logic to treat this as &lt;em&gt;success&lt;/em&gt;, &lt;em&gt;timeout&lt;/em&gt; or maybe something else.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;!--
+Some of you might wonder why we need two variables for realizing the timeout. Is it not possible to just use one? We just want to know whether we succeeded or failed. So two states, `true` and `false`, should be sufficient -- right? Can&#39;t we do something like this:
+
+```blech
+//
+// !!! Erroneous Blech code. !!!
+//
+var success: bool = false
+cobegin weak
+	run SomeActivity()
+	success = true   // We succeeded!
+with weak
+	run AwaitMsec(120)
+	success = false  // We failed!
+end
+```
+
+The short answer is: No. A more elaborated explanation is the following:
+
+1. Due to the synchronous model of computation, this is technically not possible. If a variable *x* is shared across multiple concurrent trails at most one of them will be allowed to write to *x*. In the above code snippet `success` is shared between two concurrent trails that  modify it during runtime. If that was allowed the result of `success` -- after the trails have rejoined -- would depend on the execution order of these trails, making the runtime behaviour non-deterministic. As a consequence, this piece of code is reject by the Blech compiler.
+
+1. A second point is that we actually have three different, possible results and not only two. This becomes apparent when looking at above table. It is possible that the completion of the activity and the timeout expiry happen at the same time and hence fell into the same reaction. Depending on your application logic this special scenario might have to be treated in a completely different way. With one variable only it would be impossible to make a proper distinction here.
+--&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+Again, note how easy it is in Blech to use the same piece of reactive code (&lt;code&gt;AwaitMsec&lt;/code&gt;) for different concerns (delays and timeouts) likewise.
+&lt;/div&gt;
+
+&lt;h2 id=&#34;signal-filter&#34;&gt;Signal filter&lt;/h2&gt;
+&lt;p&gt;In order to provide a good user experience we want to detect only &lt;em&gt;notable&lt;/em&gt; level changes of the button signals. Glitches and high frequent noise that might be caused by &lt;a href=&#34;https://en.wikipedia.org/wiki/Switch#Contact_bounce&#34; target=&#34;_blank&#34;&gt;bouncing&lt;/a&gt;
+ for instance shall be filtered
+out before we actually evaluate and consider the current button state in our software. For this purpose, we implement three dedicated activities, starting from bottom to top:&lt;/p&gt;
+&lt;h3 id=&#34;await-a-stable-level&#34;&gt;Await a stable level&lt;/h3&gt;
+&lt;p&gt;First, &lt;code&gt;AwaitStableLevel&lt;/code&gt; is responsible for checking the stability of the button output signal. Input &lt;code&gt;lvl&lt;/code&gt; is the signal level that shall be awaited until it is stable. Input &lt;code&gt;btnRaw&lt;/code&gt; is the raw button signal as retrieved from the GPIO. For example, &lt;code&gt;run AwaitStableLevel(false, btns.top)&lt;/code&gt; means we want to suspend execution until the logic level of button &lt;code&gt;TOP&lt;/code&gt; is reliably &lt;code&gt;LOW&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;const DEBOUNCE: nat8 = 5
+
+activity AwaitStableLevel (lvl: bool, btnRaw: bool)
+    var vote: nat8 = 0
+    repeat
+        run AwaitMsec(10)
+        if btnRaw == lvl then
+            vote = vote + 1 // Increment on match.
+        elseif vote &amp;gt; 0 then
+            vote = vote - 1 // Decrement on mismatch.
+        end
+    until vote &amp;gt;= DEBOUNCE end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In order to decide whether &lt;code&gt;lvl&lt;/code&gt; is stable or not this activity establishes a very simple voting strategy. Every 10 milliseconds (line 6) it checks the current state of the button signal. If it is equal to &lt;code&gt;lvl&lt;/code&gt; this is interpreted as &lt;em&gt;match&lt;/em&gt; whereby &lt;code&gt;vote&lt;/code&gt; gets incremented (lines 7 &amp;ndash; 8). If it is not equal this is interpreted as &lt;em&gt;no match&lt;/em&gt; whereby &lt;code&gt;vote&lt;/code&gt; gets decremented (lines 9 &amp;ndash; 10).&lt;/p&gt;
+&lt;p&gt;As soon as five consecutive matches have been detected the signal is considered stable &amp;ndash; the &lt;code&gt;repeat&lt;/code&gt; loop exits (line 12) and &lt;code&gt;AwaitStableLevel&lt;/code&gt; returns. Its runtime behaviour is illustrated in the oscilloscope capture below:&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;480&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Oszilloscope capture of button sampling. CH1 shows the execution of the Blech code. Each peak is one run of the Blech tick function and hence constitutes one reaction respectively computation step according to the synchronous model of computation. CH4 is the raw button signal.
+&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
+&lt;p&gt;Remember that &lt;code&gt;CH1&lt;/code&gt; shows the debug pin signal which is pulled high whenever Blech code is running. Each yellow peak is one run of the Blech tick function and hence constitutes one reaction respectively computation step according to the synchronous model of computation. In particular, it is the &lt;code&gt;run AwaitMsec(10)&lt;/code&gt; in &lt;code&gt;AwaitStableLevel&lt;/code&gt; that causes our Blech code to get executed periodically, thereby determining the sampling rate of the button signals. The scope capture verifies that above &lt;code&gt;repeat&lt;/code&gt; loop actually checks the current state of the button signal exactly every 10 milliseconds &amp;ndash; the correct temporal behaviour as expressed in our Blech code.&lt;/p&gt;
+&lt;p&gt;At the bottom of the scope capture you can see an exemplary run of &lt;code&gt;run AwaitStableLevel(true, btnsRaw.bottom)&lt;/code&gt;. Remember that &lt;code&gt;CH4&lt;/code&gt; shows the physical output signal of &lt;code&gt;BOTTOM&lt;/code&gt; with inverted logic &amp;ndash; we await &lt;code&gt;true&lt;/code&gt; in our software, means 0V in hardware! As a consequence, the first two samples lead to a &lt;em&gt;no match&lt;/em&gt; while the next five samples are &lt;em&gt;matches&lt;/em&gt;. As soon as the fifth match has been captured the activity returns.&lt;/p&gt;
+&lt;h3 id=&#34;filter-a-single-button-signal&#34;&gt;Filter a single button signal&lt;/h3&gt;
+&lt;p&gt;Second, &lt;code&gt;FilterSignal&lt;/code&gt; is responsible for filtering the signal of a &lt;em&gt;single&lt;/em&gt; button. Input &lt;code&gt;btnRaw&lt;/code&gt; is a raw button signal, output &lt;code&gt;btn&lt;/code&gt;is the filtered one. Based on a simple &lt;code&gt;repeat&lt;/code&gt; loop (lines 2 &amp;ndash; 10), this activity continuously alternates &lt;code&gt;btn&lt;/code&gt; between the two possible button states &lt;code&gt;false&lt;/code&gt; (not pressed, line 3) and &lt;code&gt;true&lt;/code&gt; (pressed, line 7):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity FilterSignal (btnRaw: bool)(btn: bool)
+    repeat
+        btn = false
+        // Await transition: false -&amp;gt; true
+        run AwaitStableLevel(true, btnRaw)
+        
+        btn = true
+        // Await transition: true -&amp;gt; false
+        run AwaitStableLevel(false, btnRaw)
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;A transition from &lt;code&gt;false&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt; is only done once the raw signal &lt;code&gt;btnRaw&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt; and considered stable. The same applies vice versa for the transition from &lt;code&gt;true&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;. Checking the signal stability is done by &lt;code&gt;AwaitStableLevel&lt;/code&gt; as shown above.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+Note that &lt;code&gt;FilterSignal&lt;/code&gt; is completely hardware-independent. At development time, it does not need to know which hardware signal it is actually working on. It just implements the algorithm used for filtering a signal, irrespective of whether this signal belongs to button &lt;code&gt;TOP&lt;/code&gt;, &lt;code&gt;CENTER&lt;/code&gt; or &lt;code&gt;BOTTOM&lt;/code&gt; – it does not even have to be a button signal at all. This allows to reuse and instantiate the same reactive code for different hardware entities. In conventional approaches, this is usually hard to achieve.
+&lt;/div&gt;
+
+&lt;h3 id=&#34;filter-all-button-signals&#34;&gt;Filter all button signals&lt;/h3&gt;
+&lt;p&gt;Third, &lt;code&gt;FilterButtons&lt;/code&gt; is responsible for filtering the signal of &lt;em&gt;all&lt;/em&gt; buttons. It is the top level activity with respect to filtering. Input &lt;code&gt;btnsRaw&lt;/code&gt; are the raw button signals as retrieved from the GPIOs, output &lt;code&gt;btns&lt;/code&gt; are the filtered button signals. Internally, this activity runs a dedicated filter activity for each individual button &amp;ndash; &lt;code&gt;TOP&lt;/code&gt;, &lt;code&gt;CENTER&lt;/code&gt; and &lt;code&gt;BOTTOM&lt;/code&gt;. These activities are concurrently composed in the same &lt;code&gt;cobegin&lt;/code&gt; block. So &lt;code&gt;FilterButtons&lt;/code&gt; is basically a wrapper for comfortably running three instances of &lt;code&gt;FilterSignal&lt;/code&gt; concurrently.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity FilterButtons (btnsRaw: ButtonStates)(btns: ButtonStates)
+    cobegin
+        run FilterSignal(btnsRaw.top)(btns.top)
+    with
+        run FilterSignal(btnsRaw.center)(btns.center)
+    with
+        run FilterSignal(btnsRaw.bottom)(btns.bottom)
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Later, in the &lt;code&gt;Main&lt;/code&gt; activity of our Blech program, we can concurrently run &lt;code&gt;FilterButtons&lt;/code&gt; with respect to the remaining code (see line 7 below). In each reaction, the filtered button signals &lt;code&gt;btns&lt;/code&gt; are automatically updated (written) by &lt;code&gt;FilterButtons&lt;/code&gt; in the first trail and can be used (read) by other activities in concurrent trails. Activity &lt;code&gt;Visualize&lt;/code&gt;, for example, uses the filtered button signals in order to reflect the current button states on the color LEDs (line 10 below).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[EntryPoint]
+activity Main (btnRaw: ButtonStates) (leds: LedStates)
+    // ...
+    var btns: ButtonStates
+    cobegin
+        // FilterButtons all button states.
+        run FilterButtons(btnRaw)(btns)
+    with
+        // Visualizes all button states.
+        run Visualize(btns)(leds.orange, leds.green, leds.blue)
+    // ... 
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;event-detection-and-reaction&#34;&gt;Event detection and reaction&lt;/h2&gt;
+&lt;p&gt;Above sections show how raw button signals can be filtered in Blech. Now, we want to use the filtered signals &lt;code&gt;btns&lt;/code&gt; for detecting button events and performing a corresponding reaction. For this purpose, we have implemented some example activities that show different application use cases.&lt;/p&gt;
+&lt;p&gt;In each example, we want to detect a certain type of button event and, as an example of an arbitrary event reaction, turn on the red LED of the discovery board. After a certain release condition is met, the red LED is turned off again.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+At this point, the example activities do not have to care about signal glichtes, noise, bouncing or filtering in any way. In each reaction, they can fully rely on the output of the “upstream” filter activities – so to speak – and just focus on their own business. This means that both concerns, signal filtering and signal evaluation, are completely separated in our Blech program.
+&lt;/div&gt;
+
+&lt;h3 id=&#34;example-1-press-button-for-at-least-x-seconds&#34;&gt;Example 1: Press button for at least &lt;em&gt;x&lt;/em&gt; seconds&lt;/h3&gt;
+&lt;p&gt;In this example, the LED shall light up once &lt;code&gt;CENTER&lt;/code&gt; has been pressed for at least two seconds. It shall stay on as long as the button is pressed and go off once it has been released.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example01 (btns: ButtonStates) (led: bool)
+    when not btns.center reset
+        await btns.center
+        run AwaitMsec(2000)
+    end
+    led = true
+    await not btns.center
+    led = false
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The first step is to wait until the button is pressed (line 3). After that, we use &lt;code&gt;AwaitMsec&lt;/code&gt; in order to wait until two seconds have elapsed. If the button should be released meanwhile we automatically restart the process by taking advantage of Blech&amp;rsquo;s &lt;code&gt;when ... reset&lt;/code&gt; block (line 2).&lt;/p&gt;
+&lt;p&gt;Once control flow reaches line 6, we know that &lt;code&gt;CENTER&lt;/code&gt; has been pressed for two seconds and hence turn on the LED. Finally, we wait for the button to be released (line 7) and turn off the LED (line 8) as a consequence.&lt;/p&gt;
+&lt;h3 id=&#34;example-2-two-buttons-have-to-be-pressed&#34;&gt;Example 2: Two buttons have to be pressed&lt;/h3&gt;
+&lt;p&gt;In this example, the LED shall light up once &lt;code&gt;TOP&lt;/code&gt; &lt;em&gt;and&lt;/em&gt; &lt;code&gt;BOTTOM&lt;/code&gt; are pressed. After that, it shall be turned off as soon as &lt;em&gt;both&lt;/em&gt; buttons have been released.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example02 (btns: ButtonStates) (led: bool)
+    await btns.top and btns.bottom
+    led = true
+    await (not btns.top) and (not btns.bottom)
+    led = false
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This implementation is trivial in Blech. In line 2, we wait until both buttons are pressed, then turn on the LED (line 3). Subsequently, we wait until none of the buttons are pressed (line 4) and finally turn off the LED (line 5).&lt;/p&gt;
+&lt;p&gt;The simplicity of this piece of code is caused by the fact that we do not care about timing in this example. No matter when or how long the buttons are pressed, we only have to check whether their is at least one reaction in which both button signals are &lt;code&gt;true&lt;/code&gt;. For detecting a real-world double button press a more sophisticated approach is usually required. We demonstrate this in &lt;a href=&#34;#example-3-double-button-press&#34;&gt;Example 3&lt;/a&gt;
+.&lt;/p&gt;
+&lt;h3 id=&#34;example-3-double-button-press&#34;&gt;Example 3: Double button press&lt;/h3&gt;
+&lt;p&gt;In this example, the LED shall light up if a &lt;em&gt;double press&lt;/em&gt; of &lt;code&gt;TOP&lt;/code&gt; and &lt;code&gt;BOTTOM&lt;/code&gt; is detected. After that, it shall be turned off once both buttons have been released. In contrast to &lt;a href=&#34;#example-2-two-buttons-have-to-be-pressed&#34;&gt;Example 2&lt;/a&gt;
+, here it is important that both buttons are pressed within a certain amount of time. For example, we only accept a double press if the time gap between the two button presses is one second at most.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example03 (btns: ButtonStates) (led: bool)
+    let acceptedDelay: nat16 = 1000 // in milliseconds.
+    var success: bool
+    repeat
+        success = false
+        await (not btns.top) and (not btns.bottom)
+        await btns.top or btns.bottom
+
+        if btns.top and btns.bottom then
+            // Double press already detected.
+            success = true
+        elseif btns.top and not btns.bottom then
+            // Await BOTTOM within delay.
+            success = run AwaitOtherButton(btns.top, btns.bottom, acceptedDelay)
+        elseif not btns.top and btns.bottom then
+            // Await TOP within delay.
+            success = run AwaitOtherButton(btns.bottom, btns.top, acceptedDelay)
+        end
+    until success end
+
+    led = true
+    await (not btns.top) and (not btns.bottom)
+    led = false
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The &lt;code&gt;repeat&lt;/code&gt; loop in line 4 is used to check for the double press. First, we await the idle state &amp;ndash; both buttons are not pressed. Second, we wait until at least one of the buttons has been pressed (line 7). Subsequently, we handle the different, possible scenarios:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Line 9: Both buttons are pressed. In this case, the double press is already detected. However, this case might be quite rare since it is difficult to perfectly push down both buttons at the same time so that they will be pressed in the same reaction.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Line 12: &lt;code&gt;TOP&lt;/code&gt; is pressed, &lt;code&gt;BOTTOM&lt;/code&gt; not yet. In this case, we use &lt;code&gt;AwaitOtherButton&lt;/code&gt; in order to await &lt;code&gt;BOTTOM&lt;/code&gt; to get pressed within the accepted delay of one second. On success &lt;code&gt;repeat&lt;/code&gt; exits. The implementation of &lt;code&gt;AwaitOtherButton&lt;/code&gt; is shown below.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Line 15: Same as in (2) but &lt;code&gt;TOP&lt;/code&gt; and &lt;code&gt;BOTTOM&lt;/code&gt; are exchanged.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In any case, once the repeat loop has been left, we know that a valid double press has been detected and hence turn on the LED. Finally, we wait until both buttons have been release and turn off the LED.&lt;/p&gt;
+&lt;p&gt;The helper activity &lt;code&gt;AwaitOtherButton&lt;/code&gt; demonstrates &lt;a href=&#34;#timeout&#34;&gt;timeout handling&lt;/a&gt;
+ in Blech. We want to know if the second button &lt;code&gt;btn2&lt;/code&gt; is pressed within the given amount of milliseconds (&lt;code&gt;msec&lt;/code&gt;) and while the first button &lt;code&gt;btn1&lt;/code&gt; is still pressed. So there are actually two conditions to be checked &amp;ndash; the timeout and the current state of &lt;code&gt;btn1&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity AwaitOtherButton (btn1: bool, btn2: bool, msec: nat16) returns bool
+    var success: bool = false
+    when not btn1 abort
+        cobegin weak
+            await btn2
+            success = true
+        with weak
+            run AwaitMsec(msec)
+        end
+    end
+    return success
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;For the first condition, we basically apply the same approach as &lt;a href=&#34;#timeout&#34;&gt;described above&lt;/a&gt;
+ using a concurrent composition (line 4). Note that both trails are &lt;code&gt;weak&lt;/code&gt; so that they can abort each other. Result variable &lt;code&gt;success&lt;/code&gt; is only set to &lt;code&gt;true&lt;/code&gt; (line 6) if the button press happens before the timeout. If there is a timeout &amp;ndash; means &lt;code&gt;run AwaitMsec(msec)&lt;/code&gt; returns &amp;ndash; the &lt;code&gt;cobegin&lt;/code&gt; rejoins and &lt;code&gt;success&lt;/code&gt; is still &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For the second condition, we surround the concurrent composition with a &lt;code&gt;when ... abort&lt;/code&gt; block that monitors the state of &lt;code&gt;btn1&lt;/code&gt;. Once it is not pressed anymore the entire block aborts, again leaving &lt;code&gt;success&lt;/code&gt; untouched (&lt;code&gt;false&lt;/code&gt;). Finally, &lt;code&gt;AwaitOtherButton&lt;/code&gt; returns the result which is then used by the caller to decide whether the second button has been pressed in time or not.&lt;/p&gt;
+&lt;h3 id=&#34;example-4-measure-the-button-press-duration&#34;&gt;Example 4: Measure the button press duration&lt;/h3&gt;
+&lt;p&gt;In this example, the LED shall light up if &lt;code&gt;CENTER&lt;/code&gt; has been pressed between one and two seconds. After that, the LED shall be turned off once &lt;code&gt;TOP&lt;/code&gt; has been pressed.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example04 (btns: ButtonStates) (led: bool)
+    var i: nat32 = 0
+    repeat
+        await btns.center
+        when not btns.center abort
+            repeat
+                run AwaitMsec(10)
+                i = i + 1
+            end
+        end
+    until i &amp;gt;= 1000 and i &amp;lt;= 2000 end
+
+    led = true
+    await btns.top
+    led = false
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In contrast to the other examples above, we actually measure the button press duration here. For this, we use two &lt;code&gt;repeat&lt;/code&gt; loops.&lt;/p&gt;
+&lt;p&gt;The inner loop (lines 6 &amp;ndash; 9) is used to measure the duration of the current button press which has been detected in line 4. It repeatedly awaits 10 milliseconds and increments the counter &lt;code&gt;i&lt;/code&gt; for measuring the duration. The surrounding &lt;code&gt;when ... abort&lt;/code&gt; automatically exits the inner loop as soon as the button is not pressed anymore. The outer loop (lines 3 &amp;ndash; 11) is used to check whether &lt;code&gt;i&lt;/code&gt; is in the desired time interval or not. If not, the entire process repeats.&lt;/p&gt;
+&lt;p&gt;Once we hit line 13 we know that the current button press matches the given time interval. Consequently, the LED is switched on. Finally, we wait until &lt;code&gt;TOP&lt;/code&gt; has been pressed in order to turn off the LED again.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The below diagram depicts the architecture of the Blech program as function blocks. Moving from left to right, the three raw button signals &lt;code&gt;btnsRaw&lt;/code&gt; are handed over from the C environment to the &lt;code&gt;Main&lt;/code&gt; activity of Blech. At this point, they are forwared to the filter activity &lt;code&gt;FilterButtons&lt;/code&gt; which, in its turn, passes each raw signal to a dedicated instance of &lt;code&gt;FilterSignal&lt;/code&gt; likewise. The latter internally uses &lt;code&gt;AwaitStableLevel&lt;/code&gt; for the actual filter process. Finally, the filtered signals &lt;code&gt;btns&lt;/code&gt; are provided to the remaining, concurrent Blech code, e.g. &lt;code&gt;Visualize&lt;/code&gt; for controlling the color LEDs or one of our &lt;code&gt;Example&lt;/code&gt; activities as described above.&lt;/p&gt;
+&lt;p&gt;Note that &lt;code&gt;FilterButtons&lt;/code&gt; and &lt;code&gt;FilterSignal&lt;/code&gt; will never terminate. They are designed to run infinitely throughout the entire livetime of the Blech program. In contrast, &lt;code&gt;AwaitStableLevel&lt;/code&gt; is called several times during runtime and terminates whenever the desired signal level is stable.&lt;/p&gt;
+
+
+
+
+
+
+
+&lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;544&#34;&gt;
+	
+	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
+		&lt;p class=&#34;card-text&#34;&gt;
+Architecture of the Blech program as function blocks.
+&lt;/p&gt;
+	&lt;/div&gt;
+	
+&lt;/div&gt;
+&lt;p&gt;Last but not least, the block diagram shows that, on the top level, our Blech program behaves like a &lt;em&gt;reactive control block&lt;/em&gt;. It receives the raw button signals as inputs, processes them based on events (and time) and finally outputs the corresponding control signals for the color LEDs.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: The basic idea behind Blech – A practitioner&#39;s point of view</title>
       <link>https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/</link>
       <pubDate>Wed, 22 Jul 2020 00:00:00 +0000</pubDate>
@@ -206,9 +870,28 @@ The basic idea behind Blech is to let the software developer write code in a &lt
 
 &lt;p&gt;This concept is what I call the &lt;em&gt;pseudo-blocking&lt;/em&gt; style. Your software looks and logically behaves like blocking code but is actually non-blocking under the hood. On the bare metal, it can easily interleave its execution with other synchronous or asynchronous parts of your software. For example, there could be some cryptographic algorithm asynchronously running in a background task while your Blech program continously reacts on incoming events.&lt;/p&gt;
 &lt;p&gt;The following code snippet shows how the buffer transmission can look like in Blech:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;UART_isReady&amp;quot;, header = &amp;quot;uart.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[CFunction (binding = &amp;#34;UART_isReady&amp;#34;, header = &amp;#34;uart.h&amp;#34;)]
 extern singleton function uart_isReady() returns bool
-@[CFunction (binding = &amp;quot;UART_sendByte&amp;quot;, header = &amp;quot;uart.h&amp;quot;)]
+@[CFunction (binding = &amp;#34;UART_sendByte&amp;#34;, header = &amp;#34;uart.h&amp;#34;)]
 extern singleton function uart_sendByte(val: nat8)
 
 const LEN: nat16 = 20
@@ -221,7 +904,9 @@ activity SendBuffer (buf: [LEN]nat8, len: nat16)
         i = i + 1
     until (i &amp;gt;= len) or (i &amp;gt;= LEN) end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the first four lines we declare the signatures of two external C functions that can be called by Blech in order to actually interact with the UART hardware. After that, an &lt;em&gt;activity&lt;/em&gt; is used to encapsulate all the data transmission code. We pass the buffer and its length as parameters. A &lt;code&gt;repeat&lt;/code&gt; loop is subsequently used to&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In the first four lines we declare the signatures of two external C functions that can be called by Blech in order to actually interact with the UART hardware. After that, an &lt;em&gt;activity&lt;/em&gt; is used to encapsulate all the data transmission code. We pass the buffer and its length as parameters. A &lt;code&gt;repeat&lt;/code&gt; loop is subsequently used to&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;suspend the activity until the UART is ready for transmission (Line 11).&lt;/li&gt;
 &lt;li&gt;write the next buffer byte to the UART data register (Line 12).&lt;/li&gt;
@@ -250,7 +935,23 @@ In the C environment, &lt;code&gt;ISR (UART1_TX)&lt;/code&gt; is used to generat
 &lt;h2 id=&#34;concurrency-in-blech&#34;&gt;Concurrency in Blech&lt;/h2&gt;
 &lt;p&gt;Concurrency is one of the key concerns in embedded programming. The traditional, asynchronous execution style of concurrent threads is known to induce a line-up of engineering problems such as race conditions, data inconsistencies, potential deadlocks and non-deterministic runtime behaviour. In Blech, however, all these issues are eliminated by language design due to the synchronous model of computation.&lt;/p&gt;
 &lt;p&gt;Let us slightly extend above example. We want to make an LED blink on every system tick, e.g. every millisecond, while a buffer transmission is in progress. At this point, we are aware that blinking an LED with such a high frequency is generally not useful since it is not visible for the human eye. Here, we just use it for demonstration purpose to show how easy it is to express concurrent behaviour by taking advantage of Blech&amp;rsquo;s &lt;code&gt;cobegin&lt;/code&gt; statement:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
     cobegin   // Buffer transmission.
         run SendBuffer(buf, len)
     with weak // LED flashing.
@@ -262,7 +963,9 @@ In the C environment, &lt;code&gt;ISR (UART1_TX)&lt;/code&gt; is used to generat
         end
     end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In &lt;code&gt;SendBufferBlinking&lt;/code&gt;, we just need to run the existing code of &lt;code&gt;SendBuffer&lt;/code&gt; in one trail of the &lt;code&gt;cobegin&lt;/code&gt; and add a second, concurrent trail that is responsible for flashing the LED &amp;ndash; that&amp;rsquo;s it. The second trail is &lt;code&gt;weak&lt;/code&gt; so that it will be aborted as soon as the buffer transmission in the first trail has been completed. Note that &lt;code&gt;sysTick&lt;/code&gt; is a new input which provides the system tick event for switchting the LED on and off.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In &lt;code&gt;SendBufferBlinking&lt;/code&gt;, we just need to run the existing code of &lt;code&gt;SendBuffer&lt;/code&gt; in one trail of the &lt;code&gt;cobegin&lt;/code&gt; and add a second, concurrent trail that is responsible for flashing the LED &amp;ndash; that&amp;rsquo;s it. The second trail is &lt;code&gt;weak&lt;/code&gt; so that it will be aborted as soon as the buffer transmission in the first trail has been completed. Note that &lt;code&gt;sysTick&lt;/code&gt; is a new input which provides the system tick event for switchting the LED on and off.&lt;/p&gt;
 &lt;h3 id=&#34;concurrency-versus-single-threaded-c-code----a-contradiction&#34;&gt;Concurrency versus single-threaded C code &amp;ndash; a contradiction?&lt;/h3&gt;
 &lt;p&gt;At this point, when people read that any Blech program is compiled into &lt;em&gt;single-threaded&lt;/em&gt; C code, they are sometimes slightly confused. On the one hand, Blech advertises language level support for describing concurrent behaviour but, at the same time, it produces sequential, single-threaded code only. So how can that even work?&lt;/p&gt;
 &lt;p&gt;In order to understand this we have to distinguish between two different designs of concurrency. First, &lt;em&gt;physical concurrency&lt;/em&gt; aims to increase reliability and / or performance by running software on real parallel or distributed hardware platforms, e.g. multi-core architectures, at the same time. Second, &lt;em&gt;logical concurrency&lt;/em&gt; aims to provide a convenient and natural way to compose a system as a set of parallel, cooperating components. Physical and logical concurrency can be the same &amp;ndash; but they do not have to!&lt;/p&gt;
@@ -394,12 +1097,23 @@ Oszilloscope capture of the DCF77 time signal on GPIO PB7.
 &lt;li&gt;Reacting to button presses &amp;ndash; requires the state of the user button as &lt;em&gt;input&lt;/em&gt; from C to Blech.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;The corresponding signature of the Blech entry point activity looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;// @param[in]   dcf77   The DCF77 signal level (true = &#39;HIGH&#39;).
-// @param[in]   btn     The user button state (true = &#39;PRESSED&#39;).
-// @param[out]  leds    The LED states (true = &#39;ON&#39;).
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;// @param[in]   dcf77   The DCF77 signal level (true = &amp;#39;HIGH&amp;#39;).
+// @param[in]   btn     The user button state (true = &amp;#39;PRESSED&amp;#39;).
+// @param[out]  leds    The LED states (true = &amp;#39;ON&amp;#39;).
 @[EntryPoint]
 activity Main (dcf77: bool, btn: bool) (leds: LedStates)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that &lt;code&gt;LedStates&lt;/code&gt; is a user-defined structure in Blech which contains the state information of the four LEDs. This is done to make the interface less verbose, thereby improving the readability.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Note that &lt;code&gt;LedStates&lt;/code&gt; is a user-defined structure in Blech which contains the state information of the four LEDs. This is done to make the interface less verbose, thereby improving the readability.&lt;/p&gt;
 &lt;h3 id=&#34;execution-scheme-and-integration-of-blech&#34;&gt;Execution scheme and integration of Blech&lt;/h3&gt;
 &lt;p&gt;The execution progress of a Blech program advances based on &lt;em&gt;ticks&lt;/em&gt;. A tick can be any sporadic or periodic event- or time-based trigger provided by the underlying hard- and software platform. For decoding DCF77 it is a common approach to periodically sample the time signal and measure the duration of the level changes. This means that the entire decoding logic is &lt;em&gt;purely time-driven&lt;/em&gt; based on a cyclic timer tick.&lt;/p&gt;
 &lt;p&gt;We follow this approach and execute the Blech application part every 10 milliseconds. This leads to a sample rate of 100Hz which is sufficiently fast in order to distinguish between a binary zero, a binary one and the synchronization mark. For the periodic execution, we take advantage of a simple delay function (&lt;code&gt;HAL_Delay&lt;/code&gt;) provided by the microcontroller&amp;rsquo;s driver library. An outline of &lt;code&gt;main.c&lt;/code&gt; is shown below.&lt;/p&gt;
@@ -496,7 +1210,40 @@ Hierarchical call structure of activities.
 Due to the synchronous computation model, abortion of trails is done only at the end of the current reaction when all trails have finished their job and are waiting for the next tick. Thus, trails are particularly &lt;em&gt;not&lt;/em&gt; interrupted at an arbitrary code location because this would lead to non-deterministic runtime behaviour!
 &lt;/div&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[EntryPoint]
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[EntryPoint]
 activity Main (dcf77: bool, btn: bool) (leds: LedStates)
     ledsAllOn()(leds)
     run AwaitStableSignal(dcf77)
@@ -517,7 +1264,7 @@ activity Main (dcf77: bool, btn: bool) (leds: LedStates)
 
         if success then
             leds.green = true   // Decode() succeeded -&amp;gt; green LED on.
-            // ... use &#39;ti&#39; for synchronizing the local clock ...
+            // ... use &amp;#39;ti&amp;#39; for synchronizing the local clock ...
         else
             leds.red = true     // Decode() failed -&amp;gt; red LED on.
         end
@@ -525,18 +1272,33 @@ activity Main (dcf77: bool, btn: bool) (leds: LedStates)
         await btn               // Await user button press.
     end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After decoding has been finished, all LEDs are turned off again and we check for success or error. On success, the green LED is turned on while on error the red LED is turned on. Finally, the Blech program suspends until the push button is pressed by the user. Once this is done the whole process restarts.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;After decoding has been finished, all LEDs are turned off again and we check for success or error. On success, the green LED is turned on while on error the red LED is turned on. Finally, the Blech program suspends until the push button is pressed by the user. Once this is done the whole process restarts.&lt;/p&gt;
 
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
 To keep the example simple, the button state is provided &lt;em&gt;as-is&lt;/em&gt; to the Blech program. This means we just pass the current value of the corresponding GPIO input register. Usually, however, it is common practice to apply a filter approach in software in order to suppress &lt;a href=&#34;https://en.wikipedia.org/wiki/Switch#Contact_bounce&#34; target=&#34;_blank&#34;&gt;bouncing&lt;/a&gt;
-. In another blog post we are going to show how this can be done in Blech.
+. In &lt;a href=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/&#34;&gt;this blog post&lt;/a&gt;
+ we are going to show how this can be done in Blech.
 &lt;/div&gt;
 
 &lt;h3 id=&#34;visualizing-the-dcf77-signal&#34;&gt;Visualizing the DCF77 signal&lt;/h3&gt;
 &lt;p&gt;Reflecting the time signal level on the LED is a pretty simple task in Blech. We establish an infinite loop which alternates between the signal levels. First, it awaits the high level for switching off the LED. Second, it awaits the low level for switching on the same LED. Third, the whole process repeats &amp;ndash; that&amp;rsquo;s it.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Visualize (dcf77: bool) (ledDcf77: bool)
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Visualize (dcf77: bool) (ledDcf77: bool)
     repeat
         await dcf77         // Await rising edge.
         ledDcf77 = false    // Turn off LED.
@@ -544,12 +1306,28 @@ To keep the example simple, the button state is provided &lt;em&gt;as-is&lt;/em&
         ledDcf77 = true     // Turn on LED.
     end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that &lt;code&gt;Visualize&lt;/code&gt; does not even have to know which of the four LEDs it is actually turning on and off. There is no hardware dependency and all the required logic is encapsulated in an activity. Thus, we could easily select another LED or execute multiple instances of &lt;code&gt;Visualize&lt;/code&gt; concurrently in order to show the signal level on several LEDs at the same time.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Note that &lt;code&gt;Visualize&lt;/code&gt; does not even have to know which of the four LEDs it is actually turning on and off. There is no hardware dependency and all the required logic is encapsulated in an activity. Thus, we could easily select another LED or execute multiple instances of &lt;code&gt;Visualize&lt;/code&gt; concurrently in order to show the signal level on several LEDs at the same time.&lt;/p&gt;
 &lt;h3 id=&#34;capturing-the-synchronization-mark-and-the-bits&#34;&gt;Capturing the synchronization mark and the bits&lt;/h3&gt;
 &lt;p&gt;For this functionality, we take advantage of the fact that the entire Blech application is purely time-triggered by the 10 milliseconds tick (see &lt;a href=&#34;#execution-scheme-and-integration-of-blech&#34;&gt;here&lt;/a&gt;
 ). Based on that, we establish a time-based counter &lt;code&gt;len&lt;/code&gt; which measures the duration of the signal&amp;rsquo;s &lt;code&gt;HIGH&lt;/code&gt; level. Therefore, &lt;code&gt;len&lt;/code&gt; is incremented on each (10 milliseconds) tick using &lt;code&gt;await true&lt;/code&gt; in a loop. Once that counter has reached the required value (&amp;gt; 1200ms) we detect the synchronization mark and exit the loop.&lt;/p&gt;
 &lt;p&gt;If the signal level goes &lt;code&gt;LOW&lt;/code&gt; during the measurement the process has to be resetted. For this, we use the &lt;code&gt;when ... reset&lt;/code&gt; block in Blech which causes the contained code to restart from the first line if the given condition is met. So in this case the code will jump back to &lt;code&gt;var len: nat16 = 0&lt;/code&gt; as soon as the level drops.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity CaptureSync (dcf77: bool)
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity CaptureSync (dcf77: bool)
     // Perform the measurement and restart if the level drops meanwhile.
     when not dcf77 reset
         var len: nat16 = 0
@@ -559,10 +1337,40 @@ end
         until len &amp;gt; DCF77_SYNC_LEN end
     end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The implementation of &lt;code&gt;CaptureBit&lt;/code&gt; basically follows the same approach. It uses a time-driven counter for measuring the duration of the &lt;code&gt;LOW&lt;/code&gt; level instead. For this reason, we do not exemplify it in more detail here.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The implementation of &lt;code&gt;CaptureBit&lt;/code&gt; basically follows the same approach. It uses a time-driven counter for measuring the duration of the &lt;code&gt;LOW&lt;/code&gt; level instead. For this reason, we do not exemplify it in more detail here.&lt;/p&gt;
 &lt;h3 id=&#34;capture-and-decode-the-time-information&#34;&gt;Capture and decode the time information&lt;/h3&gt;
 &lt;p&gt;Implementing the time information capture based on &lt;code&gt;CaptureSync&lt;/code&gt; and &lt;code&gt;CaptureBit&lt;/code&gt; becomes a trivial task. First, we capture the synchronization mark. Before and after that we turn off and on the associated LED (orange) respectively. Second, we enter the &lt;code&gt;while&lt;/code&gt; loop in which we collect the 59 time code bits by repeatedly calling &lt;code&gt;CaptureBit&lt;/code&gt;. Each successfully received bit is passed to &lt;code&gt;processBit&lt;/code&gt; in order to update the gathered time information in &lt;code&gt;ti&lt;/code&gt;. This means that decoding the DCF77 signal actually happens bit-wise on-the-fly. Finally, &lt;code&gt;CaptureTimeInfo&lt;/code&gt; terminates, thereby returning the success status and the decoded time information to the caller.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
     ledSync = false // Turn off LED.
     run CaptureSync(dcf77)
     ledSync = true  // Turn on LED.
@@ -586,8 +1394,32 @@ end
 
     return success
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The job of &lt;code&gt;Decode&lt;/code&gt; is to retrieve two consecutive time codes (&lt;code&gt;tmp&lt;/code&gt; and &lt;code&gt;ti&lt;/code&gt;) and apply a simple validity check by comparing them. A common approach is to check whether the second timestamp (&lt;code&gt;ti&lt;/code&gt;) is exactly one minute ahead of the first one (&lt;code&gt;tmp&lt;/code&gt;). If that is the case the second one is considered valid and returned to the caller &amp;ndash; the decoding is done.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Decode (dcf77: bool) (ti: TimeInfo, ledSync: bool) returns bool
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The job of &lt;code&gt;Decode&lt;/code&gt; is to retrieve two consecutive time codes (&lt;code&gt;tmp&lt;/code&gt; and &lt;code&gt;ti&lt;/code&gt;) and apply a simple validity check by comparing them. A common approach is to check whether the second timestamp (&lt;code&gt;ti&lt;/code&gt;) is exactly one minute ahead of the first one (&lt;code&gt;tmp&lt;/code&gt;). If that is the case the second one is considered valid and returned to the caller &amp;ndash; the decoding is done.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Decode (dcf77: bool) (ti: TimeInfo, ledSync: bool) returns bool
     var success: bool
     var tmp: TimeInfo
 
@@ -605,7 +1437,9 @@ end
 
     return isTimeInfoValid(tmp, ti) // Check plausibility.
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;The following video shows the DCF77 decoder in action. In focus are the four color LEDs and the user button on the left side. Watch the video to get in impression about how above Blech activities control the runtime behaviour.
 &lt;a href=&#34;https://youtu.be/KaX_LRlV4oI&#34; target=&#34;_blank&#34;&gt;
 

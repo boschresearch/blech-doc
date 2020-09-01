@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.74.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -25,16 +25,17 @@
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/blechc-development/pctree/" />
-<meta property="article:modified_time" content="2020-07-11T12:26:42+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-08-26T17:28:03+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Program counter trees">
 <meta itemprop="description" content="This explains the how &#34;program counter&#34; variables are used to memorise the control flow location(s) a Blech program resides in and how such program counters are managed in a tree structure in the code generator.
 ">
-<meta itemprop="dateModified" content="2020-07-11T12:26:42&#43;02:00" />
-<meta itemprop="wordCount" content="631">
+<meta itemprop="dateModified" content="2020-08-26T17:28:03+02:00" />
+<meta itemprop="wordCount" content="668">
 
 
 
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Program counter trees"/>
 <meta name="twitter:description" content="This explains the how &#34;program counter&#34; variables are used to memorise the control flow location(s) a Blech program resides in and how such program counters are managed in a tree structure in the code generator.
 "/>
@@ -45,8 +46,8 @@
 
 
 
-<link rel="preload" href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" as="style">
-<link href="/scss/main.min.c2f24bb891857dc2e7ed66770c14eb550c914be20dfb206a498b73cc542f9d9d.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.21feb77dc1ca3efaa41f930ae91d6c84a59bc9c496a536ae15a1b2c8122fce8a.css" as="style">
+<link href="/scss/main.min.21feb77dc1ca3efaa41f930ae91d6c84a59bc9c496a536ae15a1b2c8122fce8a.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -224,6 +225,12 @@
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualmoc" href="/docs/user-manual/moc/">Model of execution</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualnotation" href="/docs/user-manual/notation/">Notation</a>
       
       
@@ -235,37 +242,8 @@
       
       
       
-
-
-
-
-
-
-<ul class="td-sidebar-nav__section pr-md-3">
-  <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
-  </li>
-  <ul>
-    <li class="collapse " id="docsuser-manualcontrolflow">
       
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowmoc" href="/docs/user-manual/controlflow/moc/">Model of execution</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowstatements" href="/docs/user-manual/controlflow/statements/">Statements</a>
-      
-      
-    </li>
-  </ul>
-</ul>
-
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualstatements" href="/docs/user-manual/statements/">Statements</a>
       
       
       
@@ -650,7 +628,7 @@ A program counter which is <code>0</code> indicates that control flow has termin
 <p>An activity may contain concurrent code (expressed by the <code>cobegin</code> statement) and therefore control flow may be forked into several <em>threads of execution</em>.
 This is why an activity may reside in <em>several</em> control flow points at the same time.
 Each thread is represented by an individual program counter.
-Thus there is always at least one program counter for the activities <em>root thread</em> and possibly more for subthreads which are forked by <code>cobegin</code>.</p>
+Thus there is always at least one program counter for an activity&rsquo;s <em>root thread</em> and possibly more for subthreads which are forked by <code>cobegin</code>.</p>
 <h2 id="pc-tree">PC tree</h2>
 <p>The Blech compiler constructs a so-called program counter tree (pc tree) for every activity.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#204a87;font-weight:bold">type</span> <span style="color:#000">PCtree</span> <span style="color:#ce5c00;font-weight:bold">=</span>
@@ -693,13 +671,18 @@ The given <code>block</code> is a <code>Block</code> instance corresponding to t
 <p>The &lsquo;magic&rsquo; happens in <code>PCtree.add</code>:</p>
 <ul>
 <li>given the thread information, a list of ancestors (root to given thread) is constructed</li>
-<li>the list is used to navigate through the pc tree to find to ancestor to which a new sub tree is added</li>
+<li>the list is used to navigate through the pc tree to find the ancestor to which a new sub tree is added</li>
 </ul>
 <h2 id="using-the-pc-tree">Using the pc tree</h2>
-
+<p>In <code>ActivityTranslator.fs</code> there is the function</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#204a87;font-weight:bold">let</span> <span style="color:#000">private</span> <span style="color:#000">findTreeFor</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">comp</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">Compilation</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">node</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">Node</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">PCtree</span>
+</code></pre></div><p>which is vital to work with program counters.</p>
+<p>The tree structure is particularly exploited in</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#204a87;font-weight:bold">let</span> <span style="color:#000">private</span> <span style="color:#000">endThread</span> <span style="color:#000">comp</span> <span style="color:#000">node</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">Doc</span>
+</code></pre></div>
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 11, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/de33df200985dad2729bb2f01231cc0d9caef2a8">Added implementation documentation on pc trees (de33df2)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified August 26, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/ff9bbc326011c87701e26d41e81aa815c28bd8fc">Docu updated to match 0.5.4 (ff9bbc3)</a>
 </div>
 </div>
 
