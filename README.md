@@ -68,8 +68,8 @@ cd blech-doc/website
 Locally install the npm modules `autoprefixer` and `postcss-cli`.
 
 ```
-npm install -D autoprefixer
-npm install -D postcss-cli
+npm install -D --save autoprefixer
+npm install -D --save postcss-cli
 ```
 
 #### Update the Docsy theme
@@ -77,7 +77,7 @@ npm install -D postcss-cli
 The Hugo Docsy theme is frequently updated. From time to time update the Docsy theme submodule.
 
 ```
-git submodule update --remote
+git submodule update --init --recursive
 ```
 
 #### Preview the website
