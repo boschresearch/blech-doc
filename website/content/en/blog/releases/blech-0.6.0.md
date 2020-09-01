@@ -1,7 +1,7 @@
 
 ---
-title: "Blech version 0.6"
-linkTitle: "Blech 0.6"
+title: "Blech version 0.6.0"
+linkTitle: "Blech 0.6.0"
 date: 2020-09-01
 ---
 
