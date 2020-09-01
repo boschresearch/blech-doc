@@ -20,25 +20,25 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Local and external variables | Blech</title><meta property="og:title" content="Local and external variables" />
-<meta property="og:description" content="This explains the difference between local and external variables in code generation.
-" />
+<title>Model of execution | Blech</title><meta property="og:title" content="Model of execution" />
+<meta property="og:description" content="Reactive execution Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself. It interacts with a so-called environment that triggers a reaction of the Blech program.
+Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/blechc-development/external-vars/" />
-<meta property="article:modified_time" content="2020-04-29T13:21:43+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Local and external variables">
-<meta itemprop="description" content="This explains the difference between local and external variables in code generation.
-">
-<meta itemprop="dateModified" content="2020-04-29T13:21:43+02:00" />
-<meta itemprop="wordCount" content="887">
+<meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/moc/" />
+<meta property="article:modified_time" content="2020-08-26T17:28:03+02:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="Model of execution">
+<meta itemprop="description" content="Reactive execution Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself. It interacts with a so-called environment that triggers a reaction of the Blech program.
+Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs.">
+<meta itemprop="dateModified" content="2020-08-26T17:28:03+02:00" />
+<meta itemprop="wordCount" content="792">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Local and external variables"/>
-<meta name="twitter:description" content="This explains the difference between local and external variables in code generation.
-"/>
+<meta name="twitter:title" content="Model of execution"/>
+<meta name="twitter:description" content="Reactive execution Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself. It interacts with a so-called environment that triggers a reaction of the Blech program.
+Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs."/>
 
 
 
@@ -215,17 +215,17 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/user-manual/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">User manual</a>
+    <a  href="/docs/user-manual/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">User manual</a>
   </li>
   <ul>
-    <li class="collapse " id="docsuser-manual">
+    <li class="collapse show" id="docsuser-manual">
       
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualmoc" href="/docs/user-manual/moc/">Model of execution</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsuser-manualmoc" href="/docs/user-manual/moc/">Model of execution</a>
       
       
       
@@ -397,10 +397,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/blechc-development/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Blechc development</a>
+    <a  href="/docs/blechc-development/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Blechc development</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsblechc-development">
+    <li class="collapse " id="docsblechc-development">
       
       
       
@@ -419,7 +419,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsblechc-developmentexternal-vars" href="/docs/blechc-development/external-vars/">Variables</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsblechc-developmentexternal-vars" href="/docs/blechc-development/external-vars/">Variables</a>
       
       
       
@@ -547,8 +547,8 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/blechc-development/external-vars.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Local%20and%20external%20variables" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/moc.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Model%20of%20execution" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -562,11 +562,9 @@
 
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#local-variables">Local variables</a></li>
-    <li><a href="#external-variables">External Variables</a></li>
-    <li><a href="#effects-on-compilation-contexts">Effects on compilation contexts</a></li>
-    <li><a href="#effects-on-c-code-generation">Effects on C-code generation</a></li>
-    <li><a href="#effects-on-json-trace-printing">Effects on JSON trace printing</a></li>
+    <li><a href="#reactive-execution">Reactive execution</a></li>
+    <li><a href="#synchrony">Synchrony</a></li>
+    <li><a href="#causality">Causality</a></li>
   </ul>
 </nav>
 
@@ -598,14 +596,14 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="https://www.blech-lang.org/docs/blechc-development/">Blechc development</a>
+	<a href="https://www.blech-lang.org/docs/user-manual/">User manual</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/blechc-development/external-vars/">Variables</a>
+	<a href="https://www.blech-lang.org/docs/user-manual/moc/">Model of execution</a>
 </li>
 
 	</ol>
@@ -613,85 +611,68 @@
 
             
 <div class="td-content">
-	<h1>Local and external variables</h1>
-    <div class="lead">This explains the difference between local and external variables in code generation.</div>
+	<h1>Model of execution</h1>
+    
 	       
-	<h2 id="local-variables">Local variables</h2>
-<p>Variables declared with the scope of an activity are persistent.
-They keep their value over multiple reactions.
-Hence, in the generated code, they are stored outside the step-function of the given activity.
-Instead they are passed as a context with every call of the step-function.</p>
-<p>Previous values however need not be stored in this static context.
-In the generated code, they can be automatic variables (stack allocated variables) of the generated step-function.
-The step-function itself will create the prev variables (where needed) and fill them before the actual step is carried out.</p>
-<p>Special attention has to be given to the reaction in which the declaration of the local variable takes place.
-Here the local variable assumes its first value.
-This is defined to be the prev value and thus the prev variable has to be reset here once.</p>
-<pre><code class="language-blech" data-lang="blech">...
-var x: int32 = 7 // prev x = 7
-cobegin
-    run B(prev y)(x) // x may have changed
-with
-    run A(prev x)(y) // prev x is guaranteed to be 7 in the first reaction
-end
-...
-</code></pre><h2 id="external-variables">External Variables</h2>
-<p>External variables (inside the activity scope) are dual to local variables in terms of code generation.
-We do not need to store external variables in the static context which is passed to the step-function.
-Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
-At the end of the reaction, the final value is written back to the external C-variable (if it is a <code>var</code>).</p>
-<p>Previous values of external variables on the other hand must be persisted in static memory.
-This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with 
-(while the value of the external variable is volatile and may have changed arbitrarily between reactions).
-The code generator will create an extra local activity variable and add it to the list of local variables that are stored in the context.
-The value of the prev variable will be set <em>at the end</em> of each reaction, so it can be used in the next reaction.</p>
-<p>Again, special treatment is required in the code block that represents the reaction in which the declaration of the external variable becomes active.
-Here, as before, the prev value has to be set once so it is defined in the case that the prev value is used in the same reaction.</p>
-<h2 id="effects-on-compilation-contexts">Effects on compilation contexts</h2>
-<p>If necessary, the function <code>ActivityTranslator.cpAction</code> adds the external variable with a <code>prev_</code> infix in its name to the <code>Compilation.iface.locals</code> of the current activity.</p>
-<p><code>ActivityTranslator.makeActCall</code> transports the locals of the called activity to the interface of the current one which includes the prev&rsquo;ed version of external variables.
-In order to be able to print this interface as C code, the variables are added to the dictionary of known declarations in the type check context (<code>ctx.tcc.nameToDecl</code>).</p>
-<p>Since the entry point activity is never called from within the Blech program the above mechanism of adding variables to the type check context is repeated in <code>ActivityTranslator.translate</code> (for the entry point activity only).</p>
-<h2 id="effects-on-c-code-generation">Effects on C-code generation</h2>
-<p>Printing external constants or params does not require any additional modifications. The given binding is simply inserted. For <code>extern let</code> and <code>extern var</code> additional effort is required.</p>
-<ol>
-<li>
-<p>External variables</p>
-<p>Whenever an external variable is accessed as a right-hand-side, left-hand-side or the input or output argument to a call, it needs to be rendered differently than local activity variables.
-This is because external variables are generated as automatic variables in the scope of the step-function (instead of being passed in with the context).
-Thus they need to be rendered like local variables in Blech functions.
-This is achieved by hooking in the <code>isExtCurVar</code> function in the call of the <code>cpRenderData</code>.
-It will set the <code>subProgDecl</code> to <code>Function</code> if the variable name to be rendered is an access to the current memory location of an external variable.</p>
-</li>
-<li>
-<p>Access to previous locations of external variables</p>
-<p>Usually the previous value is stored in an automatic variable of the step-function and is accessed accordingly. The name is mangled by prepending a <code>prev_</code> to the QName of the variable.
-However previous values of external variables are stored in the context. Thus they need to be accessed like a local variable. The <code>prev_</code> infix is already mangled into the QName that is stored in the context.
-Thus <code>cpRenderData</code> will change <code>timepoint</code> to <code>Current</code> and add the <code>prev_</code> infix into the name to be rendered.</p>
-</li>
-<li>
-<p>Copy-in / copy-out</p>
-<p>The function <code>ActivityTranslator.translate</code> generates code for</p>
-<ul>
-<li>
-<p>Copying the values from the bound external C-variables to the local memory inside the step-function at the beginning of the reaction.</p>
-</li>
-<li>
-<p>Copying back the final results back to the bound external C-variables at the end of the reaction.</p>
-</li>
-<li>
-<p>(If necessary,) setting the previous memory to the final current value of the external variable such that in the next reaction the prev value can be used.</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="effects-on-json-trace-printing">Effects on JSON trace printing</h2>
-<p>Since prev locations of external variables become local activity variables and are added to the type check context, they are printed in the trace along with the normal variables.
-Note however that the value shown in the trace is the prev value for the <em>next</em> reaction.</p>
+	<h2 id="reactive-execution">Reactive execution</h2>
+<p>Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself.
+It interacts with a so-called <em>environment</em> that triggers a <em>reaction</em> of the Blech program.</p>
+<p>Typically, the environment provides a set of <em>inputs</em> to a Blech program. These inputs may, for example, be sensor readings.
+The environment then expects the Blech program to perform some computations and finally return a set of updated <em>outputs</em>.
+Outputs can be interpreted by the environment, for example, as set points for actuators.</p>
+<p>We deliberately use the generic word &ldquo;environment&rdquo; because depending on the use case it may have a different form. 
+It ranges from just a loop that calls the Blech application as soon as the last reaction has finished to a sophisticated real-time operating system which manages several tasks, timers and event queues.</p>
+<p>The Blech program maintains its state from one reaction to the next.
+Thus a reaction does not merely depend on the given inputs but also on the state of the program itself.</p>
+<h2 id="synchrony">Synchrony</h2>
+<p>Blech is a <em>synchronous</em> language.
+That means its semantics adhere to the &ldquo;synchrony assumption&rdquo;.
+In simple terms it states that a reaction happens instantaneously (takes no physical time).
+Thus program execution proceeds in discrete reactions and there is no observable behaviour in between.</p>
+<p>This is of course not implementable in reality but rather a guideline for semantics that has implications on language design and induces a set of crucial properties that make the programmer&rsquo;s life easier.</p>
+<p>One implication is that inputs keep their value throughout the reaction. This prevents a volatile behaviour where two readings of the same variable in the same reaction may produce two different values.</p>
+<p>The other implication  is that concurrent computations adhere to a <a href="https://en.wikipedia.org/wiki/Consistency_model#Strict_consistency" target="_blank">strict consistency</a>
+ notion.
+In essence, this means that &ldquo;a write to a variable by any thread needs to be seen instantaneously by all threads [&hellip;] it assumes concurrent writes to be impossible&rdquo;.
+Therefore race conditions are excluded by design.
+Since each concurrent thread of execution perceives the others as instantaneous, every shared variable must assume precisely one value throughout the reaction.
+It must not be possible for a reader to read two different values for a shared variable within one reaction.
+This would discern computation into (at least two) different logical time steps and violate the assumption that the computation happened instantaneously.</p>
+<p>This semantics is very attractive to the programmer because concurrent programming becomes simple to understand and debug.
+It is the single most crucial distinctive feature of synchronous programming languages in general, and Blech in particular.
+Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
+However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
+the distinction of individual reactions; and the distinction of a thread-local view and a global view on shared memory.</p>
+<p>Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
+Such programs are called causally correct or simply <em>causal</em>.
+The next section explains what this means for Blech.</p>
+<h2 id="causality">Causality</h2>
+<p>The strict consistency memory model excludes write conflicts by definition.
+Since we think of program execution as reaction steps, this means causal programs must have at most one writer per shared variable in one reaction.
+In Blech we restrict this even further and require that there is at most one writer within a fork-join scope which is potentially executed for multiple reactions.
+This is made more precise in the chapter when we <a href="../statements/#cobegin">explain the <code>cobegin</code> statement</a>
+.</p>
+<p>Furthermore, there is a &ldquo;thread-local&rdquo; view of shared variables and a &ldquo;thread-global&rdquo; view.
+We require that in the thread-global view every shared variable is set to one value by the writer that all other threads may read.
+However the writer-thread may update (and read) the variable multiple times locally.
+Thus multiple values exist in the thread-local view but they are not observable by concurrent threads nor by the environment and the &ldquo;illusion&rdquo; of instantaneous updates is maintained.
+Only the last written value is communicated to the concurrent readers.
+Of course, &ldquo;last&rdquo; is to be understood with respect to the current reaction.
+In essence, for every variable there is a write-before-read policy in every reaction.
+This allows for normal sequential imperative programming within a thread and at the same time leverages the expressiveness and simplicity of synchronous concurrent programming.
+Note that this deliberately excludes programs where threads are mutually (cyclically) dependent within a reaction.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Important</h4>
+There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
+</div>
+
+<p>The compiler phase that statically ensures a given Blech program is causal is called <em>causality analysis</em>.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 29, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/745cee52f11299de31185f6403bdc032dabe8c7d">Migratred implementation documentation to markdown. Deleted obsolete files. (745cee5)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified August 26, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/ff9bbc326011c87701e26d41e81aa815c28bd8fc">Docu updated to match 0.5.4 (ff9bbc3)</a>
 </div>
 </div>
 

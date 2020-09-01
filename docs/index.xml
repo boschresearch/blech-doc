@@ -13,6 +13,66 @@
     
     
     <item>
+      <title>Blog: Blech version 0.6.0</title>
+      <link>https://www.blech-lang.org/blog/2020/09/01/blech-version-0.6.0/</link>
+      <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/09/01/blech-version-0.6.0/</guid>
+      <description>
+        
+        
+        &lt;p&gt;We are happy to announce a new release of the Blech compiler and language services for VS Code.&lt;/p&gt;
+&lt;p&gt;Language features are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/controlflow/statements/#run&#34;&gt;syntax of the statement &lt;code&gt;run&lt;/code&gt;&lt;/a&gt;
+ has changed. It now allows local variable declarations. &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/controlflow/statements/#return&#34;&gt;A &lt;code&gt;return&lt;/code&gt; statement&lt;/a&gt;
+ may now have an activity call as an argument:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;run foo = Act()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;used to be &lt;code&gt;foo = run Act()&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;run var foo = Act()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here &lt;code&gt;foo&lt;/code&gt; is declared in-place and can be used after the &lt;code&gt;run&lt;/code&gt; statement.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;return run Act()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here the value returned by &lt;code&gt;Act&lt;/code&gt; is directly returned further up.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It is now possible to reorder function parameters when linking to external C functions. This is useful to map Blech&amp;rsquo;s input and output parameters to the single parameter list of a C function:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  @[CFunction(binding = &amp;quot;myCfunction($2, $1)&amp;quot;)]
+  extern function doStuff(a: nat8)(b: nat8)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some annotations may contain string literals. We now support single and (indented) multi line string literals. This is useful if you want to define the right-hand side of a macro as your C-binding:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  @[CFunction (binding = &amp;quot;&amp;quot;&amp;quot;
+                         do {
+                           *$2 = $1;
+                           *$2 = *$2 + 1;
+                         } while (0)
+                         &amp;quot;&amp;quot;&amp;quot;)]
+  extern function doStuff(a: nat8)(b: nat8)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C. 
+&lt;code&gt;$1&lt;/code&gt; is input parameter &lt;code&gt;a: nat8&lt;/code&gt; which is passed by value because it has a simple type.
+&lt;code&gt;$2&lt;/code&gt; is output parameter &lt;code&gt;b: nat8&lt;/code&gt; which is passed by reference as a pointer.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On the technical side we have fixed a few bugs and issues and improved code generation.
+The latter now uses &amp;ldquo;activity contexts&amp;rdquo; to store activity local data and &lt;a href=&#34;https://www.blech-lang.org/docs/blechc-development/pctree/&#34;&gt;program counters&lt;/a&gt;
+ instead of passing around individual values.
+This is a preparation for the upcoming module system.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: Push button handling</title>
       <link>https://www.blech-lang.org/blog/2020/08/12/push-button-handling/</link>
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>

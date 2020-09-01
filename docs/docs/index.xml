@@ -14,19 +14,6 @@
     
     
     <item>
-      <title>Docs: Language Overview</title>
-      <link>https://www.blech-lang.org/docs/overview/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.blech-lang.org/docs/overview/</guid>
-      <description>
-        
-        
-        
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: The Blech compiler - blechc</title>
       <link>https://www.blech-lang.org/docs/getting-started/blechc/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -324,10 +311,10 @@ status = f()(x)
     
     <item>
       <title>Docs: Model of execution</title>
-      <link>https://www.blech-lang.org/docs/user-manual/controlflow/moc/</link>
+      <link>https://www.blech-lang.org/docs/user-manual/moc/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.blech-lang.org/docs/user-manual/controlflow/moc/</guid>
+      <guid>https://www.blech-lang.org/docs/user-manual/moc/</guid>
       <description>
         
         
@@ -359,7 +346,7 @@ This would discern computation into (at least two) different logical time steps 
 It is the single most crucial distinctive feature of synchronous programming languages in general, and Blech in particular.
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
-the distinction of individual reactions; and the distinction of a thread-local view and a global view on a shared memory.&lt;/p&gt;
+the distinction of individual reactions; and the distinction of a thread-local view and a global view on shared memory.&lt;/p&gt;
 &lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
 Such programs are called causally correct or simply &lt;em&gt;causal&lt;/em&gt;.
 The next section explains what this means for Blech.&lt;/p&gt;
@@ -367,7 +354,8 @@ The next section explains what this means for Blech.&lt;/p&gt;
 &lt;p&gt;The strict consistency memory model excludes write conflicts by definition.
 Since we think of program execution as reaction steps, this means causal programs must have at most one writer per shared variable in one reaction.
 In Blech we restrict this even further and require that there is at most one writer within a fork-join scope which is potentially executed for multiple reactions.
-This is made more precise in the subsequent chapter when we explain the &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
+This is made more precise in the chapter when we &lt;a href=&#34;../statements/#cobegin&#34;&gt;explain the &lt;code&gt;cobegin&lt;/code&gt; statement&lt;/a&gt;
+.&lt;/p&gt;
 &lt;p&gt;Furthermore, there is a &amp;ldquo;thread-local&amp;rdquo; view of shared variables and a &amp;ldquo;thread-global&amp;rdquo; view.
 We require that in the thread-global view every shared variable is set to one value by the writer that all other threads may read.
 However the writer-thread may update (and read) the variable multiple times locally.
@@ -1194,7 +1182,7 @@ A program counter which is &lt;code&gt;0&lt;/code&gt; indicates that control flo
 &lt;p&gt;An activity may contain concurrent code (expressed by the &lt;code&gt;cobegin&lt;/code&gt; statement) and therefore control flow may be forked into several &lt;em&gt;threads of execution&lt;/em&gt;.
 This is why an activity may reside in &lt;em&gt;several&lt;/em&gt; control flow points at the same time.
 Each thread is represented by an individual program counter.
-Thus there is always at least one program counter for the activities &lt;em&gt;root thread&lt;/em&gt; and possibly more for subthreads which are forked by &lt;code&gt;cobegin&lt;/code&gt;.&lt;/p&gt;
+Thus there is always at least one program counter for an activity&amp;rsquo;s &lt;em&gt;root thread&lt;/em&gt; and possibly more for subthreads which are forked by &lt;code&gt;cobegin&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;pc-tree&#34;&gt;PC tree&lt;/h2&gt;
 &lt;p&gt;The Blech compiler constructs a so-called program counter tree (pc tree) for every activity.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;
@@ -1237,10 +1225,15 @@ The given &lt;code&gt;block&lt;/code&gt; is a &lt;code&gt;Block&lt;/code&gt; ins
 &lt;p&gt;The &amp;lsquo;magic&amp;rsquo; happens in &lt;code&gt;PCtree.add&lt;/code&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;given the thread information, a list of ancestors (root to given thread) is constructed&lt;/li&gt;
-&lt;li&gt;the list is used to navigate through the pc tree to find to ancestor to which a new sub tree is added&lt;/li&gt;
+&lt;li&gt;the list is used to navigate through the pc tree to find the ancestor to which a new sub tree is added&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;using-the-pc-tree&#34;&gt;Using the pc tree&lt;/h2&gt;
-
+&lt;p&gt;In &lt;code&gt;ActivityTranslator.fs&lt;/code&gt; there is the function&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;findTreeFor&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;comp&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Compilation&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;node&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Node&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;which is vital to work with program counters.&lt;/p&gt;
+&lt;p&gt;The tree structure is particularly exploited in&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;endThread&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;comp&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;node&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Doc&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
     
@@ -1337,384 +1330,6 @@ No cookies will be set. Google Analytics will not be used.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Statements</title>
-      <link>https://www.blech-lang.org/docs/user-manual/controlflow/statements/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.blech-lang.org/docs/user-manual/controlflow/statements/</guid>
-      <description>
-        
-        
-        &lt;p&gt;In its core, Blech is an imperative language.
-Blech strictly separates between &lt;em&gt;statements&lt;/em&gt; that govern the flow of control and &lt;em&gt;expressions&lt;/em&gt; that evaluate to a value.
-Both, a statement and an expression may have side-effects.&lt;/p&gt;
-&lt;h2 id=&#34;activities-and-functions&#34;&gt;Activities and functions&lt;/h2&gt;
-&lt;p&gt;Control flow is organised with two kinds of procedures: &lt;em&gt;activities&lt;/em&gt; and &lt;em&gt;functions&lt;/em&gt;.
-Functions are used like in any other imperative language.
-In Blech they have two parameter lists to support causality analysis.&lt;/p&gt;
-&lt;p&gt;See the section on &lt;a href=&#34;../../declarations/#subprograms&#34;&gt;subprogram declarations&lt;/a&gt;
- for more details.&lt;/p&gt;
-&lt;p&gt;Functions must terminate within a reaction. Therefore they are said to be instantaneous.&lt;/p&gt;
-&lt;p&gt;Activities are called similarly to functions but their execution continues until it reaches a pause to end the current reaction.
-In the next reaction they resume from the location they have paused and continue execution until the next pause.
-Each reaction of an activity must end after finitely many computation steps.
-However the activity itself may perform an unbounded number of reactions and never terminate.
-It may also terminate after a finite number of reactions.
-In any case, activities must not be instantaneous&amp;mdash;they need to pause at least once before termination.
-The values of local variables in activities are stored from one reaction to the next.&lt;/p&gt;
-&lt;p&gt;Activities may call other activities or functions.
-Functions however can only call other functions.&lt;/p&gt;
-&lt;h2 id=&#34;synchronous-statements&#34;&gt;Synchronous statements&lt;/h2&gt;
-&lt;p&gt;Here we discuss statements that are specific to the synchronous paradigm of Blech.
-These statements control the reactive behaviour of the program and hence may only appear inside activities, not in functions.&lt;/p&gt;
-&lt;h3 id=&#34;await&#34;&gt;Await&lt;/h3&gt;
-&lt;p&gt;The aforementioned &amp;ldquo;pause&amp;rdquo; is denoted as follows.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Pause&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;await&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;await&lt;/code&gt; statement marks the end of a reaction.
-The control flow stops at this statement and the program &amp;ldquo;waits&amp;rdquo; for the next reaction to start.
-Once an activity resumes its execution at an &lt;code&gt;await&lt;/code&gt; statement the condition is checked.
-If it is true, the control flow proceeds to the next statement.
-Otherwise, the reaction ends immediately and the control flow remains at the same location.&lt;/p&gt;
-&lt;h4 id=&#34;example-simple-reactive-control-flow&#34;&gt;Example: Simple reactive control flow&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity MyAct (in1: bool, in2: float32) (out1: uint8)
-    repeat
-        await in1
-        out1 = (out1 + 1) % 100 // count from 0 to 99
-    until in2 &amp;lt; 0.0 end
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;Initially, &lt;code&gt;MyAct&lt;/code&gt; is entered and the control flow proceeds to line 3 and stops (regardless of the inputs).
-In the next tick, &lt;code&gt;MyAct&lt;/code&gt; resumes its execution at the &lt;code&gt;await&lt;/code&gt; statement in line 3.
-It checks the boolean input variable &lt;code&gt;in1&lt;/code&gt;.
-If it is false, the reaction ends immediately, the control flow does not advance.
-Otherwise, if &lt;code&gt;in1&lt;/code&gt; is true, the calculation is carried out in line 4.
-This updates &lt;code&gt;out1&lt;/code&gt; to a new value.
-Finally, if input &lt;code&gt;in2&lt;/code&gt; is indeed less than 0 the activity terminates its execution.
-Otherwise the control flow loops around from line 5 back to line 2 and finally the reaction ends again in line 3.&lt;/p&gt;
-&lt;h3 id=&#34;run&#34;&gt;Run&lt;/h3&gt;
-&lt;p&gt;An activity call is given by the following grammar.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ActivityCall&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;Wildcard&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;run&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
-&lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LhsExpr&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LhsExpr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;run&lt;/code&gt; keyword indicates an activity call.
-Arguments must be provided that match the callee&amp;rsquo;s declaration in number and type.
-If the callee does not declare any outputs the second pair of parentheses may be dropped for readability.
-Input arguments must evaluate to a value that matches the declared type.
-Output arguments must evaluate to a memory location that the callee can read from and write to.
-If the callee is an activity that eventually terminates and declares a return value, this return value must be either received into some variable or ignored using a wildcard.&lt;/p&gt;
-&lt;p&gt;When control flow reaches a &lt;code&gt;run&lt;/code&gt; statement the sub-activity is immediately called and the control flow is handed over to the callee.
-It remains within the callee for as many reactions as it runs (but at least one reaction).
-In every reaction inputs are passed though to the callee and its outputs are propagated outside.
-Should the callee terminate, the control flow returns to the caller and proceeds with the next statement.&lt;/p&gt;
-&lt;p&gt;Example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;// declaration
-activity A (a: [8]int32, b: int32) (c: int32) returns bool
-    /* some code */
-    ...
-end
-
-    /* ... inside another activity ... */
-    var result: bool
-    var array: [8]int32 = {1, 2, 3, 4, 5, 6, 7, 8}
-    var output: int32
-    // usage
-    result = run A(array, 7)(output)
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;cobegin&#34;&gt;Cobegin&lt;/h3&gt;
-&lt;p&gt;Concurrent composition is expressed with the &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ForkJoin&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;cobegin&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;with&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+ &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using &lt;code&gt;cobegin&lt;/code&gt; it is possible to compose arbitrary pieces of code.
-The goal is not to parallelise to gain execution speed.
-Rather this the language construct to express that two (or more) functionalities should be computed within the same reaction.
-As such concurrency is rather a modelling concept in Blech.
-The code generator will actually sequentialise the code in a causally correct order.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
-&lt;/div&gt;
-
-&lt;h4 id=&#34;example-concurrent-composition&#34;&gt;Example: Concurrent composition&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity P ()
-    var x: int32
-    var y: int32
-    var z: int32
-    cobegin
-        run A(x)(z)
-    with
-        run B(y)(x)
-    end
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;Assume the activities &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;B&lt;/code&gt; have already been implemented.
-In lines 5 &amp;ndash; 9 they are composed concurrently.
-This means the control flow of &lt;code&gt;P&lt;/code&gt; is forked into two control flow points.
-One resides in &lt;code&gt;A&lt;/code&gt; (line 6) and one in &lt;code&gt;B&lt;/code&gt; (line 8).
-With every tick both, &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;B&lt;/code&gt;, will perform one reaction.
-When both subprograms terminate, &lt;code&gt;P&lt;/code&gt; regains control in line 9 and, in this example, terminates too.
-Of course, more than two branches can be combined using more &lt;code&gt;with&lt;/code&gt; branches.
-Note that the reaction of &lt;code&gt;B&lt;/code&gt; will be carried out before the reaction of &lt;code&gt;A&lt;/code&gt; due to causality:
-First the unique value of &lt;code&gt;x&lt;/code&gt; needs to be set by writer &lt;code&gt;B&lt;/code&gt; before the reader &lt;code&gt;A&lt;/code&gt; may use it.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;cobegin&lt;/code&gt; statement is a composite statement like a &lt;code&gt;repeat&lt;/code&gt; loop or an &lt;code&gt;if&lt;/code&gt; statement.
-Control flow can remain within the &lt;code&gt;cobegin&lt;/code&gt; branches for multiple reactions.
-However in general the various branches can perform a different number of reactions, possibly infinitely many.
-We therefore need to control the termination of &lt;code&gt;cobegin&lt;/code&gt; as a whole using the &lt;code&gt;weak&lt;/code&gt; qualifiers.&lt;/p&gt;
-&lt;p&gt;Formally, a &lt;code&gt;cobegin&lt;/code&gt; statement terminates in the reaction in which all strong branches have terminated.
-If all branches are weak, the &lt;code&gt;cobegin&lt;/code&gt; statement terminates in the reaction in which some branch terminates.&lt;/p&gt;
-&lt;p&gt;In the above example no branch is &lt;code&gt;weak&lt;/code&gt;.
-We say all branches are &amp;ldquo;strong&amp;rdquo;.
-This means the &lt;code&gt;cobegin&lt;/code&gt; statement terminates when &lt;em&gt;all&lt;/em&gt; of its branches have terminated.
-Branches that finish earlier (have fewer reaction to do) will simply do nothing until the last strong branch has terminated.
-The following two examples illustrate the usage of the &lt;code&gt;weak&lt;/code&gt; qualifier.&lt;/p&gt;
-&lt;h4 id=&#34;example-weak-and-strong-branches&#34;&gt;Example: Weak and strong branches&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;/* ... inside some activity ... */
-var res: nat8
-cobegin weak
-    // non-terminating branch
-    repeat
-        await true
-        out1 = (out1 + 1) % 100
-    end
-with
-    // terminates once a key is pressed
-    res = run ReadKeyStroke()
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The first branch contains an infinite loop in the sense that every iteration ends in a pause but the number of reactions is unbounded.
-The loop is placed into a weak branch that allows to terminate the loop at the end of some reaction.
-The second branch contains an activity call that is expected to return some value eventually.
-In the reaction in which the result is returned the weak branch will be aborted (after it has done one iteration) and the control flow continues with the next statement following the &lt;code&gt;cobegin&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;example-all-branches-weak&#34;&gt;Example: All branches weak&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;cobegin weak
-    await isButtonPressed
-with weak
-    await hasReceivedSignal
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this example there are no strong branches.
-The first branch to terminate will abort all others.
-In this example it means as soon as &lt;code&gt;isButtonPressed&lt;/code&gt; or &lt;code&gt;hasReceivedSignal&lt;/code&gt; is true (or both are true!) the &lt;code&gt;cobegin&lt;/code&gt; statement terminates and control flow continues with the next statement.&lt;/p&gt;
-&lt;h3 id=&#34;abort-and-reset&#34;&gt;Abort and reset&lt;/h3&gt;
-&lt;p&gt;There are two kinds of synchronous preemptions built into Blech.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Preemption&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;when&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;abort&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;reset&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When control flow enters a preemption the statements in its body, denoted by &lt;code&gt;StmtBlock&lt;/code&gt; in the grammar, are executed until the reaction ends in an &lt;code&gt;await&lt;/code&gt; or &lt;code&gt;run&lt;/code&gt; statement.
-Subsequently, when a reaction resumes execution inside the body, first the &lt;code&gt;when&lt;/code&gt; condition is checked.
-If it is false, the execution starts as usual.
-Otherwise the body is preempted &lt;em&gt;before&lt;/em&gt; any statement is executed or expression is evaluated inside the body.
-There are two variants of preemptions.
-&lt;code&gt;abort&lt;/code&gt; means that control flow jumps to the &lt;code&gt;end&lt;/code&gt; of the preemption statement.
-&lt;code&gt;reset&lt;/code&gt; means that control flow restarts at the beginning of &lt;code&gt;StmtBlock&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Note that&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;when Condition reset P end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;is syntactic sugar for&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var hasTerminated = false
-repeat
-    when Condition abort
-        P
-        hasTerminated = true
-    end
-until hasTerminated end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;where &lt;code&gt;hasTerminated&lt;/code&gt; is a fresh boolean variable.&lt;/p&gt;
-&lt;p&gt;It is, of course, possible that the body is left instantaneously within one reaction.
-In this case the preemption is irrelevant for the flow of control.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The preemption condition is &lt;em&gt;not&lt;/em&gt; checked when the control flow enters the body.
-The &lt;code&gt;when&lt;/code&gt; condition is only checked when control flow resumes from within the body.
-Wrap the preemption inside an &lt;code&gt;if&lt;/code&gt; statement in case you want to check the condition before entering the body.
-&lt;/div&gt;
-
-&lt;h4 id=&#34;example-abort-and-reset&#34;&gt;Example: Abort and Reset&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
-&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity A (in1: bool) (out1: uint8)
-    // do something ...
-    
-    when in1 abort
-        out1 = 1
-        await true
-        out1 = 2
-        await true
-        out1 = 3
-    end
-    
-    // do something else ...
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;The statement in line 4 says that &lt;code&gt;when&lt;/code&gt; a reaction &lt;em&gt;starts&lt;/em&gt; in the block lines 5 &amp;ndash; 9, it is checked whether &lt;code&gt;in1&lt;/code&gt; is true and in that case the control flow skips to line 10.
-Thus when control flow reaches line 4 it will immediately proceed to line 5, set &lt;code&gt;out1&lt;/code&gt; accordingly and finish this reaction in line 6 (regardless of the value of &lt;code&gt;in1&lt;/code&gt;).
-The next reaction starts by checking the abort condition &lt;code&gt;in1&lt;/code&gt;.
-If it is true we skip the rest of the block and proceed to line 10.
-Otherwise, we check the condition of the &lt;code&gt;await&lt;/code&gt; statement which here is vacuously true and the reaction proceeds to line 7 and finishes in line 8.
-The same reasoning applies in line 8: the execution is possibly aborted before setting &lt;code&gt;out1&lt;/code&gt; to 3.
-In any case, the block is left in line 10.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;abort&lt;/code&gt; statement is useful whenever we want to skip over a sequence of reactions when we detect some issue at the beginning of a reaction.
-Sometimes instead of skipping ahead we would like to restart a sequence of reactions.
-For this we may use the &lt;code&gt;reset&lt;/code&gt; statement.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity MyAct (in1: bool) (out1: uint8)
-    // do something ...
-    
-    when in1 reset // reset instead of abort
-        out1 = 1
-        await true
-        out1 = 2
-        await true
-        out1 = 3
-    end
-    
-    // do something else ...
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It behaves just like the &lt;code&gt;abort&lt;/code&gt; statement except it jumps to line 4 if &lt;code&gt;in1&lt;/code&gt; is true.&lt;/p&gt;
-&lt;h2 id=&#34;imperative-control-flow&#34;&gt;Imperative control flow&lt;/h2&gt;
-&lt;p&gt;All of the following statements are known from mainstream imperative programming languages.
-They may be used inside both, activities and functions.&lt;/p&gt;
-&lt;h3 id=&#34;assignment&#34;&gt;Assignment&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Assignment&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LhsExpr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;do-block&#34;&gt;Do block&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;DoBlock&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;do&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;do&lt;/code&gt; block may be used to define local scopes.&lt;/p&gt;
-&lt;h4 id=&#34;example-local-scopes&#34;&gt;Example: Local scopes&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f ()
-    do
-        var x: int8 = 5
-    end
-    // x is out of scope here
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;if&#34;&gt;If&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;IfStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;if&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;then&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;elseif&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;then&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;else&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;while&#34;&gt;While&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;WhileLoop&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;while&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;repeat&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When using a loop in an activity, there must be some pause on every control flow path through the loop body.
-This is not necessary for loops inside functions.
-Note that using &lt;code&gt;while&lt;/code&gt; loops in activities may lead to unexpected error messages because we deliberately &lt;em&gt;do not&lt;/em&gt; evaluate the condition at compile time even if it is trivially true or false.&lt;/p&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Toggle()(out:bool)
-    while true repeat
-        out = not out
-        await true
-    end
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This program will not compile because the compiler thinks there is a control flow path that does not enter the loop and immediately terminates the activity.
-Since activities must not be instantaneous this program is rejected.
-Use &lt;code&gt;repeat&lt;/code&gt; loops instead to avoid this spurious control flow paths that possibly skip the loop.&lt;/p&gt;
-&lt;h3 id=&#34;repeat&#34;&gt;Repeat&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;RepeatLoop&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;repeat&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;until&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;repeat&lt;/code&gt; loops guarantee that control flow does enter the loop body at least once.
-Endless loops (without the &lt;code&gt;until&lt;/code&gt; condition) may only be used in activities.
-Again, when using a loop in an activity, there must be some pause on every control flow path through the loop body.
-This is not necessary for loops inside functions.&lt;/p&gt;
-&lt;h3 id=&#34;return&#34;&gt;Return&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ReturnStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;return&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Void activities and functions can use &lt;code&gt;return&lt;/code&gt; without an expression to terminate at some point before control flow reaches the last statement.&lt;/p&gt;
-&lt;h4 id=&#34;example-return-from-void-function&#34;&gt;Example: Return from void function&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function setSpeed (velocity: float32) ()
-    if velocity &amp;lt; 0 then
-        return
-    end
-
-    if not isMotorReady() then
-        return
-    end
-    
-    halSetSpeed(velocity) // call device driver
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This simple example assumes we implement a wrapper for calling a hardware device driver.
-In order to avoid an if-then-else cascade &lt;code&gt;setSpeed&lt;/code&gt; tests the prerequisites individually and returns in case some of them is not met.&lt;/p&gt;
-&lt;p&gt;Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.&lt;/p&gt;
-&lt;p&gt;Activities may only return from their main thread.
-In other words &lt;code&gt;return&lt;/code&gt; must not occur inside a branch of a &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
-&lt;p&gt;Mind the difference between activity return values and activity output values.
-Outputs are set in every reaction of the activity.
-A return value is returned precisely once in the reaction that terminates the activity.&lt;/p&gt;
-&lt;h4 id=&#34;example-return-from-activity&#34;&gt;Example: Return from activity&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity A (in: int32) (out: int32) returns nat8
-    var retcode: nat8
-    var x: int32
-    cobegin weak
-        run B(in)(x)
-    with
-        retcode = run C(x)(out)
-    end
-    return retcode
-end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In every reaction &lt;code&gt;in&lt;/code&gt; is propagated to &lt;code&gt;B&lt;/code&gt; and &lt;code&gt;out&lt;/code&gt; is propagated from &lt;code&gt;C&lt;/code&gt; to the caller.
-Only when &lt;code&gt;C&lt;/code&gt; terminates the variable &lt;code&gt;retcode&lt;/code&gt; is updated, the &lt;code&gt;cobegin&lt;/code&gt; statement is terminated and the &lt;code&gt;retcode&lt;/code&gt; is returned to the caller.&lt;/p&gt;
-&lt;h3 id=&#34;function-call&#34;&gt;Function call&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;FunctionCallStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Blech distinguishes between a function call statement and a function call expression.
-On the statement level only void functions may be called.&lt;/p&gt;
-&lt;p&gt;In summary, a block of statements in Blech is given by the following grammar.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; 
-      &lt;span style=&#34;color:#000&#34;&gt;Pause&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;ActivityCall&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;ForkJoin&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;Preemption&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;Assignment&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;DoBlock&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;IfStmt&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;WhileLoop&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;RepeatLoop&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;ReturnStmt&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;FunctionCallStmt&lt;/span&gt;
-    | &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Depending on whether statements are used in an activity or a function their use may be restricted or prohibited (see above).
-The optional semicolons in the grammar indicate that it is possible to separate statements in a sequence using semicolons.
-We suggest to avoid writing any semicolons unless two (or more) statements are written in one line.&lt;/p&gt;
-&lt;h3 id=&#34;semicolons-in-blech&#34;&gt;Semicolons in Blech&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f()
-    var x: int8 = 0; // do not clutter your code with superfluous &amp;quot;;&amp;quot;
-    var y: int8 = 1  // preferred semicolon free style
-
-    x = 7; y = y + x // ok, but usually it is better to write two lines
-    x = 7 y = y + x  // compiles but is hardly readable, do not do that
-end
-&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
@@ -2052,6 +1667,412 @@ end
     </item>
     
     <item>
+      <title>Docs: Statements</title>
+      <link>https://www.blech-lang.org/docs/user-manual/statements/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/user-manual/statements/</guid>
+      <description>
+        
+        
+        &lt;p&gt;In its core, Blech is an imperative language.
+Blech strictly separates between &lt;em&gt;statements&lt;/em&gt; that govern the flow of control and &lt;em&gt;expressions&lt;/em&gt; that evaluate to a value.
+Both, a statement and an expression may have side-effects.&lt;/p&gt;
+&lt;h2 id=&#34;activities-and-functions&#34;&gt;Activities and functions&lt;/h2&gt;
+&lt;p&gt;Control flow is organised with two kinds of procedures: &lt;em&gt;activities&lt;/em&gt; and &lt;em&gt;functions&lt;/em&gt;.
+Functions are used like in any other imperative language.
+In Blech they have two parameter lists to support causality analysis.&lt;/p&gt;
+&lt;p&gt;See the section on &lt;a href=&#34;../../declarations/#subprograms&#34;&gt;subprogram declarations&lt;/a&gt;
+ for more details.&lt;/p&gt;
+&lt;p&gt;Functions must terminate within a reaction. Therefore they are said to be instantaneous.&lt;/p&gt;
+&lt;p&gt;Activities are called similarly to functions but their execution continues until it reaches a pause to end the current reaction.
+In the next reaction they resume from the location they have paused and continue execution until the next pause.
+Each reaction of an activity must end after finitely many computation steps.
+However the activity itself may perform an unbounded number of reactions and never terminate.
+It may also terminate after a finite number of reactions.
+In any case, activities must not be instantaneous&amp;mdash;they need to pause at least once before termination.
+The values of local variables in activities are stored from one reaction to the next.&lt;/p&gt;
+&lt;p&gt;Activities may call other activities or functions.
+Functions however can only call other functions.&lt;/p&gt;
+&lt;h2 id=&#34;synchronous-statements&#34;&gt;Synchronous statements&lt;/h2&gt;
+&lt;p&gt;Here we discuss statements that are specific to the synchronous paradigm of Blech.
+These statements control the reactive behaviour of the program and hence may only appear inside activities, not in functions.&lt;/p&gt;
+&lt;h3 id=&#34;await&#34;&gt;Await&lt;/h3&gt;
+&lt;p&gt;The aforementioned &amp;ldquo;pause&amp;rdquo; is denoted as follows.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Pause&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;await&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;await&lt;/code&gt; statement marks the end of a reaction.
+The control flow stops at this statement and the program &amp;ldquo;waits&amp;rdquo; for the next reaction to start.
+Once an activity resumes its execution at an &lt;code&gt;await&lt;/code&gt; statement the condition is checked.
+If it is true, the control flow proceeds to the next statement.
+Otherwise, the reaction ends immediately and the control flow remains at the same location.&lt;/p&gt;
+&lt;h4 id=&#34;example-simple-reactive-control-flow&#34;&gt;Example: Simple reactive control flow&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity MyAct (in1: bool, in2: float32) (out1: uint8)
+    repeat
+        await in1
+        out1 = (out1 + 1) % 100 // count from 0 to 99
+    until in2 &amp;lt; 0.0 end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Initially, &lt;code&gt;MyAct&lt;/code&gt; is entered and the control flow proceeds to line 3 and stops (regardless of the inputs).
+In the next tick, &lt;code&gt;MyAct&lt;/code&gt; resumes its execution at the &lt;code&gt;await&lt;/code&gt; statement in line 3.
+It checks the boolean input variable &lt;code&gt;in1&lt;/code&gt;.
+If it is false, the reaction ends immediately, the control flow does not advance.
+Otherwise, if &lt;code&gt;in1&lt;/code&gt; is true, the calculation is carried out in line 4.
+This updates &lt;code&gt;out1&lt;/code&gt; to a new value.
+Finally, if input &lt;code&gt;in2&lt;/code&gt; is indeed less than 0 the activity terminates its execution.
+Otherwise the control flow loops around from line 5 back to line 2 and finally the reaction ends again in line 3.&lt;/p&gt;
+&lt;h4 id=&#34;example-proceed-with-the-next-tick&#34;&gt;Example: Proceed with the next tick&lt;/h4&gt;
+&lt;p&gt;For example in time triggered systems we often just want to await the next period and proceed. This is simply expressed by&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;await true
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;run&#34;&gt;Run&lt;/h3&gt;
+&lt;p&gt;An activity call is given by the following grammar.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ActivityCall&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;run&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Receiver&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;Receiver&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Wildcard&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; | &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;])&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LhsExpr&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LhsExpr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;run&lt;/code&gt; keyword indicates an activity call.
+Arguments must be provided that match the callee&amp;rsquo;s declaration in number and type.
+If the callee does not declare any outputs the second pair of parentheses may be dropped for readability.
+Input arguments must evaluate to a value that matches the declared type.
+Output arguments must evaluate to a memory location that the callee can read from and write to.
+If the callee is an activity that eventually terminates and declares a return value, this return value must be either received into some variable or ignored using a wildcard. The receiving variable is either a mutable variable declared earlier or can be declared inside the &lt;code&gt;run&lt;/code&gt; statement. In this case it can also be declared as a read-only variable using &lt;code&gt;let&lt;/code&gt;. The receiver may be used in the code sequentially after the &lt;code&gt;run&lt;/code&gt; statement.&lt;/p&gt;
+&lt;p&gt;When control flow reaches a &lt;code&gt;run&lt;/code&gt; statement the sub-activity is immediately called and the control flow is handed over to the callee.
+It remains within the callee for as many reactions as it runs (but at least one reaction).
+In every reaction inputs are passed though to the callee and its outputs are propagated outside.
+Should the callee terminate, the control flow returns to the caller and proceeds with the next statement.&lt;/p&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;// declaration
+activity A (a: [8]int32, b: int32) (c: int32) returns bool
+    /* some code */
+    ...
+end
+
+    /* ... inside another activity ... */
+    var result: bool
+    var array: [8]int32 = {1, 2, 3, 4, 5, 6, 7, 8}
+    var output: int32
+    // usage
+    run result = A(array, 7)(output)
+
+    // alternative: declare receiver within &amp;quot;run&amp;quot;
+    run let result2 = A(array, 7)(output)
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;cobegin&#34;&gt;Cobegin&lt;/h3&gt;
+&lt;p&gt;Concurrent composition is expressed with the &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ForkJoin&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;cobegin&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;with&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+ &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using &lt;code&gt;cobegin&lt;/code&gt; it is possible to compose arbitrary pieces of code.
+The goal is not to parallelise to gain execution speed.
+Rather this the language construct to express that two (or more) functionalities should be computed within the same reaction.
+As such concurrency is rather a modelling concept in Blech.
+The code generator will actually sequentialise the code in a causally correct order.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
+In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
+&lt;/div&gt;
+
+&lt;h4 id=&#34;example-concurrent-composition&#34;&gt;Example: Concurrent composition&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity P ()
+    var x: int32
+    var y: int32
+    var z: int32
+    cobegin
+        run A(x)(z)
+    with
+        run B(y)(x)
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Assume the activities &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;B&lt;/code&gt; have already been implemented.
+In lines 5 &amp;ndash; 9 they are composed concurrently.
+This means the control flow of &lt;code&gt;P&lt;/code&gt; is forked into two control flow points.
+One resides in &lt;code&gt;A&lt;/code&gt; (line 6) and one in &lt;code&gt;B&lt;/code&gt; (line 8).
+With every tick both, &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;B&lt;/code&gt;, will perform one reaction.
+When both subprograms terminate, &lt;code&gt;P&lt;/code&gt; regains control in line 9 and, in this example, terminates too.
+Of course, more than two branches can be combined using more &lt;code&gt;with&lt;/code&gt; branches.
+Note that the reaction of &lt;code&gt;B&lt;/code&gt; will be carried out before the reaction of &lt;code&gt;A&lt;/code&gt; due to causality:
+First the unique value of &lt;code&gt;x&lt;/code&gt; needs to be set by writer &lt;code&gt;B&lt;/code&gt; before the reader &lt;code&gt;A&lt;/code&gt; may use it.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;cobegin&lt;/code&gt; statement is a composite statement like a &lt;code&gt;repeat&lt;/code&gt; loop or an &lt;code&gt;if&lt;/code&gt; statement.
+Control flow can remain within the &lt;code&gt;cobegin&lt;/code&gt; branches for multiple reactions.
+However in general the various branches can perform a different number of reactions, possibly infinitely many.
+We therefore need to control the termination of &lt;code&gt;cobegin&lt;/code&gt; as a whole using the &lt;code&gt;weak&lt;/code&gt; qualifiers.&lt;/p&gt;
+&lt;p&gt;Formally, a &lt;code&gt;cobegin&lt;/code&gt; statement terminates in the reaction in which all strong branches have terminated.
+If all branches are weak, the &lt;code&gt;cobegin&lt;/code&gt; statement terminates in the reaction in which some branch terminates.&lt;/p&gt;
+&lt;p&gt;In the above example no branch is &lt;code&gt;weak&lt;/code&gt;.
+We say all branches are &amp;ldquo;strong&amp;rdquo;.
+This means the &lt;code&gt;cobegin&lt;/code&gt; statement terminates when &lt;em&gt;all&lt;/em&gt; of its branches have terminated.
+Branches that finish earlier (have fewer reaction to do) will simply do nothing until the last strong branch has terminated.
+The following two examples illustrate the usage of the &lt;code&gt;weak&lt;/code&gt; qualifier.&lt;/p&gt;
+&lt;h4 id=&#34;example-weak-and-strong-branches&#34;&gt;Example: Weak and strong branches&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;/* ... inside some activity ... */
+var res: nat8
+cobegin weak
+    // non-terminating branch
+    repeat
+        await true
+        out1 = (out1 + 1) % 100
+    end
+with
+    // terminates once a key is pressed
+    res = run ReadKeyStroke()
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The first branch contains an infinite loop in the sense that every iteration ends in a pause but the number of reactions is unbounded.
+The loop is placed into a weak branch that allows to terminate the loop at the end of some reaction.
+The second branch contains an activity call that is expected to return some value eventually.
+In the reaction in which the result is returned the weak branch will be aborted (after it has done one iteration) and the control flow continues with the next statement following the &lt;code&gt;cobegin&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;example-all-branches-weak&#34;&gt;Example: All branches weak&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;cobegin weak
+    await isButtonPressed
+with weak
+    await hasReceivedSignal
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this example there are no strong branches.
+The first branch to terminate will abort all others.
+In this example it means as soon as &lt;code&gt;isButtonPressed&lt;/code&gt; or &lt;code&gt;hasReceivedSignal&lt;/code&gt; is true (or both are true!) the &lt;code&gt;cobegin&lt;/code&gt; statement terminates and control flow continues with the next statement.&lt;/p&gt;
+&lt;h3 id=&#34;prev&#34;&gt;Prev&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;prev&lt;/code&gt; is not a statement but a special operator which is most useful in the context of a &lt;code&gt;cobegin&lt;/code&gt; block.&lt;/p&gt;
+&lt;p&gt;The introductory chapter explained &lt;a href=&#34;../moc/#causality&#34;&gt;causality&lt;/a&gt;
+.
+In short, this means two concurrent branches may not write the same shared memory and furthermore cyclical read-write dependencies are prohibited as well.
+Sometimes however we need to express a quasi-cycle wherein one branch starts off with a value that has already been computed in the previous reaction. This is conveniently expressed using the &lt;code&gt;prev&lt;/code&gt; operator.&lt;/p&gt;
+&lt;h4 id=&#34;example-previous-values&#34;&gt;Example: Previous values&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;cobegin 
+    run A (prev x)(y)
+with 
+    run B (y)(x)
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here, in every reaction, the &lt;em&gt;previous&lt;/em&gt; value of &lt;code&gt;x&lt;/code&gt;, i.e. the result of the previous reaction, is given to &lt;code&gt;A&lt;/code&gt; which performs a step and produces a new value for &lt;code&gt;y&lt;/code&gt;. This is then used by &lt;code&gt;B&lt;/code&gt; to produce a new &lt;em&gt;current&lt;/em&gt; value of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;prev&lt;/code&gt; can only be used where we expect to read a value. It cannot be used on a left-hand-side of an assignment or in an output argument position. &lt;code&gt;prev&lt;/code&gt; may only be applied to values, identified by a name. It cannot be used on arbitrary expressions.
+When used on memory of complex data types, &lt;code&gt;prev&lt;/code&gt; binds to the outermost part. For a structure &lt;code&gt;s&lt;/code&gt; the expression &lt;code&gt;prev s.x&lt;/code&gt; is to be read as &lt;code&gt;(prev s).x&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;abort-and-reset&#34;&gt;Abort and reset&lt;/h3&gt;
+&lt;p&gt;There are two kinds of synchronous preemptions built into Blech.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Preemption&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;when&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;abort&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;reset&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When control flow enters a preemption the statements in its body, denoted by &lt;code&gt;StmtBlock&lt;/code&gt; in the grammar, are executed until the reaction ends in an &lt;code&gt;await&lt;/code&gt; or &lt;code&gt;run&lt;/code&gt; statement.
+Subsequently, when a reaction resumes execution inside the body, first the &lt;code&gt;when&lt;/code&gt; condition is checked.
+If it is false, the execution starts as usual.
+Otherwise the body is preempted &lt;em&gt;before&lt;/em&gt; any statement is executed or expression is evaluated inside the body.
+There are two variants of preemptions.
+&lt;code&gt;abort&lt;/code&gt; means that control flow jumps to the &lt;code&gt;end&lt;/code&gt; of the preemption statement.
+&lt;code&gt;reset&lt;/code&gt; means that control flow restarts at the beginning of &lt;code&gt;StmtBlock&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Note that&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;when Condition reset P end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;is syntactic sugar for&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var hasTerminated = false
+repeat
+    when Condition abort
+        P
+        hasTerminated = true
+    end
+until hasTerminated end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;where &lt;code&gt;hasTerminated&lt;/code&gt; is a fresh boolean variable.&lt;/p&gt;
+&lt;p&gt;It is, of course, possible that the body is left instantaneously within one reaction.
+In this case the preemption is irrelevant for the flow of control.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
+The preemption condition is &lt;em&gt;not&lt;/em&gt; checked when the control flow enters the body.
+The &lt;code&gt;when&lt;/code&gt; condition is only checked when control flow resumes from within the body.
+Wrap the preemption inside an &lt;code&gt;if&lt;/code&gt; statement in case you want to check the condition before entering the body.
+&lt;/div&gt;
+
+&lt;h4 id=&#34;example-abort-and-reset&#34;&gt;Example: Abort and Reset&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity A (in1: bool) (out1: uint8)
+    // do something ...
+    
+    when in1 abort
+        out1 = 1
+        await true
+        out1 = 2
+        await true
+        out1 = 3
+    end
+    
+    // do something else ...
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The statement in line 4 says that &lt;code&gt;when&lt;/code&gt; a reaction &lt;em&gt;starts&lt;/em&gt; in the block lines 5 &amp;ndash; 9, it is checked whether &lt;code&gt;in1&lt;/code&gt; is true and in that case the control flow skips to line 10.
+Thus when control flow reaches line 4 it will immediately proceed to line 5, set &lt;code&gt;out1&lt;/code&gt; accordingly and finish this reaction in line 6 (regardless of the value of &lt;code&gt;in1&lt;/code&gt;).
+The next reaction starts by checking the abort condition &lt;code&gt;in1&lt;/code&gt;.
+If it is true we skip the rest of the block and proceed to line 10.
+Otherwise, we check the condition of the &lt;code&gt;await&lt;/code&gt; statement which here is vacuously true and the reaction proceeds to line 7 and finishes in line 8.
+The same reasoning applies in line 8: the execution is possibly aborted before setting &lt;code&gt;out1&lt;/code&gt; to 3.
+In any case, the block is left in line 10.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;abort&lt;/code&gt; statement is useful whenever we want to skip over a sequence of reactions when we detect some issue at the beginning of a reaction.
+Sometimes instead of skipping ahead we would like to restart a sequence of reactions.
+For this we may use the &lt;code&gt;reset&lt;/code&gt; statement.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity MyAct (in1: bool) (out1: uint8)
+    // do something ...
+    
+    when in1 reset // reset instead of abort
+        out1 = 1
+        await true
+        out1 = 2
+        await true
+        out1 = 3
+    end
+    
+    // do something else ...
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It behaves just like the &lt;code&gt;abort&lt;/code&gt; statement except it jumps to line 4 if &lt;code&gt;in1&lt;/code&gt; is true.&lt;/p&gt;
+&lt;h2 id=&#34;imperative-control-flow&#34;&gt;Imperative control flow&lt;/h2&gt;
+&lt;p&gt;All of the following statements are known from mainstream imperative programming languages.
+They may be used inside both, activities and functions.&lt;/p&gt;
+&lt;h3 id=&#34;assignment&#34;&gt;Assignment&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Assignment&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LhsExpr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;do-block&#34;&gt;Do block&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;DoBlock&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;do&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;do&lt;/code&gt; block may be used to define local scopes.&lt;/p&gt;
+&lt;h4 id=&#34;example-local-scopes&#34;&gt;Example: Local scopes&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f ()
+    do
+        var x: int8 = 5
+    end
+    // x is out of scope here
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;if&#34;&gt;If&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;IfStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;if&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;then&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;elseif&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;then&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;else&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;while&#34;&gt;While&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;WhileLoop&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;while&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;repeat&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When using a loop in an activity, there must be some pause on every control flow path through the loop body.
+This is not necessary for loops inside functions.
+Note that using &lt;code&gt;while&lt;/code&gt; loops in activities may lead to unexpected error messages because we deliberately &lt;em&gt;do not&lt;/em&gt; evaluate the condition at compile time even if it is trivially true or false.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Toggle()(out:bool)
+    while true repeat
+        out = not out
+        await true
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This program will not compile because the compiler thinks there is a control flow path that does not enter the loop and immediately terminates the activity.
+Since activities must not be instantaneous this program is rejected.
+Use &lt;code&gt;repeat&lt;/code&gt; loops instead to avoid this spurious control flow paths that possibly skip the loop.&lt;/p&gt;
+&lt;h3 id=&#34;repeat&#34;&gt;Repeat&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;RepeatLoop&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;repeat&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;until&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;repeat&lt;/code&gt; loops guarantee that control flow does enter the loop body at least once.
+Endless loops (without the &lt;code&gt;until&lt;/code&gt; condition) may only be used in activities.
+Again, when using a loop in an activity, there must be some pause on every control flow path through the loop body.
+This is not necessary for loops inside functions.&lt;/p&gt;
+&lt;h3 id=&#34;return&#34;&gt;Return&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ReturnStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;return&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;return&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ActivityCall&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Void activities and functions can use &lt;code&gt;return&lt;/code&gt; without an expression to terminate at some point before control flow reaches the last statement.&lt;/p&gt;
+&lt;h4 id=&#34;example-return-from-void-function&#34;&gt;Example: Return from void function&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function setSpeed (velocity: float32) ()
+    if velocity &amp;lt; 0 then
+        return
+    end
+
+    if not isMotorReady() then
+        return
+    end
+    
+    halSetSpeed(velocity) // call device driver
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This simple example assumes we implement a wrapper for calling a hardware device driver.
+In order to avoid an if-then-else cascade &lt;code&gt;setSpeed&lt;/code&gt; tests the prerequisites individually and returns in case some of them is not met.&lt;/p&gt;
+&lt;p&gt;Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.&lt;/p&gt;
+&lt;p&gt;Activities may only return from their main thread.
+In other words &lt;code&gt;return&lt;/code&gt; must not occur inside a branch of a &lt;code&gt;cobegin&lt;/code&gt; statement.
+This is a design decision which avoids cases in which multiple branches could return a value and it is not clear which one &amp;ldquo;wins&amp;rdquo; the race. Furthermore, even if only one branch could return, it still would not be clear whether concurrent branches will execute their reactions entirely or not. For the sake of a clear and easy to understand semantics the above restriction is enforced.&lt;/p&gt;
+&lt;p&gt;Mind the difference between activity return values and activity output values.
+Outputs are set in every reaction of the activity.
+A return value is returned precisely once in the reaction that terminates the activity.&lt;/p&gt;
+&lt;h4 id=&#34;example-return-from-activity&#34;&gt;Example: Return from activity&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity A (in: int32) (out: int32) returns nat8
+    var retcode: nat8
+    var x: int32
+    cobegin weak
+        run B(in)(x)
+    with
+        retcode = run C(x)(out)
+    end
+    return retcode
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In every reaction &lt;code&gt;in&lt;/code&gt; is propagated to &lt;code&gt;B&lt;/code&gt; and &lt;code&gt;out&lt;/code&gt; is propagated from &lt;code&gt;C&lt;/code&gt; to the caller.
+Only when &lt;code&gt;C&lt;/code&gt; terminates the variable &lt;code&gt;retcode&lt;/code&gt; is updated, the &lt;code&gt;cobegin&lt;/code&gt; statement is terminated and the &lt;code&gt;retcode&lt;/code&gt; is returned to the caller.&lt;/p&gt;
+&lt;p&gt;Activities that simply terminate and pass on the value of their callee may use the syntactic sugar&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;return run A()
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;instead of the more verbose&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;run let foo = A()
+return foo
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;function-call&#34;&gt;Function call&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;FunctionCallStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Blech distinguishes between a function call statement and a function call expression.
+On the statement level only void functions may be called.&lt;/p&gt;
+&lt;p&gt;In summary, a block of statements in Blech is given by the following grammar.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; 
+      &lt;span style=&#34;color:#000&#34;&gt;Pause&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;ActivityCall&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;ForkJoin&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;Preemption&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;Assignment&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;DoBlock&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;IfStmt&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;WhileLoop&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;RepeatLoop&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;ReturnStmt&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;FunctionCallStmt&lt;/span&gt;
+    | &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Depending on whether statements are used in an activity or a function their use may be restricted or prohibited (see above).
+The optional semicolons in the grammar indicate that it is possible to separate statements in a sequence using semicolons.
+We suggest to avoid writing any semicolons unless two (or more) statements are written in one line.&lt;/p&gt;
+&lt;h3 id=&#34;semicolons-in-blech&#34;&gt;Semicolons in Blech&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f()
+    var x: int8 = 0; // do not clutter your code with superfluous &amp;quot;;&amp;quot;
+    var y: int8 = 1  // preferred semicolon free style
+
+    x = 7; y = y + x // ok, but usually it is better to write two lines
+    x = 7 y = y + x  // compiles but is hardly readable, do not do that
+end
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Stopwatch</title>
       <link>https://www.blech-lang.org/docs/examples/stopwatch/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -2247,7 +2268,7 @@ Annotations are required to tell the compiler how to code-generate access to the
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ExternFunctionDeclaration&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;extern&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;singleton&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;function&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamList&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ParamList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;returns&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ExternDataDeclaration&lt;/span&gt;     ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;extern&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Obviously, external functions have no body and external variables cannot be initialised.
-As before, external functions may be characterised as &lt;code&gt;singleton&lt;/code&gt; which means such a function may not be called concurrently. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Calling such a function concurrently would violate the synchrony assumptions and lead to unexpected results.&lt;/p&gt;
+As before, external functions may be characterised as &lt;code&gt;singleton&lt;/code&gt; which means such a function may not be called concurrently with another instance of itself. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Invoking multiple instances of such a function concurrently would violate the synchrony assumptions and lead to unexpected results.&lt;/p&gt;
 &lt;p&gt;External declarations additionally require annotations which we introduce by example below.&lt;/p&gt;
 
 
@@ -2270,8 +2291,8 @@ However they have more of a documentation character rather than any functional d
 Both will evaluate whatever expression is given in the binding at runtime.
 This is the reason why external constants cannot be used for constant expression evaluation in Blech &amp;ndash; their value is unknown at compile time.
 While you can, for example, use a Blech constant to parametrise an array length, you cannot do so using an external constant.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; annotation attribute may contain any expression that can be evaluated in C.&lt;/p&gt;
-&lt;p&gt;By design the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler &amp;ldquo;look into&amp;rdquo; C header or implementation files, nor does it try to evaluate any C-bindings.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; annotation attribute may contain any string which is a valid right hand side of a C macro.&lt;/p&gt;
+&lt;p&gt;By design, the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler &amp;ldquo;look into&amp;rdquo; C header or implementation files, nor does it try to evaluate any C-bindings.&lt;/p&gt;
 &lt;h3 id=&#34;local-external-variables&#34;&gt;Local external variables&lt;/h3&gt;
 &lt;p&gt;The aforementioned constants may be declared in local scopes as well.
 Additionally, local Blech variables that link to external global variables may be declared inside activities (but not in functions).&lt;/p&gt;
@@ -2321,13 +2342,14 @@ Concurrent instances lead to a write-write conflict and compilation is rejected.
 &lt;h3 id=&#34;external-functions&#34;&gt;External functions&lt;/h3&gt;
 &lt;p&gt;There are two ways to link to external functions in Blech.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Via direct binding to function name declared in an .h file&lt;/li&gt;
+&lt;li&gt;Via direct binding a to function name declared in an .h file&lt;/li&gt;
 &lt;li&gt;Via a wrapper to be implemented in some .c file.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;In the first case we annotate the name of the C function and the file wherein this function is declared.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;ceil&amp;quot;, header = &amp;quot;math.h&amp;quot;)]
+&lt;p&gt;In the first case we annotate the call to the C function and the file wherein this function is declared. The call must list the parameters using a &lt;code&gt;$i&lt;/code&gt; notation. In this way, we can map the input and output parameters of the Blech prototype to the positions of the C function.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;ceil($1)&amp;quot;, header = &amp;quot;math.h&amp;quot;)]
 extern function ceiling(i: float64) returns float64
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Inside the Blech program this function is now available through name &lt;code&gt;ceiling&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;TODO: find a good example where output/input parameters have to be rearranged&lt;/p&gt;
 &lt;p&gt;In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.&lt;/p&gt;
@@ -2339,18 +2361,18 @@ extern function myCFunction(i: float64) returns float64
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It is up to the C programmer now to include this header in his implementation file &lt;code&gt;impl.c&lt;/code&gt; and provide an actual definition of this function.&lt;/p&gt;
 &lt;h3 id=&#34;remarks-on-caveats-when-interfacing-with-c&#34;&gt;Remarks on caveats when interfacing with C&lt;/h3&gt;
 &lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
-&lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
+&lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types then a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
 &lt;h4 id=&#34;parameter-lists&#34;&gt;Parameter lists&lt;/h4&gt;
 &lt;p&gt;In Blech, functions have two parameter lists as explained above. 
 The Blech compiler ensures that inputs will only be read. 
 However the Blech compiler has no chance to check that the external code adheres to this contract.&lt;/p&gt;
 &lt;p&gt;For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;sort&amp;quot;, header = &amp;quot;utils.h&amp;quot;)]
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;sort($1)&amp;quot;, header = &amp;quot;utils.h&amp;quot;)]
 extern function sort()(arr: [10]int32)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this way, the Blech compiler knows that &lt;code&gt;sort&lt;/code&gt; will modify the given array. When calling this function in a concurrent context the compiler will prevent write-write conflicts and read-write cycles on the array.&lt;/p&gt;
 &lt;p&gt;However, the programmer could erroneously declare the same function as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;sort&amp;quot;, header = &amp;quot;utils.h&amp;quot;)]
+&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;sort($1)&amp;quot;, header = &amp;quot;utils.h&amp;quot;)]
 extern function sort(arr: [10]int32)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The code will compile all the same but the causality guarantees are gone because the Blech compiler relies on the assumption that the array will only be read and not modified. At runtime the program may then exhibit unexpected behaviour.&lt;/p&gt;
 &lt;h4 id=&#34;singletons&#34;&gt;Singletons&lt;/h4&gt;
@@ -2360,7 +2382,7 @@ extern singleton function doA()
 @[CFunction (binding = &amp;quot;foo&amp;quot;, header = &amp;quot;head.h&amp;quot;)]
 extern singleton function doB() 
 
-/* ... somewhere in an acitivity scope ... */
+/* ... somewhere in an activity scope ... */
 cobegin
    doA()
 with
@@ -2368,6 +2390,13 @@ with
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this &lt;em&gt;particular&lt;/em&gt; mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
 It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.&lt;/p&gt;
+&lt;h4 id=&#34;binding-strings&#34;&gt;Binding strings&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; part of an annotation
+TODO: mention (again) any piece of code that can be the right hand side of a macro may appear as binding
+bindings are strings 
+TODO (elsewhere): explain Blech strings of which there are single line and multi line ones
+explain indentation
+explain escaping&lt;/p&gt;
 
       </description>
     </item>

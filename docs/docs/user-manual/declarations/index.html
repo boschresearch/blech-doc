@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.74.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -26,17 +26,18 @@
 Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/declarations/" />
-<meta property="article:modified_time" content="2020-07-04T01:07:11+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-08-31T18:58:05+02:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="Declarations">
 <meta itemprop="description" content="Declarations introduce new names for entities in the program. Declarable entities include
  activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
 Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here.">
-<meta itemprop="dateModified" content="2020-07-04T01:07:11&#43;02:00" />
-<meta itemprop="wordCount" content="2889">
+<meta itemprop="dateModified" content="2020-08-31T18:58:05+02:00" />
+<meta itemprop="wordCount" content="2999">
 
 
 
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Declarations"/>
 <meta name="twitter:description" content="Declarations introduce new names for entities in the program. Declarable entities include
  activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
@@ -48,8 +49,8 @@ Every declaration exists in a lexical scope. Scopes define the visibility of a n
 
 
 
-<link rel="preload" href="/scss/main.min.42dc6b8ab76e5a3843601757b90c05b0c30c1ace13d81c4da09433742b03f94c.css" as="style">
-<link href="/scss/main.min.42dc6b8ab76e5a3843601757b90c05b0c30c1ace13d81c4da09433742b03f94c.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.21feb77dc1ca3efaa41f930ae91d6c84a59bc9c496a536ae15a1b2c8122fce8a.css" as="style">
+<link href="/scss/main.min.21feb77dc1ca3efaa41f930ae91d6c84a59bc9c496a536ae15a1b2c8122fce8a.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -174,12 +175,6 @@ Every declaration exists in a lexical scope. Scopes define the visibility of a n
       
       
       
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverview" href="/docs/overview/">Overview</a>
-      
-      
-      
-      
 
 
 
@@ -233,6 +228,12 @@ Every declaration exists in a lexical scope. Scopes define the visibility of a n
       
       
       
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualmoc" href="/docs/user-manual/moc/">Model of execution</a>
+      
+      
+      
+      
+      
       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualnotation" href="/docs/user-manual/notation/">Notation</a>
       
       
@@ -244,37 +245,8 @@ Every declaration exists in a lexical scope. Scopes define the visibility of a n
       
       
       
-
-
-
-
-
-
-<ul class="td-sidebar-nav__section pr-md-3">
-  <li class="td-sidebar-nav__section-title">
-    <a  href="/docs/user-manual/controlflow/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Control flow</a>
-  </li>
-  <ul>
-    <li class="collapse " id="docsuser-manualcontrolflow">
       
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowmoc" href="/docs/user-manual/controlflow/moc/">Model of execution</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualcontrolflowstatements" href="/docs/user-manual/controlflow/statements/">Statements</a>
-      
-      
-    </li>
-  </ul>
-</ul>
-
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualstatements" href="/docs/user-manual/statements/">Statements</a>
       
       
       
@@ -823,7 +795,7 @@ Annotations are required to tell the compiler how to code-generate access to the
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ExternFunctionDeclaration</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;extern&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;singleton&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">&#34;function&#34;</span> <span style="color:#000">Identifier</span> <span style="color:#000">ParamList</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">ParamList</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">returns</span> <span style="color:#000">Type</span><span style="color:#000;font-weight:bold">]</span>
 <span style="color:#000">ExternDataDeclaration</span>     ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;extern&#34;</span> <span style="color:#000">Qualifier</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span>
 </code></pre></div><p>Obviously, external functions have no body and external variables cannot be initialised.
-As before, external functions may be characterised as <code>singleton</code> which means such a function may not be called concurrently. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Calling such a function concurrently would violate the synchrony assumptions and lead to unexpected results.</p>
+As before, external functions may be characterised as <code>singleton</code> which means such a function may not be called concurrently with another instance of itself. This is useful when the external function to be called is not a pure function because it either returns a volatile value or has some effect on the environment. Invoking multiple instances of such a function concurrently would violate the synchrony assumptions and lead to unexpected results.</p>
 <p>External declarations additionally require annotations which we introduce by example below.</p>
 
 
@@ -846,8 +818,8 @@ However they have more of a documentation character rather than any functional d
 Both will evaluate whatever expression is given in the binding at runtime.
 This is the reason why external constants cannot be used for constant expression evaluation in Blech &ndash; their value is unknown at compile time.
 While you can, for example, use a Blech constant to parametrise an array length, you cannot do so using an external constant.</p>
-<p>The <code>binding</code> annotation attribute may contain any expression that can be evaluated in C.</p>
-<p>By design the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler &ldquo;look into&rdquo; C header or implementation files, nor does it try to evaluate any C-bindings.</p>
+<p>The <code>binding</code> annotation attribute may contain any string which is a valid right hand side of a C macro.</p>
+<p>By design, the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler &ldquo;look into&rdquo; C header or implementation files, nor does it try to evaluate any C-bindings.</p>
 <h3 id="local-external-variables">Local external variables</h3>
 <p>The aforementioned constants may be declared in local scopes as well.
 Additionally, local Blech variables that link to external global variables may be declared inside activities (but not in functions).</p>
@@ -897,13 +869,14 @@ Concurrent instances lead to a write-write conflict and compilation is rejected.
 <h3 id="external-functions">External functions</h3>
 <p>There are two ways to link to external functions in Blech.</p>
 <ol>
-<li>Via direct binding to function name declared in an .h file</li>
+<li>Via direct binding a to function name declared in an .h file</li>
 <li>Via a wrapper to be implemented in some .c file.</li>
 </ol>
-<p>In the first case we annotate the name of the C function and the file wherein this function is declared.</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;ceil&quot;, header = &quot;math.h&quot;)]
+<p>In the first case we annotate the call to the C function and the file wherein this function is declared. The call must list the parameters using a <code>$i</code> notation. In this way, we can map the input and output parameters of the Blech prototype to the positions of the C function.</p>
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;ceil($1)&quot;, header = &quot;math.h&quot;)]
 extern function ceiling(i: float64) returns float64
 </code></pre><p>Inside the Blech program this function is now available through name <code>ceiling</code>.</p>
+<p>TODO: find a good example where output/input parameters have to be rearranged</p>
 <p>In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.</p>
@@ -915,18 +888,18 @@ extern function myCFunction(i: float64) returns float64
 </code></pre></div><p>It is up to the C programmer now to include this header in his implementation file <code>impl.c</code> and provide an actual definition of this function.</p>
 <h3 id="remarks-on-caveats-when-interfacing-with-c">Remarks on caveats when interfacing with C</h3>
 <h4 id="types">Types</h4>
-<p>Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.</p>
+<p>Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types then a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.</p>
 <h4 id="parameter-lists">Parameter lists</h4>
 <p>In Blech, functions have two parameter lists as explained above. 
 The Blech compiler ensures that inputs will only be read. 
 However the Blech compiler has no chance to check that the external code adheres to this contract.</p>
 <p>For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort&quot;, header = &quot;utils.h&quot;)]
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort($1)&quot;, header = &quot;utils.h&quot;)]
 extern function sort()(arr: [10]int32)
 </code></pre><p>In this way, the Blech compiler knows that <code>sort</code> will modify the given array. When calling this function in a concurrent context the compiler will prevent write-write conflicts and read-write cycles on the array.</p>
 <p>However, the programmer could erroneously declare the same function as follows:</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort&quot;, header = &quot;utils.h&quot;)]
+<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort($1)&quot;, header = &quot;utils.h&quot;)]
 extern function sort(arr: [10]int32)
 </code></pre><p>The code will compile all the same but the causality guarantees are gone because the Blech compiler relies on the assumption that the array will only be read and not modified. At runtime the program may then exhibit unexpected behaviour.</p>
 <h4 id="singletons">Singletons</h4>
@@ -936,7 +909,7 @@ extern singleton function doA()
 @[CFunction (binding = &quot;foo&quot;, header = &quot;head.h&quot;)]
 extern singleton function doB() 
 
-/* ... somewhere in an acitivity scope ... */
+/* ... somewhere in an activity scope ... */
 cobegin
    doA()
 with
@@ -944,10 +917,17 @@ with
 end
 </code></pre><p>This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this <em>particular</em> mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
 It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.</p>
+<h4 id="binding-strings">Binding strings</h4>
+<p>The <code>binding</code> part of an annotation
+TODO: mention (again) any piece of code that can be the right hand side of a macro may appear as binding
+bindings are strings 
+TODO (elsewhere): explain Blech strings of which there are single line and multi line ones
+explain indentation
+explain escaping</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 4, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6bf93c2b1488bb6733c278060063a22b2429807a">Completed transformation of asciidoc documentation to markdown and fixed a few typos (6bf93c2)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified August 31, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/825d14d146f3364a0b9a32b79121550cde8c256d">Changed Version to 0.6. Few changes on declarations docu (825d14d)</a>
 </div>
 </div>
 
