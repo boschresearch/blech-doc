@@ -314,8 +314,6 @@ extern function ceiling(i: float64) returns float64
 
 Inside the Blech program this function is now available through name `ceiling`.
 
-TODO: find a good example where output/input parameters have to be rearranged
-
 In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.
