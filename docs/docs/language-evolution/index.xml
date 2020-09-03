@@ -165,8 +165,8 @@ let b8 = (-50 - 150): bits8 // compile time error, not representable as 2-comple
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;use-of-operations&#34;&gt;Use of operations&lt;/h3&gt;
 &lt;p&gt;Bitwise operatorions and arithmetic operations cannot be applied to values of type &lt;code&gt;AnyBits&lt;/code&gt;.
 Bitwise and arithmetic operations can only be applied to values of type &lt;code&gt;bitsN&lt;/code&gt;, that means the size has to be fixed before any operation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
-let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus
+let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight&#34; target=&#34;_blank&#34;&gt;Hacker’s Delight&lt;/a&gt;
  is the definitive source of bitwise programming algorithms. 

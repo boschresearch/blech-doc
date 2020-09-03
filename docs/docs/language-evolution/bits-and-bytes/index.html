@@ -754,8 +754,8 @@ let b8 = (-50 - 150): bits8 // compile time error, not representable as 2-comple
 </code></pre></div><h3 id="use-of-operations">Use of operations</h3>
 <p>Bitwise operatorions and arithmetic operations cannot be applied to values of type <code>AnyBits</code>.
 Bitwise and arithmetic operations can only be applied to values of type <code>bitsN</code>, that means the size has to be fixed before any operation.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
-let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus
+let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around
 </code></pre></div><h3 id="hackers-delight-translated-to-blech">Hacker&rsquo;s Delight translated to Blech</h3>
 <p><a href="https://en.wikipedia.org/wiki/Hacker%27s_Delight" target="_blank">Hacker’s Delight</a>
  is the definitive source of bitwise programming algorithms. 
