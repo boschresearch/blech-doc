@@ -669,8 +669,8 @@ Declare before use! Even if, for example, functions are defined on the same scop
 <p>Data declarations consist of an access and placement qualifier, an identifier, a data type and an initialisation.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">DataDeclaration</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Qualifier</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span> <span style="color:#000">&#34;=&#34;</span> <span style="color:#000">Init</span>
 </code></pre></div><p>A variable declaration:</p>
-<pre><code class="language-blech" data-lang="blech">var x: int32 = 17
-</code></pre><p>The type is either a built-in type or a name of a user defined type.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: int32 = 17
+</code></pre></div><p>The type is either a built-in type or a name of a user defined type.
 Built-in types are discussed in the <a href="../types">Types chapter</a>
 .
 Type declarations are discussed <a href="#user-defined-types">below</a>
@@ -691,10 +691,10 @@ The name &ldquo;param&rdquo; indicates that such data is a parameter of the fina
 Tools exist to customise such parameters in a binary file directly in order to adapt the given software to a variant of a product.
 Like with <code>const</code> data, the <code>param</code> value must be initialised with constant expressions.
 You cannot write the following</p>
-<pre><code class="language-blech" data-lang="blech">function f (input: int32)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function f (input: int32)
    param x: int32 = input // error!
 end
-</code></pre><p>This is because the value of <code>input</code> is determined at <em>runtime</em> but <code>x</code> must be initialised at <em>compile time</em>.</p>
+</code></pre></div><p>This is because the value of <code>input</code> is determined at <em>runtime</em> but <code>x</code> must be initialised at <em>compile time</em>.</p>
 <p><code>const</code> and <code>param</code> data may be declared at top level as well as inside functions or activities.
 The other two qualifiers <code>let</code> and <code>var</code> indicate local data and may <em>only</em> be used inside functions or activities.</p>
 <p><code>let</code> declares immutable data in the control flow of a program.
@@ -702,15 +702,15 @@ Finally, &lsquo;var&rsquo; declares the usual mutable variable.
 Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type&rsquo;s default value.
 The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.</p>
 <p>Example:</p>
-<pre><code class="language-blech" data-lang="blech">const LEN: int32 = 8
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">const LEN: int32 = 8
 param lut: [LEN]float64 = {1.0, 0.5, 0.25, 0.125} // LEN is constant and may be used here
-                                                  // the array literal will be filled with additional 0's up to length LEN.
+                                                  // the array literal will be filled with additional 0&#39;s up to length LEN.
 function f()
     let i = LEN - 7 // i is deduced to be int32
     var x = lut[i] // x is deduced to be float64
                    // and equals 0.5 in this case
 end
-</code></pre>
+</code></pre></div>
 
 <div class="alert alert-info" role="alert">
 <h4 class="alert-heading">Note</h4>
@@ -767,7 +767,7 @@ In particular the two lists are useful for activities which, in every reaction, 
 We will therefore often refer to these two parameter lists as &ldquo;input list&rdquo; and &ldquo;output list&rdquo;.</p>
 <p>The programming model is that all variables are passed by reference (even though in reality the compiler will optimise this into by-value for simple value typed inputs).</p>
 <p>Example:</p>
-<pre><code class="language-blech" data-lang="blech">function add (x: int32, y: int32) returns int32
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function add (x: int32, y: int32) returns int32
    return x + y
 end
 
@@ -778,7 +778,7 @@ activity A (in: int32)(out: int32)
       await true
    end
 end
-</code></pre><p>The example above is a valid Blech program that sums all inputs over all time steps.
+</code></pre></div><p>The example above is a valid Blech program that sums all inputs over all time steps.
 Note that <code>add</code> omits an output list and <code>A</code> does not declare any return type.
 We call functions or activities that do not return anything &ldquo;void&rdquo; but unlike C we do not have a void type in the language.</p>
 <p>The <code>@[EntryPoint]</code> annotation tells the compiler that <code>A</code> is the main program of this file. Every Blech file must have precisely one entry point activity.
@@ -808,11 +808,11 @@ Note that the type-safety and causality guarantees of Blech vanish once you inte
 <p>In C, constant values may be defined using macros or <code>const</code> variables.
 In order to make these values available in Blech, external constants may be declared.
 External constant declarations may appear in any scope.</p>
-<pre><code class="language-blech" data-lang="blech">@[CConst (binding = &quot;PI&quot;, header = &quot;math.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CConst (binding = &#34;PI&#34;, header = &#34;math.h&#34;)]
 extern const pi: float64
-@[CParam (binding = &quot;characteristics&quot;, header = &quot;magic.h&quot;)]
+@[CParam (binding = &#34;characteristics&#34;, header = &#34;magic.h&#34;)]
 extern param map: [10]float32
-</code></pre><p>Both Blech qualifiers <code>const</code> and <code>param</code> are supported.
+</code></pre></div><p>Both Blech qualifiers <code>const</code> and <code>param</code> are supported.
 They require a <code>CConst</code> or a <code>CParam</code> annotation respectively.
 However they have more of a documentation character rather than any functional difference.
 Both will evaluate whatever expression is given in the binding at runtime.
@@ -834,9 +834,9 @@ There is no semantical reason why external variables cannot be declared inside f
 <p>Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
 These variables follow the same rules as the usual activity-local variables.</p>
 <p>Read-only external variables are annotated with the <code>CInput</code> annotation.</p>
-<pre><code class="language-blech" data-lang="blech">@[CInput (binding = &quot;PIN_7&quot;, header = &quot;head.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CInput (binding = &#34;PIN_7&#34;, header = &#34;head.h&#34;)]
 extern let isButtonPressed: bool
-</code></pre><p>This example assumes there is either a C macro or a C variable <code>PIN_7</code> that returns a volatile boolean value indicating a button press.</p>
+</code></pre></div><p>This example assumes there is either a C macro or a C variable <code>PIN_7</code> that returns a volatile boolean value indicating a button press.</p>
 <p>The declaration creates a local variable inside the enclosing activity.
 It serves as a copy-in buffer.
 When the activity starts a reaction the value of <code>PIN_7</code> is copied into <code>isButtonPressed</code>.
@@ -845,9 +845,9 @@ This corresponds to the semantics of activity input parameters.</p>
 <p>An activity that declares an immutable external variable does not become a singleton.
 Concurrent instances may exist but they may contain different values for the same external variable if it is volatile.</p>
 <p>Read-write external variables are annotated with the <code>COutput</code> annotation.</p>
-<pre><code class="language-blech" data-lang="blech">@[COutput (binding = &quot;PIN_7&quot;, header = &quot;head.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[COutput (binding = &#34;PIN_7&#34;, header = &#34;head.h&#34;)]
 extern var isButtonPressed: bool
-</code></pre><p>Here at the beginning of a reaction the value of <code>PIN_7</code> is copied in.
+</code></pre></div><p>Here at the beginning of a reaction the value of <code>PIN_7</code> is copied in.
 During a reaction the variable <code>isButtonPressed</code> can be modified as usual.
 At the end of the reaction the value of <code>isButtonPressed</code> is copied out to <code>PIN_7</code>.
 This guarantees a stable output behaviour. Intermediate changes to the local variable <code>isButtonPressed</code> are not observable by the environment.</p>
@@ -855,12 +855,12 @@ This guarantees a stable output behaviour. Intermediate changes to the local var
 It returns the value that the variable held at the end of the previous reaction.
 This behaviour corresponds to using <code>prev</code> on normal local variables but there is a subtle difference.
 External variables may be changed by the environment.</p>
-<pre><code class="language-blech" data-lang="blech">@[COutput (binding = &quot;PIN_7&quot;, header = &quot;head.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[COutput (binding = &#34;PIN_7&#34;, header = &#34;head.h&#34;)]
 extern var isButtonPressed: bool
 isButtonPressed = true
 await cond // some boolean condition
 var x = prev isButtonPressed // is x == true?
-</code></pre><p>If <code>cond</code> is true immediately in the next reaction then x will be set to <code>true</code>.
+</code></pre></div><p>If <code>cond</code> is true immediately in the next reaction then x will be set to <code>true</code>.
 In general, however we do not know how many reaction it will take until <code>cond</code> becomes true.
 Yet in every reaction the copy-in and copy-out mechanisms will update the <code>isButtonPressed</code> buffer.
 If the environment does not change <code>PIN_7</code> then surely <code>x</code> will be <code>true</code>.
@@ -874,15 +874,15 @@ Concurrent instances lead to a write-write conflict and compilation is rejected.
 <li>Via a wrapper to be implemented in some .c file.</li>
 </ol>
 <p>In the first case we annotate the call to the C function and the file wherein this function is declared. The call must list the parameters using a <code>$i</code> notation. In this way, we can map the input and output parameters of the Blech prototype to the positions of the C function.</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;ceil($1)&quot;, header = &quot;math.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (binding = &#34;ceil($1)&#34;, header = &#34;math.h&#34;)]
 extern function ceiling(i: float64) returns float64
-</code></pre><p>Inside the Blech program this function is now available through name <code>ceiling</code>.</p>
+</code></pre></div><p>Inside the Blech program this function is now available through name <code>ceiling</code>.</p>
 <p>In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (source=&quot;impl.c&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (source=&#34;impl.c&#34;)]
 extern function myCFunction(i: float64) returns float64
-</code></pre><p>Assume the above declaration is written in a Blech file called <code>MyFile.blc</code>, then the code generator will produce a header file <code>MyFile.h</code> with the following code:</p>
+</code></pre></div><p>Assume the above declaration is written in a Blech file called <code>MyFile.blc</code>, then the code generator will produce a header file <code>MyFile.h</code> with the following code:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">// extern functions to be implemented in C
 </span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">blc_float64</span> <span style="color:#000">blc_MyFile_myCFunction</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">const</span> <span style="color:#000">blc_float64</span> <span style="color:#000">blc_i</span><span style="color:#000;font-weight:bold">);</span>
 </code></pre></div><p>It is up to the C programmer now to include this header in his implementation file <code>impl.c</code> and provide an actual definition of this function.</p>
@@ -895,18 +895,18 @@ The Blech compiler ensures that inputs will only be read.
 However the Blech compiler has no chance to check that the external code adheres to this contract.</p>
 <p>For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort($1)&quot;, header = &quot;utils.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (binding = &#34;sort($1)&#34;, header = &#34;utils.h&#34;)]
 extern function sort()(arr: [10]int32)
-</code></pre><p>In this way, the Blech compiler knows that <code>sort</code> will modify the given array. When calling this function in a concurrent context the compiler will prevent write-write conflicts and read-write cycles on the array.</p>
+</code></pre></div><p>In this way, the Blech compiler knows that <code>sort</code> will modify the given array. When calling this function in a concurrent context the compiler will prevent write-write conflicts and read-write cycles on the array.</p>
 <p>However, the programmer could erroneously declare the same function as follows:</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;sort($1)&quot;, header = &quot;utils.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (binding = &#34;sort($1)&#34;, header = &#34;utils.h&#34;)]
 extern function sort(arr: [10]int32)
-</code></pre><p>The code will compile all the same but the causality guarantees are gone because the Blech compiler relies on the assumption that the array will only be read and not modified. At runtime the program may then exhibit unexpected behaviour.</p>
+</code></pre></div><p>The code will compile all the same but the causality guarantees are gone because the Blech compiler relies on the assumption that the array will only be read and not modified. At runtime the program may then exhibit unexpected behaviour.</p>
 <h4 id="singletons">Singletons</h4>
 <p>The <code>singleton</code> annotation is a help to the Blech programmer but does not completely prevent concurrent calls to functions with conflicting effects. For example:</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;foo&quot;, header = &quot;head.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (binding = &#34;foo&#34;, header = &#34;head.h&#34;)]
 extern singleton function doA() 
-@[CFunction (binding = &quot;foo&quot;, header = &quot;head.h&quot;)]
+@[CFunction (binding = &#34;foo&#34;, header = &#34;head.h&#34;)]
 extern singleton function doB() 
 
 /* ... somewhere in an activity scope ... */
@@ -915,7 +915,7 @@ cobegin
 with
    doB()
 end
-</code></pre><p>This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this <em>particular</em> mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
+</code></pre></div><p>This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this <em>particular</em> mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
 It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.</p>
 <h4 id="binding-strings">Binding strings</h4>
 <p>The <code>binding</code> part of an annotation may contain any C code which is a valid right hand side of a macro definition.

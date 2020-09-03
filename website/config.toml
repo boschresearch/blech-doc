@@ -10,9 +10,8 @@ publishDir = "../docs"
 enableRobotsTXT = true
 
 # Hugo allows theme composition (and inheritance). The precedence is from left to right.
-# theme = ["docsy"]
 # Customization in themes/blech-lang
-# theme = ["blech-lang", "docsy"]
+# theme = ["blech-lang", "docsy"] // no longer necessary
 theme = ["docsy"]
 
 # Will give values to .Lastmod etc.
@@ -27,17 +26,28 @@ enableMissingTranslationPlaceholders = true
 
 disableKinds = ["taxonomy", "taxonomyTerm"]
 
-# Highlighting config
-pygmentsCodeFences = true
-pygmentsUseClasses = false
+#   pygmentsCodeFences = true
+#   pygmentsUseClasses = false
 # Use the new Chroma Go highlighter in Hugo.
-pygmentsUseClassic = true
+#   pygmentsUseClassic = true
 #pygmentsOptions = "linenos=table"
 # See https://help.farbox.com/pygments.html
-pygmentsStyle = "tango"
+#   pygmentsStyle = "tango"
 
 # [context.production.environment]
 # HUGO_ENV = "production"
+
+# Configuration for the Chroma syntax highlighting
+# https://gohugo.io/getting-started/configuration-markup/#highlight
+# [highlight]
+#   codeFences = true
+#   hl_Lines = ""
+#   lineNoStart = 1
+#   lineNos = false
+#   lineNumbersInTable = true
+#   noClasses = true
+#   style = "tango"
+#   tabWidth = 4
 
 # Configure how URLs look like per section.
 [permalinks]
@@ -83,6 +93,19 @@ weight = 1
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+# Configuration for the Chroma syntax highlighting
+# guessSyntax must be true because blech is not known    
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "tango"
+    tabWidth = 4
 
 # Everything below this are Site Params
 

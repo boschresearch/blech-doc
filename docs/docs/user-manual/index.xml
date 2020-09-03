@@ -222,8 +222,8 @@ The precise definition is given by the following grammar rule&lt;/p&gt;
 &lt;h2 id=&#34;wildcard&#34;&gt;Wildcard&lt;/h2&gt;
 &lt;p&gt;Additionally we reserve a token that consists of underscores only.
 We call this the &amp;ldquo;wildcard&amp;rdquo;. Wildcards are useful when you want to discard the result of a computation without declaring a dummy variable.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;_ = f()
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this example you cannot just call &lt;code&gt;f&lt;/code&gt; like in C because the Blech compiler will complain that &lt;code&gt;f&lt;/code&gt; is declared to return a value but there is no location to store this value in. The wildcard makes the intention to discard the returned value &lt;em&gt;explicit&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;_ = f()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this example you cannot just call &lt;code&gt;f&lt;/code&gt; like in C because the Blech compiler will complain that &lt;code&gt;f&lt;/code&gt; is declared to return a value but there is no location to store this value in. The wildcard makes the intention to discard the returned value &lt;em&gt;explicit&lt;/em&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;literals&#34;&gt;Literals&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;BoolLiteral&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;
 
@@ -315,8 +315,8 @@ Finally, if input &lt;code&gt;in2&lt;/code&gt; is indeed less than 0 the activit
 Otherwise the control flow loops around from line 5 back to line 2 and finally the reaction ends again in line 3.&lt;/p&gt;
 &lt;h4 id=&#34;example-proceed-with-the-next-tick&#34;&gt;Example: Proceed with the next tick&lt;/h4&gt;
 &lt;p&gt;For example in time triggered systems we often just want to await the next period and proceed. This is simply expressed by&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;await true
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;run&#34;&gt;Run&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;await true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;run&#34;&gt;Run&lt;/h3&gt;
 &lt;p&gt;An activity call is given by the following grammar.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ActivityCall&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;run&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Receiver&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;Receiver&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Wildcard&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; | &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;])&lt;/span&gt;
@@ -333,7 +333,7 @@ It remains within the callee for as many reactions as it runs (but at least one 
 In every reaction inputs are passed though to the callee and its outputs are propagated outside.
 Should the callee terminate, the control flow returns to the caller and proceeds with the next statement.&lt;/p&gt;
 &lt;p&gt;Example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;// declaration
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;// declaration
 activity A (a: [8]int32, b: int32) (c: int32) returns bool
     /* some code */
     ...
@@ -346,9 +346,9 @@ end
     // usage
     run result = A(array, 7)(output)
 
-    // alternative: declare receiver within &amp;quot;run&amp;quot;
+    // alternative: declare receiver within &amp;#34;run&amp;#34;
     run let result2 = A(array, 7)(output)
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;cobegin&#34;&gt;Cobegin&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;cobegin&#34;&gt;Cobegin&lt;/h3&gt;
 &lt;p&gt;Concurrent composition is expressed with the &lt;code&gt;cobegin&lt;/code&gt; statement.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ForkJoin&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;cobegin&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;with&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;weak&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;+ &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using &lt;code&gt;cobegin&lt;/code&gt; it is possible to compose arbitrary pieces of code.
@@ -411,7 +411,7 @@ This means the &lt;code&gt;cobegin&lt;/code&gt; statement terminates when &lt;em
 Branches that finish earlier (have fewer reaction to do) will simply do nothing until the last strong branch has terminated.
 The following two examples illustrate the usage of the &lt;code&gt;weak&lt;/code&gt; qualifier.&lt;/p&gt;
 &lt;h4 id=&#34;example-weak-and-strong-branches&#34;&gt;Example: Weak and strong branches&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;/* ... inside some activity ... */
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/* ... inside some activity ... */
 var res: nat8
 cobegin weak
     // non-terminating branch
@@ -423,17 +423,17 @@ with
     // terminates once a key is pressed
     res = run ReadKeyStroke()
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The first branch contains an infinite loop in the sense that every iteration ends in a pause but the number of reactions is unbounded.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first branch contains an infinite loop in the sense that every iteration ends in a pause but the number of reactions is unbounded.
 The loop is placed into a weak branch that allows to terminate the loop at the end of some reaction.
 The second branch contains an activity call that is expected to return some value eventually.
 In the reaction in which the result is returned the weak branch will be aborted (after it has done one iteration) and the control flow continues with the next statement following the &lt;code&gt;cobegin&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;example-all-branches-weak&#34;&gt;Example: All branches weak&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;cobegin weak
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;cobegin weak
     await isButtonPressed
 with weak
     await hasReceivedSignal
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this example there are no strong branches.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this example there are no strong branches.
 The first branch to terminate will abort all others.
 In this example it means as soon as &lt;code&gt;isButtonPressed&lt;/code&gt; or &lt;code&gt;hasReceivedSignal&lt;/code&gt; is true (or both are true!) the &lt;code&gt;cobegin&lt;/code&gt; statement terminates and control flow continues with the next statement.&lt;/p&gt;
 &lt;h3 id=&#34;prev&#34;&gt;Prev&lt;/h3&gt;
@@ -443,12 +443,12 @@ In this example it means as soon as &lt;code&gt;isButtonPressed&lt;/code&gt; or 
 In short, this means two concurrent branches may not write the same shared memory and furthermore cyclical read-write dependencies are prohibited as well.
 Sometimes however we need to express a quasi-cycle wherein one branch starts off with a value that has already been computed in the previous reaction. This is conveniently expressed using the &lt;code&gt;prev&lt;/code&gt; operator.&lt;/p&gt;
 &lt;h4 id=&#34;example-previous-values&#34;&gt;Example: Previous values&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;cobegin 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;cobegin 
     run A (prev x)(y)
 with 
     run B (y)(x)
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here, in every reaction, the &lt;em&gt;previous&lt;/em&gt; value of &lt;code&gt;x&lt;/code&gt;, i.e. the result of the previous reaction, is given to &lt;code&gt;A&lt;/code&gt; which performs a step and produces a new value for &lt;code&gt;y&lt;/code&gt;. This is then used by &lt;code&gt;B&lt;/code&gt; to produce a new &lt;em&gt;current&lt;/em&gt; value of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here, in every reaction, the &lt;em&gt;previous&lt;/em&gt; value of &lt;code&gt;x&lt;/code&gt;, i.e. the result of the previous reaction, is given to &lt;code&gt;A&lt;/code&gt; which performs a step and produces a new value for &lt;code&gt;y&lt;/code&gt;. This is then used by &lt;code&gt;B&lt;/code&gt; to produce a new &lt;em&gt;current&lt;/em&gt; value of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;prev&lt;/code&gt; can only be used where we expect to read a value. It cannot be used on a left-hand-side of an assignment or in an output argument position. &lt;code&gt;prev&lt;/code&gt; may only be applied to values, identified by a name. It cannot be used on arbitrary expressions.
 When used on memory of complex data types, &lt;code&gt;prev&lt;/code&gt; binds to the outermost part. For a structure &lt;code&gt;s&lt;/code&gt; the expression &lt;code&gt;prev s.x&lt;/code&gt; is to be read as &lt;code&gt;(prev s).x&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;abort-and-reset&#34;&gt;Abort and reset&lt;/h3&gt;
@@ -462,16 +462,16 @@ There are two variants of preemptions.
 &lt;code&gt;abort&lt;/code&gt; means that control flow jumps to the &lt;code&gt;end&lt;/code&gt; of the preemption statement.
 &lt;code&gt;reset&lt;/code&gt; means that control flow restarts at the beginning of &lt;code&gt;StmtBlock&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Note that&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;when Condition reset P end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;is syntactic sugar for&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var hasTerminated = false
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;when Condition reset P end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;is syntactic sugar for&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var hasTerminated = false
 repeat
     when Condition abort
         P
         hasTerminated = true
     end
 until hasTerminated end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;where &lt;code&gt;hasTerminated&lt;/code&gt; is a fresh boolean variable.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;where &lt;code&gt;hasTerminated&lt;/code&gt; is a fresh boolean variable.&lt;/p&gt;
 &lt;p&gt;It is, of course, possible that the body is left instantaneously within one reaction.
 In this case the preemption is irrelevant for the flow of control.&lt;/p&gt;
 
@@ -526,7 +526,7 @@ In any case, the block is left in line 10.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;abort&lt;/code&gt; statement is useful whenever we want to skip over a sequence of reactions when we detect some issue at the beginning of a reaction.
 Sometimes instead of skipping ahead we would like to restart a sequence of reactions.
 For this we may use the &lt;code&gt;reset&lt;/code&gt; statement.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity MyAct (in1: bool) (out1: uint8)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity MyAct (in1: bool) (out1: uint8)
     // do something ...
     
     when in1 reset // reset instead of abort
@@ -539,7 +539,7 @@ For this we may use the &lt;code&gt;reset&lt;/code&gt; statement.&lt;/p&gt;
     
     // do something else ...
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It behaves just like the &lt;code&gt;abort&lt;/code&gt; statement except it jumps to line 4 if &lt;code&gt;in1&lt;/code&gt; is true.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It behaves just like the &lt;code&gt;abort&lt;/code&gt; statement except it jumps to line 4 if &lt;code&gt;in1&lt;/code&gt; is true.&lt;/p&gt;
 &lt;h2 id=&#34;imperative-control-flow&#34;&gt;Imperative control flow&lt;/h2&gt;
 &lt;p&gt;All of the following statements are known from mainstream imperative programming languages.
 They may be used inside both, activities and functions.&lt;/p&gt;
@@ -549,13 +549,13 @@ They may be used inside both, activities and functions.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;DoBlock&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;do&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;do&lt;/code&gt; block may be used to define local scopes.&lt;/p&gt;
 &lt;h4 id=&#34;example-local-scopes&#34;&gt;Example: Local scopes&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f ()
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function f ()
     do
         var x: int8 = 5
     end
     // x is out of scope here
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;if&#34;&gt;If&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;if&#34;&gt;If&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;IfStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;if&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;then&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;elseif&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;then&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;else&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;while&#34;&gt;While&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;WhileLoop&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;while&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Condition&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;repeat&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;StmtBlock&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
@@ -563,13 +563,13 @@ end
 This is not necessary for loops inside functions.
 Note that using &lt;code&gt;while&lt;/code&gt; loops in activities may lead to unexpected error messages because we deliberately &lt;em&gt;do not&lt;/em&gt; evaluate the condition at compile time even if it is trivially true or false.&lt;/p&gt;
 &lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity Toggle()(out:bool)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity Toggle()(out:bool)
     while true repeat
         out = not out
         await true
     end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This program will not compile because the compiler thinks there is a control flow path that does not enter the loop and immediately terminates the activity.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This program will not compile because the compiler thinks there is a control flow path that does not enter the loop and immediately terminates the activity.
 Since activities must not be instantaneous this program is rejected.
 Use &lt;code&gt;repeat&lt;/code&gt; loops instead to avoid this spurious control flow paths that possibly skip the loop.&lt;/p&gt;
 &lt;h3 id=&#34;repeat&#34;&gt;Repeat&lt;/h3&gt;
@@ -582,7 +582,7 @@ This is not necessary for loops inside functions.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ReturnStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;return&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;RhsExpr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;return&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ActivityCall&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Void activities and functions can use &lt;code&gt;return&lt;/code&gt; without an expression to terminate at some point before control flow reaches the last statement.&lt;/p&gt;
 &lt;h4 id=&#34;example-return-from-void-function&#34;&gt;Example: Return from void function&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function setSpeed (velocity: float32) ()
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function setSpeed (velocity: float32) ()
     if velocity &amp;lt; 0 then
         return
     end
@@ -593,7 +593,7 @@ This is not necessary for loops inside functions.&lt;/p&gt;
     
     halSetSpeed(velocity) // call device driver
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This simple example assumes we implement a wrapper for calling a hardware device driver.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This simple example assumes we implement a wrapper for calling a hardware device driver.
 In order to avoid an if-then-else cascade &lt;code&gt;setSpeed&lt;/code&gt; tests the prerequisites individually and returns in case some of them is not met.&lt;/p&gt;
 &lt;p&gt;Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.&lt;/p&gt;
 &lt;p&gt;Activities may only return from their main thread.
@@ -603,7 +603,7 @@ This is a design decision which avoids cases in which multiple branches could re
 Outputs are set in every reaction of the activity.
 A return value is returned precisely once in the reaction that terminates the activity.&lt;/p&gt;
 &lt;h4 id=&#34;example-return-from-activity&#34;&gt;Example: Return from activity&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;activity A (in: int32) (out: int32) returns nat8
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity A (in: int32) (out: int32) returns nat8
     var retcode: nat8
     var x: int32
     cobegin weak
@@ -613,14 +613,14 @@ A return value is returned precisely once in the reaction that terminates the ac
     end
     return retcode
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In every reaction &lt;code&gt;in&lt;/code&gt; is propagated to &lt;code&gt;B&lt;/code&gt; and &lt;code&gt;out&lt;/code&gt; is propagated from &lt;code&gt;C&lt;/code&gt; to the caller.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In every reaction &lt;code&gt;in&lt;/code&gt; is propagated to &lt;code&gt;B&lt;/code&gt; and &lt;code&gt;out&lt;/code&gt; is propagated from &lt;code&gt;C&lt;/code&gt; to the caller.
 Only when &lt;code&gt;C&lt;/code&gt; terminates the variable &lt;code&gt;retcode&lt;/code&gt; is updated, the &lt;code&gt;cobegin&lt;/code&gt; statement is terminated and the &lt;code&gt;retcode&lt;/code&gt; is returned to the caller.&lt;/p&gt;
 &lt;p&gt;Activities that simply terminate and pass on the value of their callee may use the syntactic sugar&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;return run A()
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;instead of the more verbose&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;run let foo = A()
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;return run A()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;instead of the more verbose&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;run let foo = A()
 return foo
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;function-call&#34;&gt;Function call&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;function-call&#34;&gt;Function call&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;FunctionCallStmt&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;RhsArgList&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LhsArgList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Blech distinguishes between a function call statement and a function call expression.
 On the statement level only void functions may be called.&lt;/p&gt;
@@ -642,14 +642,14 @@ On the statement level only void functions may be called.&lt;/p&gt;
 The optional semicolons in the grammar indicate that it is possible to separate statements in a sequence using semicolons.
 We suggest to avoid writing any semicolons unless two (or more) statements are written in one line.&lt;/p&gt;
 &lt;h3 id=&#34;semicolons-in-blech&#34;&gt;Semicolons in Blech&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f()
-    var x: int8 = 0; // do not clutter your code with superfluous &amp;quot;;&amp;quot;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function f()
+    var x: int8 = 0; // do not clutter your code with superfluous &amp;#34;;&amp;#34;
     var y: int8 = 1  // preferred semicolon free style
 
     x = 7; y = y + x // ok, but usually it is better to write two lines
     x = 7 y = y + x  // compiles but is hardly readable, do not do that
 end
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
     
@@ -702,8 +702,8 @@ Declare before use! Even if, for example, functions are defined on the same scop
 &lt;p&gt;Data declarations consist of an access and placement qualifier, an identifier, a data type and an initialisation.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;DataDeclaration&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Init&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A variable declaration:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: int32 = 17
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The type is either a built-in type or a name of a user defined type.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: int32 = 17
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The type is either a built-in type or a name of a user defined type.
 Built-in types are discussed in the &lt;a href=&#34;../types&#34;&gt;Types chapter&lt;/a&gt;
 .
 Type declarations are discussed &lt;a href=&#34;#user-defined-types&#34;&gt;below&lt;/a&gt;
@@ -724,10 +724,10 @@ The name &amp;ldquo;param&amp;rdquo; indicates that such data is a parameter of 
 Tools exist to customise such parameters in a binary file directly in order to adapt the given software to a variant of a product.
 Like with &lt;code&gt;const&lt;/code&gt; data, the &lt;code&gt;param&lt;/code&gt; value must be initialised with constant expressions.
 You cannot write the following&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f (input: int32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function f (input: int32)
    param x: int32 = input // error!
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is because the value of &lt;code&gt;input&lt;/code&gt; is determined at &lt;em&gt;runtime&lt;/em&gt; but &lt;code&gt;x&lt;/code&gt; must be initialised at &lt;em&gt;compile time&lt;/em&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is because the value of &lt;code&gt;input&lt;/code&gt; is determined at &lt;em&gt;runtime&lt;/em&gt; but &lt;code&gt;x&lt;/code&gt; must be initialised at &lt;em&gt;compile time&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;const&lt;/code&gt; and &lt;code&gt;param&lt;/code&gt; data may be declared at top level as well as inside functions or activities.
 The other two qualifiers &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; indicate local data and may &lt;em&gt;only&lt;/em&gt; be used inside functions or activities.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;let&lt;/code&gt; declares immutable data in the control flow of a program.
@@ -735,15 +735,15 @@ Finally, &amp;lsquo;var&amp;rsquo; declares the usual mutable variable.
 Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type&amp;rsquo;s default value.
 The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.&lt;/p&gt;
 &lt;p&gt;Example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;const LEN: int32 = 8
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;const LEN: int32 = 8
 param lut: [LEN]float64 = {1.0, 0.5, 0.25, 0.125} // LEN is constant and may be used here
-                                                  // the array literal will be filled with additional 0&#39;s up to length LEN.
+                                                  // the array literal will be filled with additional 0&amp;#39;s up to length LEN.
 function f()
     let i = LEN - 7 // i is deduced to be int32
     var x = lut[i] // x is deduced to be float64
                    // and equals 0.5 in this case
 end
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
@@ -800,7 +800,7 @@ In particular the two lists are useful for activities which, in every reaction, 
 We will therefore often refer to these two parameter lists as &amp;ldquo;input list&amp;rdquo; and &amp;ldquo;output list&amp;rdquo;.&lt;/p&gt;
 &lt;p&gt;The programming model is that all variables are passed by reference (even though in reality the compiler will optimise this into by-value for simple value typed inputs).&lt;/p&gt;
 &lt;p&gt;Example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function add (x: int32, y: int32) returns int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function add (x: int32, y: int32) returns int32
    return x + y
 end
 
@@ -811,7 +811,7 @@ activity A (in: int32)(out: int32)
       await true
    end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The example above is a valid Blech program that sums all inputs over all time steps.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The example above is a valid Blech program that sums all inputs over all time steps.
 Note that &lt;code&gt;add&lt;/code&gt; omits an output list and &lt;code&gt;A&lt;/code&gt; does not declare any return type.
 We call functions or activities that do not return anything &amp;ldquo;void&amp;rdquo; but unlike C we do not have a void type in the language.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;@[EntryPoint]&lt;/code&gt; annotation tells the compiler that &lt;code&gt;A&lt;/code&gt; is the main program of this file. Every Blech file must have precisely one entry point activity.
@@ -841,11 +841,11 @@ Note that the type-safety and causality guarantees of Blech vanish once you inte
 &lt;p&gt;In C, constant values may be defined using macros or &lt;code&gt;const&lt;/code&gt; variables.
 In order to make these values available in Blech, external constants may be declared.
 External constant declarations may appear in any scope.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CConst (binding = &amp;quot;PI&amp;quot;, header = &amp;quot;math.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[CConst (binding = &amp;#34;PI&amp;#34;, header = &amp;#34;math.h&amp;#34;)]
 extern const pi: float64
-@[CParam (binding = &amp;quot;characteristics&amp;quot;, header = &amp;quot;magic.h&amp;quot;)]
+@[CParam (binding = &amp;#34;characteristics&amp;#34;, header = &amp;#34;magic.h&amp;#34;)]
 extern param map: [10]float32
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Both Blech qualifiers &lt;code&gt;const&lt;/code&gt; and &lt;code&gt;param&lt;/code&gt; are supported.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Both Blech qualifiers &lt;code&gt;const&lt;/code&gt; and &lt;code&gt;param&lt;/code&gt; are supported.
 They require a &lt;code&gt;CConst&lt;/code&gt; or a &lt;code&gt;CParam&lt;/code&gt; annotation respectively.
 However they have more of a documentation character rather than any functional difference.
 Both will evaluate whatever expression is given in the binding at runtime.
@@ -867,9 +867,9 @@ There is no semantical reason why external variables cannot be declared inside f
 &lt;p&gt;Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
 These variables follow the same rules as the usual activity-local variables.&lt;/p&gt;
 &lt;p&gt;Read-only external variables are annotated with the &lt;code&gt;CInput&lt;/code&gt; annotation.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CInput (binding = &amp;quot;PIN_7&amp;quot;, header = &amp;quot;head.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[CInput (binding = &amp;#34;PIN_7&amp;#34;, header = &amp;#34;head.h&amp;#34;)]
 extern let isButtonPressed: bool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example assumes there is either a C macro or a C variable &lt;code&gt;PIN_7&lt;/code&gt; that returns a volatile boolean value indicating a button press.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This example assumes there is either a C macro or a C variable &lt;code&gt;PIN_7&lt;/code&gt; that returns a volatile boolean value indicating a button press.&lt;/p&gt;
 &lt;p&gt;The declaration creates a local variable inside the enclosing activity.
 It serves as a copy-in buffer.
 When the activity starts a reaction the value of &lt;code&gt;PIN_7&lt;/code&gt; is copied into &lt;code&gt;isButtonPressed&lt;/code&gt;.
@@ -878,9 +878,9 @@ This corresponds to the semantics of activity input parameters.&lt;/p&gt;
 &lt;p&gt;An activity that declares an immutable external variable does not become a singleton.
 Concurrent instances may exist but they may contain different values for the same external variable if it is volatile.&lt;/p&gt;
 &lt;p&gt;Read-write external variables are annotated with the &lt;code&gt;COutput&lt;/code&gt; annotation.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[COutput (binding = &amp;quot;PIN_7&amp;quot;, header = &amp;quot;head.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[COutput (binding = &amp;#34;PIN_7&amp;#34;, header = &amp;#34;head.h&amp;#34;)]
 extern var isButtonPressed: bool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here at the beginning of a reaction the value of &lt;code&gt;PIN_7&lt;/code&gt; is copied in.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here at the beginning of a reaction the value of &lt;code&gt;PIN_7&lt;/code&gt; is copied in.
 During a reaction the variable &lt;code&gt;isButtonPressed&lt;/code&gt; can be modified as usual.
 At the end of the reaction the value of &lt;code&gt;isButtonPressed&lt;/code&gt; is copied out to &lt;code&gt;PIN_7&lt;/code&gt;.
 This guarantees a stable output behaviour. Intermediate changes to the local variable &lt;code&gt;isButtonPressed&lt;/code&gt; are not observable by the environment.&lt;/p&gt;
@@ -888,12 +888,12 @@ This guarantees a stable output behaviour. Intermediate changes to the local var
 It returns the value that the variable held at the end of the previous reaction.
 This behaviour corresponds to using &lt;code&gt;prev&lt;/code&gt; on normal local variables but there is a subtle difference.
 External variables may be changed by the environment.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[COutput (binding = &amp;quot;PIN_7&amp;quot;, header = &amp;quot;head.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[COutput (binding = &amp;#34;PIN_7&amp;#34;, header = &amp;#34;head.h&amp;#34;)]
 extern var isButtonPressed: bool
 isButtonPressed = true
 await cond // some boolean condition
 var x = prev isButtonPressed // is x == true?
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If &lt;code&gt;cond&lt;/code&gt; is true immediately in the next reaction then x will be set to &lt;code&gt;true&lt;/code&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If &lt;code&gt;cond&lt;/code&gt; is true immediately in the next reaction then x will be set to &lt;code&gt;true&lt;/code&gt;.
 In general, however we do not know how many reaction it will take until &lt;code&gt;cond&lt;/code&gt; becomes true.
 Yet in every reaction the copy-in and copy-out mechanisms will update the &lt;code&gt;isButtonPressed&lt;/code&gt; buffer.
 If the environment does not change &lt;code&gt;PIN_7&lt;/code&gt; then surely &lt;code&gt;x&lt;/code&gt; will be &lt;code&gt;true&lt;/code&gt;.
@@ -907,15 +907,15 @@ Concurrent instances lead to a write-write conflict and compilation is rejected.
 &lt;li&gt;Via a wrapper to be implemented in some .c file.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;In the first case we annotate the call to the C function and the file wherein this function is declared. The call must list the parameters using a &lt;code&gt;$i&lt;/code&gt; notation. In this way, we can map the input and output parameters of the Blech prototype to the positions of the C function.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;ceil($1)&amp;quot;, header = &amp;quot;math.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[CFunction (binding = &amp;#34;ceil($1)&amp;#34;, header = &amp;#34;math.h&amp;#34;)]
 extern function ceiling(i: float64) returns float64
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Inside the Blech program this function is now available through name &lt;code&gt;ceiling&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Inside the Blech program this function is now available through name &lt;code&gt;ceiling&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (source=&amp;quot;impl.c&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[CFunction (source=&amp;#34;impl.c&amp;#34;)]
 extern function myCFunction(i: float64) returns float64
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Assume the above declaration is written in a Blech file called &lt;code&gt;MyFile.blc&lt;/code&gt;, then the code generator will produce a header file &lt;code&gt;MyFile.h&lt;/code&gt; with the following code:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Assume the above declaration is written in a Blech file called &lt;code&gt;MyFile.blc&lt;/code&gt;, then the code generator will produce a header file &lt;code&gt;MyFile.h&lt;/code&gt; with the following code:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// extern functions to be implemented in C
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;blc_float64&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_MyFile_myCFunction&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_float64&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;blc_i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It is up to the C programmer now to include this header in his implementation file &lt;code&gt;impl.c&lt;/code&gt; and provide an actual definition of this function.&lt;/p&gt;
@@ -928,18 +928,18 @@ The Blech compiler ensures that inputs will only be read.
 However the Blech compiler has no chance to check that the external code adheres to this contract.&lt;/p&gt;
 &lt;p&gt;For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;sort($1)&amp;quot;, header = &amp;quot;utils.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[CFunction (binding = &amp;#34;sort($1)&amp;#34;, header = &amp;#34;utils.h&amp;#34;)]
 extern function sort()(arr: [10]int32)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this way, the Blech compiler knows that &lt;code&gt;sort&lt;/code&gt; will modify the given array. When calling this function in a concurrent context the compiler will prevent write-write conflicts and read-write cycles on the array.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this way, the Blech compiler knows that &lt;code&gt;sort&lt;/code&gt; will modify the given array. When calling this function in a concurrent context the compiler will prevent write-write conflicts and read-write cycles on the array.&lt;/p&gt;
 &lt;p&gt;However, the programmer could erroneously declare the same function as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;sort($1)&amp;quot;, header = &amp;quot;utils.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[CFunction (binding = &amp;#34;sort($1)&amp;#34;, header = &amp;#34;utils.h&amp;#34;)]
 extern function sort(arr: [10]int32)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The code will compile all the same but the causality guarantees are gone because the Blech compiler relies on the assumption that the array will only be read and not modified. At runtime the program may then exhibit unexpected behaviour.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The code will compile all the same but the causality guarantees are gone because the Blech compiler relies on the assumption that the array will only be read and not modified. At runtime the program may then exhibit unexpected behaviour.&lt;/p&gt;
 &lt;h4 id=&#34;singletons&#34;&gt;Singletons&lt;/h4&gt;
 &lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; annotation is a help to the Blech programmer but does not completely prevent concurrent calls to functions with conflicting effects. For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;foo&amp;quot;, header = &amp;quot;head.h&amp;quot;)]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;@[CFunction (binding = &amp;#34;foo&amp;#34;, header = &amp;#34;head.h&amp;#34;)]
 extern singleton function doA() 
-@[CFunction (binding = &amp;quot;foo&amp;quot;, header = &amp;quot;head.h&amp;quot;)]
+@[CFunction (binding = &amp;#34;foo&amp;#34;, header = &amp;#34;head.h&amp;#34;)]
 extern singleton function doB() 
 
 /* ... somewhere in an activity scope ... */
@@ -948,7 +948,7 @@ cobegin
 with
    doB()
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this &lt;em&gt;particular&lt;/em&gt; mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this &lt;em&gt;particular&lt;/em&gt; mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
 It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.&lt;/p&gt;
 &lt;h4 id=&#34;binding-strings&#34;&gt;Binding strings&lt;/h4&gt;
 &lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; part of an annotation may contain any C code which is a valid right hand side of a macro definition.
@@ -1041,10 +1041,10 @@ It is the system integrators responsibility to ensure that the C compiler at han
 The shape of an array is its dimensionality and length in each dimension.
 It is not possible to declare an array data type with an unspecified length.&lt;/p&gt;
 &lt;h3 id=&#34;arrays&#34;&gt;Arrays&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function f(a: [4][5]float32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function f(a: [4][5]float32)
     /* ... */
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The function &lt;code&gt;f&lt;/code&gt; expects one read-only argument &lt;code&gt;a&lt;/code&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The function &lt;code&gt;f&lt;/code&gt; expects one read-only argument &lt;code&gt;a&lt;/code&gt;.
 It is a two dimensional array (a table) with 4 rows and 5 columns.
 Each cell contains a &lt;code&gt;float32&lt;/code&gt; number.&lt;/p&gt;
 &lt;p&gt;Unlike C, in Blech the lengths appear before the payload type in the type declaration.&lt;/p&gt;
@@ -1054,7 +1054,7 @@ If an array dimension has &lt;code&gt;N&lt;/code&gt; values, the last index is &
 The index argument must be an integer number within array bounds.&lt;/p&gt;
 &lt;p&gt;The contents of one array may be copied to another using assignment provided their shape and payload data type are the same.&lt;/p&gt;
 &lt;h3 id=&#34;array-operations&#34;&gt;Array operations&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;// Initialise the following matrix
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;// Initialise the following matrix
 //      cols
 // rows 0.0  0.0
 //      1.2  3.4
@@ -1065,7 +1065,7 @@ let r: [2]float32 = a[1] // copy 2nd row of a into r
 
 let x = a[1][1]          // copy 3.4 to x
                          // x is deduced to have type float32
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;structure-types&#34;&gt;Structure types&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;structure-types&#34;&gt;Structure types&lt;/h2&gt;
 &lt;p&gt;Structure declarations introduce a new type identifier.
 A structure contains a fixed number of &lt;em&gt;fields&lt;/em&gt;.
 Each field has an access capability (&lt;code&gt;let&lt;/code&gt; or &lt;code&gt;var&lt;/code&gt;), a name, some data type and possibly a default value initialiser.&lt;/p&gt;
@@ -1075,7 +1075,7 @@ Each field has an access capability (&lt;code&gt;let&lt;/code&gt; or &lt;code&gt
 The initialisation expression must be a compile time value.
 Of course, this default value may be overruled by the initialiser given at the instantiation.&lt;/p&gt;
 &lt;h3 id=&#34;mutable-and-immutable-structures&#34;&gt;Mutable and immutable structures&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct S
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct S
    var a: int32 = 7
    var b: int32
 end
@@ -1088,7 +1088,7 @@ s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
 
 let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
 s2.b = 17                     // error! Cannot change the let variable s2
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Structure &lt;code&gt;s1&lt;/code&gt; is declared using a &lt;code&gt;var&lt;/code&gt; access qualifier.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Structure &lt;code&gt;s1&lt;/code&gt; is declared using a &lt;code&gt;var&lt;/code&gt; access qualifier.
 The fields may be overwritten as well as the structure as a whole.
 By contrast, &lt;code&gt;s2&lt;/code&gt; is declared using &lt;code&gt;let&lt;/code&gt;.
 It cannot be changed after initialisation.&lt;/p&gt;
@@ -1100,7 +1100,7 @@ Assigning the empty literal &lt;code&gt;{}&lt;/code&gt; means that all default v
 &lt;p&gt;&lt;code&gt;let&lt;/code&gt; fields cannot be changed once the structure is instantiated.
 Assignment on structures as a whole is only permitted if all (sub-)field have &lt;code&gt;var&lt;/code&gt; access qualifiers (and the struct itself has been declared using &lt;code&gt;var&lt;/code&gt;).&lt;/p&gt;
 &lt;h3 id=&#34;immutable-fields-in-structures&#34;&gt;Immutable fields in structures&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct T
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct T
     let a: int32
     var b: int32
 end
@@ -1114,10 +1114,10 @@ end
 var s: S = {x.a = 7} // ok, s == {x = {a = 7, b = 0}, y = 0}
 s.x.b = 42           // ok, s == {x = {a = 7, b = 42}, y = 0}
 s = {}               // error! s contains immutable fields
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Assignments to the struct &lt;code&gt;s&lt;/code&gt; are prohibited because &lt;code&gt;s.x.a&lt;/code&gt; is immutable.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Assignments to the struct &lt;code&gt;s&lt;/code&gt; are prohibited because &lt;code&gt;s.x.a&lt;/code&gt; is immutable.
 You need to individually specify which fields you want to update.
 It may be helpful to implement a helper function for this specific data type as shown below.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;function resetS()(s: S)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function resetS()(s: S)
     s.x.b = 0
     s.y = 0
 end
@@ -1126,7 +1126,7 @@ end
 var s: S
 /* ... */
 resetS()(s)
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;blechconfh&#34;&gt;blechconf.h&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;blechconfh&#34;&gt;blechconf.h&lt;/h2&gt;
 &lt;p&gt;Blech compiles to C.
 Hence code generation has to map Blech types to C types.
 The file &lt;code&gt;blechconf.h&lt;/code&gt; specifies this mapping.
@@ -1253,28 +1253,28 @@ This section explains how to use literals and what type errors may happen.&lt;/p
 &lt;h4 id=&#34;annotated-literals&#34;&gt;Annotated literals&lt;/h4&gt;
 &lt;p&gt;For example, the literal &lt;code&gt;1&lt;/code&gt; could represent a natural number, a signed integer or a byte word of some size. It could even be a floating point number.
 It can be explicitly annotated using a type annotation.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;1: nat16    // 2 bytes long natural number
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;1: nat16    // 2 bytes long natural number
 1: int8     // 1 byte signed integer
 1: bits32   // 4 bytes long word
 1: float32  // single precision floating point number
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The lexical analysis of &lt;code&gt;Literal&lt;/code&gt; above suggests there are three kinds of literals.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The lexical analysis of &lt;code&gt;Literal&lt;/code&gt; above suggests there are three kinds of literals.
 In fact, we distinguish two kinds of integers.
 Binary, octal and hexadecimal integer literals form the group of &lt;em&gt;bits literals&lt;/em&gt;.
 They may be interpreted as a byte word of some length or as a natural number of some length.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;0xFF: nat32    // 4 byte natural number with value 255
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;0xFF: nat32    // 4 byte natural number with value 255
 0b101: bit8    // 1 byte word with value 5
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;a name=&#34;bitsandints&#34;&gt;&lt;/a&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a name=&#34;bitsandints&#34;&gt;&lt;/a&gt;
 They cannot be treated as a signed integer because depending on the length and the machine&amp;rsquo;s representation of negative numbers they might yield a negative or positive value.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;0xFF: int8    // error! Would be -1 if represented in two&#39;s complement
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;0xFF: int8    // error! Would be -1 if represented in two&amp;#39;s complement
 0xFF: int16   // error! Would be 255 in a two byte word
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Also, bits literals cannot be interpreted as floating point numbers.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Also, bits literals cannot be interpreted as floating point numbers.
 &lt;em&gt;For the exact specification of floating point numbers a hexadecimal float literal will be introduced.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Decimal integers&lt;/em&gt; may be interpreted as any kind of numeric type as long as the value fits the domain. The example above shows the straightforward use case with the literal &lt;code&gt;1&lt;/code&gt;. Below some corner cases are exemplified:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;-2: nat16     // error! Outside range of natural numbers
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;-2: nat16     // error! Outside range of natural numbers
 -200: int8    // error! Outside range [-128..127]
 -2: bits8     // 1 byte word with value 254
 -200: float32 // single precision floating point number
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Float literals may only be interpreted as either single or double precision floating point numbers even if their fraction part is zero as in &lt;code&gt;10.0&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Float literals may only be interpreted as either single or double precision floating point numbers even if their fraction part is zero as in &lt;code&gt;10.0&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;In summary: annotations may only be used where they do not change the value of the expression and the value fits into the domain of the type.&lt;/p&gt;
 &lt;h4 id=&#34;type-deduction-for-literals&#34;&gt;Type deduction for literals&lt;/h4&gt;
 &lt;p&gt;When a literal occurs as part of a binary expression where one side is already fully typed, the literal&amp;rsquo;s type may be automatically deduced.&lt;/p&gt;
@@ -1297,13 +1297,13 @@ Note that a bits literal cannot be used to initialise an integer for reasons exp
 &lt;p&gt;Empty braces &lt;code&gt;{}&lt;/code&gt; have a special meaning.
 They represent the default value for any struct or literal.
 Using the reset literal in a declaration has the same effect as leaving out the initialisation:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: [8]float32 = {}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: [8]float32 = {}
 var y: [8]float32
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Both &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; will be initialised with zeros in all cells.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Both &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; will be initialised with zeros in all cells.
 The reset literal, as the name suggests, is most useful to set a modified data structure back to its default values:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: [8]float32 = {1, 2, 3, 4, 5, 6, 7, 8}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: [8]float32 = {1, 2, 3, 4, 5, 6, 7, 8}
 x = {}    // now x == {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
 The same is true for arrays with struct payloads.
 See the section on &lt;a href=&#34;../types/#structure-types&#34;&gt;Structure types&lt;/a&gt;
  for more details.&lt;/p&gt;
@@ -1319,7 +1319,7 @@ It is possible to set specific array cells by also specifying an index for a val
 Subsequent unindexed values will be set for the next array cells in order.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;Expr&lt;/code&gt; in &lt;code&gt;CellInit&lt;/code&gt; must match the array&amp;rsquo;s data type.&lt;/p&gt;
 &lt;h5 id=&#34;example-setting-array-values&#34;&gt;Example: Setting array values&lt;/h5&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: [2][3]nat8 = {{1, 2, 3},{4, 5, 6}} // all explicit
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: [2][3]nat8 = {{1, 2, 3},{4, 5, 6}} // all explicit
 // x is
 // 1  2  3
 // 4  5  6
@@ -1343,7 +1343,7 @@ x = { {[2]=14} }                          // second row implicitly zeroed out
 // x is
 // 0  0  14
 // 0  0  0
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;struct-literals&#34;&gt;Struct literals&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;struct-literals&#34;&gt;Struct literals&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;StructLiteral&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;{&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;FieldInit&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;FieldInit&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;}&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;FieldInit&lt;/span&gt;     ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The identifiers must match the field names of the struct to be assigned.
@@ -1352,7 +1352,7 @@ Immutable (&lt;code&gt;let&lt;/code&gt; declared) fields may only be set in the 
 Fields that are not specified in the literal are implicitly set to their data type&amp;rsquo;s default value.&lt;/p&gt;
 &lt;h5 id=&#34;example-setting-struct-values&#34;&gt;Example: Setting struct values&lt;/h5&gt;
 &lt;p&gt;Assume the following declarations:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;struct S
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct S
     var a: int8
     var b: int8
 end
@@ -1361,8 +1361,8 @@ struct T
     let x: bool
     var y: S
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following code may be written (in some local scope):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var t: T = {x = true, y = {a = 1, b = 2}}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following code may be written (in some local scope):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var t: T = {x = true, y = {a = 1, b = 2}}
 // t is
 // t.x == true
 // t.y.a == 1
@@ -1375,7 +1375,7 @@ t.y = {a = 7}     // implicitly b = 0
 // t.x == true
 // t.y.a == 7
 // t.y.b == 0
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;parenthesised-form&#34;&gt;Parenthesised form&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;parenthesised-form&#34;&gt;Parenthesised form&lt;/h2&gt;
 &lt;p&gt;A parenthesised form is an expression enclosed in parentheses:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;ParenthForm&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;  &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A parenthesised expression yields whatever that expression yields.&lt;/p&gt;
@@ -1435,11 +1435,11 @@ See the sections on &lt;a href=&#34;../types/#integer-types&#34;&gt;arithmetic t
 When they differ, the smaller size value is lifted implicitly to the larger size.
 The operation is then carried out on (possibly lifted) arguments of the same type.&lt;/p&gt;
 &lt;h4 id=&#34;lifting-types&#34;&gt;Lifting types&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: int8 = 7
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: int8 = 7
 var y: int16 = 300
 var z = x + y
 var u = x + 1
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; are both signed integers but have different sizes.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; are both signed integers but have different sizes.
 In the context of the addition in line 3, the smaller type is lifted to the larger, effectively making &lt;code&gt;x&lt;/code&gt; an &lt;code&gt;int16&lt;/code&gt;.
 Then, 16-bit signed addition is carried out producing an &lt;code&gt;int16&lt;/code&gt; typed result.
 This result is stored into &lt;code&gt;z&lt;/code&gt; making it a &lt;code&gt;int16&lt;/code&gt; variable, too.&lt;/p&gt;
@@ -1493,17 +1493,17 @@ Furthermore the precedence of comparison operators is lower than that of any ari
 &lt;p&gt;Note that all operators are left associative.
 Hence chaining comparisons is possible syntactically but makes little sense.&lt;/p&gt;
 &lt;h4 id=&#34;comparison-chaining&#34;&gt;Comparison chaining&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var b = 4 &amp;lt; 5 &amp;lt;= false // evaluates to true &amp;lt;= false which is false
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var b = 4 &amp;lt; 5 &amp;lt;= false // evaluates to true &amp;lt;= false which is false
 var c = 4 &amp;lt; 5 &amp;lt;= 6 // type error: cannot compare true &amp;lt;= 6
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is different to C because in Blech Booleans and numbers are incomparable.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is different to C because in Blech Booleans and numbers are incomparable.&lt;/p&gt;
 &lt;h4 id=&#34;comparison-lifting&#34;&gt;Comparison lifting&lt;/h4&gt;
 &lt;p&gt;Comparison operators lift their arguments to a common sized type like arithmetic operators do (see above).
 Additionally, comparisons permit using literals that would require a larger domain.
 This allows writing (in)equalities without cluttering the code with trivial type casts.&lt;/p&gt;
 &lt;h5 id=&#34;example-comparison-with-literals-outside-the-domain&#34;&gt;Example: Comparison with literals outside the domain&lt;/h5&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: int8 = 7
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: int8 = 7
 var y = x &amp;lt; 1000
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The literal &lt;code&gt;1000&lt;/code&gt; is a (signed) integral number and would fit into an &lt;code&gt;int16&lt;/code&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The literal &lt;code&gt;1000&lt;/code&gt; is a (signed) integral number and would fit into an &lt;code&gt;int16&lt;/code&gt;.
 Therefore we allow to implicitly lift &lt;code&gt;x&lt;/code&gt; to &lt;code&gt;int16&lt;/code&gt; and carry out the comparison.
 This makes sense because the result of all comparison operators is always a Boolean value.
 There are no &amp;ldquo;surprises&amp;rdquo; about the outcome.&lt;/p&gt;
@@ -1518,20 +1518,20 @@ The evaluation is performed lazily: first &lt;code&gt;a&lt;/code&gt; is evaluate
 &lt;p&gt;Type casts &lt;em&gt;change&lt;/em&gt; the type of an already typed expression.
 Casts are only permitted where the (machine) representation of a value will not change and casts assume that the value fits into the target type&amp;rsquo;s domain.&lt;/p&gt;
 &lt;h4 id=&#34;safe-casts&#34;&gt;Safe casts&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;var x: int16 = 100
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: int16 = 100
 let y = x as nat8    // ok, y == 100 of type nat8
 
 x = x * 3
 let z = x as nat8    // runtime error: 300 outside nat8 domain 0..255
 
-x = -256             // assuming 2&#39;s complement on the machine:
+x = -256             // assuming 2&amp;#39;s complement on the machine:
                      // x == 0xb_1111_1111_0000_0000
 let u = x as bits8   // runtime error
 let v = x as bits16  // ok, v == 65280
 
 let f: float32 = 1
 x = f as int16       // error! impossible to cast floating point to integral types
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The restrictions on the casts do not rule out runtime errors.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The restrictions on the casts do not rule out runtime errors.
 At the same time they prevent some manipulations that are possible in C.
 For example, it is not possible to interpret a floating point as a bits type and change individual bits.&lt;/p&gt;
 

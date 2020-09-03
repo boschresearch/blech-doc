@@ -623,26 +623,26 @@ For example, a function like <code>strcpy</code> can not be used from Blech via 
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">strcpy</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#204a87;font-weight:bold">restrict</span> <span style="color:#000">s1</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">const</span> <span style="color:#204a87;font-weight:bold">char</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#204a87;font-weight:bold">restrict</span> <span style="color:#000">s2</span><span style="color:#000;font-weight:bold">);</span>
 </code></pre></div><p>The C function <code>strcpy</code> copies <code>s2</code> to <code>s1</code>.</p>
 <p>The <code>extern</code> function declaration in Blech would put the target <code>toString</code> in the output parameter list.</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding =&quot;strcpy&quot;, header = &quot;string.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (binding =&#34;strcpy&#34;, header = &#34;string.h&#34;)]
 extern function stringCopy (fromString: string)(toString: string)
-</code></pre><p>Given that we currently do not support strings, which is another future topic, 
+</code></pre></div><p>Given that we currently do not support strings, which is another future topic, 
 the order of input and output parameters cannot be rearranged for the bound C function.</p>
-<pre><code class="language-blech" data-lang="blech">@[EntryPoint]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[EntryPoint]
 activity Main () ()
-    let s2 = &quot;hello&quot;
+    let s2 = &#34;hello&#34;
     var s1: string
     stringCopy(s2)(s1)
 
     await true
 end
-</code></pre><p>When we call <code>stringCopy</code> from Blech we actually we like to call <code>strcpy</code> in C directly.
+</code></pre></div><p>When we call <code>stringCopy</code> from Blech we actually we like to call <code>strcpy</code> in C directly.
 This is currently not possible.</p>
 <h2 id="proposal">Proposal</h2>
 <p>Specifiy the full C function by indexing Blech identifiers</p>
 <p>This could be done by using the parameter names in a macro-like fashion.</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;strcpy($2, $1)&quot; , header = &quot;string.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (binding = &#34;strcpy($2, $1)&#34; , header = &#34;string.h&#34;)]
 extern function stringCopy (formString: string)(toString: string)
-</code></pre><p>The Blech identifiers in the extern declaration can be addressed via <code>$i</code>.</p>
+</code></pre></div><p>The Blech identifiers in the extern declaration can be addressed via <code>$i</code>.</p>
 <p><code>$0</code> is <code>stringCopy</code>, <code>$1</code> is <code>fromString</code>, <code>$2</code> is <code>toString</code>.</p>
 <p>For code generation we would create the C macro by subsituting the Blech parameter names.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">#include</span> <span style="color:#8f5902;font-style:italic">&lt;string.h&gt;</span><span style="color:#8f5902;font-style:italic">
@@ -652,9 +652,9 @@ extern function stringCopy (formString: string)(toString: string)
 </code></pre></div><p>As usual it is the reponsibility of the programmer to guarantee correct types, additionially the indexing of identifiers must be correct.</p>
 <p>If <code>strings</code> will become <code>structs</code> with <code>len</code> field and a <code>buf</code> reference.
 The extern declaration could look like the following:</p>
-<pre><code class="language-blech" data-lang="blech">@[CFunction (binding = &quot;do { strcpy($2.buf, $1.buf); $2.len = $1.len; } while (0)&quot; , header = &quot;string.h&quot;)]
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">@[CFunction (binding = &#34;do { strcpy($2.buf, $1.buf); $2.len = $1.len; } while (0)&#34; , header = &#34;string.h&#34;)]
 extern function stringCopy (formString: string)(toString: string)
-</code></pre><p>which would create the following macro</p>
+</code></pre></div><p>which would create the following macro</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8f5902;font-style:italic">#include</span> <span style="color:#8f5902;font-style:italic">&lt;string.h&gt;</span><span style="color:#8f5902;font-style:italic">
 </span><span style="color:#8f5902;font-style:italic"></span>
 <span style="color:#8f5902;font-style:italic">#define blc_stringCopy(blc_fromString, blc_toString) \ 

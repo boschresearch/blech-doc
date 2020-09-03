@@ -702,10 +702,10 @@ It is the system integrators responsibility to ensure that the C compiler at han
 The shape of an array is its dimensionality and length in each dimension.
 It is not possible to declare an array data type with an unspecified length.</p>
 <h3 id="arrays">Arrays</h3>
-<pre><code class="language-blech" data-lang="blech">function f(a: [4][5]float32)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function f(a: [4][5]float32)
     /* ... */
 end
-</code></pre><p>The function <code>f</code> expects one read-only argument <code>a</code>.
+</code></pre></div><p>The function <code>f</code> expects one read-only argument <code>a</code>.
 It is a two dimensional array (a table) with 4 rows and 5 columns.
 Each cell contains a <code>float32</code> number.</p>
 <p>Unlike C, in Blech the lengths appear before the payload type in the type declaration.</p>
@@ -715,7 +715,7 @@ If an array dimension has <code>N</code> values, the last index is <code>N-1</co
 The index argument must be an integer number within array bounds.</p>
 <p>The contents of one array may be copied to another using assignment provided their shape and payload data type are the same.</p>
 <h3 id="array-operations">Array operations</h3>
-<pre><code class="language-blech" data-lang="blech">// Initialise the following matrix
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">// Initialise the following matrix
 //      cols
 // rows 0.0  0.0
 //      1.2  3.4
@@ -726,7 +726,7 @@ let r: [2]float32 = a[1] // copy 2nd row of a into r
 
 let x = a[1][1]          // copy 3.4 to x
                          // x is deduced to have type float32
-</code></pre><h2 id="structure-types">Structure types</h2>
+</code></pre></div><h2 id="structure-types">Structure types</h2>
 <p>Structure declarations introduce a new type identifier.
 A structure contains a fixed number of <em>fields</em>.
 Each field has an access capability (<code>let</code> or <code>var</code>), a name, some data type and possibly a default value initialiser.</p>
@@ -736,7 +736,7 @@ Each field has an access capability (<code>let</code> or <code>var</code>), a na
 The initialisation expression must be a compile time value.
 Of course, this default value may be overruled by the initialiser given at the instantiation.</p>
 <h3 id="mutable-and-immutable-structures">Mutable and immutable structures</h3>
-<pre><code class="language-blech" data-lang="blech">struct S
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">struct S
    var a: int32 = 7
    var b: int32
 end
@@ -749,7 +749,7 @@ s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
 
 let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
 s2.b = 17                     // error! Cannot change the let variable s2
-</code></pre><p>Structure <code>s1</code> is declared using a <code>var</code> access qualifier.
+</code></pre></div><p>Structure <code>s1</code> is declared using a <code>var</code> access qualifier.
 The fields may be overwritten as well as the structure as a whole.
 By contrast, <code>s2</code> is declared using <code>let</code>.
 It cannot be changed after initialisation.</p>
@@ -761,7 +761,7 @@ Assigning the empty literal <code>{}</code> means that all default values are re
 <p><code>let</code> fields cannot be changed once the structure is instantiated.
 Assignment on structures as a whole is only permitted if all (sub-)field have <code>var</code> access qualifiers (and the struct itself has been declared using <code>var</code>).</p>
 <h3 id="immutable-fields-in-structures">Immutable fields in structures</h3>
-<pre><code class="language-blech" data-lang="blech">struct T
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">struct T
     let a: int32
     var b: int32
 end
@@ -775,10 +775,10 @@ end
 var s: S = {x.a = 7} // ok, s == {x = {a = 7, b = 0}, y = 0}
 s.x.b = 42           // ok, s == {x = {a = 7, b = 42}, y = 0}
 s = {}               // error! s contains immutable fields
-</code></pre><p>Assignments to the struct <code>s</code> are prohibited because <code>s.x.a</code> is immutable.
+</code></pre></div><p>Assignments to the struct <code>s</code> are prohibited because <code>s.x.a</code> is immutable.
 You need to individually specify which fields you want to update.
 It may be helpful to implement a helper function for this specific data type as shown below.</p>
-<pre><code class="language-blech" data-lang="blech">function resetS()(s: S)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function resetS()(s: S)
     s.x.b = 0
     s.y = 0
 end
@@ -787,7 +787,7 @@ end
 var s: S
 /* ... */
 resetS()(s)
-</code></pre><h2 id="blechconfh">blechconf.h</h2>
+</code></pre></div><h2 id="blechconfh">blechconf.h</h2>
 <p>Blech compiles to C.
 Hence code generation has to map Blech types to C types.
 The file <code>blechconf.h</code> specifies this mapping.

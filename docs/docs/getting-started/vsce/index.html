@@ -635,25 +635,25 @@ It can be installed locally without admin rights.</p>
 .
 Enclosed is a version of the Node Package Manager <code>npm</code>.</p>
 <p>Test it with:</p>
-<pre><code>npm --version
-</code></pre><p><code>npm</code> is frequently updated. In order to keep it up-to-date run:</p>
-<pre><code>npm install npm@latest -g
-</code></pre><p>In most case you should see an upgrade when you run:</p>
-<pre><code>npm --version
-</code></pre><h2 id="prerequisites-for-building-the-extension">Prerequisites for building the extension</h2>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">npm --version
+</code></pre></div><p><code>npm</code> is frequently updated. In order to keep it up-to-date run:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">npm install npm@latest -g
+</code></pre></div><p>In most case you should see an upgrade when you run:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">npm --version
+</code></pre></div><h2 id="prerequisites-for-building-the-extension">Prerequisites for building the extension</h2>
 <p>Clone the <code>blech-tools</code> repository, including the blech compiler submodule.</p>
-<pre><code>git clone --recurse-submodules https://github.com/boschresearch/blech-tools.git
-</code></pre><p>Change to the <code>ide</code> subdirectory.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git clone --recurse-submodules https://github.com/boschresearch/blech-tools.git
+</code></pre></div><p>Change to the <code>ide</code> subdirectory.</p>
 <p>Install the node package <code>vsce</code>, which is able to package VS Code extensions.</p>
-<pre><code>npm -g install vsce
-</code></pre><p>Install the Typescript node package. Typescript is a the typed superset of JavaScript, which is used to build the extension.</p>
-<pre><code>npm -g install typescript
-</code></pre><p>Install the necessary node modules for this project.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">npm -g install vsce
+</code></pre></div><p>Install the Typescript node package. Typescript is a the typed superset of JavaScript, which is used to build the extension.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">npm -g install typescript
+</code></pre></div><p>Install the necessary node modules for this project.
 From the <code>ide</code> subdirectory run</p>
-<pre><code>npm install
-</code></pre><p>Optionally: Run the TypeScript compilation.</p>
-<pre><code>npm run compile
-</code></pre><p>If you like, you can learn more about <a href="https://www.typescriptlang.org" target="_blank">the TypeScript language</a>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">npm install
+</code></pre></div><p>Optionally: Run the TypeScript compilation.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">npm run compile
+</code></pre></div><p>If you like, you can learn more about <a href="https://www.typescriptlang.org" target="_blank">the TypeScript language</a>
 , which is created by Microsoft.</p>
 <h2 id="build-the-extension">Build the extension</h2>
 <p>Besides syntax highlighting the Blech Language Services consisting of two parts which need to be compiled.</p>
@@ -661,23 +661,23 @@ From the <code>ide</code> subdirectory run</p>
 <li>
 <p>A language server written in F#, which is a small wrapper around the Blech compiler.</p>
 <p>The language server is build using dotnet. From the <code>ide</code> subdirector run:</p>
-<pre><code>dotnet publish -c Release -o bin -r win-x64 
-</code></pre><p>Choose your runtime above <a href="https://docs.microsoft.com/de-de/dotnet/core/rid-catalog" target="_blank">as necessary</a>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dotnet publish -c Release -o bin -r win-x64 
+</code></pre></div><p>Choose your runtime above <a href="https://docs.microsoft.com/de-de/dotnet/core/rid-catalog" target="_blank">as necessary</a>
  (<code>linux-x64</code>, <code>linux-arm64</code>, <code>osx-x64</code>).</p>
 </li>
 <li>
 <p>A VS code extension, which runs a client to the language server.
 To build and package the client and the server as an extension run:</p>
-<pre><code>vsce package
-</code></pre><p>If you get a security warning when using Windows powershell. Try running it from <code>cmd</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">vsce package
+</code></pre></div><p>If you get a security warning when using Windows powershell. Try running it from <code>cmd</code>.</p>
 </li>
 </ol>
 <p>This gives you a <code>blech-language-services-0.&lt;i&gt;.&lt;j&gt;.vsix</code> file in the same directory.</p>
 <h2 id="install-the-extension">Install the extension</h2>
 <p>You can install the Blech Language Services VS Code extension via the commandline or interactively.</p>
 <p>From the command line go to the <code>ide</code> subdirectory run</p>
-<pre><code>code blech-language-services-0.&lt;i&gt;.&lt;j&gt;.vsix
-</code></pre><p>with the correct version number.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">code blech-language-services-0.&lt;i&gt;.&lt;j&gt;.vsix
+</code></pre></div><p>with the correct version number.</p>
 <p>If VS Code is already running: 
 Open the Extension section, go to the <code>...</code> menu, and select <code>Install from VSIX...</code>.
 Select the <code>blech-language-services-0.&lt;i&gt;.&lt;j&gt;.vsix</code> file to install the extension.</p>

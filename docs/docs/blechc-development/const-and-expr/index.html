@@ -645,11 +645,11 @@ The common programming practice of C where conditions&rsquo; side effects are us
 <h2 id="side-effects-are-allowed-in-initialisers">Side effects are allowed in initialisers</h2>
 <p>Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable. 
 Otherwise the following code that declares an immutable variable cannot be written:</p>
-<pre><code class="language-blech" data-lang="blech">let status = f()(x)
-</code></pre><p>Instead, we would have to write</p>
-<pre><code class="language-blech" data-lang="blech">var status: typeOfF
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let status = f()(x)
+</code></pre></div><p>Instead, we would have to write</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var status: typeOfF
 status = f()(x)
-</code></pre><p>which not only is longer and less readable but makes <code>status</code> a mutable variable which is not the intention of the programmer.</p>
+</code></pre></div><p>which not only is longer and less readable but makes <code>status</code> a mutable variable which is not the intention of the programmer.</p>
 
 	
 	
