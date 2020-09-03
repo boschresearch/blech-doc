@@ -2291,7 +2291,8 @@ However they have more of a documentation character rather than any functional d
 Both will evaluate whatever expression is given in the binding at runtime.
 This is the reason why external constants cannot be used for constant expression evaluation in Blech &amp;ndash; their value is unknown at compile time.
 While you can, for example, use a Blech constant to parametrise an array length, you cannot do so using an external constant.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; annotation attribute may contain any string which is a valid right hand side of a C macro.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; annotation attribute may contain any string which is a valid right hand side of a C macro. See &lt;a href=&#34;#binding-strings&#34;&gt;below&lt;/a&gt;
+ for more details.&lt;/p&gt;
 &lt;p&gt;By design, the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler &amp;ldquo;look into&amp;rdquo; C header or implementation files, nor does it try to evaluate any C-bindings.&lt;/p&gt;
 &lt;h3 id=&#34;local-external-variables&#34;&gt;Local external variables&lt;/h3&gt;
 &lt;p&gt;The aforementioned constants may be declared in local scopes as well.
@@ -2349,7 +2350,6 @@ Concurrent instances lead to a write-write conflict and compilation is rejected.
 &lt;pre&gt;&lt;code class=&#34;language-blech&#34; data-lang=&#34;blech&#34;&gt;@[CFunction (binding = &amp;quot;ceil($1)&amp;quot;, header = &amp;quot;math.h&amp;quot;)]
 extern function ceiling(i: float64) returns float64
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Inside the Blech program this function is now available through name &lt;code&gt;ceiling&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;TODO: find a good example where output/input parameters have to be rearranged&lt;/p&gt;
 &lt;p&gt;In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.&lt;/p&gt;
@@ -2391,12 +2391,11 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example is a valid Blech program because two different singleton functions are called. This is allowed. However the annotation points to the same C function which is obviously a problem. While a linter could in principle check for this &lt;em&gt;particular&lt;/em&gt; mistake there are many more possibilities to specify bindings to functions which will have conflicting effects when called concurrently.
 It is up to the programmer to know what are the effects of the external functions to be called and to avoid scenarios such as the one above.&lt;/p&gt;
 &lt;h4 id=&#34;binding-strings&#34;&gt;Binding strings&lt;/h4&gt;
-&lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; part of an annotation
-TODO: mention (again) any piece of code that can be the right hand side of a macro may appear as binding
-bindings are strings 
-TODO (elsewhere): explain Blech strings of which there are single line and multi line ones
-explain indentation
-explain escaping&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;binding&lt;/code&gt; part of an annotation may contain any C code which is a valid right hand side of a macro definition.
+The binding may be given as a single-line string (enclosed in &lt;code&gt;&amp;quot;&lt;/code&gt;) or as a multi-line string (enclosed in &lt;code&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/code&gt;).
+When indenting multi-line strings make sure the indentation is consistent for all lines of the string. This means a two line string where the first line is indented by four spaces and a tab and the second line is indented by a tab and four spaces may &lt;em&gt;look&lt;/em&gt; indented properly in your editor but the compiler will complain about being unable to determine the correct indentation. If you use any tabs at all, make sure all tabs appear before any other character (including whitespace) in every line.
+Strings may contain escape sequences &lt;code&gt;\a&lt;/code&gt;, &lt;code&gt;\b&lt;/code&gt;, &lt;code&gt;\f&lt;/code&gt;, &lt;code&gt;\n&lt;/code&gt;, &lt;code&gt;\r&lt;/code&gt;, &lt;code&gt;\t&lt;/code&gt;, &lt;code&gt;\v&lt;/code&gt;, &lt;code&gt;\\&lt;/code&gt;, &lt;code&gt;\&#39;&lt;/code&gt;, &lt;code&gt;\&amp;quot;&lt;/code&gt;.
+Furthermore unicode characters may be used given by &lt;code&gt;\u{codepoint}&lt;/code&gt; where &lt;code&gt;codepoint&lt;/code&gt; is a hexadecimal number.&lt;/p&gt;
 
       </description>
     </item>
