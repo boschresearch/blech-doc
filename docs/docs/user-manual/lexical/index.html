@@ -731,8 +731,8 @@ The precise definition is given by the following grammar rule</p>
 <h2 id="wildcard">Wildcard</h2>
 <p>Additionally we reserve a token that consists of underscores only.
 We call this the &ldquo;wildcard&rdquo;. Wildcards are useful when you want to discard the result of a computation without declaring a dummy variable.</p>
-<pre><code class="language-blech" data-lang="blech">_ = f()
-</code></pre><p>In this example you cannot just call <code>f</code> like in C because the Blech compiler will complain that <code>f</code> is declared to return a value but there is no location to store this value in. The wildcard makes the intention to discard the returned value <em>explicit</em>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">_ = f()
+</code></pre></div><p>In this example you cannot just call <code>f</code> like in C because the Blech compiler will complain that <code>f</code> is declared to return a value but there is no location to store this value in. The wildcard makes the intention to discard the returned value <em>explicit</em>.</p>
 <h2 id="literals">Literals</h2>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">BoolLiteral</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;true&#34;</span> | <span style="color:#000">&#34;false&#34;</span>
 

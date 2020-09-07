@@ -8,7 +8,7 @@ date: 2020-09-01
 We are happy to announce a new release of the Blech compiler and language services for VS Code.
 
 Language features are:
-* The [syntax of the statement `run`](/docs/user-manual/controlflow/statements/#run) has changed. It now allows local variable declarations. [A `return` statement](/docs/user-manual/controlflow/statements/#return) may now have an activity call as an argument:
+* The [syntax of the statement `run`](/docs/user-manual/statements/#run) has changed. It now allows local variable declarations. [A `return` statement](/docs/user-manual/statements/#return) may now have an activity call as an argument:
   * `run foo = Act()` 
   
     used to be `foo = run Act()` 

@@ -627,7 +627,7 @@ The step-function itself will create the prev variables (where needed) and fill 
 <p>Special attention has to be given to the reaction in which the declaration of the local variable takes place.
 Here the local variable assumes its first value.
 This is defined to be the prev value and thus the prev variable has to be reset here once.</p>
-<pre><code class="language-blech" data-lang="blech">...
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">...
 var x: int32 = 7 // prev x = 7
 cobegin
     run B(prev y)(x) // x may have changed
@@ -635,7 +635,7 @@ with
     run A(prev x)(y) // prev x is guaranteed to be 7 in the first reaction
 end
 ...
-</code></pre><h2 id="external-variables">External Variables</h2>
+</code></pre></div><h2 id="external-variables">External Variables</h2>
 <p>External variables (inside the activity scope) are dual to local variables in terms of code generation.
 We do not need to store external variables in the static context which is passed to the step-function.
 Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.

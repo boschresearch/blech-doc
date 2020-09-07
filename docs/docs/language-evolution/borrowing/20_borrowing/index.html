@@ -665,14 +665,14 @@ Currently Blech does not dynamically allocate heap data for safety and real-time
 <p>Non-mutable borrowing <em>freezes</em> the original object, you can still take more non-mutable references, but you cannot move or take mutable references of it.</p>
 <h2 id="borrowing-in-blech">Borrowing in Blech</h2>
 <p>If we adopt borrow semantics in Blech, the compiler would reject the program, which has been discussed as problematic.</p>
-<pre><code class="language-blech" data-lang="blech">var i: int32
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var i: int32
 
 let ref a = i
 var ref b = i
 
 b = 1
 b = a + b
-</code></pre><p>The analog program in Rust</p>
+</code></pre></div><p>The analog program in Rust</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#204a87;font-weight:bold">fn</span> <span style="color:#000">main</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">{</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">let</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">mut</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">i</span>: <span style="color:#204a87;font-weight:bold">i32</span> <span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">42</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">    
@@ -683,7 +683,7 @@ b = a + b
 </span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">a</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">b</span><span style="color:#000;font-weight:bold">;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></code></pre></div><p>cannot be compiled due to a borrowing error</p>
-<pre><code>error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
  --&gt; src/main.rs:5:13
   |
 4 |     let a = &amp;i;
@@ -693,7 +693,7 @@ b = a + b
 ...
 8 |     *b = *a + *b;
   |          -- immutable borrow later used here
-</code></pre><p>For Blech we should also implemented a borrowing check.</p>
+</code></pre></div><p>For Blech we should also implemented a borrowing check.</p>
 <h2 id="intuitive-behaviour-of-the-borrow-checker">Intuitive behaviour of the borrow checker.</h2>
 <p>Borrow checking restricts the use borrowed references inside the same scope.</p>
 <p>The scope is either a statement scope or the entrance of a subprogram.</p>
@@ -706,7 +706,7 @@ b = a + b
 <p>In both cases the original name for the memory location is no longer accessible.
 If we switch to a separate scope we can take a mutable and after that an immutable borrowing. 
 The reason is, that the borrow reference name is no longer visible if the scope is left.</p>
-<pre><code class="language-blech" data-lang="blech">var i: int32
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var i: int32
 
 do  // increment i via b
     var ref b = i  // read-write (mutable) borrow
@@ -717,18 +717,18 @@ end
 // read i via a
 let ref a = i     // read-only (immutable) borrow
 // i is frozen
-</code></pre><h2 id="parameter-passing-is-borrowing-too">Parameter passing is borrowing too</h2>
+</code></pre></div><h2 id="parameter-passing-is-borrowing-too">Parameter passing is borrowing too</h2>
 <p>Passing parameters is also borrowing in a new scope.
 All parameters are regarded borrows in the scope of the subprogram.</p>
 <p>Therefore the following Blech code would also be rejected by a borrow checker.</p>
 <p>The call takes a <code>let ref</code> (immutable) borrow and a <code>var ref</code> (mutable) borrow at the same time.</p>
-<pre><code class="language-blech" data-lang="blech">    var i: int32
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     outIsInPlus1(i)(i)
-</code></pre><p>In order to correct this we need an additional memory location,</p>
-<pre><code class="language-blech" data-lang="blech">    var i: int32
+</code></pre></div><p>In order to correct this we need an additional memory location,</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     let j = i  // read-only j gets value from i
     outIsInPlus1(j)(i)
-</code></pre><p>The implementor of function <code>outIsInPlus1</code> can assume that the actual parameters never overlap in their memory location.</p>
+</code></pre></div><p>The implementor of function <code>outIsInPlus1</code> can assume that the actual parameters never overlap in their memory location.</p>
 <p>This check - which currently is implemented in the causality analysis - can be moved to a borrow checker, which would simplify the causality analysis.</p>
 
 	

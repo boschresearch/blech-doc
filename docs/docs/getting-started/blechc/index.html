@@ -616,57 +616,57 @@
 	       
 	<h2 id="build-blechc-from-source">Build blechc from source</h2>
 <p>Clone the blech compiler project using</p>
-<pre><code>git clone https://github.com/boschresearch/blech
-</code></pre><p>To build the project, you need <strong>.NET Core</strong> installed. Go to the <a href="https://dotnet.microsoft.com/download" target="_blank">Microsoft .NET website</a>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git clone https://github.com/boschresearch/blech
+</code></pre></div><p>To build the project, you need <strong>.NET Core</strong> installed. Go to the <a href="https://dotnet.microsoft.com/download" target="_blank">Microsoft .NET website</a>
  and follow their instructions to install the latest stable <strong>.NET Core</strong> available for your operating system.</p>
 <p>Navigate to the folder where you checked out the Blech project. It should contain the file <code>Blech.sln</code>. Now you have choices:</p>
 <ul>
 <li>
 <p>For a simple <strong>debug build</strong> run</p>
-<pre><code>dotnet build
-</code></pre><p>This creates <code>./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll</code>.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dotnet build
+</code></pre></div><p>This creates <code>./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll</code>.
 Use the dotnet command to start the compiler like so</p>
-<pre><code>dotnet ./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
-</code></pre></li>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dotnet ./src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
+</code></pre></div></li>
 <li>
 <p>For a release build additionally use the <code>-c Release</code> option.</p>
 </li>
 <li>
 <p>Finally, for a <strong>self-contained release build</strong>, which is operating system dependent, you need to run <code>dotnet publish</code> with a specific runtime identifier like so</p>
-<pre><code>dotnet publish -c Release -r win-x64
-</code></pre><p>For Linux use <code>linux-x64</code>, for MacOS use <code>osx-x64</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dotnet publish -c Release -r win-x64
+</code></pre></div><p>For Linux use <code>linux-x64</code>, for MacOS use <code>osx-x64</code>.</p>
 <p>This creates a folder <code>./src/blechc/bin/Release/netcoreapp3.1/win-x64/publish</code> which contains all files needed for execution. The folder as a whole can be moved arbitrarily.
 Inside the folder invoke the binary</p>
-<pre><code>blechc
-</code></pre><p>to run the Blech compiler.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">blechc
+</code></pre></div><p>to run the Blech compiler.</p>
 </li>
 </ul>
 <h2 id="use-blechc">Use <code>blechc</code></h2>
 <p>Assuming you have a binary of the Blech Compiler <code>blechc</code> for your operating system, or you have built the Blech project yourself from sources, this sections tells you how to use it.</p>
 <p>If the <code>blechc</code> binary is in your <code>$PATH</code>, you can invoke the compiler by simply writing</p>
-<pre><code>blechc
-</code></pre><p>on the command line interface.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">blechc
+</code></pre></div><p>on the command line interface.
 If you do not have a standalone (publish) build and want to use your local Debug (or Release) build, use the <code>dotnet</code> command to start the compiler from your blech working directory.</p>
-<pre><code>dotnet &lt;path-to&gt;/blech/src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
-</code></pre><p><strong>From here on out we assume <code>blechc</code> to be a synonym for either call above</strong></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dotnet &lt;path-to&gt;/blech/src/blechc/bin/Debug/netcoreapp3.1/blechc.dll
+</code></pre></div><p><strong>From here on out we assume <code>blechc</code> to be a synonym for either call above</strong></p>
 <p>The following shows some typical invocations of <code>blechc</code>.</p>
 <p>Compile a Blech program:</p>
-<pre><code>blechc someBlechFile.blc
-</code></pre><p>Translates <code>someBlechFile.blc</code> to C code silently. You will only see output on the command line if there are problems with the translation.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">blechc someBlechFile.blc
+</code></pre></div><p>Translates <code>someBlechFile.blc</code> to C code silently. You will only see output on the command line if there are problems with the translation.
 This will generate a file <code>blech.c</code> in the same folder which contains a runnable program. It runs in a main loop and calls the entry point activity of <code>someBlechFile.blc</code> 60 times. Furthermore in the subfolder <code>./blech</code> two files are generated <code>someBlechFile.c</code> and <code>someBlechFile.h</code>. They contain the C code and interface declarations respectively.</p>
 <p>Compile with diagnostic messages:</p>
-<pre><code>blechc -v d someBlechFile.blc
-</code></pre><p>Does the same as above but prints out textual representations of intermediate compilation results including: typed syntax tree, control flow graphs and block graphs for activities, C code.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">blechc -v d someBlechFile.blc
+</code></pre></div><p>Does the same as above but prints out textual representations of intermediate compilation results including: typed syntax tree, control flow graphs and block graphs for activities, C code.</p>
 <p>Just check the programs correctness:</p>
-<pre><code>blechc --dry-run someBlechFile.blc
-</code></pre><p>Runs through all compilation phases but do not write any C files. This is useful to check for problems without actually touching anything on the file system.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">blechc --dry-run someBlechFile.blc
+</code></pre></div><p>Runs through all compilation phases but do not write any C files. This is useful to check for problems without actually touching anything on the file system.</p>
 <p>Try all the options</p>
-<pre><code>blechc --help
-</code></pre><h2 id="compile-generated-c-files">Compile generated C files</h2>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">blechc --help
+</code></pre></div><h2 id="compile-generated-c-files">Compile generated C files</h2>
 <p>By default the compiler produces a main program in <code>blech.c</code> which can be used as a first test. To compile this code you need to include Blech specific C header files. These are located in <code>&lt;path-to&gt;/blech/src/blechc/include</code>. 
 On Windows C compilation may look like this.</p>
-<pre><code>mingw32-cc.exe -I. -I&lt;path-to&gt;/blech/src/blechc/include blech.c
-</code></pre><p>Note that the current folder <code>.</code> is explicitly added as a path to be included.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mingw32-cc.exe -I. -I&lt;path-to&gt;/blech/src/blechc/include blech.c
+</code></pre></div><p>Note that the current folder <code>.</code> is explicitly added as a path to be included.
 The resulting executable will run the program for 60 reactions and print the variable evaluations after every reaction in JSON format.</p>
 <p>To include the generated C code in your own project inspect <code>blech.c</code> for details. In particular, make sure you call the <code>init</code> function on initial startup and then <code>tick</code> with every reaction.
 For programmers familiar with Arduino these correspond to the <code>setup</code> and <code>loop</code> functions.</p>

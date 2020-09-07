@@ -663,7 +663,7 @@ NOTE: Maybe the default should be <code>float32</code> for embedded systems?</p>
 <p>Any <code>natLiteral</code> can be annotated with a float type.
 The range is checked, to get a precise float representation.</p>
 <p>The following are all valid float literals.</p>
-<pre><code class="language-blech" data-lang="blech">
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
 (42: float64)
 (42: float32)
 
@@ -672,7 +672,7 @@ The range is checked, to get a precise float representation.</p>
 
 42.0 // has type float64
 (42.0: float32)
-</code></pre><h3 id="bit-types">Bit types</h3>
+</code></pre></div><h3 id="bit-types">Bit types</h3>
 <p>Bit types allow bitwise, relational, and arithmetic operators.
 Arithmetic operators wrap-around.</p>
 <p>Different to <code>nat</code> types which must not over- or underflow.</p>
@@ -742,7 +742,7 @@ Decimal literals have type <code>AnyInteger</code>.</p>
 <p>A type annotation can be ommited if an assignment determines the type.</p>
 <p>For negative values of type <code>AnyInteger</code> the two&rsquo;s-complement representation is used to create the bits.</p>
 <p>IMPORTANT: The two&rsquo;s-complement representation for <code>intN</code> is not mandatory in C.</p>
-<pre><code class="language-blech" data-lang="blech">let b1: bits8 = 0x1
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let b1: bits8 = 0x1
 let b2 = 0x1 : bits8
 let b3 = (0x1 : bits8) &lt;&lt; 2  // 0x4 as bits8
 let b32 = 0x1A4: bits8   // type error not representable in bits8
@@ -751,26 +751,26 @@ let b5 = 255 : bits8
 let b6: bits8 = -129   // type error, no representable as 2-complement in bits8
 let b7 = -128: bits8   // ok
 let b8 = (-50 - 150): bits8 // compile time error, not representable as 2-complement in bits8
-</code></pre><h3 id="use-of-operations">Use of operations</h3>
+</code></pre></div><h3 id="use-of-operations">Use of operations</h3>
 <p>Bitwise operatorions and arithmetic operations cannot be applied to values of type <code>AnyBits</code>.
 Bitwise and arithmetic operations can only be applied to values of type <code>bitsN</code>, that means the size has to be fixed before any operation.</p>
-<pre><code class="language-blech" data-lang="blech">let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
-let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
-</code></pre><h3 id="hackers-delight-translated-to-blech">Hacker&rsquo;s Delight translated to Blech</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus
+let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around
+</code></pre></div><h3 id="hackers-delight-translated-to-blech">Hacker&rsquo;s Delight translated to Blech</h3>
 <p><a href="https://en.wikipedia.org/wiki/Hacker%27s_Delight" target="_blank">Hacker’s Delight</a>
  is the definitive source of bitwise programming algorithms. 
 It should be possible to use these hacks in Blech.</p>
 <p>Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&gt; 0b_0101_0000, 0x_00 =&gt; 0x_00).</p>
-<pre><code class="language-blech" data-lang="blech">var x: bits8
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: bits8
 x = x &amp; (x - (1: bits8))
 // or
 x = x &amp; (x - 0x_01)
-</code></pre><p>Turn on the rightmost 0-bit in a word, producing all 1&rsquo;s if none (e.g. 0x7AF3 =&gt; 0x7AF4, 0xFFFF =&gt; 0xFFFF).</p>
-<pre><code class="language-blech" data-lang="blech">var x: bits32
+</code></pre></div><p>Turn on the rightmost 0-bit in a word, producing all 1&rsquo;s if none (e.g. 0x7AF3 =&gt; 0x7AF4, 0xFFFF =&gt; 0xFFFF).</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: bits32
 x = x | (x + (1: bits32))
 // or
 x = x | (x + 0b_1)
-</code></pre>
+</code></pre></div>
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">Last modified May 5, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/6b244083211ebb5193cc6c81f236ef4747ee7b34">Borrowing (6b24408)</a>

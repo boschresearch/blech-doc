@@ -723,28 +723,28 @@ This section explains how to use literals and what type errors may happen.</p>
 <h4 id="annotated-literals">Annotated literals</h4>
 <p>For example, the literal <code>1</code> could represent a natural number, a signed integer or a byte word of some size. It could even be a floating point number.
 It can be explicitly annotated using a type annotation.</p>
-<pre><code class="language-blech" data-lang="blech">1: nat16    // 2 bytes long natural number
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">1: nat16    // 2 bytes long natural number
 1: int8     // 1 byte signed integer
 1: bits32   // 4 bytes long word
 1: float32  // single precision floating point number
-</code></pre><p>The lexical analysis of <code>Literal</code> above suggests there are three kinds of literals.
+</code></pre></div><p>The lexical analysis of <code>Literal</code> above suggests there are three kinds of literals.
 In fact, we distinguish two kinds of integers.
 Binary, octal and hexadecimal integer literals form the group of <em>bits literals</em>.
 They may be interpreted as a byte word of some length or as a natural number of some length.</p>
-<pre><code class="language-blech" data-lang="blech">0xFF: nat32    // 4 byte natural number with value 255
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">0xFF: nat32    // 4 byte natural number with value 255
 0b101: bit8    // 1 byte word with value 5
-</code></pre><p><a name="bitsandints"></a>
+</code></pre></div><p><a name="bitsandints"></a>
 They cannot be treated as a signed integer because depending on the length and the machine&rsquo;s representation of negative numbers they might yield a negative or positive value.</p>
-<pre><code class="language-blech" data-lang="blech">0xFF: int8    // error! Would be -1 if represented in two's complement
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">0xFF: int8    // error! Would be -1 if represented in two&#39;s complement
 0xFF: int16   // error! Would be 255 in a two byte word
-</code></pre><p>Also, bits literals cannot be interpreted as floating point numbers.
+</code></pre></div><p>Also, bits literals cannot be interpreted as floating point numbers.
 <em>For the exact specification of floating point numbers a hexadecimal float literal will be introduced.</em></p>
 <p><em>Decimal integers</em> may be interpreted as any kind of numeric type as long as the value fits the domain. The example above shows the straightforward use case with the literal <code>1</code>. Below some corner cases are exemplified:</p>
-<pre><code class="language-blech" data-lang="blech">-2: nat16     // error! Outside range of natural numbers
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">-2: nat16     // error! Outside range of natural numbers
 -200: int8    // error! Outside range [-128..127]
 -2: bits8     // 1 byte word with value 254
 -200: float32 // single precision floating point number
-</code></pre><p>Float literals may only be interpreted as either single or double precision floating point numbers even if their fraction part is zero as in <code>10.0</code>.</p>
+</code></pre></div><p>Float literals may only be interpreted as either single or double precision floating point numbers even if their fraction part is zero as in <code>10.0</code>.</p>
 <p>In summary: annotations may only be used where they do not change the value of the expression and the value fits into the domain of the type.</p>
 <h4 id="type-deduction-for-literals">Type deduction for literals</h4>
 <p>When a literal occurs as part of a binary expression where one side is already fully typed, the literal&rsquo;s type may be automatically deduced.</p>
@@ -767,13 +767,13 @@ Note that a bits literal cannot be used to initialise an integer for reasons exp
 <p>Empty braces <code>{}</code> have a special meaning.
 They represent the default value for any struct or literal.
 Using the reset literal in a declaration has the same effect as leaving out the initialisation:</p>
-<pre><code class="language-blech" data-lang="blech">var x: [8]float32 = {}
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: [8]float32 = {}
 var y: [8]float32
-</code></pre><p>Both <code>x</code> and <code>y</code> will be initialised with zeros in all cells.
+</code></pre></div><p>Both <code>x</code> and <code>y</code> will be initialised with zeros in all cells.
 The reset literal, as the name suggests, is most useful to set a modified data structure back to its default values:</p>
-<pre><code class="language-blech" data-lang="blech">var x: [8]float32 = {1, 2, 3, 4, 5, 6, 7, 8}
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: [8]float32 = {1, 2, 3, 4, 5, 6, 7, 8}
 x = {}    // now x == {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-</code></pre><p>The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
+</code></pre></div><p>The reset literal cannot be assigned to a structure that contains immutable fields (or, recursively, substructures with immutable fields).
 The same is true for arrays with struct payloads.
 See the section on <a href="../types/#structure-types">Structure types</a>
  for more details.</p>
@@ -789,7 +789,7 @@ It is possible to set specific array cells by also specifying an index for a val
 Subsequent unindexed values will be set for the next array cells in order.</p>
 <p>The <code>Expr</code> in <code>CellInit</code> must match the array&rsquo;s data type.</p>
 <h5 id="example-setting-array-values">Example: Setting array values</h5>
-<pre><code class="language-blech" data-lang="blech">var x: [2][3]nat8 = {{1, 2, 3},{4, 5, 6}} // all explicit
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: [2][3]nat8 = {{1, 2, 3},{4, 5, 6}} // all explicit
 // x is
 // 1  2  3
 // 4  5  6
@@ -813,7 +813,7 @@ x = { {[2]=14} }                          // second row implicitly zeroed out
 // x is
 // 0  0  14
 // 0  0  0
-</code></pre><h4 id="struct-literals">Struct literals</h4>
+</code></pre></div><h4 id="struct-literals">Struct literals</h4>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">StructLiteral</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;{&#34;</span> <span style="color:#000">FieldInit</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;,&#34;</span> <span style="color:#000">FieldInit</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">&#34;}&#34;</span>
 <span style="color:#000">FieldInit</span>     ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;=&#34;</span> <span style="color:#000">Expr</span>
 </code></pre></div><p>The identifiers must match the field names of the struct to be assigned.
@@ -822,7 +822,7 @@ Immutable (<code>let</code> declared) fields may only be set in the initialisati
 Fields that are not specified in the literal are implicitly set to their data type&rsquo;s default value.</p>
 <h5 id="example-setting-struct-values">Example: Setting struct values</h5>
 <p>Assume the following declarations:</p>
-<pre><code class="language-blech" data-lang="blech">struct S
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">struct S
     var a: int8
     var b: int8
 end
@@ -831,8 +831,8 @@ struct T
     let x: bool
     var y: S
 end
-</code></pre><p>The following code may be written (in some local scope):</p>
-<pre><code class="language-blech" data-lang="blech">var t: T = {x = true, y = {a = 1, b = 2}}
+</code></pre></div><p>The following code may be written (in some local scope):</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var t: T = {x = true, y = {a = 1, b = 2}}
 // t is
 // t.x == true
 // t.y.a == 1
@@ -845,7 +845,7 @@ t.y = {a = 7}     // implicitly b = 0
 // t.x == true
 // t.y.a == 7
 // t.y.b == 0
-</code></pre><h2 id="parenthesised-form">Parenthesised form</h2>
+</code></pre></div><h2 id="parenthesised-form">Parenthesised form</h2>
 <p>A parenthesised form is an expression enclosed in parentheses:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ParenthForm</span> ::<span style="color:#ce5c00;font-weight:bold">=</span>  <span style="color:#000">&#34;(&#34;</span> <span style="color:#000">Expr</span> <span style="color:#000">&#34;)&#34;</span>
 </code></pre></div><p>A parenthesised expression yields whatever that expression yields.</p>
@@ -905,11 +905,11 @@ See the sections on <a href="../types/#integer-types">arithmetic types</a>
 When they differ, the smaller size value is lifted implicitly to the larger size.
 The operation is then carried out on (possibly lifted) arguments of the same type.</p>
 <h4 id="lifting-types">Lifting types</h4>
-<pre><code class="language-blech" data-lang="blech">var x: int8 = 7
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: int8 = 7
 var y: int16 = 300
 var z = x + y
 var u = x + 1
-</code></pre><p><code>x</code> and <code>y</code> are both signed integers but have different sizes.
+</code></pre></div><p><code>x</code> and <code>y</code> are both signed integers but have different sizes.
 In the context of the addition in line 3, the smaller type is lifted to the larger, effectively making <code>x</code> an <code>int16</code>.
 Then, 16-bit signed addition is carried out producing an <code>int16</code> typed result.
 This result is stored into <code>z</code> making it a <code>int16</code> variable, too.</p>
@@ -963,17 +963,17 @@ Furthermore the precedence of comparison operators is lower than that of any ari
 <p>Note that all operators are left associative.
 Hence chaining comparisons is possible syntactically but makes little sense.</p>
 <h4 id="comparison-chaining">Comparison chaining</h4>
-<pre><code class="language-blech" data-lang="blech">var b = 4 &lt; 5 &lt;= false // evaluates to true &lt;= false which is false
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var b = 4 &lt; 5 &lt;= false // evaluates to true &lt;= false which is false
 var c = 4 &lt; 5 &lt;= 6 // type error: cannot compare true &lt;= 6
-</code></pre><p>This is different to C because in Blech Booleans and numbers are incomparable.</p>
+</code></pre></div><p>This is different to C because in Blech Booleans and numbers are incomparable.</p>
 <h4 id="comparison-lifting">Comparison lifting</h4>
 <p>Comparison operators lift their arguments to a common sized type like arithmetic operators do (see above).
 Additionally, comparisons permit using literals that would require a larger domain.
 This allows writing (in)equalities without cluttering the code with trivial type casts.</p>
 <h5 id="example-comparison-with-literals-outside-the-domain">Example: Comparison with literals outside the domain</h5>
-<pre><code class="language-blech" data-lang="blech">var x: int8 = 7
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: int8 = 7
 var y = x &lt; 1000
-</code></pre><p>The literal <code>1000</code> is a (signed) integral number and would fit into an <code>int16</code>.
+</code></pre></div><p>The literal <code>1000</code> is a (signed) integral number and would fit into an <code>int16</code>.
 Therefore we allow to implicitly lift <code>x</code> to <code>int16</code> and carry out the comparison.
 This makes sense because the result of all comparison operators is always a Boolean value.
 There are no &ldquo;surprises&rdquo; about the outcome.</p>
@@ -988,20 +988,20 @@ The evaluation is performed lazily: first <code>a</code> is evaluated. If it is 
 <p>Type casts <em>change</em> the type of an already typed expression.
 Casts are only permitted where the (machine) representation of a value will not change and casts assume that the value fits into the target type&rsquo;s domain.</p>
 <h4 id="safe-casts">Safe casts</h4>
-<pre><code class="language-blech" data-lang="blech">var x: int16 = 100
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var x: int16 = 100
 let y = x as nat8    // ok, y == 100 of type nat8
 
 x = x * 3
 let z = x as nat8    // runtime error: 300 outside nat8 domain 0..255
 
-x = -256             // assuming 2's complement on the machine:
+x = -256             // assuming 2&#39;s complement on the machine:
                      // x == 0xb_1111_1111_0000_0000
 let u = x as bits8   // runtime error
 let v = x as bits16  // ok, v == 65280
 
 let f: float32 = 1
 x = f as int16       // error! impossible to cast floating point to integral types
-</code></pre><p>The restrictions on the casts do not rule out runtime errors.
+</code></pre></div><p>The restrictions on the casts do not rule out runtime errors.
 At the same time they prevent some manipulations that are possible in C.
 For example, it is not possible to interpret a floating point as a bits type and change individual bits.</p>
 

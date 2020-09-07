@@ -26,8 +26,8 @@
 &lt;p&gt;Language features are:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;The &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/controlflow/statements/#run&#34;&gt;syntax of the statement &lt;code&gt;run&lt;/code&gt;&lt;/a&gt;
- has changed. It now allows local variable declarations. &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/controlflow/statements/#return&#34;&gt;A &lt;code&gt;return&lt;/code&gt; statement&lt;/a&gt;
+&lt;p&gt;The &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/statements/#run&#34;&gt;syntax of the statement &lt;code&gt;run&lt;/code&gt;&lt;/a&gt;
+ has changed. It now allows local variable declarations. &lt;a href=&#34;https://www.blech-lang.org/docs/user-manual/statements/#return&#34;&gt;A &lt;code&gt;return&lt;/code&gt; statement&lt;/a&gt;
  may now have an activity call as an argument:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;

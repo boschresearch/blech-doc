@@ -692,8 +692,8 @@ Finally, if input <code>in2</code> is indeed less than 0 the activity terminates
 Otherwise the control flow loops around from line 5 back to line 2 and finally the reaction ends again in line 3.</p>
 <h4 id="example-proceed-with-the-next-tick">Example: Proceed with the next tick</h4>
 <p>For example in time triggered systems we often just want to await the next period and proceed. This is simply expressed by</p>
-<pre><code class="language-blech" data-lang="blech">await true
-</code></pre><h3 id="run">Run</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">await true
+</code></pre></div><h3 id="run">Run</h3>
 <p>An activity call is given by the following grammar.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ActivityCall</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;run&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">Receiver</span> <span style="color:#000">&#34;=&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">Identifier</span> <span style="color:#000">RhsArgList</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">LhsArgList</span><span style="color:#000;font-weight:bold">]</span>
 <span style="color:#000">Receiver</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">Wildcard</span> | <span style="color:#000">Identifier</span> | <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;var&#34;</span> | <span style="color:#000">&#34;let&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">Identifier</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span><span style="color:#000;font-weight:bold">])</span>
@@ -710,7 +710,7 @@ It remains within the callee for as many reactions as it runs (but at least one 
 In every reaction inputs are passed though to the callee and its outputs are propagated outside.
 Should the callee terminate, the control flow returns to the caller and proceeds with the next statement.</p>
 <p>Example:</p>
-<pre><code class="language-blech" data-lang="blech">// declaration
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">// declaration
 activity A (a: [8]int32, b: int32) (c: int32) returns bool
     /* some code */
     ...
@@ -723,9 +723,9 @@ end
     // usage
     run result = A(array, 7)(output)
 
-    // alternative: declare receiver within &quot;run&quot;
+    // alternative: declare receiver within &#34;run&#34;
     run let result2 = A(array, 7)(output)
-</code></pre><h3 id="cobegin">Cobegin</h3>
+</code></pre></div><h3 id="cobegin">Cobegin</h3>
 <p>Concurrent composition is expressed with the <code>cobegin</code> statement.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ForkJoin</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;cobegin&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;weak&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">StmtBlock</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;with&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;weak&#34;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">StmtBlock</span><span style="color:#000;font-weight:bold">)</span>+ <span style="color:#000">&#34;end&#34;</span>
 </code></pre></div><p>Using <code>cobegin</code> it is possible to compose arbitrary pieces of code.
@@ -788,7 +788,7 @@ This means the <code>cobegin</code> statement terminates when <em>all</em> of it
 Branches that finish earlier (have fewer reaction to do) will simply do nothing until the last strong branch has terminated.
 The following two examples illustrate the usage of the <code>weak</code> qualifier.</p>
 <h4 id="example-weak-and-strong-branches">Example: Weak and strong branches</h4>
-<pre><code class="language-blech" data-lang="blech">/* ... inside some activity ... */
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/* ... inside some activity ... */
 var res: nat8
 cobegin weak
     // non-terminating branch
@@ -800,17 +800,17 @@ with
     // terminates once a key is pressed
     res = run ReadKeyStroke()
 end
-</code></pre><p>The first branch contains an infinite loop in the sense that every iteration ends in a pause but the number of reactions is unbounded.
+</code></pre></div><p>The first branch contains an infinite loop in the sense that every iteration ends in a pause but the number of reactions is unbounded.
 The loop is placed into a weak branch that allows to terminate the loop at the end of some reaction.
 The second branch contains an activity call that is expected to return some value eventually.
 In the reaction in which the result is returned the weak branch will be aborted (after it has done one iteration) and the control flow continues with the next statement following the <code>cobegin</code>.</p>
 <h4 id="example-all-branches-weak">Example: All branches weak</h4>
-<pre><code class="language-blech" data-lang="blech">cobegin weak
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cobegin weak
     await isButtonPressed
 with weak
     await hasReceivedSignal
 end
-</code></pre><p>In this example there are no strong branches.
+</code></pre></div><p>In this example there are no strong branches.
 The first branch to terminate will abort all others.
 In this example it means as soon as <code>isButtonPressed</code> or <code>hasReceivedSignal</code> is true (or both are true!) the <code>cobegin</code> statement terminates and control flow continues with the next statement.</p>
 <h3 id="prev">Prev</h3>
@@ -820,12 +820,12 @@ In this example it means as soon as <code>isButtonPressed</code> or <code>hasRec
 In short, this means two concurrent branches may not write the same shared memory and furthermore cyclical read-write dependencies are prohibited as well.
 Sometimes however we need to express a quasi-cycle wherein one branch starts off with a value that has already been computed in the previous reaction. This is conveniently expressed using the <code>prev</code> operator.</p>
 <h4 id="example-previous-values">Example: Previous values</h4>
-<pre><code class="language-blech" data-lang="blech">cobegin 
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cobegin 
     run A (prev x)(y)
 with 
     run B (y)(x)
 end
-</code></pre><p>Here, in every reaction, the <em>previous</em> value of <code>x</code>, i.e. the result of the previous reaction, is given to <code>A</code> which performs a step and produces a new value for <code>y</code>. This is then used by <code>B</code> to produce a new <em>current</em> value of <code>x</code>.</p>
+</code></pre></div><p>Here, in every reaction, the <em>previous</em> value of <code>x</code>, i.e. the result of the previous reaction, is given to <code>A</code> which performs a step and produces a new value for <code>y</code>. This is then used by <code>B</code> to produce a new <em>current</em> value of <code>x</code>.</p>
 <p><code>prev</code> can only be used where we expect to read a value. It cannot be used on a left-hand-side of an assignment or in an output argument position. <code>prev</code> may only be applied to values, identified by a name. It cannot be used on arbitrary expressions.
 When used on memory of complex data types, <code>prev</code> binds to the outermost part. For a structure <code>s</code> the expression <code>prev s.x</code> is to be read as <code>(prev s).x</code>.</p>
 <h3 id="abort-and-reset">Abort and reset</h3>
@@ -839,16 +839,16 @@ There are two variants of preemptions.
 <code>abort</code> means that control flow jumps to the <code>end</code> of the preemption statement.
 <code>reset</code> means that control flow restarts at the beginning of <code>StmtBlock</code>.</p>
 <p>Note that</p>
-<pre><code class="language-blech" data-lang="blech">when Condition reset P end
-</code></pre><p>is syntactic sugar for</p>
-<pre><code class="language-blech" data-lang="blech">var hasTerminated = false
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">when Condition reset P end
+</code></pre></div><p>is syntactic sugar for</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var hasTerminated = false
 repeat
     when Condition abort
         P
         hasTerminated = true
     end
 until hasTerminated end
-</code></pre><p>where <code>hasTerminated</code> is a fresh boolean variable.</p>
+</code></pre></div><p>where <code>hasTerminated</code> is a fresh boolean variable.</p>
 <p>It is, of course, possible that the body is left instantaneously within one reaction.
 In this case the preemption is irrelevant for the flow of control.</p>
 
@@ -903,7 +903,7 @@ In any case, the block is left in line 10.</p>
 <p>The <code>abort</code> statement is useful whenever we want to skip over a sequence of reactions when we detect some issue at the beginning of a reaction.
 Sometimes instead of skipping ahead we would like to restart a sequence of reactions.
 For this we may use the <code>reset</code> statement.</p>
-<pre><code class="language-blech" data-lang="blech">activity MyAct (in1: bool) (out1: uint8)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity MyAct (in1: bool) (out1: uint8)
     // do something ...
     
     when in1 reset // reset instead of abort
@@ -916,7 +916,7 @@ For this we may use the <code>reset</code> statement.</p>
     
     // do something else ...
 end
-</code></pre><p>It behaves just like the <code>abort</code> statement except it jumps to line 4 if <code>in1</code> is true.</p>
+</code></pre></div><p>It behaves just like the <code>abort</code> statement except it jumps to line 4 if <code>in1</code> is true.</p>
 <h2 id="imperative-control-flow">Imperative control flow</h2>
 <p>All of the following statements are known from mainstream imperative programming languages.
 They may be used inside both, activities and functions.</p>
@@ -926,13 +926,13 @@ They may be used inside both, activities and functions.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">DoBlock</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;do&#34;</span> <span style="color:#000">StmtBlock</span> <span style="color:#000">&#34;end&#34;</span>
 </code></pre></div><p>The <code>do</code> block may be used to define local scopes.</p>
 <h4 id="example-local-scopes">Example: Local scopes</h4>
-<pre><code class="language-blech" data-lang="blech">function f ()
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function f ()
     do
         var x: int8 = 5
     end
     // x is out of scope here
 end
-</code></pre><h3 id="if">If</h3>
+</code></pre></div><h3 id="if">If</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">IfStmt</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;if&#34;</span> <span style="color:#000">Condition</span> <span style="color:#000">&#34;then&#34;</span> <span style="color:#000">StmtBlock</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;elseif&#34;</span> <span style="color:#000">Condition</span> <span style="color:#000">&#34;then&#34;</span> <span style="color:#000">StmtBlock</span><span style="color:#000;font-weight:bold">]</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;else&#34;</span> <span style="color:#000">StmtBlock</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">&#34;end&#34;</span>
 </code></pre></div><h3 id="while">While</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">WhileLoop</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;while&#34;</span> <span style="color:#000">Condition</span> <span style="color:#000">&#34;repeat&#34;</span> <span style="color:#000">StmtBlock</span> <span style="color:#000">&#34;end&#34;</span>
@@ -940,13 +940,13 @@ end
 This is not necessary for loops inside functions.
 Note that using <code>while</code> loops in activities may lead to unexpected error messages because we deliberately <em>do not</em> evaluate the condition at compile time even if it is trivially true or false.</p>
 <p>For example:</p>
-<pre><code class="language-blech" data-lang="blech">activity Toggle()(out:bool)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity Toggle()(out:bool)
     while true repeat
         out = not out
         await true
     end
 end
-</code></pre><p>This program will not compile because the compiler thinks there is a control flow path that does not enter the loop and immediately terminates the activity.
+</code></pre></div><p>This program will not compile because the compiler thinks there is a control flow path that does not enter the loop and immediately terminates the activity.
 Since activities must not be instantaneous this program is rejected.
 Use <code>repeat</code> loops instead to avoid this spurious control flow paths that possibly skip the loop.</p>
 <h3 id="repeat">Repeat</h3>
@@ -959,7 +959,7 @@ This is not necessary for loops inside functions.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">ReturnStmt</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;return&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">RhsExpr</span><span style="color:#000;font-weight:bold">]</span> | <span style="color:#000">&#34;return&#34;</span> <span style="color:#000">ActivityCall</span>
 </code></pre></div><p>Void activities and functions can use <code>return</code> without an expression to terminate at some point before control flow reaches the last statement.</p>
 <h4 id="example-return-from-void-function">Example: Return from void function</h4>
-<pre><code class="language-blech" data-lang="blech">function setSpeed (velocity: float32) ()
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function setSpeed (velocity: float32) ()
     if velocity &lt; 0 then
         return
     end
@@ -970,7 +970,7 @@ This is not necessary for loops inside functions.</p>
     
     halSetSpeed(velocity) // call device driver
 end
-</code></pre><p>This simple example assumes we implement a wrapper for calling a hardware device driver.
+</code></pre></div><p>This simple example assumes we implement a wrapper for calling a hardware device driver.
 In order to avoid an if-then-else cascade <code>setSpeed</code> tests the prerequisites individually and returns in case some of them is not met.</p>
 <p>Activities and functions that declare a return type must return a value of this type on every control flow path that reaches the end of the program body.</p>
 <p>Activities may only return from their main thread.
@@ -980,7 +980,7 @@ This is a design decision which avoids cases in which multiple branches could re
 Outputs are set in every reaction of the activity.
 A return value is returned precisely once in the reaction that terminates the activity.</p>
 <h4 id="example-return-from-activity">Example: Return from activity</h4>
-<pre><code class="language-blech" data-lang="blech">activity A (in: int32) (out: int32) returns nat8
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity A (in: int32) (out: int32) returns nat8
     var retcode: nat8
     var x: int32
     cobegin weak
@@ -990,14 +990,14 @@ A return value is returned precisely once in the reaction that terminates the ac
     end
     return retcode
 end
-</code></pre><p>In every reaction <code>in</code> is propagated to <code>B</code> and <code>out</code> is propagated from <code>C</code> to the caller.
+</code></pre></div><p>In every reaction <code>in</code> is propagated to <code>B</code> and <code>out</code> is propagated from <code>C</code> to the caller.
 Only when <code>C</code> terminates the variable <code>retcode</code> is updated, the <code>cobegin</code> statement is terminated and the <code>retcode</code> is returned to the caller.</p>
 <p>Activities that simply terminate and pass on the value of their callee may use the syntactic sugar</p>
-<pre><code class="language-blech" data-lang="blech">return run A()
-</code></pre><p>instead of the more verbose</p>
-<pre><code class="language-blech" data-lang="blech">run let foo = A()
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">return run A()
+</code></pre></div><p>instead of the more verbose</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">run let foo = A()
 return foo
-</code></pre><h3 id="function-call">Function call</h3>
+</code></pre></div><h3 id="function-call">Function call</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">FunctionCallStmt</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000">RhsArgList</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">LhsArgList</span><span style="color:#000;font-weight:bold">]</span>
 </code></pre></div><p>Blech distinguishes between a function call statement and a function call expression.
 On the statement level only void functions may be called.</p>
@@ -1019,14 +1019,14 @@ On the statement level only void functions may be called.</p>
 The optional semicolons in the grammar indicate that it is possible to separate statements in a sequence using semicolons.
 We suggest to avoid writing any semicolons unless two (or more) statements are written in one line.</p>
 <h3 id="semicolons-in-blech">Semicolons in Blech</h3>
-<pre><code class="language-blech" data-lang="blech">function f()
-    var x: int8 = 0; // do not clutter your code with superfluous &quot;;&quot;
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function f()
+    var x: int8 = 0; // do not clutter your code with superfluous &#34;;&#34;
     var y: int8 = 1  // preferred semicolon free style
 
     x = 7; y = y + x // ok, but usually it is better to write two lines
     x = 7 y = y + x  // compiles but is hardly readable, do not do that
 end
-</code></pre>
+</code></pre></div>
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">Last modified August 26, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/384d509751834220dc179f973fe01241f36bcb92">prev added (384d509)</a>

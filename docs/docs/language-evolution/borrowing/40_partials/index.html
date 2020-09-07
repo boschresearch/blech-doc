@@ -625,7 +625,7 @@
 	       
 	<h2 id="partial-borrow-from-a-struct">Partial borrow from a struct</h2>
 <p>Imagine the following</p>
-<pre><code class="language-blech" data-lang="blech">
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
 struct From 
     var a: int32
     var b: int32
@@ -637,67 +637,67 @@ activity main ()
     run outIsPlus1(f.a)(f.b)
     await true
 end
-</code></pre><p>The compiler can statically decide on partial borrowing for structs.
+</code></pre></div><p>The compiler can statically decide on partial borrowing for structs.
 But not for arrays.</p>
 <p>The following code would be rejected</p>
-<pre><code class="language-blech" data-lang="blech">activity main (i: int32)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity main (i: int32)
     var f: [2]int43
     run outIsPlus1(f[1])(f[i])
     await true
 end
-</code></pre><p>It cannot be decide at compile-time that <code>f[1]</code> and <code>f[i]</code> do not overlap.
+</code></pre></div><p>It cannot be decide at compile-time that <code>f[1]</code> and <code>f[i]</code> do not overlap.
 That means borrowing form arrays borrows the whole array.</p>
 <h2 id="structs-with-references">Structs with references</h2>
 <p>A struct may contain a field that is a reference in order to define an alias or an associated data type.</p>
 <p>Structs with references contain borrowed fields.</p>
-<pre><code class="language-blech" data-lang="blech">struct RefStruct
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">struct RefStruct
     var a: int32
     let ref b: int32
 end
-</code></pre><p>Return a struct with references requires to define which references a borrowed by the struct.</p>
-<pre><code class="language-blech" data-lang="blech">function initRefStruct (refb: int32) returns RefStruct shares refb
+</code></pre></div><p>Return a struct with references requires to define which references a borrowed by the struct.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function initRefStruct (refb: int32) returns RefStruct shares refb
     return {a = 42, b = refb}
 end
 
 var b: int32 = 1
 var result = initRefStruct(b)
 // b is immutably borrowed to result here
-</code></pre><p>The result of type <code>RefStruct</code> shares read-only reference <code>refb</code>. That means it immutably borrows <code>refb</code>.
+</code></pre></div><p>The result of type <code>RefStruct</code> shares read-only reference <code>refb</code>. That means it immutably borrows <code>refb</code>.
 As a consequence <code>result</code> immutably borrows <code>b</code>.
 Consequently <code>b</code> is frozen after <code>result</code> is iniatialized.</p>
 <p>We could also write <code>initRefers</code> in the following way.</p>
-<pre><code class="language-blech" data-lang="blech">function initRefStruct (refb: int32) returns RefStruct shares refb
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function initRefStruct (refb: int32) returns RefStruct shares refb
     var r: RefStruct = {a = 42, b = refB}
     return r
 end
-</code></pre><p>The return value is a shallow copy of the struct.</p>
+</code></pre></div><p>The return value is a shallow copy of the struct.</p>
 <p>The borrow checker conservatively overestimates all possible borrowing if the return value is constructed through different control path.</p>
-<pre><code class="language-blech" data-lang="blech">function initRefStruct (refb: int32, refother: int32) returns RefStruct shares refb, refother
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function initRefStruct (refb: int32, refother: int32) returns RefStruct shares refb, refother
     if aB &lt; aB2 then
         return {a = 42, b = refb}
     else
         return {a = -42, b = refother}
     end
 end
-</code></pre><p>It also overestimates the sharing if the <code>shares</code> refers to an output, although the <code>RefStruct</code> value immutably borrows <code>refb</code>.</p>
-<pre><code class="language-blech" data-lang="blech">function initRefStruct () (refb: int32) returns RefStruct shares refb
+</code></pre></div><p>It also overestimates the sharing if the <code>shares</code> refers to an output, although the <code>RefStruct</code> value immutably borrows <code>refb</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function initRefStruct () (refb: int32) returns RefStruct shares refb
     refB = refB + 1
     return {a = 42, b = refB}
 end
 
 var b: int32
 var rs: RefStruct = initRefStruct()(b)
-</code></pre><p>Overestimation is necessary for a rather simple signature.</p>
+</code></pre></div><p>Overestimation is necessary for a rather simple signature.</p>
 <p>For separate compilation borrowing in the result must become part of the signature of a function without inspection of the actual code.</p>
 <p>The three variants have of <code>initRefStruct</code> have the following signatures</p>
-<pre><code class="language-blech" data-lang="blech">
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
 function initRefStruct (refb: int32) returns RefStruct shares refb
 
 function initRefStruct (refb: int32, refOther: int32) returns RefStruct shares refb, refother
 
 function initRefStruct ()(refb: int32) returns RefStruct shares refb
 
-</code></pre><p>Struct with references can only be assigned once, because a references need to be defined at the point of their declaration.</p>
+</code></pre></div><p>Struct with references can only be assigned once, because a references need to be defined at the point of their declaration.</p>
 
 	
 	

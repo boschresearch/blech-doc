@@ -230,7 +230,7 @@ Both will evaluate whatever expression is given in the binding at runtime.
 This is the reason why external constants cannot be used for constant expression evaluation in Blech -- their value is unknown at compile time.
 While you can, for example, use a Blech constant to parametrise an array length, you cannot do so using an external constant.
 
-The `binding` annotation attribute may contain any string which is a valid right hand side of a C macro.
+The `binding` annotation attribute may contain any string which is a valid right hand side of a C macro. See [below](#binding-strings) for more details.
 
 By design, the Blech compiler generates C code that links with other C code but at no point in time does the Blech compiler "look into" C header or implementation files, nor does it try to evaluate any C-bindings.
 
@@ -314,8 +314,6 @@ extern function ceiling(i: float64) returns float64
 
 Inside the Blech program this function is now available through name `ceiling`.
 
-TODO: find a good example where output/input parameters have to be rearranged
-
 In the second case we annotate which file we intend to implement the C function in.
 Actually this information is irrelevant for the Blech compilation itself.
 However, it may become useful in the future once a build system can make sense of these annotations and automatically detect which files are required for the compilation of the whole project.
@@ -390,9 +388,8 @@ It is up to the programmer to know what are the effects of the external function
 
 #### Binding strings
 
-The `binding` part of an annotation
-TODO: mention (again) any piece of code that can be the right hand side of a macro may appear as binding
-bindings are strings 
-TODO (elsewhere): explain Blech strings of which there are single line and multi line ones
-explain indentation
-explain escaping
+The `binding` part of an annotation may contain any C code which is a valid right hand side of a macro definition.
+The binding may be given as a single-line string (enclosed in `"`) or as a multi-line string (enclosed in `"""`).
+When indenting multi-line strings make sure the indentation is consistent for all lines of the string. This means a two line string where the first line is indented by four spaces and a tab and the second line is indented by a tab and four spaces may _look_ indented properly in your editor but the compiler will complain about being unable to determine the correct indentation. If you use any tabs at all, make sure all tabs appear before any other character (including whitespace) in every line.
+Strings may contain escape sequences `\a`, `\b`, `\f`, `\n`, `\r`, `\t`, `\v`, `\\`, `\'`, `\"`.
+Furthermore unicode characters may be used given by `\u{codepoint}` where `codepoint` is a hexadecimal number.

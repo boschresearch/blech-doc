@@ -633,7 +633,7 @@
 	<h2 id="parameters-are-references">Parameters are references</h2>
 <p>Semantically, Blech passes parameters by reference.</p>
 <p>Imagine the following Blech program</p>
-<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (a: int32) (b: int32)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function outIsInPlus1 (a: int32) (b: int32)
     b = 1
     b = a + b 
 end
@@ -644,39 +644,39 @@ activity godUsage ()
     outIsInPlus1(i)(j) // 43 --&gt; j
     await true
 end
-</code></pre><p>So far so good, the program has the expected behaviour: <code>j</code> gets <code>i + 1</code>.</p>
+</code></pre></div><p>So far so good, the program has the expected behaviour: <code>j</code> gets <code>i + 1</code>.</p>
 <p>But if we call the same function with the same <code>variable</code> as input and output we get a strange behaviour.</p>
-<pre><code class="language-blech" data-lang="blech">activity badUsage ()
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity badUsage ()
     var i = 42: int32
     outIsInPlus1(i)(i)
     await true
 end
-</code></pre><p>If Blech would allow this code and we assume call-by-reference semantics, <code>i</code> has value <code>2</code> after the execution of the function.</p>
+</code></pre></div><p>If Blech would allow this code and we assume call-by-reference semantics, <code>i</code> has value <code>2</code> after the execution of the function.</p>
 <p>This would be an unexpected behavior both from the implementation and the usage point of view.</p>
 <p>The implementation does not take into account that <code>a</code> and <code>b</code> may point to the same memory location.
 The point of usage we know nothing about the actual implementation. 
 The implicit assumption, input <code>a</code> and output <code>b</code> must no be the same memory location is not transparent.</p>
 <p>In order to prevent such errors, Blech forbids this usage.</p>
-<pre><code>error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
   --&gt; incr.blc:3:5 [causality]
 
 3  |     outIsInPlus1(i)(i)
    |                     - Output argument.
 3  |     outIsInPlus1(i)(i)
    |                  ^ Input argument.
-</code></pre><p>One might wonder, why a simple increment is allowed</p>
-<pre><code class="language-blech" data-lang="blech">    i = i + 1
-</code></pre><p>while the call of the function</p>
-<pre><code class="language-blech" data-lang="blech">    outIsInPlus1(i)(i)
-</code></pre><p>is not.</p>
+</code></pre></div><p>One might wonder, why a simple increment is allowed</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    i = i + 1
+</code></pre></div><p>while the call of the function</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    outIsInPlus1(i)(i)
+</code></pre></div><p>is not.</p>
 <p>The reason is, that parameters are passed by-reference.</p>
 <p>The input <code>a</code> takes a read-only reference to the actual input, the output <code>b</code> takes a read-write reference to the actual input.</p>
 <p>Semantically the function <code>outIsInPlus1</code> has the following form</p>
-<pre><code class="language-blech" data-lang="blech">function outIsInPlus1 (let ref a: int32) (var ref b: int32)
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">function outIsInPlus1 (let ref a: int32) (var ref b: int32)
     b = 1
     b = a + b 
 end
-</code></pre><p>Blech forbids taking a read-only reference and an read-write reference to the same memory location at the same time.</p>
+</code></pre></div><p>Blech forbids taking a read-only reference and an read-write reference to the same memory location at the same time.</p>
 <p>Since the compiler rejects such programs, the code generation is free to pass input parameters of functions by value or by reference.
 Currently, simple types are passed by reference while composed types are passed by reference.</p>
 <p>Activity parameters have the same pass-by-reference semantics. Due to the nature of activities input parameters must always be passed by-reference in the code generation</p>
@@ -687,7 +687,7 @@ Currently, simple types are passed by reference while composed types are passed 
 <p>Blech also allows references definitions. They are a restricted form of pointers for expressing aliases and associating data structures.</p>
 <h3 id="the-benefit-of-references">The benefit of references</h3>
 <p>References can be used to express aliases.</p>
-<pre><code class="language-blech" data-lang="blech">struct S
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">struct S
     var buffer: [3]int32
 end
 
@@ -709,9 +709,9 @@ end
         end
     end
 
-</code></pre><p>This prevents repetition and make a program better readable.</p>
+</code></pre></div><p>This prevents repetition and make a program better readable.</p>
 <p>References can also be used to associate data structures</p>
-<pre><code class="language-blech" data-lang="blech">
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
 struct S
     var ref buffer: [3]int32
 end
@@ -721,7 +721,7 @@ end
     
     var array: [3]int32
     var s: S = {buffer = array}
-</code></pre><p>The variable <code>s</code> is associated to (points to) the variable <code>array</code> via the read-write reference <code>s.buffer</code>.</p>
+</code></pre></div><p>The variable <code>s</code> is associated to (points to) the variable <code>array</code> via the read-write reference <code>s.buffer</code>.</p>
 <h3 id="references-are-not-first-class-types">References are not first-class types</h3>
 <p>References only occur implicitly as parameters or explicitly as reference definitions.</p>
 <p>Blech implicitly takes references and de-references them if necessary.
@@ -739,26 +739,26 @@ It is an additional property of a memory location or a value.</p>
 <h3 id="the-problem-with-references">The problem with references</h3>
 <p>The use of references can make a program difficult to reason about.</p>
 <p>If we do the same thing as above in sequential code,</p>
-<pre><code class="language-blech" data-lang="blech">var i: int32
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var i: int32
 
 let ref a = i
 var ref b = i
 
 b = 1
 b = a + b
-</code></pre><p>we run into the same problems: <code>a</code> is a read-only reference to <code>i</code>, <code>b</code> is a read-write reference to <code>i</code>.
+</code></pre></div><p>we run into the same problems: <code>a</code> is a read-only reference to <code>i</code>, <code>b</code> is a read-write reference to <code>i</code>.
 When we change <code>i</code> via <code>b</code> we implicitly change the value we get from <code>a</code>.</p>
 <p>Even in the simple case</p>
-<pre><code class="language-blech" data-lang="blech">var i: int32
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">var i: int32
 
 let ref a = i
 
 b = 1
 b = a + b
-</code></pre><p>where we have a read-only reference to <code>i</code> while at the same time we can change <code>i</code> directly, we run into the same problems, when reasoning about a program.</p>
+</code></pre></div><p>where we have a read-only reference to <code>i</code> while at the same time we can change <code>i</code> directly, we run into the same problems, when reasoning about a program.</p>
 <p>Having a read-only access to a memory location, would not guarantee, that the underlying value does not change.</p>
 <p>With references we need to be able to rule out calls like</p>
-<pre><code class="language-blech" data-lang="blech">    var i: integer
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: integer
     let ref a = i
     var ref b = i
 
@@ -777,7 +777,7 @@ b = a + b
     with
         run sndThread(a)(b)
     end
-</code></pre><p>due to read-write and write-write conflicts.</p>
+</code></pre></div><p>due to read-write and write-write conflicts.</p>
 <p>With references causality errors might be very difficult to understand and even sequential code is already confusing.</p>
 <p>Luckily there is way of handling these problems at compile time.
 In Rust this is called <a href="../20_borrowing"><strong>Borrowing Analysis</strong></a>

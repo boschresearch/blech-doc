@@ -202,8 +202,8 @@ Bitwise and arithmetic operations can only be applied to values of type `bitsN`,
 
 
 ```blech
-let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus.
-let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around.
+let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus
+let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around
 ```
 
 
