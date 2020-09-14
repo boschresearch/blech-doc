@@ -30,7 +30,7 @@
 <meta itemprop="description" content="Modules and programs - proposal for Blech compilation units.
 ">
 <meta itemprop="dateModified" content="2020-06-19T19:02:17+02:00" />
-<meta itemprop="wordCount" content="1021">
+<meta itemprop="wordCount" content="1159">
 
 
 
@@ -578,7 +578,14 @@
         <li><a href="#non-cyclic-import-hierarchy">Non-cyclic import hierarchy</a></li>
       </ul>
     </li>
-    <li><a href="#file-structure">File structure</a></li>
+    <li><a href="#file-structure">File structure</a>
+      <ul>
+        <li><a href="#compiling-a-blech-module">Compiling a Blech module</a></li>
+        <li><a href="#compiling-a-blech-program">Compiling a Blech program</a></li>
+        <li><a href="#hierarchical-organisation-of-a-blech-project">Hierarchical organisation of a Blech project</a></li>
+      </ul>
+    </li>
+    <li><a href="#abstract-types-and-the-diamond-import-problem">Abstract types and the diamond import problem</a></li>
   </ul>
 </nav>
 
@@ -743,7 +750,7 @@ end
 function sum(p: pair.Pair) returns int32
     return p[0] + snd(p)
 end
-</code></pre></div><p>On successful compilation the compiler generates the following interface files</p>
+</code></pre></div><p>On successful compilation the compiler generates the following signature - the interface of a module - in file <code>pair.blh</code></p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">signature
 
 type Pair = [2]int32
@@ -837,6 +844,25 @@ Cyclic-import dependencies are flaged as a dependency error.</p>
 <p>In order to compile a program or module file, every imported module is compiled recursively, if necessary.
 Every imported module only needs to be loaded once.</p>
 <h2 id="file-structure">File structure</h2>
+<h3 id="compiling-a-blech-module">Compiling a Blech module</h3>
+<p>The compilation of a Blech module file, for example <code>module.blc</code>, generates the following files:</p>
+<ul>
+<li>A Blech signature file <code>module.blh</code>,</li>
+<li>a C header file <code>module.h</code>, and</li>
+<li>a C implementation file <code>module.c</code>.</li>
+</ul>
+<p>The Blech signature file contains all static information for name checking, type checking and causality analysis.
+The C header and implementations files are used to compile a Blech program.</p>
+<h3 id="compiling-a-blech-program">Compiling a Blech program</h3>
+<p>A Blech program file is not a module. Therefore, it cannot be imported. 
+The compilation of a Blech program file, for example <code>program.blc</code>, generates only</p>
+<ul>
+<li>A C header file <code>program.h</code>, and</li>
+<li>a C implementation file <code>program.c</code>.</li>
+</ul>
+<h3 id="hierarchical-organisation-of-a-blech-project">Hierarchical organisation of a Blech project</h3>
+<p>A Blech project consists of modules and program files, that are hierarchically structured.</p>
+<h2 id="abstract-types-and-the-diamond-import-problem">Abstract types and the diamond import problem</h2>
 
 	
 	

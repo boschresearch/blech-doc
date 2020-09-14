@@ -2524,7 +2524,7 @@ end
 function sum(p: pair.Pair) returns int32
     return p[0] + snd(p)
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;On successful compilation the compiler generates the following interface files&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;On successful compilation the compiler generates the following signature - the interface of a module - in file &lt;code&gt;pair.blh&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
 type Pair = [2]int32
@@ -2618,6 +2618,25 @@ Cyclic-import dependencies are flaged as a dependency error.&lt;/p&gt;
 &lt;p&gt;In order to compile a program or module file, every imported module is compiled recursively, if necessary.
 Every imported module only needs to be loaded once.&lt;/p&gt;
 &lt;h2 id=&#34;file-structure&#34;&gt;File structure&lt;/h2&gt;
+&lt;h3 id=&#34;compiling-a-blech-module&#34;&gt;Compiling a Blech module&lt;/h3&gt;
+&lt;p&gt;The compilation of a Blech module file, for example &lt;code&gt;module.blc&lt;/code&gt;, generates the following files:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A Blech signature file &lt;code&gt;module.blh&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;a C header file &lt;code&gt;module.h&lt;/code&gt;, and&lt;/li&gt;
+&lt;li&gt;a C implementation file &lt;code&gt;module.c&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Blech signature file contains all static information for name checking, type checking and causality analysis.
+The C header and implementations files are used to compile a Blech program.&lt;/p&gt;
+&lt;h3 id=&#34;compiling-a-blech-program&#34;&gt;Compiling a Blech program&lt;/h3&gt;
+&lt;p&gt;A Blech program file is not a module. Therefore, it cannot be imported. 
+The compilation of a Blech program file, for example &lt;code&gt;program.blc&lt;/code&gt;, generates only&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A C header file &lt;code&gt;program.h&lt;/code&gt;, and&lt;/li&gt;
+&lt;li&gt;a C implementation file &lt;code&gt;program.c&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;hierarchical-organisation-of-a-blech-project&#34;&gt;Hierarchical organisation of a Blech project&lt;/h3&gt;
+&lt;p&gt;A Blech project consists of modules and program files, that are hierarchically structured.&lt;/p&gt;
+&lt;h2 id=&#34;abstract-types-and-the-diamond-import-problem&#34;&gt;Abstract types and the diamond import problem&lt;/h2&gt;
 
       </description>
     </item>
