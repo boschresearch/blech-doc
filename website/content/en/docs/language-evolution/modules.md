@@ -167,7 +167,7 @@ function sum(p: pair.Pair) returns int32
 end
 ```
 
-On successful compilation the compiler generates the following interface files
+On successful compilation the compiler generates the following signature - the interface of a module - in file `pair.blh`
 
 ```blech
 signature
@@ -303,4 +303,30 @@ Every imported module only needs to be loaded once.
 
 ## File structure
 
+### Compiling a Blech module
+
+The compilation of a Blech module file, for example `module.blc`, generates the following files:
+
+* A Blech signature file `module.blh`,
+* a C header file `module.h`, and 
+* a C implementation file `module.c`.
+
+The Blech signature file contains all static information for name checking, type checking and causality analysis.
+The C header and implementations files are used to compile a Blech program.
+
+
+### Compiling a Blech program
+
+A Blech program file is not a module. Therefore, it cannot be imported. 
+The compilation of a Blech program file, for example `program.blc`, generates only
+
+* A C header file `program.h`, and
+* a C implementation file `program.c`.
+
+### Hierarchical organisation of a Blech project
+
+A Blech project consists of modules and program files, that are hierarchically structured.
+
+
+## Abstract types and the diamond import problem
 

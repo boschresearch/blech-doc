@@ -22,7 +22,7 @@ The development of Blech is accompanied by research activities. This research is
 
 ### Technical report
 
-- <a id="blech-semantics"> **Synchronized Shared Memory and Procedural Abstraction: Towards a Formal Semantics for Blech**. </a> Friedrich Gretz, Franz-Josef Grosch, Michael Mendler, Stephan Scheele. (2020) [Technical Report](https://www.uni-bamberg.de/fileadmin/uni/fakultaeten/wiai_professuren/grundlagen_informatik/papersMM/blech-sem-rep-v1.pdf).
+- <a id="blech-semantics"> **Synchronized Shared Memory and Procedural Abstraction: Towards a Formal Semantics for Blech**. </a> Friedrich Gretz, Franz-Josef Grosch, Michael Mendler, Stephan Scheele. (2020) [Technical Report](https://www.uni-bamberg.de/fileadmin/uni/fakultaeten/wiai_professuren/grundlagen_informatik/papersMM/blech-sem-rep-v2.pdf).
 
 
 
