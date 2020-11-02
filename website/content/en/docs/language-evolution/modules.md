@@ -83,7 +83,7 @@ The internal - non-exposed - entities are hidden.
 In order to use a module file it needs to be imported by another compilation unit, for example a Blech program.
 
 ```blech
-import m = "mymodule"
+import m "mymodule"
 
 @[EntryPoint]
 activity MyMain()
@@ -98,7 +98,7 @@ By default all imports are qualified with this module name.
 In order to use an imported name without qualification is must be exposed at the import.
 
 ```blech
-import m = "mymodule" exposes MyActivity
+import m "mymodule" exposes MyActivity
 
 @[EntryPoint]
 activity MyMain()
@@ -112,7 +112,7 @@ Note: The other exported entity -- type `T` -- can only be used, when qualifed w
 For exposing everything from an imported module, which is usually neither necessary nor recommended, you can use the short cut `...`.
 
 ```blech
-import _ = "mymodule" exposes ...
+import _ "mymodule" exposes ...
 
 @[EntryPoint]
 activity MyMain()
@@ -154,7 +154,7 @@ end
 Module file `usepair.blc` imports modul `pair`, but cannot access hidden functions `fst` and `snd`.
 
 ```blech
-import pair = "pair"
+import pair "pair"
 
 module exposes sum
 
@@ -178,7 +178,7 @@ type Pair = [2]int32
 Module `"usepair"` requires an `import` of module `"pair"` and exports function `sum`.
 
 ```blech
-import pair = "pair"
+import pair "pair"
 
 signature
 
@@ -188,13 +188,13 @@ function sum(p: pair.Pair) returns int32
 For reuse, a program that imports module file `"usepair"` also needs to import module file `"pair"`. 
 
 ```blech
-import up = "usepair"
-import p = "pair"
+import u "usepair"
+import p "pair"
 
 @[EntryPoint]
 activity Main()
     var p: p.Pair
-    _ = up.sum(p)
+    _ = u.sum(p)
     await true
 end
 ```
@@ -204,24 +204,28 @@ Note: Module `"pair"` is **not** exported indirectly via the import of module `"
 The following program cannot be compiled.
 
 ```blech
-import up = "usepair"
+import u "usepair"
 
 @[EntryPoint]
 activity Main()
-    var p: up.pair.Pair
-              ^^^^--- unknown identifier
-    _ = up.sum(p)
+    var p: u.pair.Pair
+             ^^^^--- unknown identifier
+    _ = u.sum(p)
     await true
 end
 ```
 
+{{% alert title="Info" color="info"%}}
+The compiler makes sure that all imports necessary to use a module become become required imports in its signature.
+{{% /alert %}}
+
 ### Exporting nothing
 
 For development purposes it might be useful to expose nothing until a module can be used.
-A wildcard `_` can be used for this purpose.
+The `exposes` part is optional for this purpose.
 
 ```blech
-module exposes _
+module
 
 type Pair = [2]int32
 
@@ -254,15 +258,37 @@ function snd(p: Pair) returns int32
 end
 ```
 
-### Exporting abstract types as new types
+
+
+
+
+### Non-cyclic import hierarchy
+
+The compiler takes care for non-cyclic import dependencies.
+Cyclic-import dependencies are flaged as a dependency error.
+
+In order to compile a program or module file, every imported module is compiled recursively, if necessary.
+Every imported module only needs to be loaded once.
+
+
+
+
+
+## Information hiding and abstract types
 
 Sometimes it is useful to hide the implementation of a type, from its importers.
-You can create a `newtype` for this purpose.
+You can do this by implicititly exporting the type.
+
+
+### Keeping the implementation of a type hidden
+
+Instead of exporting the type itself, you only export the functions and activities that act on this type.
+Imagine the following contents in file `"pair.blc"`
 
 ```blech
-module exposes Pair, set, fst, snd
+module exposes set, fst, snd
 
-newtype Pair = [2]int32
+type Pair = [2]int32
 
 function set(fst: int32, snd: int32) returns Pair
     return {fst, snd}
@@ -277,13 +303,13 @@ function snd(p: Pair) returns int32
 end
 ```
 
-Since the internal structure is unknown additional functions must be exposed.
-The module's signature does not expose the internal type structure.
+The generate module's signature file `"pair.blh"` not only contains the exposed functions but also the necessary type `Pair` with a hidden internal structure.
+In theory this is called an abstract type or an existential type.
 
 ```blech
 signature
 
-newtype Pair
+type Pair
 
 function set(fst: int32, snd: int32) returns Pair
 
@@ -292,13 +318,136 @@ function fst(p: Pair) returns int32
 function snd(p: Pair) returns int32
 ```
 
-### Non-cyclic import hierarchy
+An client of this module is restricted concerning the operations on this type.
+It can 
+* create a variable
+* initialise it 
+* call operations on variables of this type
 
-The compiler takes care for non-cyclic import dependencies.
-Cyclic-import dependencies are flaged as a dependency error.
+```blech
+import p "pair"
 
-In order to compile a program or module file, every imported module is compiled recursively, if necessary.
-Every imported module only needs to be loaded once.
+activity Main()
+    var ab: p.Pair = p.set(1,2)
+
+    var i = p.fst(ab)
+    var j = p.snd(ab)
+    await true
+end
+```
+
+The importing program has no knowledge about `p.Pair`'s internal structure. 
+The implementation can be changed without changing any importing clients.
+The API is not broken.
+For example you could use a `struct` instead of an array with 2 elements.
+
+```blech
+module exposes set, fst, snd
+
+struct Pair
+    var fst: int32
+    var snd: int32
+end
+
+
+function set(fst: int32, snd: int32) returns Pair
+    return {fst = fst, snd = snd}
+end
+
+function fst(p: Pair) returns int32
+    return p.fst
+end
+
+function snd(p: Pair) returns int32
+    return p.snd
+end
+```
+
+The generated signature file would be the same as before.
+
+{{% alert title="Info" color="info"%}}
+In general the compiler exports all types needed for the exported functions as abstract types, if they are not exported explicitly.
+{{% /alert %}}
+
+
+
+### No abstract types for constants
+
+When a module besides types, functions and activities also exports constants (`const`) or parameters (`param`), the type of these constants cannot be abstract.
+Let's look at the `pair` example.
+
+```blech
+module exposes Zeroes, set, fst, snd
+
+struct Pair
+    var fst: int32
+    var snd: int32
+end
+
+const Zeroes: Pair = {fst = 0, snd = 0}
+
+function set(fst: int32, snd: int32) returns Pair
+...
+function fst(p: Pair) returns int32
+...
+function snd(p: Pair) returns int32
+...
+```
+
+If the type `Pair` is exported as an abstract type, we cannot export the initial value of the constant, because its representation might change.
+The only valid signature would be 
+
+```blech
+signature
+
+type Pair
+
+const Zeroes: Pair
+
+function set(fst: int32, snd: int32) returns Pair
+
+function fst(p: Pair) returns int32
+
+function snd(p: Pair) returns int32
+```
+
+Without the initial value we cannot do compile-time evaluation in importing modules. 
+The situation would even be worse, if we would add compile-time evaluated functions to Blech - which we eventually will do.
+
+If we want to export a constant, we also need to export the internals of its type.
+```blech 
+module exposes Pair, Zeroes, set, fst, snd
+...
+```
+
+Then, the signature looks like the follwing.
+
+```blech
+signature
+
+struct Pair
+    var fst: int32
+    var snd: int32
+end
+
+const Zeroes: Pair = {fst = 0, snd = 0}
+
+function set(fst: int32, snd: int32) returns Pair
+
+function fst(p: Pair) returns int32
+
+function snd(p: Pair) returns int32
+```
+
+Together with the constant, the implementation details of the type are revealed to the importing module.
+
+As alternative we might also hide the constant itself, use it only for internal implementation purposes, and keep the type `Pair` abstract.
+
+{{% alert title="Info" color="info"%}}
+The compiler makes sure that all types of exported constants are exported explicitly, thereby revealing the types' implementation.
+Furthermore, if the initialiser uses another constant, the compiler checks if this constant is explicitly exported too.
+{{% /alert %}}
+
 
 
 ## File structure
