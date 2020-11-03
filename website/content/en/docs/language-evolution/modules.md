@@ -50,7 +50,7 @@ module exposes T, MyActivity
 
 type T = int32
 
-function f(x: T) ... end
+function f (x: T) ... end
 
 function MyActivity(x: T) 
     f(x)
@@ -68,10 +68,10 @@ signature
 
 type T = int32
 
-function MyActivity(x: T)
+function MyActivity (x: T)
 ```
 
-## Reusing a Blech file
+## Reusing a Blech module file
 
 In order to reuse a blech module file it needs to be imported.
 Only exported entities can be used.
@@ -86,7 +86,7 @@ In order to use a module file it needs to be imported by another compilation uni
 import m "mymodule"
 
 @[EntryPoint]
-activity MyMain()
+activity MyMain ()
     run m.MyActivity()
 end
 ```
@@ -101,7 +101,7 @@ In order to use an imported name without qualification is must be exposed at the
 import m "mymodule" exposes MyActivity
 
 @[EntryPoint]
-activity MyMain()
+activity MyMain ()
     var t: m.T 
     run MyActivity(t)
 end
@@ -115,7 +115,7 @@ For exposing everything from an imported module, which is usually neither necess
 import _ "mymodule" exposes ...
 
 @[EntryPoint]
-activity MyMain()
+activity MyMain ()
     var t: T 
     run MyActivity(t)
 end
@@ -142,11 +142,11 @@ module exposes Pair
 
 type Pair = [2]int32
 
-function fst(p: Pair) return int32
+function fst (p: Pair) return int32
     return p[0]
 end
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
     return p[1]
 end
 ```
@@ -158,11 +158,11 @@ import pair "pair"
 
 module exposes sum
 
-function snd(p: Pair) return int32
+function snd (p: Pair) return int32
     return p[2]
 end
 
-function sum(p: pair.Pair) returns int32
+function sum (p: pair.Pair) returns int32
     return p[0] + snd(p)
 end
 ```
@@ -182,7 +182,7 @@ import pair "pair"
 
 signature
 
-function sum(p: pair.Pair) returns int32
+function sum (p: pair.Pair) returns int32
 ```
 
 For reuse, a program that imports module file `"usepair"` also needs to import module file `"pair"`. 
@@ -192,7 +192,7 @@ import u "usepair"
 import p "pair"
 
 @[EntryPoint]
-activity Main()
+activity Main ()
     var p: p.Pair
     _ = u.sum(p)
     await true
@@ -207,7 +207,7 @@ The following program cannot be compiled.
 import u "usepair"
 
 @[EntryPoint]
-activity Main()
+activity Main ()
     var p: u.pair.Pair
              ^^^^--- unknown identifier
     _ = u.sum(p)
@@ -229,11 +229,11 @@ module
 
 type Pair = [2]int32
 
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
     return p[0]
 end
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
     return p[1]
 end
 ```
@@ -249,11 +249,11 @@ module exposes ...
 
 type Pair = [2]int32
 
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
     return p[0]
 end
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
     return p[1]
 end
 ```
@@ -290,15 +290,15 @@ module exposes set, fst, snd
 
 type Pair = [2]int32
 
-function set(fst: int32, snd: int32) returns Pair
+function set (fst: int32, snd: int32) returns Pair
     return {fst, snd}
 end
 
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
     return p[0]
 end
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
     return p[1]
 end
 ```
@@ -311,11 +311,11 @@ signature
 
 type Pair
 
-function set(fst: int32, snd: int32) returns Pair
+function set (fst: int32, snd: int32) returns Pair
 
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
 ```
 
 An client of this module is restricted concerning the operations on this type.
@@ -327,7 +327,7 @@ It can
 ```blech
 import p "pair"
 
-activity Main()
+activity Main ()
     var ab: p.Pair = p.set(1,2)
 
     var i = p.fst(ab)
@@ -350,15 +350,15 @@ struct Pair
 end
 
 
-function set(fst: int32, snd: int32) returns Pair
+function set (fst: int32, snd: int32) returns Pair
     return {fst = fst, snd = snd}
 end
 
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
     return p.fst
 end
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
     return p.snd
 end
 ```
@@ -386,11 +386,11 @@ end
 
 const Zeroes: Pair = {fst = 0, snd = 0}
 
-function set(fst: int32, snd: int32) returns Pair
+function set (fst: int32, snd: int32) returns Pair
 ...
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
 ...
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
 ...
 ```
 
@@ -404,17 +404,36 @@ type Pair
 
 const Zeroes: Pair
 
-function set(fst: int32, snd: int32) returns Pair
+function set (fst: int32, snd: int32) returns Pair
 
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
 ```
 
 Without the initial value we cannot do compile-time evaluation in importing modules. 
+This would break the type system, because fixed-sized arrays are very simple form of value-dependent types.
+
+```blech
+module exposes funcOnBuffer, Buffer, BUFFER_SIZE
+
+type Size = int32
+
+const BUFFER_SIZE: Size = 2
+type Buffer = [BUFFER_SIZE]int32
+
+function funcOnBuffer(x: Buffer)
+end
+```
+
+The compiler needs to detect this problem and should throw an error. 
+Something like: "`type SIZE` is less accessible then `const BUFFER_SIZE`".
+To correct this, the module needs to expose `Size` too.
+
 The situation would even be worse, if we would add compile-time evaluated functions to Blech - which we eventually will do.
 
-If we want to export a constant, we also need to export the internals of its type.
+
+This means, if we want to export a constant, we also need to export the internals of its type.
 ```blech 
 module exposes Pair, Zeroes, set, fst, snd
 ...
@@ -432,11 +451,11 @@ end
 
 const Zeroes: Pair = {fst = 0, snd = 0}
 
-function set(fst: int32, snd: int32) returns Pair
+function set (fst: int32, snd: int32) returns Pair
 
-function fst(p: Pair) returns int32
+function fst (p: Pair) returns int32
 
-function snd(p: Pair) returns int32
+function snd (p: Pair) returns int32
 ```
 
 Together with the constant, the implementation details of the type are revealed to the importing module.
@@ -477,5 +496,7 @@ The compilation of a Blech program file, for example `program.blc`, generates on
 A Blech project consists of modules and program files, that are hierarchically structured.
 
 
-## Abstract types and the diamond import problem
+## Whitebox imports for test purposes
+
+## Internal modules the do not generate a signature
 
