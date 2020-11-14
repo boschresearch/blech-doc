@@ -7,3 +7,5 @@ node_modules/
 website/static/asciidoc/
 
 temp/
+
+**/articles/*.pdf
