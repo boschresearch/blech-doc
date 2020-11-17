@@ -7,11 +7,14 @@ description: >
 author: Franz-Josef Grosch
 ---
 
+[Modular Programming](https://en.wikipedia.org/wiki/Modular_programming)
 
+[Whitebox Testing](https://en.wikipedia.org/wiki/White-box_testing)
 
 > Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains [...] only one aspect of the desired functionality. 
 
 Blech supports this design technique by grouping code into modules.
+
 
 
 ## Module implementation
@@ -83,7 +86,7 @@ type RingBuffer
 function initialise () returns RingBuffer
 
 /// pushes a new value to the ring buffer
-/// displaces the "oldest" value if the ring buffer is full
+/// replaces the "oldest" value if the ring buffer is completely filled
 function push (value: nat32) (rb: RingBuffer)
 
 /// calculates the average value of all values stored in the ring buffer
@@ -108,6 +111,8 @@ It is enough to deliver compiled libraries with:
 
 ## Using modules
 
+> When creating a modular system, instead of creating a monolithic application (where the smallest component is the whole), several smaller modules are written separately so when they are composed together, they construct the executable application program. 
+
 In order to use a module it gets imported by another module or program.
 Assume the following use of the `ringbuffer` module from a module implementation in file `slidingaverage.blc`.
 
@@ -131,7 +136,7 @@ This module imports a module from file `ringbuffer.blc` with the local name `rb`
 It implements and exposes a single activity `SlidingAverage`, with a local variable of type `rb.RingBuffer`.
 The module completely hides its internal implementation, which uses the abstract type `RingBuffer` and functions `initialise`, `push` and `average` from module `rb`.
 
-The generated signature is very simple. 
+The generated signature in file `slidingaverage.blh` is very simple. 
 The implementations details are completely hidden.
 
 ``` blech
@@ -160,20 +165,133 @@ In Blech, programs as top-level compilation units and imported modules form a di
 This enables automatic dependency management in the compiler. 
 
 In the above example, the compilation of program file `main.blc` automatically compiles imported module `slidingaverage` which in turn compiles imported module `ringbuffer`.
-Any cycle in the import dependencies will be flagged as an error. 
+Any cycles in the import dependencies will be flagged as an error. 
 
 In general the compilation of any program and any module triggers the compilation of imported modules, if necessary.
 A layered module hierarchy is always guaranteed. 
 
 ## Testing a module
 
+> Modular programming can be performed even where the programming language lacks explicit syntactic features to support named modules, like, for example, in C. This is done by using existing language features, together with, for example, coding conventions, programming idioms and the physical code structure. 
+
+> A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. 
+
+This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.
+
+> White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing).
+
+In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword `internal`.
+An `internal import` makes all elements in a module detectable - nothing is hidden.
+Of course, this requires the source code of the module implementation - the `ringbuffer.blc` file in our example.
+The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.
+
+```blech
+import n8 "box:base/nat8"  // base library for nat8-related stuff
+
+internal import rb "ringbuffer"
+
+@[EntryPoint]
+activity TestPush ()
+    var buf: rb.RingBuffer = rb.initialise()
+    var i: nat8 = 0
+    while i < n8.Max repeat
+        assert buf.nextIndex < rb.Size
+        assert buf.nextIndex == i % rb.Size
+        assert buf.count >= 0 
+        assert buf.count <= rb.Size
+        
+        rb.push(42)(buf) // the value is irrelevant
+        
+        if i < rb.Size then
+            assert buf.count == i
+        else
+            assert buf.count == rb.Size
+        end
+        
+        i = i + 1
+        await true
+    end
+end
+```
+
+## Packaging modules into a library
+
+> A particular library is a [...] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection of a higher-level program, library, or system. 
+
+In Blech we call a library a *Blech box* or a *box* for short. 
+A box is a collection of modules and programs.
+Typically some modules of a box are supposed to be used from those higher levels, while others remain internally hidden and only serve implementation purposes.
+
+By default every module in a box can be imported from a higher-level program or module.
+In order to hide a module in a box it can be declared as an `internal module`.
+
+In our running example, we could decide to make the module `ringbuffer` an internal module.
+This can done by characterizing the module as `internal module` - the rest remains unchanged.
+
+```blech
+internal module exposes initialise, push, average
+
+const Size ...
+
+struct RingBuffer  ...
+   
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer ...
+
+/// pushes a new value to the ring buffer
+/// displaces the "oldest" value if the ring buffer is full
+function push (value: nat32) (rb: RingBuffer) ...
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32 ...
+```
+
+
+If we package this module together with module `slidingaverage` from above into a box, 
+we only generate signature file `slidingaverage.blh` and keep the internally used modules hidden.
+This also means that we need the source code of module `ringbuffer` in order to compile and package the box.
+
+In order to create a signature for a module that imports an `internal module`, the details of those imports must not leak through its interface.
+A module that leaks details of an imported `internal module` becomes an `internal module`, too.
+For example, the following module `ringbufferaverage` implicitly exposes the abstract type `RingBuffer` from the imported internal module `ringbuffer`.
+The internal implementation leaks through its interface and therefore the module becomes itself an `internal module`.
+
+```blech
+import rb "ringbuffer"
+
+internal module exposes RingBufferAverage
+
+activity RingBufferAverage(buf: rb.RingBuffer)(average: nat32)
+    repeat
+        average = rb.average(buf)
+        await true
+    end
+```
+
+This means, module `ringbufferaverage` is not accessible outside of its box.
+The compiler checks this, and it is an error to omit the the classification `internal` for the module.
+
+
 ## Organizing Blech files
+
+
 
 ## Software qualities
 
+> This makes modular designed systems, if built correctly, far more reusable than a traditional monolithic design, since all (or many) of these modules may then be reused (without change) in other projects. This also facilitates the "breaking down" of projects into several smaller projects. Theoretically, a modularized software project will be more easily assembled by large teams, since no team members are creating the whole system, or even need to know about the system as a whole. They can focus just on the assigned smaller task (this, it is claimed, counters the key assumption of The Mythical Man Month, making it actually possible to add more developers to a late software project without making it later still). 
+
+Namespaces, no shadowing
+
 High cohesion, low coupling, independent layers, separate compilation, separate testability, information hiding, API orientation
 
-## Steinbruch
+## Generics, traits, interfaces
+
+> These independent functions are commonly classified as either program control functions or specific task functions. Program control functions are designed to work for one program. Specific task functions are closely prepared to be applicable for various programs. 
+
+
+
+
+# Steinbruch
 
 
 > Often modules form a directed acyclic graph (DAG); in this case a cyclic dependency between modules is seen as indicating that these should be a single module. In the case where modules do form a DAG they can be arranged as a hierarchy, where the lowest-level modules are independent, depending on no other modules, and higher-level modules depend on lower-level ones. A particular program or library is a top-level module of its own hierarchy, but can in turn be seen as a lower-level module of a higher-level program, library, or system. 
@@ -291,3 +409,69 @@ activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
     run s.SlidingAverage(sensor)(ringBuffer, sensorAverage)    
 end
 ```
+
+
+
+### Using internal import to access internal details.
+
+A module that uses an `internal import` becomes itself an `internal module` if it leaks details of the `internal import` in its interface. 
+Assume the following module in file `countobserver.blc`-
+``` blech
+internal import rb "ringbuffer"
+
+internal module exposes MaxCount, count
+
+const MaxCount: nat8 = rb.Size
+
+function count (buf: rb.RingBuffer) returns nat8
+    return buf.count
+end
+```
+
+It is a compiler error not to classify the module as `internal`.
+
+It is also not possible to create a module interface that is independent of the module implementation file  `ringbuffer.blc`.
+Compilation completely relies on implementation files.
+Therefore we never create the following a signature file.
+
+``` blech
+internal import rb "ringbuffer"
+
+signature
+const MaxCount: nat8 = rb.Size
+function count (buf: rb.RingBuffer) returns nat8
+```
+
+On the other hand, we can classify a module as `internal` to prevent exposing it in a package.
+This means internal modules are hidden inside a package, because they do not generate a signature.
+An `internal import` or the import of an `internal module` always needs the source code of the module implementation file.
+
+In order to create a signature for a module that uses an `internal import` or imports an `internal module`, the details of those imports must not leak through its interface.
+
+``` blech
+import rb "ringbuffer"
+
+module exposes ObserveFilledBuffer
+
+const MaxCount: nat8 = rb.Size
+
+function count (buf: rb.RingBuffer) returns nat8
+    return buf.count
+end
+
+activity ObserveFilledBuffer (value: nat32) (filled: bool)
+    var buf: rb.RingBuffer = rb.initialise()
+    repeat
+        rb.push(value)(buf)
+        filled = count(buf) == MaxCount
+        await true
+    end
+end
+```
+
+``` blech
+signature
+activity ObserveFilledBuffer (value: nat32) (filled: bool)
+```
+
+
