@@ -121,11 +121,16 @@ import rb "ringbuffer"
 
 module exposes SlidingAverage 
 
+param Threshold: nat32 = 10000 // Application parameter, can be modified in the binary 
+
 /// Calculates the average of the latest values in every tick
+/// Values outside a fixed threshold are ignore.
 activity SlidingAverage (value: nat32) (average: nat32)
     var buf: rb.RingBuffer = rb.initialise() 
     repeat
-        rb.push(value)(buf)
+        if value <= Threshold then
+            rb.push(value)(buf)
+        end
         average = rb.average(buf)
         await true
     end
@@ -182,8 +187,9 @@ This an advantage for loosely coupled system design. But it is a disadvantage fo
 
 In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword `internal`.
 An `internal import` makes all elements in a module detectable - nothing is hidden.
-Of course, this requires the source code of the module implementation - the `ringbuffer.blc` file in our example.
-The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.
+
+In the following example, it is not enough to use the signature `ringbuffer.blh` to compile the white-box test program.
+In fact the compiler needs the source code of the module implementation `ringbuffer.blc` in order to detect the hidden implementation details.
 
 ```blech
 import n8 "box:base/nat8"  // base library for nat8-related stuff
@@ -214,9 +220,12 @@ activity TestPush ()
 end
 ```
 
+The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.
+
+
 ## Packaging modules into a library
 
-> A particular library is a [...] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection of a higher-level program, library, or system. 
+> A particular library is a [...] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [...] to be used by a higher-level program, library, or system. 
 
 In Blech we call a library a *Blech box* or a *box* for short. 
 A box is a collection of modules and programs.
@@ -226,33 +235,32 @@ By default every module in a box can be imported from a higher-level program or 
 In order to hide a module in a box it can be declared as an `internal module`.
 
 In our running example, we could decide to make the module `ringbuffer` an internal module.
-This can done by characterizing the module as `internal module` - the rest remains unchanged.
+This can be done by declaring the module as `internal module` - the rest remains unchanged.
 
 ```blech
 internal module exposes initialise, push, average
 
 const Size ...
-
 struct RingBuffer  ...
-   
-/// returns an initialisation value for a ring buffer
 function initialise () returns RingBuffer ...
-
-/// pushes a new value to the ring buffer
-/// displaces the "oldest" value if the ring buffer is full
 function push (value: nat32) (rb: RingBuffer) ...
-
-/// calculates the average value of all values stored in the ring buffer
 function average (rb: RingBuffer) returns nat32 ...
 ```
 
+The signature becomes `internal` as well.
+```blech
+internal signature
+
+type RingBuffer
+function initialise () returns RingBuffer
+function push (value: nat32) (rb: RingBuffer)
+function average (rb: RingBuffer) returns nat32
+```
 
 If we package this module together with module `slidingaverage` from above into a box, 
-we only generate signature file `slidingaverage.blh` and keep the internally used modules hidden.
-This also means that we need the source code of module `ringbuffer` in order to compile and package the box.
+only the signature for `slidingaverage` should be detectable the signatures of internal modules are hidden.
 
-In order to create a signature for a module that imports an `internal module`, the details of those imports must not leak through its interface.
-A module that leaks details of an imported `internal module` becomes an `internal module`, too.
+In order to write a non-internal module that imports an `internal module`, the details of those imports must not leak through its interface.
 For example, the following module `ringbufferaverage` implicitly exposes the abstract type `RingBuffer` from the imported internal module `ringbuffer`.
 The internal implementation leaks through its interface and therefore the module becomes itself an `internal module`.
 
@@ -267,9 +275,53 @@ activity RingBufferAverage(buf: rb.RingBuffer)(average: nat32)
         await true
     end
 ```
-
 This means, module `ringbufferaverage` is not accessible outside of its box.
 The compiler checks this, and it is an error to omit the the classification `internal` for the module.
+
+The signature of module `ringbufferaverage` looks as follows.
+
+```blech
+import rb "ringbuffer"
+
+internal signature
+
+activity RingBufferAverage(buf: rb.RingBuffer)(average: nat32)
+```
+
+For pragmatic reasons it might be necessary to circumvent the black-box interface of a module and use a white-box import instead.
+This can only be done within the same package, since it requires the source of the module implementation.
+As an example, we would like the use `param Threshold` from module `slidingaverage` - which is not exposed - in a new module `slidingaveragewithreset`.
+
+```blech
+internal import sa "slidingaverage"
+
+module exposes SlidingAverageWithReset
+
+activity SlidingAverageWithReset (sensor: nat32) (sensorAverage: nat32)
+    when sensor > sa.Treshold reset
+        run sa.SlidingAverage(sensor)(sensorAverage)
+    end
+end
+```
+
+Since the interface does not leak any implementation details from the white-box import it can be made detectable (non-internal) in the box.
+
+There are two simple rules:
+* A module that leaks details of an imported `internal module` in its signature becomes an `internal module`, too.
+* A module that leaks details of an `internal import` in its signature becomes an `internal module`, too.
+
+
+## Importing from a box
+
+When importing from another box, the compiler prevents:
+* the import of an `internal module` from the box and
+* the `internal import` of a module from the box, 
+
+Such imports are flagged as an error, even if module implementations and `internal signature`s are part of the box.
+This is helpful, when developing different boxes at the same time.
+
+The detectability between boxes is the same during development and after deployment.
+
 
 
 ## Organizing Blech files
