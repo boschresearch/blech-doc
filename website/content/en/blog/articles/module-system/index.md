@@ -124,7 +124,7 @@ module exposes SlidingAverage
 param Threshold: nat32 = 10000 // Application parameter, can be modified in the binary 
 
 /// Calculates the average of the latest values in every tick
-/// Values outside a fixed threshold are ignore.
+/// Values outside a fixed threshold are ignored.
 activity SlidingAverage (value: nat32) (average: nat32)
     var buf: rb.RingBuffer = rb.initialise() 
     repeat
@@ -200,7 +200,7 @@ internal import rb "ringbuffer"
 activity TestPush ()
     var buf: rb.RingBuffer = rb.initialise()
     var i: nat8 = 0
-    while i < n8.Max repeat
+    repeat
         assert buf.nextIndex < rb.Size
         assert buf.nextIndex == i % rb.Size
         assert buf.count >= 0 
@@ -216,14 +216,14 @@ activity TestPush ()
         
         i = i + 1
         await true
-    end
+    until i = n8.Max end
 end
 ```
 
 The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.
 
 
-## Packaging modules into a library
+## Packaging modules into a *box*
 
 > A particular library is a [...] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [...] to be used by a higher-level program, library, or system. 
 
@@ -258,7 +258,7 @@ function average (rb: RingBuffer) returns nat32
 ```
 
 If we package this module together with module `slidingaverage` from above into a box, 
-only the signature for `slidingaverage` should be detectable the signatures of internal modules are hidden.
+only the signature for `slidingaverage` should be detectable, the signatures of internal modules are hidden.
 
 In order to write a non-internal module that imports an `internal module`, the details of those imports must not leak through its interface.
 For example, the following module `ringbufferaverage` implicitly exposes the abstract type `RingBuffer` from the imported internal module `ringbuffer`.
@@ -269,7 +269,7 @@ import rb "ringbuffer"
 
 internal module exposes RingBufferAverage
 
-activity RingBufferAverage(buf: rb.RingBuffer)(average: nat32)
+activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
     repeat
         average = rb.average(buf)
         await true
@@ -285,12 +285,12 @@ import rb "ringbuffer"
 
 internal signature
 
-activity RingBufferAverage(buf: rb.RingBuffer)(average: nat32)
+activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
 ```
 
 For pragmatic reasons it might be necessary to circumvent the black-box interface of a module and use a white-box import instead.
-This can only be done within the same package, since it requires the source of the module implementation.
-As an example, we would like the use `param Threshold` from module `slidingaverage` - which is not exposed - in a new module `slidingaveragewithreset`.
+This can only be done within the same box, since it requires the source of the module implementation.
+As an example, we would like to use `param Threshold` from module `slidingaverage` - which is not exposed - in a new module `slidingaveragewithreset`.
 
 ```blech
 internal import sa "slidingaverage"
@@ -307,42 +307,152 @@ end
 Since the interface does not leak any implementation details from the white-box import it can be made detectable (non-internal) in the box.
 
 There are two simple rules:
-* A module that leaks details of an imported `internal module` in its signature becomes an `internal module`, too.
-* A module that leaks details of an `internal import` in its signature becomes an `internal module`, too.
+* a module that leaks details of an imported `internal module` in its signature becomes an `internal module`,
+* a module that leaks details of an `internal import` in its signature becomes an `internal module`, too.
 
 
-## Importing from a box
+## Importing inside and outside a box
+
+In order to distinguish between imports inside a box and imports from other boxes, Blech uses an URL-like import path.
+
+Imports inside a box just adress the imported file.
+
+```blech
+import m "localmodule"
+```
+
+The compiler searches for file `localmodule.blc` to compile it, or uses `localmodule.blh` if nothing has changed and `localmodule.blc` has been compiled before.
+Note, that a recompilation of `localmodule.blc` is also necessary, if any of `localmodule`'s imports have changed.
+
+In general, the imported file name for an import inside a box, can be adressed
+* relatively to the importing module, or
+* absolutely from the top of the box.
+
+Here are some examples for an import inside a box:
+```blech
+import ma "../module_A"            // relative path, one directory up
+import mb "./sub_dir/module_B"     // relative path one directory down
+import mb2 "sub_dir/module_B"      // as before with a different local name 
+import mc  "/top_level/module_C"   // absolute path inside the box
+```
+
+In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.
+The import declaration has the following form
+
+```blech
+import m "box:library/module"
+```
+This tells the compiler to import a module `module` from box `box:library` and name it `m` locally. 
+The compiler searches for the signature file `module.blh` in the box named `library`.
 
 When importing from another box, the compiler prevents:
-* the import of an `internal module` from the box and
-* the `internal import` of a module from the box, 
+* the import of an `internal module` from the box, and
+* the `internal import` of a detectable module from the box.
 
 Such imports are flagged as an error, even if module implementations and `internal signature`s are part of the box.
 This is helpful, when developing different boxes at the same time.
-
 The detectability between boxes is the same during development and after deployment.
 
+Since `internal imports` from other boxes are not allowed, there is no need to deliver the module's implementation file `module.blc` with the box `library`.
+Since imports of `internal modules` of a box are also forbidden, there is no need to deliver `internal signature`s.
 
+This brings us to the last question: How are Blech files are organized on the file system?
 
 ## Organizing Blech files
 
+Blech programs, libraries and systems are organized in boxes.
+
+When developing a box, the program and module implementation files are placed beneath a top-level directory - the Blech project.
+The top-level directory can have sub-directories that contain further implementation files.
+The file structure corresponds to the import paths used in the import declaration.
+
+Note, that the choice of directory and file names is restricted for simpler name mangling. 
+The compiler checks this.
+
+The file structure of the Blech source code translates to the file structure of compilation artefacts: signatures, .h-files and .c-files.
+It is possible to work on more than one box at a time, you just need 2 or more Blech projects in independent directories.
+
+## Tricks of trade
+
+As you might have noticed every imported entity is qualified by the local module name in the examples.
+Sometimes you don't want this.
+In rare cases, on the other hand, you might want to `expose` everything in a module.
+
+There are shortcuts for these purposes:
+
+1. Make selected entities directly accessible
+```blech
+import rb "ringbuffer" exposes initialise, push
+```
+
+2. Make all entities directly accessible
+```blech
+import rb "ringbuffer" exposes ...
+```
+
+3. Create an import dependency but do not use it right now in the current status of development
+```blech
+import _ "ringbuffer" // no name for qualified access
+```
+
+4. Omit the local module name
+```blech
+import _ "ringbuffer" exposes RingBuffer, initialise, push
+```
+
+5. Expose everything in a module
+```blech
+module exposes ...  // no information hiding
+```
+
+Use these "tricks of trade" wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
+If two imports expose the same name, the second will create an error because it shadows the first. 
 
 
-## Software qualities
+## Better software through modules
 
-> This makes modular designed systems, if built correctly, far more reusable than a traditional monolithic design, since all (or many) of these modules may then be reused (without change) in other projects. This also facilitates the "breaking down" of projects into several smaller projects. Theoretically, a modularized software project will be more easily assembled by large teams, since no team members are creating the whole system, or even need to know about the system as a whole. They can focus just on the assigned smaller task (this, it is claimed, counters the key assumption of The Mythical Man Month, making it actually possible to add more developers to a late software project without making it later still). 
+> [...] Modular designed systems, if built correctly, [are] far more reusable than a traditional monolithic design, since all (or many) of these modules may then be reused (without change) in other projects. This also facilitates the "breaking down" of projects into several smaller projects. Theoretically, a modularized software project will be more easily assembled by large teams, since no team members are creating the whole system, or even need to know about the system as a whole. They can focus just on the assigned smaller task (this, it is claimed, counters the key assumption of The Mythical Man Month, making it actually possible to add more developers to a late software project without making it later still). 
 
-Namespaces, no shadowing
+The Blech module system supports better software design and improved software qualities:
 
-High cohesion, low coupling, independent layers, separate compilation, separate testability, information hiding, API orientation
+1. It allows to organize code by using different files for different aspects without reverting to the archaic method of `include`d header files. 
+
+1. Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first synchronous language to support separate compilation for causality analysis.
+ 
+1. It allows to package compilation units to libraries - boxes of modules and programs.
+
+1. It is designed with a minimal set of syntactic overhead. All import and export information is visible in the head of a module implementation. External visibility is not scattered all over the file.
+
+1. It prevents the pollution of a single global name spaces. Actually there is no global name space that would force the programmer to carefully choose names that are visible everywhere. Modules are namespaces for types and code, boxes are namespaces for modules.
+
+1. There is no need to separate source code into an interface and an implementation part. The module source code contains all necessary information, interfaces are generated by the compiler.
+
+1. Modules simplify the design of components that are self-contained: independent, and with a single, well-defined purpose. A major enabler to do this are Blech's `activity`s which hold state between time steps locally instead of using global variables. The famous qualities *high cohesion* and *low coupling* are actively supported by the language.
+
+1. Module interfaces support API-orientation. Modules can be developed, tested and even verified in parallel. Implementation changes are easily possible if interfaces are kept small. Especially opaque (abstract) types enable this. 
+
+1. The compiler enforces a directed acyclic dependency graph. This supports the design of layered architecture without dependency cycles between modules and boxes. Upcalls can be realized with callbacks without introducing cyclic dependencies. Unfortunately, you will have to wait for a later Blech release to support callback references.
+
+1. Because of the directed acyclic graph structure, modules can be "cut off" and tested in isolation. To test a given module you only need all of its "upstream" dependencies.
+
+1. The module dependency graph can easily be visualized and is independent from the code organisation on the file system.
+
+1. The ability to whitebox-test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.
+
+
+We hope to release Blech with modules before the end of the year. Stay tuned.
 
 ## Generics, traits, interfaces
 
 > These independent functions are commonly classified as either program control functions or specific task functions. Program control functions are designed to work for one program. Specific task functions are closely prepared to be applicable for various programs. 
 
 
+<!-- # Relevant links
 
-
+[C++ Modules Might Be Dead-on-Arrival](https://vector-of-bool.github.io/2019/01/27/modules-doa.html)
+[C++20: The advantages of modules](https://www.modernescpp.com/index.php/cpp20-modules)
+[Low Coupling, High Cohesion](https://medium.com/clarityhub/low-coupling-high-cohesion-3610e35ac4a6)
+[How To Write Large Programs](https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615)
 # Steinbruch
 
 
@@ -526,4 +636,4 @@ signature
 activity ObserveFilledBuffer (value: nat32) (filled: bool)
 ```
 
-
+ -->
