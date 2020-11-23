@@ -1,15 +1,35 @@
 ---
-date: 2020-11-14
+date: 2020-11-23
 title: "The Blech module system"
 linkTitle: "Module system"
 description: >
-    This article explains the Blech module system
+    This article motivates and explains the Blech module system
 author: Franz-Josef Grosch
 ---
 
-TL, DR
+The Blech module system supports modular programming for reactive, embedded, safety-critical applications. With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. This is difficult and error prone. As a consequence today's systems are more monolithic than modular.
 
-In order to motivate the design of the Blech module system, we will refer to the wikipedia article on [Modular Programming](https://en.wikipedia.org/wiki/Modular_programming) and an blog post on [How to write Large Programs](https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615) .
+Blech's synchronous paradigm together with the module system enables and supports modular programming.
+It has the following properties: 
+- Module implementations encapsulate code.
+- Modules are namespaces for types and code.
+- Module interfaces are automatically generated form implementations and their import/export declarations.
+- Module interfaces hide implementation details.
+- The import hierarchy is always a directed acylic graph, leading to a layered hierarchical structure.
+- Every layer is separately testable and reusable.
+- The compiler recursively compiles programs along the dependency hierarchy.
+- Optionally importing all implementation details allows for white-box testing.
+- Modules can be packaged to libraries - called *boxes*.
+- Boxes are are namespaces for modules.
+- Boxes can hide internal implementation modules.
+- The syntax for modules is very light-weight.
+- Reasoning about the modular structure is easy.
+- Modules and boxes map to files and directories.
+- All static analysis is designed to work with separate compilation.
+
+The details follow now.
+
+In order to motivate the design of the Blech module system, we will refer to the wikipedia article on [Modular Programming](https://en.wikipedia.org/wiki/Modular_programming) [[1]](#ModularProgramming) and a blog post on [How to write Large Programs](https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615) [[2]](#LargePrograms) .
 
 Let's start with the definition of modular programming:
 > Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains [...] only one aspect of the desired functionality. [[1]](#ModularProgramming)
@@ -179,8 +199,7 @@ A layered and cylce-free module hierarchy is always guaranteed.
 
 ## Testing a module
 
-> Modular programming can be performed even where the programming language lacks explicit syntactic features to support named modules, like, for example, in C. This is done by using existing language features, together with, for example, coding conventions, programming idioms and the physical code structure. 
-[...] A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. [[1]](#ModularProgramming)
+> A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. [[1]](#ModularProgramming)
 
 This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.
 
@@ -224,7 +243,7 @@ end
 The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.
 
 
-## Packaging modules into a box
+## Packaging modules into a library
 
 > A particular library is a [...] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [...] to be used by a higher-level program, library, or system. [[1]](#ModularProgramming)
 
@@ -249,6 +268,7 @@ function average (rb: RingBuffer) returns nat32 ...
 ```
 
 The signature becomes `internal` as well.
+
 ```blech
 internal signature
 
@@ -276,6 +296,7 @@ activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
         await true
     end
 ```
+
 This means, module `ringbufferaverage` is not accessible outside of its box.
 The compiler checks this, and it is an error to omit the the classification `internal` for the module.
 
@@ -355,7 +376,7 @@ This is helpful, when developing different boxes at the same time.
 The detectability between boxes is the same during development and after deployment.
 
 Since `internal imports` from other boxes are not allowed, there is no need to deliver the module's implementation file `module.blc` with the box `library`.
-Since imports of `internal modules` of a box are also forbidden, there is no need to deliver `internal signature`s.
+Since imports of `internal modules` of a box are also forbidden, there is also no need to deliver `internal signature`s.
 
 This brings us to the last question: How are Blech files organized on the file system?
 
@@ -411,10 +432,9 @@ If two imports expose the same name, the second will create an error because it 
 
 ## Modules are not generic
 
-To quote "How to write large programs" again:
 > Modules lie on a spectrum from high-level (specific) to low-level (generic). The highest level module contains the entry point of the program, whereas the lowest level modules are usually generic libraries. [...] Stability increases at lower levels. [...] Reusability increases at lower levels. Low-level modules should be generic libraries so that they can be reused in other projects. [[2]](#LargePrograms)
 
-Of course it is a natural wish, to have the `ringbuffer` module parameterized by its size (here `const Size`) and its element type (here `nat8`). 
+Of course it is a natural wish, to have the `ringbuffer` module parameterized by its size (here: `const Size`) and its element type (here: `nat8`). 
 
 But, in Blech we keep the module system simple. 
 Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
@@ -440,7 +460,7 @@ The Blech module system supports better software design and improved software qu
 
 1. It prevents the pollution of a single global name spaces. Actually there is no global name space that would force the programmer to carefully choose names that are visible everywhere. Modules are namespaces for types and code, boxes are namespaces for modules.
 
-1. There is no need to separate source code into an interface and an implementation part. The module source code contains all necessary information, interfaces are generated by the compiler.
+1. There is no need to separate source code into an interface and an implementation part. The source code of module implementations contains all necessary information, interfaces are generated by the compiler.
 
 1. Modules simplify the design of components that are self-contained: independent, and with a single, well-defined purpose. A major enabler to do this are Blech's `activity`s which hold state between time steps locally instead of using global variables. The famous qualities *high cohesion* and *low coupling* are actively supported by the language.
 
