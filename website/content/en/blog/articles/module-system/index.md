@@ -12,12 +12,12 @@ The Blech module system supports modular programming for reactive, embedded, saf
 Blech's synchronous paradigm together with the module system enables and supports modular programming.
 It has the following properties: 
 - Module implementations encapsulate code.
-- Modules are namespaces for types and code.
-- Module interfaces are automatically generated form implementations and their import/export declarations.
+- Modules are namespaces for code entities.
+- Module interfaces are automatically generated from implementations and their import/export declarations.
 - Module interfaces hide implementation details.
 - The import hierarchy is always a directed acylic graph, leading to a layered hierarchical structure.
 - Every layer is separately testable and reusable.
-- The compiler recursively compiles programs along the dependency hierarchy.
+- The compiler recursively compiles programs and modules along the dependency hierarchy.
 - Optionally importing all implementation details allows for white-box testing.
 - Modules can be packaged to libraries - called *boxes*.
 - Boxes are are namespaces for modules.
@@ -186,7 +186,8 @@ end
 > Often modules form a directed acyclic graph (DAG); in this case a cyclic dependency between modules is seen as indicating that these should be a single module. In the case where modules do form a DAG they can be arranged as a hierarchy, where the lowest-level modules are independent, depending on no other modules, and higher-level modules depend on lower-level ones. [[1]](#ModularProgramming)
 
 *No dependency cycles between modules* is an important rule for a good system design:
-> This design rule will prevent your code from turning into a big ball of mud. [...] Dependency cycles are bad because they increase coupling [...} and [...] can’t be tested in isolation. [[2]](#LargePrograms)
+> This design rule will prevent your code from turning into a big ball of mud. 
+[...] Dependency cycles are bad because they increase coupling [...] and [...] can’t be tested in isolation. [[2]](#LargePrograms)
 
 In Blech, programs as top-level compilation units and imported modules always form a directed acyclic graph.
 This enables automatic dependency management in the compiler.
@@ -203,7 +204,7 @@ A layered and cylce-free module hierarchy is always guaranteed.
 
 This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.
 
-> White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing).[[3]](#WhiteBoxTesting)
+> White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). [[3]](#WhiteBoxTesting)
 
 In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword `internal`.
 An `internal import` makes all elements in a module detectable - nothing is hidden.
@@ -227,14 +228,13 @@ activity TestPush ()
         assert buf.count <= rb.Size
         
         rb.push(42)(buf) // the value is irrelevant
+        i = i + 1
         
         if i < rb.Size then
             assert buf.count == i
         else
             assert buf.count == rb.Size
         end
-        
-        i = i + 1
         await true
     until i = n8.Max end
 end
@@ -434,7 +434,7 @@ If two imports expose the same name, the second will create an error because it 
 
 > Modules lie on a spectrum from high-level (specific) to low-level (generic). The highest level module contains the entry point of the program, whereas the lowest level modules are usually generic libraries. [...] Stability increases at lower levels. [...] Reusability increases at lower levels. Low-level modules should be generic libraries so that they can be reused in other projects. [[2]](#LargePrograms)
 
-Of course it is a natural wish, to have the `ringbuffer` module parameterized by its size (here: `const Size`) and its element type (here: `nat8`). 
+Of course it is a natural wish, to have the `ringbuffer` module parameterized by its size (here: `const Size`) and its element type (here: `nat32`). 
 
 But, in Blech we keep the module system simple. 
 Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
