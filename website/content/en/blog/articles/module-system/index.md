@@ -240,7 +240,7 @@ activity TestPush ()
             assert buf.count == rb.Size
         end
         await true
-    until i = n8.Max end
+    until i == n8.Max end
 end
 ```
 
@@ -299,6 +299,7 @@ activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
         average = rb.average(buf)
         await true
     end
+end
 ```
 
 This means, module `ringbufferaverage` is not accessible outside of its box.
