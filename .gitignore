@@ -8,4 +8,6 @@ website/static/asciidoc/
 
 temp/
 
+**/.ionide
+
 **/articles/*.pdf
