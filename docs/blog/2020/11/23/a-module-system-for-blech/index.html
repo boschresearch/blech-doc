@@ -23,13 +23,13 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/" />
 <meta property="article:published_time" content="2020-11-23T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-11-25T16:05:55+01:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-11-25T17:13:46+01:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="A module system for Blech">
 <meta itemprop="description" content="This article motivates and explains the Blech module system
 ">
 <meta itemprop="datePublished" content="2020-11-23T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-11-25T16:05:55+01:00" />
-<meta itemprop="wordCount" content="3643">
+<meta itemprop="dateModified" content="2020-11-25T17:13:46+01:00" />
+<meta itemprop="wordCount" content="3641">
 
 
 
@@ -426,7 +426,7 @@ It has the following properties:</p>
 <li>Modules can be packaged to libraries - called <em>boxes</em>.</li>
 <li>Boxes are namespaces for modules.</li>
 <li>Boxes can hide internal implementation modules.</li>
-<li>The syntax for modules is very light-weight.</li>
+<li>The syntax for modules is light-weight.</li>
 <li>Reasoning about the modular structure is easy.</li>
 <li>Modules and boxes map to files and directories.</li>
 <li>All static analysis is designed to work with separate compilation.</li>
@@ -514,7 +514,7 @@ function average (rb: RingBuffer) returns nat32
 <p>Since <code>struct RingBuffer</code> is not exposed in the module it is made available as an opaque <code>type RingBuffer</code> in the signature.
 While the implementation remains hidden, the opaque type can be used to define variables and assign values of this type.
 This allows to change the internal representation, while any code the uses the module remains unchanged. 
-Opaque types are sometimes also called abstract types, and are a very simple form of the theoretical concept of existential types.</p>
+Opaque types are sometimes also called abstract types, and are a simple form of the theoretical concept of existential types.</p>
 <p>Signatures carry all information necessary to compile any code that uses this module. 
 This enables to package Blech modules into libraries. 
 There is no need to deliver module implementations.
@@ -551,7 +551,7 @@ end
 </code></pre></div><p>This module imports a module from file <code>ringbuffer.blc</code> with the local name <code>rb</code>.
 It implements and exposes a single activity <code>SlidingAverage</code>, with a local variable of type <code>rb.RingBuffer</code>.
 The module completely hides its internal implementation, which uses the abstract type <code>RingBuffer</code> and functions <code>initialise</code>, <code>push</code> and <code>average</code> from module <code>rb</code>.</p>
-<p>The generated signature in file <code>slidingaverage.blh</code> is very simple. 
+<p>The generated signature in file <code>slidingaverage.blh</code> is simple. 
 The implementations details are completely hidden.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">signature
 
@@ -586,12 +586,12 @@ A layered and cylce-free module hierarchy is always guaranteed.</p>
 <p>A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. <a href="#ModularProgramming">[1]</a>
 </p>
 </blockquote>
-<p>This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.</p>
+<p>This an advantage for loosely coupled system design. But it is a disadvantage for white-box testing.</p>
 <blockquote>
 <p>White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). <a href="#WhiteBoxTesting">[3]</a>
 </p>
 </blockquote>
-<p>In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword <code>internal</code>.
+<p>In order to enable white-box testing, Blech allows to import all the implementation details of a module by using keyword <code>internal</code>.
 An <code>internal import</code> makes all elements in a module detectable - nothing is hidden.</p>
 <p>In the following example, it is not enough to use the signature <code>ringbuffer.blh</code> to compile the white-box test program.
 In fact the compiler needs the source code of the module implementation <code>ringbuffer.blc</code> in order to detect the hidden implementation details.</p>
@@ -620,7 +620,7 @@ activity TestPush ()
         await true
     until i == n8.Max end
 end
-</code></pre></div><p>The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.</p>
+</code></pre></div><p>The modules provided by a library cannot be white-box tested, because a packaged library usually does not contain module implementation files.</p>
 <h2 id="packaging-modules-into-a-library">Packaging modules into a library</h2>
 <blockquote>
 <p>A particular library is a [&hellip;] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [&hellip;] to be used by a higher-level program, library, or system. <a href="#ModularProgramming">[1]</a>
@@ -766,7 +766,7 @@ If two imports expose the same name, the second will create an error because it 
 <p>But, in Blech we keep the module system simple. 
 Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
 Then, modules also might contain generic types and generic interface implementations.</p>
-<p>The concept of type-safe generics is in a very early stage, and different to other languages follows our embedded requirements.
+<p>The concept of type-safe generics is in an early stage, and different to other languages follows our embedded requirements.
 It will definitely need some more Blech releases before we can adress generics.</p>
 <h2 id="better-software-through-modules">Better software through modules</h2>
 <blockquote>
@@ -809,7 +809,7 @@ It will definitely need some more Blech releases before we can adress generics.<
 <p>The module dependency graph can easily be visualized and is independent from the code organisation on the file system.</p>
 </li>
 <li>
-<p>The ability to whitebox-test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.</p>
+<p>The ability to white-box test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.</p>
 </li>
 </ol>
 <p>We hope to release Blech with modules before the end of the year. Stay tuned.</p>
@@ -818,7 +818,7 @@ It will definitely need some more Blech releases before we can adress generics.<
 , en.wikipedia.org</a></p>
 <p>[2] <a name=LargePrograms> <a href="https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615" target="_blank">How to write large programs</a>
 , Oleg Alexander </a></p>
-<p>[3] <a name=WhiteBoxTesting> <a href="https://en.wikipedia.org/wiki/White-box_testing" target="_blank">Whitebox Testing</a>
+<p>[3] <a name=WhiteBoxTesting> <a href="https://en.wikipedia.org/wiki/White-box_testing" target="_blank">White-box Testing</a>
 , en.wikipedia.org </a></p>
 <!-- # Relevant links
 
