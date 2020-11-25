@@ -24,7 +24,7 @@ It has the following properties:
 - The compiler recursively compiles programs and modules along the dependency hierarchy.
 - Optionally importing all implementation details allows for white-box testing.
 - Modules can be packaged to libraries - called *boxes*.
-- Boxes are are namespaces for modules.
+- Boxes are namespaces for modules.
 - Boxes can hide internal implementation modules.
 - The syntax for modules is very light-weight.
 - Reasoning about the modular structure is easy.

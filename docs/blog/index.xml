@@ -38,7 +38,7 @@ It has the following properties:&lt;/p&gt;
 &lt;li&gt;The compiler recursively compiles programs and modules along the dependency hierarchy.&lt;/li&gt;
 &lt;li&gt;Optionally importing all implementation details allows for white-box testing.&lt;/li&gt;
 &lt;li&gt;Modules can be packaged to libraries - called &lt;em&gt;boxes&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;Boxes are are namespaces for modules.&lt;/li&gt;
+&lt;li&gt;Boxes are namespaces for modules.&lt;/li&gt;
 &lt;li&gt;Boxes can hide internal implementation modules.&lt;/li&gt;
 &lt;li&gt;The syntax for modules is very light-weight.&lt;/li&gt;
 &lt;li&gt;Reasoning about the modular structure is easy.&lt;/li&gt;
