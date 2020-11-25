@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.74.3" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>A module system for Blech | Blech</title><meta property="og:title" content="A module system for Blech" />
+<meta property="og:description" content="This article motivates and explains the Blech module system
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/" />
+<meta property="article:published_time" content="2020-11-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-11-25T14:08:48+01:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="A module system for Blech">
+<meta itemprop="description" content="This article motivates and explains the Blech module system
+">
+<meta itemprop="datePublished" content="2020-11-23T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-11-25T14:08:48+01:00" />
+<meta itemprop="wordCount" content="3643">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A module system for Blech"/>
+<meta name="twitter:description" content="This article motivates and explains the Blech module system
+"/>
+
+
+
+
+
+
+
+<link rel="preload" href="/scss/main.min.187a24f7ee26acffccbff823ed206f6c3e2b0ed9153bddf5df3717d752c727be.css" as="style">
+<link href="/scss/main.min.187a24f7ee26acffccbff823ed206f6c3e2b0ed9153bddf5df3717d752c727be.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+
+<script src=https://www.blech-lang.org/js/opt-in.js></script>
+
+
+
+  </head>
+  <body class="td-page td-blog">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/about/" ><span>About us</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/docs/" ><span>Documentation</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/blog/" ><span class="active">Blog</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/community/" ><span>Community</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/research/" ><span>Research</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+
+
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <form class="td-sidebar__search d-flex align-items-center d-lg-none">
+    
+<input type="search" class="form-control td-search-input" placeholder="&#xf002 Search this site…" aria-label="Search this site…" autocomplete="off">
+
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    
+    
+    
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Blog</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blog">
+      
+      
+      
+      
+        
+          
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/articles/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Articles</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="blogarticles">
+      
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20201123a-module-system-for-blech" href="/blog/2020/11/23/a-module-system-for-blech/">Modules for Blech</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200812push-button-handling" href="/blog/2020/08/12/push-button-handling/">Push button handling</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view" href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/">The basic idea behind Blech</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200615decoding-the-dcf77-signal-with-blech" href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">DCF77 decoding</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200527the-purpose-of-blech" href="/blog/2020/05/27/the-purpose-of-blech/">The purpose of Blech</a>
+        
+      
+      
+    </li>
+  </ul>
+</ul>
+
+        
+      
+      
+      
+        
+          
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/releases/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Releases</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogreleases">
+      
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200901blech-version-060" href="/blog/2020/09/01/blech-version-0.6.0/">Blech 0.6.0</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200421blech-compiler-version-051" href="/blog/2020/04/21/blech-compiler-version-0.5.1/">blechc 0.5.1</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200420blech-vs-code-extension-052" href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">vsce 0.5.2</a>
+        
+      
+      
+    </li>
+  </ul>
+</ul>
+
+        
+      
+      
+      
+        
+          
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/blog/events/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Events</a>
+  </li>
+  <ul>
+    <li class="collapse " id="blogevents">
+      
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20191201synchron-2019" href="/blog/2019/12/01/synchron-2019/">Synchron 2019</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20190710wcet-2019-keynote" href="/blog/2019/07/10/wcet-2019-keynote/">WCET 2019</a>
+        
+      
+      
+    </li>
+  </ul>
+</ul>
+
+        
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
+
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
+
+
+
+
+
+
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+
+
+
+
+
+
+
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/articles/module-system/index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/blog/articles/module-system/index.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=A%20module%20system%20for%20Blech" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+
+
+<a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#module-implementation">Module implementation</a></li>
+    <li><a href="#module-interface">Module interface</a></li>
+    <li><a href="#using-modules">Using modules</a></li>
+    <li><a href="#compiling-a-program">Compiling a program</a></li>
+    <li><a href="#testing-a-module">Testing a module</a></li>
+    <li><a href="#packaging-modules-into-a-library">Packaging modules into a library</a></li>
+    <li><a href="#importing-inside-and-outside-a-box">Importing inside and outside a box</a></li>
+    <li><a href="#organizing-blech-files">Organizing Blech files</a></li>
+    <li><a href="#tricks-of-trade">Tricks of trade</a></li>
+    <li><a href="#modules-are-not-generic">Modules are not generic</a></li>
+    <li><a href="#better-software-through-modules">Better software through modules</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5 pr-md-4" role="main">
+            <a class="btn btn-sm -bg-secondary td-rss-button d-none d-lg-block" href="https://www.blech-lang.org/blog/articles/index.xml" target="_blank">
+              RSS <i class="fa fa-rss ml-2 "></i>
+            </a>
+            
+<div class="td-content">
+	<h1>A module system for Blech</h1>
+	<div class="lead">This article motivates and explains the Blech module system</div>
+	<div class="td-byline mb-4">
+		By <b>Franz-Josef Grosch</b> |
+		<time datetime="2020-11-23" class="text-muted">Monday, November 23, 2020</time>
+	</div>
+	
+	<p>The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
+With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
+This is difficult and error prone. 
+As a consequence today&rsquo;s systems are more monolithic than modular.</p>
+<p>Blech&rsquo;s synchronous paradigm together with the upcoming module system enables and supports modular programming.
+It has the following properties:</p>
+<ul>
+<li>Module implementations encapsulate code.</li>
+<li>Modules are namespaces for code entities.</li>
+<li>Module interfaces are automatically generated from implementations and their import/export declarations.</li>
+<li>Module interfaces hide implementation details.</li>
+<li>The import hierarchy is always a directed acylic graph, supporting a layered modular software structure.</li>
+<li>Every layer is separately testable and reusable.</li>
+<li>The compiler recursively compiles programs and modules along the dependency hierarchy.</li>
+<li>Optionally importing all implementation details allows for white-box testing.</li>
+<li>Modules can be packaged to libraries - called <em>boxes</em>.</li>
+<li>Boxes are are namespaces for modules.</li>
+<li>Boxes can hide internal implementation modules.</li>
+<li>The syntax for modules is very light-weight.</li>
+<li>Reasoning about the modular structure is easy.</li>
+<li>Modules and boxes map to files and directories.</li>
+<li>All static analysis is designed to work with separate compilation.</li>
+</ul>
+<p>The details follow now.</p>
+<p>In order to motivate the design of the Blech module system, we will refer to the wikipedia article on <a href="https://en.wikipedia.org/wiki/Modular_programming" target="_blank">Modular Programming</a>
+ <a href="#ModularProgramming">[1]</a>
+ and a blog post on <a href="https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615" target="_blank">How to write Large Programs</a>
+ <a href="#LargePrograms">[2]</a>
+ .</p>
+<p>Let&rsquo;s start with the definition of modular programming:</p>
+<blockquote>
+<p>Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains [&hellip;] only one aspect of the desired functionality. <a href="#ModularProgramming">[1]</a>
+</p>
+</blockquote>
+<p>Blech supports this design technique by grouping code into modules.</p>
+<h2 id="module-implementation">Module implementation</h2>
+<p>To keep things simple, every Blech file can be compiled separately and is either a program or a module.
+A module file groups closely related Blech entities - constants, types, functions, activities, etc. - into a compilation unit, that can be used (imported) by other modules or programs.
+The keyword <code>module</code> classifies the content of a Blech file as a module.
+Different to modules, a program file requires an <code>@[EntryPoint]</code> activity which serves as the main activity of a Blech program. 
+A program file cannot be imported by other modules or programs.</p>
+<p>Assume the following module implementation in file <code>ringbuffer.blc</code>.
+In order to make an entity accessible it needs to be exposed.
+Here, functions <code>initialise</code>, <code>push</code>, and <code>average</code> are exposed for usage, in any importing module or program.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">module exposes initialise, push, average
+
+const Size: nat8 = 10
+
+struct RingBuffer
+    var buffer: [Size]nat32
+    var nextIndex: nat8
+    var count: nat8
+end
+
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+    return { nextIndex = 0, count = 0 }
+end
+
+/// pushes a new value to the ring buffer
+/// displaces the &#34;oldest&#34; value if the ring buffer is full
+function push (value: nat32) (rb: RingBuffer)
+    rb.buffer[rb.nextIndex] = value
+    rb.nextIndex = rb.nextIndex + 1
+    if rb.count = Size then // ringbuffer ist completely filled
+        rb.nextIndex = rb.nextIndex % Size
+    else
+        rb.count = rb.count + 1
+    end
+end
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+    var idx: nat8 = 0
+    var avg: nat32 = 0
+    while idx &lt; rb.count do
+        avg = avg + rb.buffer[idx]
+    end
+    return avg / rb.count
+end
+</code></pre></div><h2 id="module-interface">Module interface</h2>
+<blockquote>
+<p>A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. The implementation contains the working code that corresponds to the elements declared in the interface. <a href="#ModularProgramming">[1]</a>
+</p>
+</blockquote>
+<p>A module interface in Blech is called a <code>signature</code>.
+The signature is generated by the compiler from the module implementation and the <code>exposes</code> declaration.
+A Blech programmer never writes a signature file.
+After compilation of file <code>ringbuffer.blc</code> you will find the following module interface in file <code>ringbuffer.blh</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">signature
+
+type RingBuffer
+
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+
+/// pushes a new value to the ring buffer
+/// replaces the &#34;oldest&#34; value if the ring buffer is completely filled
+function push (value: nat32) (rb: RingBuffer)
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+</code></pre></div><p>The exposed functions additionally need the type <code>RingBuffer</code>.</p>
+<p>Since <code>struct RingBuffer</code> is not exposed in the module it is made available as an opaque <code>type RingBuffer</code> in the signature.
+While the implementation remains hidden, the opaque type can be used to define variables and assign values of this type.
+This allows to change the internal representation, while any code the uses the module remains unchanged. 
+Opaque types are sometimes also called abstract types, and are a very simple form of the theoretical concept of existential types.</p>
+<p>Signatures carry all information necessary to compile any code that uses this module. 
+This enables to package Blech modules into libraries. 
+There is no need to deliver module implementations.
+It is enough to deliver compiled libraries with:</p>
+<ul>
+<li>signatures, .h- and .c-files, using the Blech compiler or</li>
+<li>signatures, .h-files and target-specific object files, additionally using the target&rsquo;s C compiler.</li>
+</ul>
+<h2 id="using-modules">Using modules</h2>
+<blockquote>
+<p>When creating a modular system, instead of creating a monolithic application (where the smallest component is the whole), several smaller modules are written separately so when they are composed together, they construct the executable application program. <a href="#ModularProgramming">[1]</a>
+</p>
+</blockquote>
+<p>In order to use a module it gets imported by another module or program.
+Assume the following use of the <code>ringbuffer</code> module from a module implementation in file <code>slidingaverage.blc</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import rb &#34;ringbuffer&#34;
+
+module exposes SlidingAverage 
+
+param Threshold: nat32 = 10000 // Application parameter, can be modified in the binary 
+
+/// Calculates the average of the latest values in every tick
+/// Values outside a fixed threshold are ignored.
+activity SlidingAverage (value: nat32) (average: nat32)
+    var buf: rb.RingBuffer = rb.initialise() 
+    repeat
+        if value &lt;= Threshold then
+            rb.push(value)(buf)
+        end
+        average = rb.average(buf)
+        await true
+    end
+end
+</code></pre></div><p>This module imports a module from file <code>ringbuffer.blc</code> with the local name <code>rb</code>.
+It implements and exposes a single activity <code>SlidingAverage</code>, with a local variable of type <code>rb.RingBuffer</code>.
+The module completely hides its internal implementation, which uses the abstract type <code>RingBuffer</code> and functions <code>initialise</code>, <code>push</code> and <code>average</code> from module <code>rb</code>.</p>
+<p>The generated signature in file <code>slidingaverage.blh</code> is very simple. 
+The implementations details are completely hidden.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">signature
+
+/// Calculates the average of the latest values in every tick
+activity SlidingAverage (value: nat32) (average: nat32)
+</code></pre></div><p>Using this module in a Blech program file <code>main.blc</code> is straight forward.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import sa &#34;slidingaverage&#34;
+
+@[EntryPoint]
+activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
+    run sa.SlidingAverage(sensor)(sensorAverage)    
+end
+</code></pre></div><h2 id="compiling-a-program">Compiling a program</h2>
+<blockquote>
+<p>Often modules form a directed acyclic graph (DAG); in this case a cyclic dependency between modules is seen as indicating that these should be a single module. In the case where modules do form a DAG they can be arranged as a hierarchy, where the lowest-level modules are independent, depending on no other modules, and higher-level modules depend on lower-level ones. <a href="#ModularProgramming">[1]</a>
+</p>
+</blockquote>
+<p><em>No dependency cycles between modules</em> is an important rule for a good system design:</p>
+<blockquote>
+<p>This design rule will prevent your code from turning into a big ball of mud. 
+[&hellip;] Dependency cycles are bad because they increase coupling [&hellip;] and [&hellip;] can’t be tested in isolation. <a href="#LargePrograms">[2]</a>
+</p>
+</blockquote>
+<p>In Blech, programs as top-level compilation units and imported modules always form a directed acyclic graph.
+This enables automatic dependency management in the compiler.</p>
+<p>In the above example, the compilation of program file <code>main.blc</code> automatically compiles imported module <code>slidingaverage</code> which in turn compiles imported module <code>ringbuffer</code>.
+Any cycles in the import dependencies will be flagged as an error.</p>
+<p>In general the compilation of any program and any module triggers the compilation of imported modules, if necessary.
+A layered and cylce-free module hierarchy is always guaranteed.</p>
+<h2 id="testing-a-module">Testing a module</h2>
+<blockquote>
+<p>A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. <a href="#ModularProgramming">[1]</a>
+</p>
+</blockquote>
+<p>This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.</p>
+<blockquote>
+<p>White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). <a href="#WhiteBoxTesting">[3]</a>
+</p>
+</blockquote>
+<p>In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword <code>internal</code>.
+An <code>internal import</code> makes all elements in a module detectable - nothing is hidden.</p>
+<p>In the following example, it is not enough to use the signature <code>ringbuffer.blh</code> to compile the white-box test program.
+In fact the compiler needs the source code of the module implementation <code>ringbuffer.blc</code> in order to detect the hidden implementation details.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import n8 &#34;box:base/nat8&#34;  // base library for nat8-related stuff
+
+internal import rb &#34;ringbuffer&#34;
+
+@[EntryPoint]
+activity TestPush ()
+    var buf: rb.RingBuffer = rb.initialise()
+    var i: nat8 = 0
+    repeat
+        assert buf.nextIndex &lt; rb.Size
+        assert buf.nextIndex == i % rb.Size
+        assert buf.count &gt;= 0 
+        assert buf.count &lt;= rb.Size
+        
+        rb.push(42)(buf) // the value is irrelevant
+        i = i + 1
+        
+        if i &lt; rb.Size then
+            assert buf.count == i
+        else
+            assert buf.count == rb.Size
+        end
+        await true
+    until i == n8.Max end
+end
+</code></pre></div><p>The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.</p>
+<h2 id="packaging-modules-into-a-library">Packaging modules into a library</h2>
+<blockquote>
+<p>A particular library is a [&hellip;] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [&hellip;] to be used by a higher-level program, library, or system. <a href="#ModularProgramming">[1]</a>
+</p>
+</blockquote>
+<p>In Blech we call a library a <em>Blech box</em> or a <em>box</em> for short. 
+A box is a collection of modules and programs.
+Typically some modules of a box are supposed to be used from those higher levels, while others remain internally hidden and only serve implementation purposes.</p>
+<p>By default every module in a box can be imported from a higher-level program or module.
+In order to hide a module in a box it can be declared as an <code>internal module</code>.</p>
+<p>In our running example, we could decide to make the module <code>ringbuffer</code> an internal module.
+This can be done by declaring the module as <code>internal module</code> - the rest remains unchanged.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">internal module exposes initialise, push, average
+
+const Size ...
+struct RingBuffer  ...
+function initialise () returns RingBuffer ...
+function push (value: nat32) (rb: RingBuffer) ...
+function average (rb: RingBuffer) returns nat32 ...
+</code></pre></div><p>The signature becomes <code>internal</code> as well.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">internal signature
+
+type RingBuffer
+function initialise () returns RingBuffer
+function push (value: nat32) (rb: RingBuffer)
+function average (rb: RingBuffer) returns nat32
+</code></pre></div><p>If we package this module together with module <code>slidingaverage</code> from above into a box, 
+only the signature for <code>slidingaverage</code> should be detectable, the signatures of internal modules are hidden.</p>
+<p>In order to write a non-internal module that imports an <code>internal module</code>, the details of those imports must not leak through its interface.
+For example, the following module <code>ringbufferaverage</code> implicitly exposes the opaque type <code>RingBuffer</code> from the imported internal module <code>ringbuffer</code>.
+The internal implementation leaks through its interface and therefore the module becomes itself an <code>internal module</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import rb &#34;ringbuffer&#34;
+
+internal module exposes RingBufferAverage
+
+activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
+    repeat
+        average = rb.average(buf)
+        await true
+    end
+end
+</code></pre></div><p>This means, module <code>ringbufferaverage</code> is not accessible outside of its box.
+The compiler checks this, and it is an error to omit the the classification <code>internal</code> for the module.</p>
+<p>The signature of module <code>ringbufferaverage</code> looks as follows.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import rb &#34;ringbuffer&#34;
+
+internal signature
+
+activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
+</code></pre></div><p>For pragmatic reasons it might be necessary to circumvent the black-box interface of a module and use a white-box import instead.
+This can only be done within the same box, since it requires the source of the module implementation.
+As an example, we would like to use <code>param Threshold</code> from module <code>slidingaverage</code> - which is not exposed - in a new module <code>slidingaveragewithreset</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">internal import sa &#34;slidingaverage&#34;
+
+module exposes SlidingAverageWithReset
+
+activity SlidingAverageWithReset (sensor: nat32) (sensorAverage: nat32)
+    when sensor &gt; sa.Treshold reset
+        run sa.SlidingAverage(sensor)(sensorAverage)
+    end
+end
+</code></pre></div><p>Since the interface does not leak any implementation details from the white-box import it can be made detectable (non-internal) in the box.</p>
+<p>There are two simple rules:</p>
+<ul>
+<li>a module that leaks details of an imported <code>internal module</code> in its signature becomes an <code>internal module</code>,</li>
+<li>a module that leaks details of an <code>internal import</code> in its signature becomes an <code>internal module</code>, too.</li>
+</ul>
+<h2 id="importing-inside-and-outside-a-box">Importing inside and outside a box</h2>
+<p>In order to distinguish between imports inside a box and imports from other boxes, Blech uses an URL-like import path.</p>
+<p>Imports inside a box just adress the imported file.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import m &#34;localmodule&#34;
+</code></pre></div><p>The compiler searches for file <code>localmodule.blc</code> to compile it, or uses <code>localmodule.blh</code> if nothing has changed and <code>localmodule.blc</code> has been compiled before.
+Note, that a recompilation of <code>localmodule.blc</code> is also necessary, if any of <code>localmodule</code>'s imports have changed.</p>
+<p>In general, the imported file name for an import inside a box, can be adressed</p>
+<ul>
+<li>relatively to the importing module, or</li>
+<li>absolutely from the top of the box.</li>
+</ul>
+<p>Here are some examples for an import inside a box:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import ma &#34;../module_A&#34;            // relative path, one directory up
+import mb &#34;./sub_dir/module_B&#34;     // relative path one directory down
+import mb2 &#34;sub_dir/module_B&#34;      // as before with a different local name 
+import mc  &#34;/top_level/module_C&#34;   // absolute path inside the box
+</code></pre></div><p>In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.
+The import declaration has the following form</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import m &#34;box:library/module&#34;
+</code></pre></div><p>This tells the compiler to import a module <code>module</code> from box <code>box:library</code> and name it <code>m</code> locally. 
+The compiler searches for the signature file <code>module.blh</code> in the box named <code>library</code>.</p>
+<p>When importing from another box, the compiler prevents:</p>
+<ul>
+<li>the import of an <code>internal module</code> from the box, and</li>
+<li>the <code>internal import</code> of a detectable module from the box.</li>
+</ul>
+<p>Such imports are flagged as an error, even if module implementations and <code>internal signature</code>s are part of the box.
+This is helpful, when developing different boxes at the same time.
+The detectability between boxes is the same during development and after deployment.</p>
+<p>Since <code>internal imports</code> from other boxes are not allowed, there is no need to deliver the module&rsquo;s implementation file <code>module.blc</code> with the box <code>library</code>.
+Since imports of <code>internal modules</code> of a box are also forbidden, there is also no need to deliver <code>internal signature</code>s.</p>
+<p>This brings us to the last question: How are Blech files organized on the file system?</p>
+<h2 id="organizing-blech-files">Organizing Blech files</h2>
+<p>Blech programs, libraries and systems are organized in boxes.</p>
+<p>When developing a box, the program and module implementation files are placed beneath a top-level directory - the Blech project.
+The top-level directory can have sub-directories that contain further implementation files.
+The file structure corresponds to the import paths used in the import declaration.</p>
+<p>Note, that the choice of directory and file names is restricted for simpler name mangling. 
+The compiler checks this.</p>
+<p>The file structure of the Blech source code translates to the file structure of compilation artefacts: signatures, .h-files and .c-files.
+It is possible to work on more than one box at a time, you just need 2 or more Blech projects in independent directories.</p>
+<h2 id="tricks-of-trade">Tricks of trade</h2>
+<p>As you might have noticed, every imported entity is qualified by the local module name in the examples.
+Sometimes you don&rsquo;t want qualification and address an entity directly. 
+The <code>import</code> declaration optionally <code>exposes</code> selected entities for this purpose.</p>
+<p>In rare cases, you might want to <code>expose</code> everything in a module, or import everything without qualification.</p>
+<p>There are shortcuts for these purposes:</p>
+<ol>
+<li>Make selected entities directly accessible</li>
+</ol>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import rb &#34;ringbuffer&#34; exposes initialise, push
+</code></pre></div><ol start="2">
+<li>Make all entities directly accessible</li>
+</ol>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import rb &#34;ringbuffer&#34; exposes ...
+</code></pre></div><ol start="3">
+<li>Create an import dependency but do not use it right now in the current status of development</li>
+</ol>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import _ &#34;ringbuffer&#34; // no name for qualified access
+</code></pre></div><ol start="4">
+<li>Omit the local module name</li>
+</ol>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import _ &#34;ringbuffer&#34; exposes RingBuffer, initialise, push
+</code></pre></div><ol start="5">
+<li>Expose everything in a module</li>
+</ol>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">module exposes ...  // no information hiding
+</code></pre></div><p>Use these &ldquo;tricks of trade&rdquo; wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
+If two imports expose the same name, the second will create an error because it shadows the first.</p>
+<h2 id="modules-are-not-generic">Modules are not generic</h2>
+<blockquote>
+<p>Modules lie on a spectrum from high-level (specific) to low-level (generic). The highest level module contains the entry point of the program, whereas the lowest level modules are usually generic libraries. [&hellip;] Stability increases at lower levels. [&hellip;] Reusability increases at lower levels. Low-level modules should be generic libraries so that they can be reused in other projects. <a href="#LargePrograms">[2]</a>
+</p>
+</blockquote>
+<p>Of course it is a natural wish, to have the <code>ringbuffer</code> module parameterized by its size (here: <code>const Size</code>) and its element type (here: <code>nat32</code>).</p>
+<p>But, in Blech we keep the module system simple. 
+Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
+Then, modules also might contain generic types and generic interface implementations.</p>
+<p>The concept of type-safe generics is in a very early stage, and different to other languages follows our embedded requirements.
+It will definitely need some more Blech releases before we can adress generics.</p>
+<h2 id="better-software-through-modules">Better software through modules</h2>
+<blockquote>
+<p>[&hellip;] Modular designed systems, if built correctly, [are] far more reusable than a traditional monolithic design, since all (or many) of these modules may then be reused (without change) in other projects. This also facilitates the &ldquo;breaking down&rdquo; of projects into several smaller projects. Theoretically, a modularized software project will be more easily assembled by large teams, since no team members are creating the whole system, or even need to know about the system as a whole. They can focus just on the assigned smaller task (this, it is claimed, counters the key assumption of The Mythical Man Month, making it actually possible to add more developers to a late software project without making it later still). <a href="#ModularProgramming">[1]</a>
+</p>
+</blockquote>
+<p>The Blech module system supports better software design and improved software qualities:</p>
+<ol>
+<li>
+<p>It allows to organize code by using different files for different aspects without reverting to the archaic method of <code>include</code>d header files.</p>
+</li>
+<li>
+<p>Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first synchronous language to support separate compilation for causality analysis.</p>
+</li>
+<li>
+<p>It allows to package compilation units to libraries - boxes of modules and programs.</p>
+</li>
+<li>
+<p>It is designed with a minimal set of syntactic overhead. All import and export information is visible in the head of a module implementation. External visibility is not scattered all over the file.</p>
+</li>
+<li>
+<p>It prevents the pollution of a single global name spaces. Actually there is no global name space that would force the programmer to carefully choose names that are visible everywhere. Modules are namespaces for types and code, boxes are namespaces for modules.</p>
+</li>
+<li>
+<p>There is no need to separate source code into an interface and an implementation part. The source code of module implementations contains all necessary information, interfaces are generated by the compiler.</p>
+</li>
+<li>
+<p>Modules simplify the design of components that are self-contained: independent, and with a single, well-defined purpose. A major enabler to do this are Blech&rsquo;s <code>activity</code>s which hold state between time steps locally instead of using global variables. The famous qualities <em>high cohesion</em> and <em>low coupling</em> are actively supported by the language.</p>
+</li>
+<li>
+<p>Module interfaces support API-orientation. Modules can be developed, tested and even verified in parallel. Implementation changes are easily possible if interfaces are kept small. Especially opaque types enable this.</p>
+</li>
+<li>
+<p>The compiler enforces a directed acyclic dependency graph. This supports the design of layered architecture without dependency cycles between modules and boxes. Upcalls can be realized with callbacks without introducing cyclic dependencies. Unfortunately, you will have to wait for a later Blech release to support callback references.</p>
+</li>
+<li>
+<p>Because of the directed acyclic graph structure, modules can be &ldquo;cut off&rdquo; and tested in isolation. To test a given module you only need all of its &ldquo;upstream&rdquo; dependencies.</p>
+</li>
+<li>
+<p>The module dependency graph can easily be visualized and is independent from the code organisation on the file system.</p>
+</li>
+<li>
+<p>The ability to whitebox-test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.</p>
+</li>
+</ol>
+<p>We hope to release Blech with modules before the end of the year. Stay tuned.</p>
+<h2 id="references">References</h2>
+<p>[1] <a name="ModularProgramming"><a href="https://en.wikipedia.org/wiki/Modular_programming" target="_blank">Modular Programming</a>
+, en.wikipedia.org</a></p>
+<p>[2] <a name=LargePrograms> <a href="https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615" target="_blank">How to write large programs</a>
+, Oleg Alexander </a></p>
+<p>[3] <a name=WhiteBoxTesting> <a href="https://en.wikipedia.org/wiki/White-box_testing" target="_blank">Whitebox Testing</a>
+, en.wikipedia.org </a></p>
+<!-- # Relevant links
+
+[C++ Modules Might Be Dead-on-Arrival](https://vector-of-bool.github.io/2019/01/27/modules-doa.html)
+[C++20: The advantages of modules](https://www.modernescpp.com/index.php/cpp20-modules)
+[Low Coupling, High Cohesion](https://medium.com/clarityhub/low-coupling-high-cohesion-3610e35ac4a6)
+[How To Write Large Programs](https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615)
+# Steinbruch
+
+
+> Often modules form a directed acyclic graph (DAG); in this case a cyclic dependency between modules is seen as indicating that these should be a single module. In the case where modules do form a DAG they can be arranged as a hierarchy, where the lowest-level modules are independent, depending on no other modules, and higher-level modules depend on lower-level ones. A particular program or library is a top-level module of its own hierarchy, but can in turn be seen as a lower-level module of a higher-level program, library, or system. 
+
+```blech
+module exposes initialise, push, average
+
+const Size: nat8 = 10
+
+struct RingBuffer
+    var buffer: [Size]nat32
+    var nextIndex: nat8
+    var count: nat8
+end
+
+function initialise () returns RingBuffer
+    return { nextIndex = 0, count = 0 }
+end
+
+function push (value: nat32) (rb: RingBuffer)
+    rb.buffer[rb.nextIndex] = value
+    rb.nextIndex = rb.nextIndex + 1
+    if rb.count = Size then // ringbuffer ist completely filled
+        rb.nextIndex = rb.nextIndex % Size
+    else
+        rb.count = rb.count + 1
+    end
+end
+
+function average (rb: RingBuffer) returns nat32
+    var idx: nat8 = 0
+    var avg: nat32 = 0
+    while idx < rb.count do
+        avg = avg + rb.buffer[idx]
+    end
+    return avg / rb.count
+end
+```
+
+```blech
+signature
+
+type RingBuffer
+
+function initialise () returns RingBuffer
+function push (value: nat32) (rb: RingBuffer)
+function average (rb: RingBuffer) returns nat32
+```
+
+
+```blech
+import rb "ringbuffer"
+
+module exposes SlidingAverage 
+
+activity SlidingAverage (value: nat32) (average: nat32)
+    var buf: rb.RingBuffer = rb.initialise() 
+    repeat
+        rb.push(value)(buf)
+        average = rb.average(buf)
+        await true
+    end
+end
+```
+
+``` blech
+signature
+
+activity SlidingAverage (value: nat32) (average: nat32)
+```
+
+```blech
+import sa "slidingaverage"
+
+@[EntryPoint]
+activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
+    run sa.SlidingAverage(sensor)(sensorAverage)    
+end
+```
+
+
+Bad design.
+
+``` blech
+import rb "ringbuffer"
+
+module exposes SlidingAverage 
+
+activity SlidingAverage (value: nat32) 
+                        (ringbuffer: rb.RingBuffer, average: nat32)
+    repeat
+        rb.push(value)(ringBuffer)
+        average = rb.average(ringBuffer)
+        await true
+    end
+end
+```
+
+``` blech
+import rb "ringbuffer"
+
+signature
+
+activity SlidingAverage (value: nat32) 
+                        (ringbuffer: rb.RingBuffer, average: nat32)
+```
+
+```blech
+import r "ringbuffer"
+import s "slidingaverage"
+
+@[EntryPoint]
+activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
+    var ringBuffer: r.RingBuffer = r.initialise()
+    run s.SlidingAverage(sensor)(ringBuffer, sensorAverage)    
+end
+```
+
+
+
+### Using internal import to access internal details.
+
+A module that uses an `internal import` becomes itself an `internal module` if it leaks details of the `internal import` in its interface. 
+Assume the following module in file `countobserver.blc`-
+``` blech
+internal import rb "ringbuffer"
+
+internal module exposes MaxCount, count
+
+const MaxCount: nat8 = rb.Size
+
+function count (buf: rb.RingBuffer) returns nat8
+    return buf.count
+end
+```
+
+It is a compiler error not to classify the module as `internal`.
+
+It is also not possible to create a module interface that is independent of the module implementation file  `ringbuffer.blc`.
+Compilation completely relies on implementation files.
+Therefore we never create the following a signature file.
+
+``` blech
+internal import rb "ringbuffer"
+
+signature
+const MaxCount: nat8 = rb.Size
+function count (buf: rb.RingBuffer) returns nat8
+```
+
+On the other hand, we can classify a module as `internal` to prevent exposing it in a package.
+This means internal modules are hidden inside a package, because they do not generate a signature.
+An `internal import` or the import of an `internal module` always needs the source code of the module implementation file.
+
+In order to create a signature for a module that uses an `internal import` or imports an `internal module`, the details of those imports must not leak through its interface.
+
+``` blech
+import rb "ringbuffer"
+
+module exposes ObserveFilledBuffer
+
+const MaxCount: nat8 = rb.Size
+
+function count (buf: rb.RingBuffer) returns nat8
+    return buf.count
+end
+
+activity ObserveFilledBuffer (value: nat32) (filled: bool)
+    var buf: rb.RingBuffer = rb.initialise()
+    repeat
+        rb.push(value)(buf)
+        filled = count(buf) == MaxCount
+        await true
+    end
+end
+```
+
+``` blech
+signature
+activity ObserveFilledBuffer (value: nat32) (filled: bool)
+```
+
+ -->
+
+	
+
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/blog/2020/08/12/push-button-handling/" class="btn btn-primary "><span class="mr-1">←</span> Previous</a>
+  </li>
+    <a  class="btn btn-primary  disabled">Next <span class="ml-1">→</span></a>
+  </li>
+</ul>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      
+
+
+<div class="analytics-opt-in">
+    <div class="text">
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="/about/">Find out more.</a>
+        </p>
+    </div>  
+    <div class="buttons">
+        
+        <a class="ok btn-sm btn-primary" onclick="optIn()">Opt-in</a>
+        <a class="close" onclick="closeNotice()">&times</a>
+    </div>
+</div>
+
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="The Blech mailing list" aria-label="The Blech mailing list">
+    <a class="text-white" target="_blank" href="https://groups.google.com/d/forum/blech-lang">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter @BlechLanguage" aria-label="Twitter @BlechLanguage">
+    <a class="text-white" target="_blank" href="https://twitter.com/BlechLanguage">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Documentation on GitHub" aria-label="Documentation on GitHub">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-doc">
+      <i class="fas fa-book"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech users</h6>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech compiler on Github" aria-label="Blech compiler on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Blech tools on Github" aria-label="Blech tools on Github">
+    <a class="text-white" target="_blank" href="https://github.com/boschresearch/blech-tools">
+      <i class="fas fa-tools"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Collaborate on Slack" aria-label="Collaborate on Slack">
+    <a class="text-white" target="_blank" href="https://join.slack.com/t/blech-lang/shared_invite/enQtODkyMDg4MDQ2Mjc2LWZjZWI1MmE2NTNhOGU0ZTVmMGEzMzY1ODlmNzBlMDFhMTIwMDRlZDA1MmU2NjY2OTFlZTA1NWIwMzU3NThkY2I">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+        <h6 class="text-white">Blech developers</h6>
+      </div>
+      
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2019-2020 The Blech contributors</small>
+        
+        <small class="ml-1"><a href="/about/privacy-policy/" style="color: skyblue" target="_blank">Privacy Policy</a></small>
+        
+          <p class="mt-2"><a href="/about/corporate-information/" style="color: skyblue">Corporate information</a></p>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.a32adfb87bac1df43460a53743ce4dfe0b7a43e336ca93eba6ddf692c877ce7c.js" integrity="sha256-oyrfuHusHfQ0YKU3Q85N/gt6Q&#43;M2ypPrpt32ksh3znw=" crossorigin="anonymous"></script>
+
+
+
+
+  </body>
+</html>

@@ -14,6 +14,621 @@
     
     
     <item>
+      <title>Blog: A module system for Blech</title>
+      <link>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</link>
+      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
+With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
+This is difficult and error prone. 
+As a consequence today&amp;rsquo;s systems are more monolithic than modular.&lt;/p&gt;
+&lt;p&gt;Blech&amp;rsquo;s synchronous paradigm together with the upcoming module system enables and supports modular programming.
+It has the following properties:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Module implementations encapsulate code.&lt;/li&gt;
+&lt;li&gt;Modules are namespaces for code entities.&lt;/li&gt;
+&lt;li&gt;Module interfaces are automatically generated from implementations and their import/export declarations.&lt;/li&gt;
+&lt;li&gt;Module interfaces hide implementation details.&lt;/li&gt;
+&lt;li&gt;The import hierarchy is always a directed acylic graph, supporting a layered modular software structure.&lt;/li&gt;
+&lt;li&gt;Every layer is separately testable and reusable.&lt;/li&gt;
+&lt;li&gt;The compiler recursively compiles programs and modules along the dependency hierarchy.&lt;/li&gt;
+&lt;li&gt;Optionally importing all implementation details allows for white-box testing.&lt;/li&gt;
+&lt;li&gt;Modules can be packaged to libraries - called &lt;em&gt;boxes&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Boxes are are namespaces for modules.&lt;/li&gt;
+&lt;li&gt;Boxes can hide internal implementation modules.&lt;/li&gt;
+&lt;li&gt;The syntax for modules is very light-weight.&lt;/li&gt;
+&lt;li&gt;Reasoning about the modular structure is easy.&lt;/li&gt;
+&lt;li&gt;Modules and boxes map to files and directories.&lt;/li&gt;
+&lt;li&gt;All static analysis is designed to work with separate compilation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The details follow now.&lt;/p&gt;
+&lt;p&gt;In order to motivate the design of the Blech module system, we will refer to the wikipedia article on &lt;a href=&#34;https://en.wikipedia.org/wiki/Modular_programming&#34; target=&#34;_blank&#34;&gt;Modular Programming&lt;/a&gt;
+ &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+ and a blog post on &lt;a href=&#34;https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615&#34; target=&#34;_blank&#34;&gt;How to write Large Programs&lt;/a&gt;
+ &lt;a href=&#34;#LargePrograms&#34;&gt;[2]&lt;/a&gt;
+ .&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s start with the definition of modular programming:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains [&amp;hellip;] only one aspect of the desired functionality. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Blech supports this design technique by grouping code into modules.&lt;/p&gt;
+&lt;h2 id=&#34;module-implementation&#34;&gt;Module implementation&lt;/h2&gt;
+&lt;p&gt;To keep things simple, every Blech file can be compiled separately and is either a program or a module.
+A module file groups closely related Blech entities - constants, types, functions, activities, etc. - into a compilation unit, that can be used (imported) by other modules or programs.
+The keyword &lt;code&gt;module&lt;/code&gt; classifies the content of a Blech file as a module.
+Different to modules, a program file requires an &lt;code&gt;@[EntryPoint]&lt;/code&gt; activity which serves as the main activity of a Blech program. 
+A program file cannot be imported by other modules or programs.&lt;/p&gt;
+&lt;p&gt;Assume the following module implementation in file &lt;code&gt;ringbuffer.blc&lt;/code&gt;.
+In order to make an entity accessible it needs to be exposed.
+Here, functions &lt;code&gt;initialise&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt;, and &lt;code&gt;average&lt;/code&gt; are exposed for usage, in any importing module or program.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes initialise, push, average
+
+const Size: nat8 = 10
+
+struct RingBuffer
+    var buffer: [Size]nat32
+    var nextIndex: nat8
+    var count: nat8
+end
+
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+    return { nextIndex = 0, count = 0 }
+end
+
+/// pushes a new value to the ring buffer
+/// displaces the &amp;#34;oldest&amp;#34; value if the ring buffer is full
+function push (value: nat32) (rb: RingBuffer)
+    rb.buffer[rb.nextIndex] = value
+    rb.nextIndex = rb.nextIndex + 1
+    if rb.count = Size then // ringbuffer ist completely filled
+        rb.nextIndex = rb.nextIndex % Size
+    else
+        rb.count = rb.count + 1
+    end
+end
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+    var idx: nat8 = 0
+    var avg: nat32 = 0
+    while idx &amp;lt; rb.count do
+        avg = avg + rb.buffer[idx]
+    end
+    return avg / rb.count
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;module-interface&#34;&gt;Module interface&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. The implementation contains the working code that corresponds to the elements declared in the interface. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A module interface in Blech is called a &lt;code&gt;signature&lt;/code&gt;.
+The signature is generated by the compiler from the module implementation and the &lt;code&gt;exposes&lt;/code&gt; declaration.
+A Blech programmer never writes a signature file.
+After compilation of file &lt;code&gt;ringbuffer.blc&lt;/code&gt; you will find the following module interface in file &lt;code&gt;ringbuffer.blh&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+
+type RingBuffer
+
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+
+/// pushes a new value to the ring buffer
+/// replaces the &amp;#34;oldest&amp;#34; value if the ring buffer is completely filled
+function push (value: nat32) (rb: RingBuffer)
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The exposed functions additionally need the type &lt;code&gt;RingBuffer&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Since &lt;code&gt;struct RingBuffer&lt;/code&gt; is not exposed in the module it is made available as an opaque &lt;code&gt;type RingBuffer&lt;/code&gt; in the signature.
+While the implementation remains hidden, the opaque type can be used to define variables and assign values of this type.
+This allows to change the internal representation, while any code the uses the module remains unchanged. 
+Opaque types are sometimes also called abstract types, and are a very simple form of the theoretical concept of existential types.&lt;/p&gt;
+&lt;p&gt;Signatures carry all information necessary to compile any code that uses this module. 
+This enables to package Blech modules into libraries. 
+There is no need to deliver module implementations.
+It is enough to deliver compiled libraries with:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;signatures, .h- and .c-files, using the Blech compiler or&lt;/li&gt;
+&lt;li&gt;signatures, .h-files and target-specific object files, additionally using the target&amp;rsquo;s C compiler.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;using-modules&#34;&gt;Using modules&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;When creating a modular system, instead of creating a monolithic application (where the smallest component is the whole), several smaller modules are written separately so when they are composed together, they construct the executable application program. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In order to use a module it gets imported by another module or program.
+Assume the following use of the &lt;code&gt;ringbuffer&lt;/code&gt; module from a module implementation in file &lt;code&gt;slidingaverage.blc&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
+
+module exposes SlidingAverage 
+
+param Threshold: nat32 = 10000 // Application parameter, can be modified in the binary 
+
+/// Calculates the average of the latest values in every tick
+/// Values outside a fixed threshold are ignored.
+activity SlidingAverage (value: nat32) (average: nat32)
+    var buf: rb.RingBuffer = rb.initialise() 
+    repeat
+        if value &amp;lt;= Threshold then
+            rb.push(value)(buf)
+        end
+        average = rb.average(buf)
+        await true
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This module imports a module from file &lt;code&gt;ringbuffer.blc&lt;/code&gt; with the local name &lt;code&gt;rb&lt;/code&gt;.
+It implements and exposes a single activity &lt;code&gt;SlidingAverage&lt;/code&gt;, with a local variable of type &lt;code&gt;rb.RingBuffer&lt;/code&gt;.
+The module completely hides its internal implementation, which uses the abstract type &lt;code&gt;RingBuffer&lt;/code&gt; and functions &lt;code&gt;initialise&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt; and &lt;code&gt;average&lt;/code&gt; from module &lt;code&gt;rb&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The generated signature in file &lt;code&gt;slidingaverage.blh&lt;/code&gt; is very simple. 
+The implementations details are completely hidden.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+
+/// Calculates the average of the latest values in every tick
+activity SlidingAverage (value: nat32) (average: nat32)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using this module in a Blech program file &lt;code&gt;main.blc&lt;/code&gt; is straight forward.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import sa &amp;#34;slidingaverage&amp;#34;
+
+@[EntryPoint]
+activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
+    run sa.SlidingAverage(sensor)(sensorAverage)    
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;compiling-a-program&#34;&gt;Compiling a program&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Often modules form a directed acyclic graph (DAG); in this case a cyclic dependency between modules is seen as indicating that these should be a single module. In the case where modules do form a DAG they can be arranged as a hierarchy, where the lowest-level modules are independent, depending on no other modules, and higher-level modules depend on lower-level ones. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;No dependency cycles between modules&lt;/em&gt; is an important rule for a good system design:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This design rule will prevent your code from turning into a big ball of mud. 
+[&amp;hellip;] Dependency cycles are bad because they increase coupling [&amp;hellip;] and [&amp;hellip;] can’t be tested in isolation. &lt;a href=&#34;#LargePrograms&#34;&gt;[2]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In Blech, programs as top-level compilation units and imported modules always form a directed acyclic graph.
+This enables automatic dependency management in the compiler.&lt;/p&gt;
+&lt;p&gt;In the above example, the compilation of program file &lt;code&gt;main.blc&lt;/code&gt; automatically compiles imported module &lt;code&gt;slidingaverage&lt;/code&gt; which in turn compiles imported module &lt;code&gt;ringbuffer&lt;/code&gt;.
+Any cycles in the import dependencies will be flagged as an error.&lt;/p&gt;
+&lt;p&gt;In general the compilation of any program and any module triggers the compilation of imported modules, if necessary.
+A layered and cylce-free module hierarchy is always guaranteed.&lt;/p&gt;
+&lt;h2 id=&#34;testing-a-module&#34;&gt;Testing a module&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). &lt;a href=&#34;#WhiteBoxTesting&#34;&gt;[3]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword &lt;code&gt;internal&lt;/code&gt;.
+An &lt;code&gt;internal import&lt;/code&gt; makes all elements in a module detectable - nothing is hidden.&lt;/p&gt;
+&lt;p&gt;In the following example, it is not enough to use the signature &lt;code&gt;ringbuffer.blh&lt;/code&gt; to compile the white-box test program.
+In fact the compiler needs the source code of the module implementation &lt;code&gt;ringbuffer.blc&lt;/code&gt; in order to detect the hidden implementation details.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import n8 &amp;#34;box:base/nat8&amp;#34;  // base library for nat8-related stuff
+
+internal import rb &amp;#34;ringbuffer&amp;#34;
+
+@[EntryPoint]
+activity TestPush ()
+    var buf: rb.RingBuffer = rb.initialise()
+    var i: nat8 = 0
+    repeat
+        assert buf.nextIndex &amp;lt; rb.Size
+        assert buf.nextIndex == i % rb.Size
+        assert buf.count &amp;gt;= 0 
+        assert buf.count &amp;lt;= rb.Size
+        
+        rb.push(42)(buf) // the value is irrelevant
+        i = i + 1
+        
+        if i &amp;lt; rb.Size then
+            assert buf.count == i
+        else
+            assert buf.count == rb.Size
+        end
+        await true
+    until i == n8.Max end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.&lt;/p&gt;
+&lt;h2 id=&#34;packaging-modules-into-a-library&#34;&gt;Packaging modules into a library&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A particular library is a [&amp;hellip;] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [&amp;hellip;] to be used by a higher-level program, library, or system. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In Blech we call a library a &lt;em&gt;Blech box&lt;/em&gt; or a &lt;em&gt;box&lt;/em&gt; for short. 
+A box is a collection of modules and programs.
+Typically some modules of a box are supposed to be used from those higher levels, while others remain internally hidden and only serve implementation purposes.&lt;/p&gt;
+&lt;p&gt;By default every module in a box can be imported from a higher-level program or module.
+In order to hide a module in a box it can be declared as an &lt;code&gt;internal module&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In our running example, we could decide to make the module &lt;code&gt;ringbuffer&lt;/code&gt; an internal module.
+This can be done by declaring the module as &lt;code&gt;internal module&lt;/code&gt; - the rest remains unchanged.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internal module exposes initialise, push, average
+
+const Size ...
+struct RingBuffer  ...
+function initialise () returns RingBuffer ...
+function push (value: nat32) (rb: RingBuffer) ...
+function average (rb: RingBuffer) returns nat32 ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The signature becomes &lt;code&gt;internal&lt;/code&gt; as well.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internal signature
+
+type RingBuffer
+function initialise () returns RingBuffer
+function push (value: nat32) (rb: RingBuffer)
+function average (rb: RingBuffer) returns nat32
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If we package this module together with module &lt;code&gt;slidingaverage&lt;/code&gt; from above into a box, 
+only the signature for &lt;code&gt;slidingaverage&lt;/code&gt; should be detectable, the signatures of internal modules are hidden.&lt;/p&gt;
+&lt;p&gt;In order to write a non-internal module that imports an &lt;code&gt;internal module&lt;/code&gt;, the details of those imports must not leak through its interface.
+For example, the following module &lt;code&gt;ringbufferaverage&lt;/code&gt; implicitly exposes the opaque type &lt;code&gt;RingBuffer&lt;/code&gt; from the imported internal module &lt;code&gt;ringbuffer&lt;/code&gt;.
+The internal implementation leaks through its interface and therefore the module becomes itself an &lt;code&gt;internal module&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
+
+internal module exposes RingBufferAverage
+
+activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
+    repeat
+        average = rb.average(buf)
+        await true
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This means, module &lt;code&gt;ringbufferaverage&lt;/code&gt; is not accessible outside of its box.
+The compiler checks this, and it is an error to omit the the classification &lt;code&gt;internal&lt;/code&gt; for the module.&lt;/p&gt;
+&lt;p&gt;The signature of module &lt;code&gt;ringbufferaverage&lt;/code&gt; looks as follows.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
+
+internal signature
+
+activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For pragmatic reasons it might be necessary to circumvent the black-box interface of a module and use a white-box import instead.
+This can only be done within the same box, since it requires the source of the module implementation.
+As an example, we would like to use &lt;code&gt;param Threshold&lt;/code&gt; from module &lt;code&gt;slidingaverage&lt;/code&gt; - which is not exposed - in a new module &lt;code&gt;slidingaveragewithreset&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internal import sa &amp;#34;slidingaverage&amp;#34;
+
+module exposes SlidingAverageWithReset
+
+activity SlidingAverageWithReset (sensor: nat32) (sensorAverage: nat32)
+    when sensor &amp;gt; sa.Treshold reset
+        run sa.SlidingAverage(sensor)(sensorAverage)
+    end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Since the interface does not leak any implementation details from the white-box import it can be made detectable (non-internal) in the box.&lt;/p&gt;
+&lt;p&gt;There are two simple rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a module that leaks details of an imported &lt;code&gt;internal module&lt;/code&gt; in its signature becomes an &lt;code&gt;internal module&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;a module that leaks details of an &lt;code&gt;internal import&lt;/code&gt; in its signature becomes an &lt;code&gt;internal module&lt;/code&gt;, too.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;importing-inside-and-outside-a-box&#34;&gt;Importing inside and outside a box&lt;/h2&gt;
+&lt;p&gt;In order to distinguish between imports inside a box and imports from other boxes, Blech uses an URL-like import path.&lt;/p&gt;
+&lt;p&gt;Imports inside a box just adress the imported file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;localmodule&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The compiler searches for file &lt;code&gt;localmodule.blc&lt;/code&gt; to compile it, or uses &lt;code&gt;localmodule.blh&lt;/code&gt; if nothing has changed and &lt;code&gt;localmodule.blc&lt;/code&gt; has been compiled before.
+Note, that a recompilation of &lt;code&gt;localmodule.blc&lt;/code&gt; is also necessary, if any of &lt;code&gt;localmodule&lt;/code&gt;&#39;s imports have changed.&lt;/p&gt;
+&lt;p&gt;In general, the imported file name for an import inside a box, can be adressed&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;relatively to the importing module, or&lt;/li&gt;
+&lt;li&gt;absolutely from the top of the box.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here are some examples for an import inside a box:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import ma &amp;#34;../module_A&amp;#34;            // relative path, one directory up
+import mb &amp;#34;./sub_dir/module_B&amp;#34;     // relative path one directory down
+import mb2 &amp;#34;sub_dir/module_B&amp;#34;      // as before with a different local name 
+import mc  &amp;#34;/top_level/module_C&amp;#34;   // absolute path inside the box
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.
+The import declaration has the following form&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;box:library/module&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This tells the compiler to import a module &lt;code&gt;module&lt;/code&gt; from box &lt;code&gt;box:library&lt;/code&gt; and name it &lt;code&gt;m&lt;/code&gt; locally. 
+The compiler searches for the signature file &lt;code&gt;module.blh&lt;/code&gt; in the box named &lt;code&gt;library&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When importing from another box, the compiler prevents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the import of an &lt;code&gt;internal module&lt;/code&gt; from the box, and&lt;/li&gt;
+&lt;li&gt;the &lt;code&gt;internal import&lt;/code&gt; of a detectable module from the box.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Such imports are flagged as an error, even if module implementations and &lt;code&gt;internal signature&lt;/code&gt;s are part of the box.
+This is helpful, when developing different boxes at the same time.
+The detectability between boxes is the same during development and after deployment.&lt;/p&gt;
+&lt;p&gt;Since &lt;code&gt;internal imports&lt;/code&gt; from other boxes are not allowed, there is no need to deliver the module&amp;rsquo;s implementation file &lt;code&gt;module.blc&lt;/code&gt; with the box &lt;code&gt;library&lt;/code&gt;.
+Since imports of &lt;code&gt;internal modules&lt;/code&gt; of a box are also forbidden, there is also no need to deliver &lt;code&gt;internal signature&lt;/code&gt;s.&lt;/p&gt;
+&lt;p&gt;This brings us to the last question: How are Blech files organized on the file system?&lt;/p&gt;
+&lt;h2 id=&#34;organizing-blech-files&#34;&gt;Organizing Blech files&lt;/h2&gt;
+&lt;p&gt;Blech programs, libraries and systems are organized in boxes.&lt;/p&gt;
+&lt;p&gt;When developing a box, the program and module implementation files are placed beneath a top-level directory - the Blech project.
+The top-level directory can have sub-directories that contain further implementation files.
+The file structure corresponds to the import paths used in the import declaration.&lt;/p&gt;
+&lt;p&gt;Note, that the choice of directory and file names is restricted for simpler name mangling. 
+The compiler checks this.&lt;/p&gt;
+&lt;p&gt;The file structure of the Blech source code translates to the file structure of compilation artefacts: signatures, .h-files and .c-files.
+It is possible to work on more than one box at a time, you just need 2 or more Blech projects in independent directories.&lt;/p&gt;
+&lt;h2 id=&#34;tricks-of-trade&#34;&gt;Tricks of trade&lt;/h2&gt;
+&lt;p&gt;As you might have noticed, every imported entity is qualified by the local module name in the examples.
+Sometimes you don&amp;rsquo;t want qualification and address an entity directly. 
+The &lt;code&gt;import&lt;/code&gt; declaration optionally &lt;code&gt;exposes&lt;/code&gt; selected entities for this purpose.&lt;/p&gt;
+&lt;p&gt;In rare cases, you might want to &lt;code&gt;expose&lt;/code&gt; everything in a module, or import everything without qualification.&lt;/p&gt;
+&lt;p&gt;There are shortcuts for these purposes:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Make selected entities directly accessible&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes initialise, push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Make all entities directly accessible&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;Create an import dependency but do not use it right now in the current status of development&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; // no name for qualified access
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;Omit the local module name&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; exposes RingBuffer, initialise, push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;Expose everything in a module&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes ...  // no information hiding
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use these &amp;ldquo;tricks of trade&amp;rdquo; wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
+If two imports expose the same name, the second will create an error because it shadows the first.&lt;/p&gt;
+&lt;h2 id=&#34;modules-are-not-generic&#34;&gt;Modules are not generic&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Modules lie on a spectrum from high-level (specific) to low-level (generic). The highest level module contains the entry point of the program, whereas the lowest level modules are usually generic libraries. [&amp;hellip;] Stability increases at lower levels. [&amp;hellip;] Reusability increases at lower levels. Low-level modules should be generic libraries so that they can be reused in other projects. &lt;a href=&#34;#LargePrograms&#34;&gt;[2]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Of course it is a natural wish, to have the &lt;code&gt;ringbuffer&lt;/code&gt; module parameterized by its size (here: &lt;code&gt;const Size&lt;/code&gt;) and its element type (here: &lt;code&gt;nat32&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;But, in Blech we keep the module system simple. 
+Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
+Then, modules also might contain generic types and generic interface implementations.&lt;/p&gt;
+&lt;p&gt;The concept of type-safe generics is in a very early stage, and different to other languages follows our embedded requirements.
+It will definitely need some more Blech releases before we can adress generics.&lt;/p&gt;
+&lt;h2 id=&#34;better-software-through-modules&#34;&gt;Better software through modules&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[&amp;hellip;] Modular designed systems, if built correctly, [are] far more reusable than a traditional monolithic design, since all (or many) of these modules may then be reused (without change) in other projects. This also facilitates the &amp;ldquo;breaking down&amp;rdquo; of projects into several smaller projects. Theoretically, a modularized software project will be more easily assembled by large teams, since no team members are creating the whole system, or even need to know about the system as a whole. They can focus just on the assigned smaller task (this, it is claimed, counters the key assumption of The Mythical Man Month, making it actually possible to add more developers to a late software project without making it later still). &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The Blech module system supports better software design and improved software qualities:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;It allows to organize code by using different files for different aspects without reverting to the archaic method of &lt;code&gt;include&lt;/code&gt;d header files.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first synchronous language to support separate compilation for causality analysis.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It allows to package compilation units to libraries - boxes of modules and programs.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It is designed with a minimal set of syntactic overhead. All import and export information is visible in the head of a module implementation. External visibility is not scattered all over the file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It prevents the pollution of a single global name spaces. Actually there is no global name space that would force the programmer to carefully choose names that are visible everywhere. Modules are namespaces for types and code, boxes are namespaces for modules.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;There is no need to separate source code into an interface and an implementation part. The source code of module implementations contains all necessary information, interfaces are generated by the compiler.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Modules simplify the design of components that are self-contained: independent, and with a single, well-defined purpose. A major enabler to do this are Blech&amp;rsquo;s &lt;code&gt;activity&lt;/code&gt;s which hold state between time steps locally instead of using global variables. The famous qualities &lt;em&gt;high cohesion&lt;/em&gt; and &lt;em&gt;low coupling&lt;/em&gt; are actively supported by the language.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Module interfaces support API-orientation. Modules can be developed, tested and even verified in parallel. Implementation changes are easily possible if interfaces are kept small. Especially opaque types enable this.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The compiler enforces a directed acyclic dependency graph. This supports the design of layered architecture without dependency cycles between modules and boxes. Upcalls can be realized with callbacks without introducing cyclic dependencies. Unfortunately, you will have to wait for a later Blech release to support callback references.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Because of the directed acyclic graph structure, modules can be &amp;ldquo;cut off&amp;rdquo; and tested in isolation. To test a given module you only need all of its &amp;ldquo;upstream&amp;rdquo; dependencies.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The module dependency graph can easily be visualized and is independent from the code organisation on the file system.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The ability to whitebox-test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We hope to release Blech with modules before the end of the year. Stay tuned.&lt;/p&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;p&gt;[1] &lt;a name=&#34;ModularProgramming&#34;&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Modular_programming&#34; target=&#34;_blank&#34;&gt;Modular Programming&lt;/a&gt;
+, en.wikipedia.org&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[2] &lt;a name=LargePrograms&gt; &lt;a href=&#34;https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615&#34; target=&#34;_blank&#34;&gt;How to write large programs&lt;/a&gt;
+, Oleg Alexander &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[3] &lt;a name=WhiteBoxTesting&gt; &lt;a href=&#34;https://en.wikipedia.org/wiki/White-box_testing&#34; target=&#34;_blank&#34;&gt;Whitebox Testing&lt;/a&gt;
+, en.wikipedia.org &lt;/a&gt;&lt;/p&gt;
+&lt;!-- # Relevant links
+
+[C++ Modules Might Be Dead-on-Arrival](https://vector-of-bool.github.io/2019/01/27/modules-doa.html)
+[C++20: The advantages of modules](https://www.modernescpp.com/index.php/cpp20-modules)
+[Low Coupling, High Cohesion](https://medium.com/clarityhub/low-coupling-high-cohesion-3610e35ac4a6)
+[How To Write Large Programs](https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615)
+# Steinbruch
+
+
+&gt; Often modules form a directed acyclic graph (DAG); in this case a cyclic dependency between modules is seen as indicating that these should be a single module. In the case where modules do form a DAG they can be arranged as a hierarchy, where the lowest-level modules are independent, depending on no other modules, and higher-level modules depend on lower-level ones. A particular program or library is a top-level module of its own hierarchy, but can in turn be seen as a lower-level module of a higher-level program, library, or system. 
+
+```blech
+module exposes initialise, push, average
+
+const Size: nat8 = 10
+
+struct RingBuffer
+    var buffer: [Size]nat32
+    var nextIndex: nat8
+    var count: nat8
+end
+
+function initialise () returns RingBuffer
+    return { nextIndex = 0, count = 0 }
+end
+
+function push (value: nat32) (rb: RingBuffer)
+    rb.buffer[rb.nextIndex] = value
+    rb.nextIndex = rb.nextIndex + 1
+    if rb.count = Size then // ringbuffer ist completely filled
+        rb.nextIndex = rb.nextIndex % Size
+    else
+        rb.count = rb.count + 1
+    end
+end
+
+function average (rb: RingBuffer) returns nat32
+    var idx: nat8 = 0
+    var avg: nat32 = 0
+    while idx &lt; rb.count do
+        avg = avg + rb.buffer[idx]
+    end
+    return avg / rb.count
+end
+```
+
+```blech
+signature
+
+type RingBuffer
+
+function initialise () returns RingBuffer
+function push (value: nat32) (rb: RingBuffer)
+function average (rb: RingBuffer) returns nat32
+```
+
+
+```blech
+import rb &#34;ringbuffer&#34;
+
+module exposes SlidingAverage 
+
+activity SlidingAverage (value: nat32) (average: nat32)
+    var buf: rb.RingBuffer = rb.initialise() 
+    repeat
+        rb.push(value)(buf)
+        average = rb.average(buf)
+        await true
+    end
+end
+```
+
+``` blech
+signature
+
+activity SlidingAverage (value: nat32) (average: nat32)
+```
+
+```blech
+import sa &#34;slidingaverage&#34;
+
+@[EntryPoint]
+activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
+    run sa.SlidingAverage(sensor)(sensorAverage)    
+end
+```
+
+
+Bad design.
+
+``` blech
+import rb &#34;ringbuffer&#34;
+
+module exposes SlidingAverage 
+
+activity SlidingAverage (value: nat32) 
+                        (ringbuffer: rb.RingBuffer, average: nat32)
+    repeat
+        rb.push(value)(ringBuffer)
+        average = rb.average(ringBuffer)
+        await true
+    end
+end
+```
+
+``` blech
+import rb &#34;ringbuffer&#34;
+
+signature
+
+activity SlidingAverage (value: nat32) 
+                        (ringbuffer: rb.RingBuffer, average: nat32)
+```
+
+```blech
+import r &#34;ringbuffer&#34;
+import s &#34;slidingaverage&#34;
+
+@[EntryPoint]
+activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
+    var ringBuffer: r.RingBuffer = r.initialise()
+    run s.SlidingAverage(sensor)(ringBuffer, sensorAverage)    
+end
+```
+
+
+
+### Using internal import to access internal details.
+
+A module that uses an `internal import` becomes itself an `internal module` if it leaks details of the `internal import` in its interface. 
+Assume the following module in file `countobserver.blc`-
+``` blech
+internal import rb &#34;ringbuffer&#34;
+
+internal module exposes MaxCount, count
+
+const MaxCount: nat8 = rb.Size
+
+function count (buf: rb.RingBuffer) returns nat8
+    return buf.count
+end
+```
+
+It is a compiler error not to classify the module as `internal`.
+
+It is also not possible to create a module interface that is independent of the module implementation file  `ringbuffer.blc`.
+Compilation completely relies on implementation files.
+Therefore we never create the following a signature file.
+
+``` blech
+internal import rb &#34;ringbuffer&#34;
+
+signature
+const MaxCount: nat8 = rb.Size
+function count (buf: rb.RingBuffer) returns nat8
+```
+
+On the other hand, we can classify a module as `internal` to prevent exposing it in a package.
+This means internal modules are hidden inside a package, because they do not generate a signature.
+An `internal import` or the import of an `internal module` always needs the source code of the module implementation file.
+
+In order to create a signature for a module that uses an `internal import` or imports an `internal module`, the details of those imports must not leak through its interface.
+
+``` blech
+import rb &#34;ringbuffer&#34;
+
+module exposes ObserveFilledBuffer
+
+const MaxCount: nat8 = rb.Size
+
+function count (buf: rb.RingBuffer) returns nat8
+    return buf.count
+end
+
+activity ObserveFilledBuffer (value: nat32) (filled: bool)
+    var buf: rb.RingBuffer = rb.initialise()
+    repeat
+        rb.push(value)(buf)
+        filled = count(buf) == MaxCount
+        await true
+    end
+end
+```
+
+``` blech
+signature
+activity ObserveFilledBuffer (value: nat32) (filled: bool)
+```
+
+ --&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: Push button handling</title>
       <link>https://www.blech-lang.org/blog/2020/08/12/push-button-handling/</link>
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
