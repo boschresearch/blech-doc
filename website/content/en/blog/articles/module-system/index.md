@@ -10,7 +10,7 @@ author: Franz-Josef Grosch
 The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
 With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
 This is difficult and error prone. 
-As a consequence today's systems are more monolithic than modular.
+As a consequence today's systems are often more monolithic than modular.
 
 Blech's synchronous paradigm together with the upcoming module system enables and supports modular programming.
 It has the following properties: 
@@ -19,7 +19,7 @@ It has the following properties:
 - Modules are namespaces for code entities.
 - Module interfaces are automatically generated from implementations and their import/export declarations.
 - Module interfaces hide implementation details.
-- The import hierarchy is always a directed acylic graph, supporting a layered modular software structure.
+- The import hierarchy is always a directed acyclic graph, supporting a layered modular software structure.
 - Every layer is separately testable and reusable.
 - The compiler recursively compiles programs and modules along the dependency hierarchy.
 - Optionally importing all implementation details allows for white-box testing.
