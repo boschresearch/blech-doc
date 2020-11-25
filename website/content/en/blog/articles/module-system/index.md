@@ -1,7 +1,7 @@
 ---
 date: 2020-11-23
-title: "The Blech module system"
-linkTitle: "Module system"
+title: "A module system for Blech"
+linkTitle: "Modules for Blech"
 description: >
     This article motivates and explains the Blech module system
 author: Franz-Josef Grosch
