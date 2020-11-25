@@ -7,15 +7,19 @@ description: >
 author: Franz-Josef Grosch
 ---
 
-The Blech module system supports modular programming for reactive, embedded, safety-critical applications. With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. This is difficult and error prone. As a consequence today's systems are more monolithic than modular.
+The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
+With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
+This is difficult and error prone. 
+As a consequence today's systems are more monolithic than modular.
 
-Blech's synchronous paradigm together with the module system enables and supports modular programming.
+Blech's synchronous paradigm together with the upcoming module system enables and supports modular programming.
 It has the following properties: 
+
 - Module implementations encapsulate code.
 - Modules are namespaces for code entities.
 - Module interfaces are automatically generated from implementations and their import/export declarations.
 - Module interfaces hide implementation details.
-- The import hierarchy is always a directed acylic graph, leading to a layered hierarchical structure.
+- The import hierarchy is always a directed acylic graph, supporting a layered modular software structure.
 - Every layer is separately testable and reusable.
 - The compiler recursively compiles programs and modules along the dependency hierarchy.
 - Optionally importing all implementation details allows for white-box testing.
@@ -396,9 +400,11 @@ It is possible to work on more than one box at a time, you just need 2 or more B
 
 ## Tricks of trade
 
-As you might have noticed every imported entity is qualified by the local module name in the examples.
-Sometimes you don't want this.
-In rare cases, on the other hand, you might want to `expose` everything in a module.
+As you might have noticed, every imported entity is qualified by the local module name in the examples.
+Sometimes you don't want qualification and address an entity directly. 
+The `import` declaration optionally `exposes` selected entities for this purpose.
+
+In rare cases, you might want to `expose` everything in a module, or import everything without qualification.
 
 There are shortcuts for these purposes:
 
