@@ -393,7 +393,7 @@ It will definitely need some more Blech releases before we can adress generics.&
 &lt;p&gt;It allows to organize code by using different files for different aspects without reverting to the archaic method of &lt;code&gt;include&lt;/code&gt;d header files.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first synchronous language to support separate compilation for causality analysis.&lt;/p&gt;
+&lt;p&gt;Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first imperative, synchronous language to support separate compilation for causality analysis.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;It allows to package compilation units to libraries - boxes of modules and programs.&lt;/p&gt;

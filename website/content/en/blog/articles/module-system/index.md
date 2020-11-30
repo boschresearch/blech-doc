@@ -459,7 +459,7 @@ The Blech module system supports better software design and improved software qu
 
 1. It allows to organize code by using different files for different aspects without reverting to the archaic method of `include`d header files. 
 
-1. Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first synchronous language to support separate compilation for causality analysis.
+1. Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first imperative, synchronous language to support separate compilation for causality analysis.
  
 1. It allows to package compilation units to libraries - boxes of modules and programs.
 
