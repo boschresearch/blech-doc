@@ -405,33 +405,19 @@ As you might have noticed, every imported entity is qualified by the local modul
 Sometimes you don't want qualification and address an entity directly. 
 The `import` declaration optionally `exposes` selected entities for this purpose.
 
-In rare cases, you might want to `expose` everything in a module, or import everything without qualification.
-
-There are shortcuts for these purposes:
-
 1. Make selected entities directly accessible
 ```blech
 import rb "ringbuffer" exposes initialise, push
 ```
 
-2. Make all entities directly accessible
-```blech
-import rb "ringbuffer" exposes ...
-```
-
-3. Create an import dependency but do not use it right now in the current status of development
+2. Create an import dependency but do not use it right now in the current status of development
 ```blech
 import _ "ringbuffer" // no name for qualified access
 ```
 
-4. Omit the local module name
+3. Omit the local module name
 ```blech
 import _ "ringbuffer" exposes RingBuffer, initialise, push
-```
-
-5. Expose everything in a module
-```blech
-module exposes ...  // no information hiding
 ```
 
 Use these "tricks of trade" wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
@@ -482,7 +468,7 @@ The Blech module system supports better software design and improved software qu
 1. The ability to white-box test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.
 
 
-We hope to release Blech with modules before the end of the year. Stay tuned.
+We hope to release Blech with modules early next year. Stay tuned.
 
 ## References
 

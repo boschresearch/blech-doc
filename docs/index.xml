@@ -13,29 +13,6 @@
     
     
     <item>
-      <title>Blog: Global variables are bad - for more than one reason</title>
-      <link>https://www.blech-lang.org/blog/2020/12/03/global-variables-are-bad-for-more-than-one-reason/</link>
-      <pubDate>Thu, 03 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.blech-lang.org/blog/2020/12/03/global-variables-are-bad-for-more-than-one-reason/</guid>
-      <description>
-        
-        
-        &lt;h1 id=&#34;global-variables-everywhere&#34;&gt;Global variables everywhere&lt;/h1&gt;
-&lt;p&gt;Embedded calculations are usually executed in loops, which are repeated&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;periodicly after a regular time delta - a periodic timer;&lt;/li&gt;
-&lt;li&gt;sporadicly on the arrival of an event - an interrupt, a one-shot timer or an incomming message; or even&lt;/li&gt;
-&lt;li&gt;immediatly after the end of a calculation - a main loop.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Between executions, calculations need to safe their state. This is often implemented with global variables.&lt;/p&gt;
-&lt;p&gt;Communication with the environment uses inputs from sensors and interrupt service routines, and outputs to actuators and asynchronous function calls. Often input and output data are represented as global variables.&lt;/p&gt;
-&lt;p&gt;Dataflow between embedded calculations uses input and output ports. Often implementations of ports are just global variables.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Blog: A module system for Blech</title>
       <link>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</link>
       <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
@@ -369,28 +346,18 @@ It is possible to work on more than one box at a time, you just need 2 or more B
 &lt;p&gt;As you might have noticed, every imported entity is qualified by the local module name in the examples.
 Sometimes you don&amp;rsquo;t want qualification and address an entity directly. 
 The &lt;code&gt;import&lt;/code&gt; declaration optionally &lt;code&gt;exposes&lt;/code&gt; selected entities for this purpose.&lt;/p&gt;
-&lt;p&gt;In rare cases, you might want to &lt;code&gt;expose&lt;/code&gt; everything in a module, or import everything without qualification.&lt;/p&gt;
-&lt;p&gt;There are shortcuts for these purposes:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Make selected entities directly accessible&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes initialise, push
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;Make all entities directly accessible&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes ...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;Create an import dependency but do not use it right now in the current status of development&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; // no name for qualified access
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;Omit the local module name&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; exposes RingBuffer, initialise, push
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
-&lt;li&gt;Expose everything in a module&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes ...  // no information hiding
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use these &amp;ldquo;tricks of trade&amp;rdquo; wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
 If two imports expose the same name, the second will create an error because it shadows the first.&lt;/p&gt;
 &lt;h2 id=&#34;modules-are-not-generic&#34;&gt;Modules are not generic&lt;/h2&gt;
@@ -448,7 +415,7 @@ It will definitely need some more Blech releases before we can adress generics.&
 &lt;p&gt;The ability to white-box test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;We hope to release Blech with modules before the end of the year. Stay tuned.&lt;/p&gt;
+&lt;p&gt;We hope to release Blech with modules early next year. Stay tuned.&lt;/p&gt;
 &lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
 &lt;p&gt;[1] &lt;a name=&#34;ModularProgramming&#34;&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Modular_programming&#34; target=&#34;_blank&#34;&gt;Modular Programming&lt;/a&gt;
 , en.wikipedia.org&lt;/a&gt;&lt;/p&gt;
