@@ -14,6 +14,29 @@
     
     
     <item>
+      <title>Blog: Global variables are bad - for more than one reason</title>
+      <link>https://www.blech-lang.org/blog/2020/12/03/global-variables-are-bad-for-more-than-one-reason/</link>
+      <pubDate>Thu, 03 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2020/12/03/global-variables-are-bad-for-more-than-one-reason/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;global-variables-everywhere&#34;&gt;Global variables everywhere&lt;/h1&gt;
+&lt;p&gt;Embedded calculations are usually executed in loops, which are repeated&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;periodicly after a regular time delta - a periodic timer;&lt;/li&gt;
+&lt;li&gt;sporadicly on the arrival of an event - an interrupt, a one-shot timer or an incomming message; or even&lt;/li&gt;
+&lt;li&gt;immediatly after the end of a calculation - a main loop.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Between executions, calculations need to safe their state. This is often implemented with global variables.&lt;/p&gt;
+&lt;p&gt;Communication with the environment uses inputs from sensors and interrupt service routines, and outputs to actuators and asynchronous function calls. Often input and output data are represented as global variables.&lt;/p&gt;
+&lt;p&gt;Dataflow between embedded calculations uses input and output ports. Often implementations of ports are just global variables.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: A module system for Blech</title>
       <link>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</link>
       <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
