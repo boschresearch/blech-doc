@@ -10,7 +10,7 @@ author: Franz-Josef Grosch
 The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
 With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
 This is difficult and error prone. 
-As a consequence today's systems are more monolithic than modular.
+As a consequence today's systems are often more monolithic than modular.
 
 Blech's synchronous paradigm together with the upcoming module system enables and supports modular programming.
 It has the following properties: 
@@ -19,14 +19,14 @@ It has the following properties:
 - Modules are namespaces for code entities.
 - Module interfaces are automatically generated from implementations and their import/export declarations.
 - Module interfaces hide implementation details.
-- The import hierarchy is always a directed acylic graph, supporting a layered modular software structure.
+- The import hierarchy is always a directed acyclic graph, supporting a layered modular software structure.
 - Every layer is separately testable and reusable.
 - The compiler recursively compiles programs and modules along the dependency hierarchy.
 - Optionally importing all implementation details allows for white-box testing.
 - Modules can be packaged to libraries - called *boxes*.
-- Boxes are are namespaces for modules.
+- Boxes are namespaces for modules.
 - Boxes can hide internal implementation modules.
-- The syntax for modules is very light-weight.
+- The syntax for modules is light-weight.
 - Reasoning about the modular structure is easy.
 - Modules and boxes map to files and directories.
 - All static analysis is designed to work with separate compilation.
@@ -121,7 +121,7 @@ The exposed functions additionally need the type `RingBuffer`.
 Since `struct RingBuffer` is not exposed in the module it is made available as an opaque `type RingBuffer` in the signature.
 While the implementation remains hidden, the opaque type can be used to define variables and assign values of this type.
 This allows to change the internal representation, while any code the uses the module remains unchanged. 
-Opaque types are sometimes also called abstract types, and are a very simple form of the theoretical concept of existential types.
+Opaque types are sometimes also called abstract types, and are a simple form of the theoretical concept of existential types.
 
 
 Signatures carry all information necessary to compile any code that uses this module. 
@@ -164,7 +164,7 @@ This module imports a module from file `ringbuffer.blc` with the local name `rb`
 It implements and exposes a single activity `SlidingAverage`, with a local variable of type `rb.RingBuffer`.
 The module completely hides its internal implementation, which uses the abstract type `RingBuffer` and functions `initialise`, `push` and `average` from module `rb`.
 
-The generated signature in file `slidingaverage.blh` is very simple. 
+The generated signature in file `slidingaverage.blh` is simple. 
 The implementations details are completely hidden.
 
 ``` blech
@@ -206,11 +206,11 @@ A layered and cylce-free module hierarchy is always guaranteed.
 
 > A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. [[1]](#ModularProgramming)
 
-This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.
+This an advantage for loosely coupled system design. But it is a disadvantage for white-box testing.
 
 > White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). [[3]](#WhiteBoxTesting)
 
-In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword `internal`.
+In order to enable white-box testing, Blech allows to import all the implementation details of a module by using keyword `internal`.
 An `internal import` makes all elements in a module detectable - nothing is hidden.
 
 In the following example, it is not enough to use the signature `ringbuffer.blh` to compile the white-box test program.
@@ -244,7 +244,7 @@ activity TestPush ()
 end
 ```
 
-The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.
+The modules provided by a library cannot be white-box tested, because a packaged library usually does not contain module implementation files.
 
 
 ## Packaging modules into a library
@@ -405,33 +405,19 @@ As you might have noticed, every imported entity is qualified by the local modul
 Sometimes you don't want qualification and address an entity directly. 
 The `import` declaration optionally `exposes` selected entities for this purpose.
 
-In rare cases, you might want to `expose` everything in a module, or import everything without qualification.
-
-There are shortcuts for these purposes:
-
 1. Make selected entities directly accessible
 ```blech
 import rb "ringbuffer" exposes initialise, push
 ```
 
-2. Make all entities directly accessible
-```blech
-import rb "ringbuffer" exposes ...
-```
-
-3. Create an import dependency but do not use it right now in the current status of development
+2. Create an import dependency but do not use it right now in the current status of development
 ```blech
 import _ "ringbuffer" // no name for qualified access
 ```
 
-4. Omit the local module name
+3. Omit the local module name
 ```blech
 import _ "ringbuffer" exposes RingBuffer, initialise, push
-```
-
-5. Expose everything in a module
-```blech
-module exposes ...  // no information hiding
 ```
 
 Use these "tricks of trade" wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
@@ -447,7 +433,7 @@ But, in Blech we keep the module system simple.
 Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
 Then, modules also might contain generic types and generic interface implementations.
 
-The concept of type-safe generics is in a very early stage, and different to other languages follows our embedded requirements.
+The concept of type-safe generics is in an early stage, and different to other languages follows our embedded requirements.
 It will definitely need some more Blech releases before we can adress generics.
 
 
@@ -459,7 +445,7 @@ The Blech module system supports better software design and improved software qu
 
 1. It allows to organize code by using different files for different aspects without reverting to the archaic method of `include`d header files. 
 
-1. Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first synchronous language to support separate compilation for causality analysis.
+1. Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first imperative, synchronous language to support separate compilation for causality analysis.
  
 1. It allows to package compilation units to libraries - boxes of modules and programs.
 
@@ -479,10 +465,10 @@ The Blech module system supports better software design and improved software qu
 
 1. The module dependency graph can easily be visualized and is independent from the code organisation on the file system.
 
-1. The ability to whitebox-test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.
+1. The ability to white-box test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.
 
 
-We hope to release Blech with modules before the end of the year. Stay tuned.
+We hope to release Blech with modules early next year. Stay tuned.
 
 ## References
 
@@ -490,7 +476,7 @@ We hope to release Blech with modules before the end of the year. Stay tuned.
 
 [2] <a name=LargePrograms> [How to write large programs](https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615), Oleg Alexander </a>
 
-[3] <a name=WhiteBoxTesting> [Whitebox Testing](https://en.wikipedia.org/wiki/White-box_testing), en.wikipedia.org </a>
+[3] <a name=WhiteBoxTesting> [White-box Testing](https://en.wikipedia.org/wiki/White-box_testing), en.wikipedia.org </a>
 
 
 

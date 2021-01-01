@@ -25,7 +25,7 @@
         &lt;p&gt;The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
 With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
 This is difficult and error prone. 
-As a consequence today&amp;rsquo;s systems are more monolithic than modular.&lt;/p&gt;
+As a consequence today&amp;rsquo;s systems are often more monolithic than modular.&lt;/p&gt;
 &lt;p&gt;Blech&amp;rsquo;s synchronous paradigm together with the upcoming module system enables and supports modular programming.
 It has the following properties:&lt;/p&gt;
 &lt;ul&gt;
@@ -33,14 +33,14 @@ It has the following properties:&lt;/p&gt;
 &lt;li&gt;Modules are namespaces for code entities.&lt;/li&gt;
 &lt;li&gt;Module interfaces are automatically generated from implementations and their import/export declarations.&lt;/li&gt;
 &lt;li&gt;Module interfaces hide implementation details.&lt;/li&gt;
-&lt;li&gt;The import hierarchy is always a directed acylic graph, supporting a layered modular software structure.&lt;/li&gt;
+&lt;li&gt;The import hierarchy is always a directed acyclic graph, supporting a layered modular software structure.&lt;/li&gt;
 &lt;li&gt;Every layer is separately testable and reusable.&lt;/li&gt;
 &lt;li&gt;The compiler recursively compiles programs and modules along the dependency hierarchy.&lt;/li&gt;
 &lt;li&gt;Optionally importing all implementation details allows for white-box testing.&lt;/li&gt;
 &lt;li&gt;Modules can be packaged to libraries - called &lt;em&gt;boxes&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;Boxes are are namespaces for modules.&lt;/li&gt;
+&lt;li&gt;Boxes are namespaces for modules.&lt;/li&gt;
 &lt;li&gt;Boxes can hide internal implementation modules.&lt;/li&gt;
-&lt;li&gt;The syntax for modules is very light-weight.&lt;/li&gt;
+&lt;li&gt;The syntax for modules is light-weight.&lt;/li&gt;
 &lt;li&gt;Reasoning about the modular structure is easy.&lt;/li&gt;
 &lt;li&gt;Modules and boxes map to files and directories.&lt;/li&gt;
 &lt;li&gt;All static analysis is designed to work with separate compilation.&lt;/li&gt;
@@ -128,7 +128,7 @@ function average (rb: RingBuffer) returns nat32
 &lt;p&gt;Since &lt;code&gt;struct RingBuffer&lt;/code&gt; is not exposed in the module it is made available as an opaque &lt;code&gt;type RingBuffer&lt;/code&gt; in the signature.
 While the implementation remains hidden, the opaque type can be used to define variables and assign values of this type.
 This allows to change the internal representation, while any code the uses the module remains unchanged. 
-Opaque types are sometimes also called abstract types, and are a very simple form of the theoretical concept of existential types.&lt;/p&gt;
+Opaque types are sometimes also called abstract types, and are a simple form of the theoretical concept of existential types.&lt;/p&gt;
 &lt;p&gt;Signatures carry all information necessary to compile any code that uses this module. 
 This enables to package Blech modules into libraries. 
 There is no need to deliver module implementations.
@@ -165,7 +165,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This module imports a module from file &lt;code&gt;ringbuffer.blc&lt;/code&gt; with the local name &lt;code&gt;rb&lt;/code&gt;.
 It implements and exposes a single activity &lt;code&gt;SlidingAverage&lt;/code&gt;, with a local variable of type &lt;code&gt;rb.RingBuffer&lt;/code&gt;.
 The module completely hides its internal implementation, which uses the abstract type &lt;code&gt;RingBuffer&lt;/code&gt; and functions &lt;code&gt;initialise&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt; and &lt;code&gt;average&lt;/code&gt; from module &lt;code&gt;rb&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The generated signature in file &lt;code&gt;slidingaverage.blh&lt;/code&gt; is very simple. 
+&lt;p&gt;The generated signature in file &lt;code&gt;slidingaverage.blh&lt;/code&gt; is simple. 
 The implementations details are completely hidden.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
@@ -200,12 +200,12 @@ A layered and cylce-free module hierarchy is always guaranteed.&lt;/p&gt;
 &lt;p&gt;A module interface expresses the elements that are provided and required by the module. The elements defined in the interface are detectable by other modules. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
 &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;This an advantage for loosely coupled system design. But it is a disadvantage for whitebox testing.&lt;/p&gt;
+&lt;p&gt;This an advantage for loosely coupled system design. But it is a disadvantage for white-box testing.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). &lt;a href=&#34;#WhiteBoxTesting&#34;&gt;[3]&lt;/a&gt;
 &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;In order to enable whitebox testing, Blech allows to import all the implementation details of a module by using keyword &lt;code&gt;internal&lt;/code&gt;.
+&lt;p&gt;In order to enable white-box testing, Blech allows to import all the implementation details of a module by using keyword &lt;code&gt;internal&lt;/code&gt;.
 An &lt;code&gt;internal import&lt;/code&gt; makes all elements in a module detectable - nothing is hidden.&lt;/p&gt;
 &lt;p&gt;In the following example, it is not enough to use the signature &lt;code&gt;ringbuffer.blh&lt;/code&gt; to compile the white-box test program.
 In fact the compiler needs the source code of the module implementation &lt;code&gt;ringbuffer.blc&lt;/code&gt; in order to detect the hidden implementation details.&lt;/p&gt;
@@ -234,7 +234,7 @@ activity TestPush ()
         await true
     until i == n8.Max end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The modules provided by a library cannot be whitebox-tested, because a packaged library usually does not contain module implementation files.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The modules provided by a library cannot be white-box tested, because a packaged library usually does not contain module implementation files.&lt;/p&gt;
 &lt;h2 id=&#34;packaging-modules-into-a-library&#34;&gt;Packaging modules into a library&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A particular library is a [&amp;hellip;] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [&amp;hellip;] to be used by a higher-level program, library, or system. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
@@ -347,28 +347,18 @@ It is possible to work on more than one box at a time, you just need 2 or more B
 &lt;p&gt;As you might have noticed, every imported entity is qualified by the local module name in the examples.
 Sometimes you don&amp;rsquo;t want qualification and address an entity directly. 
 The &lt;code&gt;import&lt;/code&gt; declaration optionally &lt;code&gt;exposes&lt;/code&gt; selected entities for this purpose.&lt;/p&gt;
-&lt;p&gt;In rare cases, you might want to &lt;code&gt;expose&lt;/code&gt; everything in a module, or import everything without qualification.&lt;/p&gt;
-&lt;p&gt;There are shortcuts for these purposes:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Make selected entities directly accessible&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes initialise, push
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;Make all entities directly accessible&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes ...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;Create an import dependency but do not use it right now in the current status of development&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; // no name for qualified access
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;Omit the local module name&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; exposes RingBuffer, initialise, push
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
-&lt;li&gt;Expose everything in a module&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes ...  // no information hiding
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use these &amp;ldquo;tricks of trade&amp;rdquo; wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
 If two imports expose the same name, the second will create an error because it shadows the first.&lt;/p&gt;
 &lt;h2 id=&#34;modules-are-not-generic&#34;&gt;Modules are not generic&lt;/h2&gt;
@@ -380,7 +370,7 @@ If two imports expose the same name, the second will create an error because it 
 &lt;p&gt;But, in Blech we keep the module system simple. 
 Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
 Then, modules also might contain generic types and generic interface implementations.&lt;/p&gt;
-&lt;p&gt;The concept of type-safe generics is in a very early stage, and different to other languages follows our embedded requirements.
+&lt;p&gt;The concept of type-safe generics is in an early stage, and different to other languages follows our embedded requirements.
 It will definitely need some more Blech releases before we can adress generics.&lt;/p&gt;
 &lt;h2 id=&#34;better-software-through-modules&#34;&gt;Better software through modules&lt;/h2&gt;
 &lt;blockquote&gt;
@@ -393,7 +383,7 @@ It will definitely need some more Blech releases before we can adress generics.&
 &lt;p&gt;It allows to organize code by using different files for different aspects without reverting to the archaic method of &lt;code&gt;include&lt;/code&gt;d header files.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first synchronous language to support separate compilation for causality analysis.&lt;/p&gt;
+&lt;p&gt;Modules and programs are the units of separate compilation. All static analysis in the compiler is designed to work with separate compilation. To our knowledge Blech is the first imperative, synchronous language to support separate compilation for causality analysis.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;It allows to package compilation units to libraries - boxes of modules and programs.&lt;/p&gt;
@@ -423,16 +413,16 @@ It will definitely need some more Blech releases before we can adress generics.&
 &lt;p&gt;The module dependency graph can easily be visualized and is independent from the code organisation on the file system.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The ability to whitebox-test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.&lt;/p&gt;
+&lt;p&gt;The ability to white-box test a given module allows to separate test code from the module implementation although a module might have an interface that hides many of the implementation details. In many languages white-box testing requires reflection which is not appropriate for embedded code. To our knowledge this feature is unique to Blech.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;We hope to release Blech with modules before the end of the year. Stay tuned.&lt;/p&gt;
+&lt;p&gt;We hope to release Blech with modules early next year. Stay tuned.&lt;/p&gt;
 &lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
 &lt;p&gt;[1] &lt;a name=&#34;ModularProgramming&#34;&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Modular_programming&#34; target=&#34;_blank&#34;&gt;Modular Programming&lt;/a&gt;
 , en.wikipedia.org&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;[2] &lt;a name=LargePrograms&gt; &lt;a href=&#34;https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615&#34; target=&#34;_blank&#34;&gt;How to write large programs&lt;/a&gt;
 , Oleg Alexander &lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;[3] &lt;a name=WhiteBoxTesting&gt; &lt;a href=&#34;https://en.wikipedia.org/wiki/White-box_testing&#34; target=&#34;_blank&#34;&gt;Whitebox Testing&lt;/a&gt;
+&lt;p&gt;[3] &lt;a name=WhiteBoxTesting&gt; &lt;a href=&#34;https://en.wikipedia.org/wiki/White-box_testing&#34; target=&#34;_blank&#34;&gt;White-box Testing&lt;/a&gt;
 , en.wikipedia.org &lt;/a&gt;&lt;/p&gt;
 &lt;!-- # Relevant links
 
