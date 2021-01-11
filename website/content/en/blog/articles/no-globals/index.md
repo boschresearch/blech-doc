@@ -1,5 +1,5 @@
 ---
-date: 2021-01-03
+date: 2021-02-03
 title: "No global variables - please."
 linkTitle: "No global variables"
 description: >
