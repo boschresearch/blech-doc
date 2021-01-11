@@ -13,6 +13,79 @@
     
     
     <item>
+      <title>Blog: No global variables - please.</title>
+      <link>https://www.blech-lang.org/blog/2021/01/03/no-global-variables-please./</link>
+      <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2021/01/03/no-global-variables-please./</guid>
+      <description>
+        
+        
+        &lt;p&gt;Much has be written about the problems with global variables.&lt;/p&gt;
+&lt;p&gt;Exaggerating, by Steve McConnell, the author of &lt;a href=&#34;https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670&#34; target=&#34;_blank&#34;&gt;Code Complete&lt;/a&gt;
+:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The road to programming hell is paved with global variables.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!-- Ironically, by Jack Ganssle in his article [Mars ate my spacecraft!](https://www.embedded.com/mars-ate-my-spacecraft/)
+&gt; Globals are responsible for all of the evil in the universe, from male pattern baldness to ozone depletion. --&gt;
+&lt;p&gt;Metaphorically, by Jack Ganssle in his article &lt;a href=&#34;https://www.embedded.com/a-pox-on-globals/&#34; target=&#34;_blank&#34;&gt;A pox on globals&lt;/a&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Globals are the Sirens of embedded systems programming. Don&amp;rsquo;t get sucked in if you don&amp;rsquo;t want to lose your ship or your sanity.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Substantiating, in the famous C2 wiki&amp;rsquo;s section &lt;a href=&#34;https://wiki.c2.com/?GlobalVariablesAreBad&#34; target=&#34;_blank&#34;&gt;Global Variables are Bad&lt;/a&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Code is generally clearer and easier to maintain when it does not use globals, but there are exceptions.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;global-variables-in-embedded-programming&#34;&gt;Global variables in embedded programming&lt;/h2&gt;
+&lt;p&gt;The requirements for embedded programming seem to justify exceptions to use globals in many situations.&lt;/p&gt;
+&lt;p&gt;Embedded calculations are usually executed in loops, which are repeated&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;periodicly after a regular time delta &amp;ndash; a periodic timer;&lt;/li&gt;
+&lt;li&gt;sporadicly on the arrival of an event &amp;ndash; an interrupt, a one-shot timer or an incomming message; or even&lt;/li&gt;
+&lt;li&gt;immediatly after the end of a calculation &amp;ndash; a main loop.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Between executions, calculations need to save their state. 
+This is often implemented with global variables.&lt;/p&gt;
+&lt;p&gt;Communication with the environment uses inputs from sensors and interrupt service routines, and outputs to actuators and asynchronous function calls. 
+Often input and output data are represented as global variables.&lt;/p&gt;
+&lt;p&gt;Dataflow between embedded calculations uses input and output ports. 
+Often implementations of ports are just global variables.&lt;/p&gt;
+&lt;p&gt;Globals are so ubiquitous, that embedded developers do not even recognize when they begin to lose their ship and their mental sanity on their way into programming hell.&lt;/p&gt;
+&lt;p&gt;We are convinced that embedded developers cannot be blamed for this.
+With todays embedded technology, the problems with globals can be mitigated but they cannot be eliminated.
+In the following we will sketch&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;why the mitigating methods to handle globals in embedded programs are not sufficient,&lt;/li&gt;
+&lt;li&gt;how concurrency in embedded programs - tasks and interrupts - increase the problems, and&lt;/li&gt;
+&lt;li&gt;how Blech substitutes globals with local activity variables, synchronous concurrency and control-flow over time steps.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;ways-to-avoid-or-reduce-the-risk-of-globals&#34;&gt;Ways to avoid or reduce the risk of globals&lt;/h2&gt;
+&lt;p&gt;Philip Koopman&amp;rsquo;s book on &lt;a href=&#34;http://www.koopman.us/&#34; target=&#34;_blank&#34;&gt;Better Embedded System Software&lt;/a&gt;
+ explains in  &lt;a href=&#34;http://www.koopman.us/bess/chap19_globals.pdf&#34; target=&#34;_blank&#34;&gt;Chapter 19, Global Variables Are Evil&lt;/a&gt;
+ the problems with globals and gives pratical advice on how to avoid and reduce their risks:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If optimization forces you to use globals, get a better compiler or a faster processor.&lt;/li&gt;
+&lt;li&gt;Move the global inside the procedure that needs it.&lt;/li&gt;
+&lt;li&gt;Make a shared variable quasi-global instead of global.&lt;/li&gt;
+&lt;li&gt;Make the global an object, and provide access methods.&lt;/li&gt;
+&lt;li&gt;If you still have to use a global, spend a lot of effort making it as clean and well documented as possible.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In C, globals as well as static data declarations on file scope or procedure scope allocate storage at or before the beginning of program execution and the storage remains allocated until progam termination.&lt;/p&gt;
+&lt;p&gt;The given advice mitigates problems with globals:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Static data on procedure scope reduces coupling between procedures.&lt;/li&gt;
+&lt;li&gt;Static data on file scope reduce coupling between source files&lt;/li&gt;
+&lt;li&gt;Disciplined use of access methods to a global object prevents direct data access.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;singleton-reentrant-single-writer-multiple-reader&#34;&gt;Singleton, Reentrant, Single Writer Multiple Reader&lt;/h2&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: A module system for Blech</title>
       <link>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</link>
       <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>

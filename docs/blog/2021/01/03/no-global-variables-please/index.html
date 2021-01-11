@@ -17,26 +17,26 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Blech VS Code Extension 0.5.2 | Blech</title><meta property="og:title" content="Blech VS Code Extension 0.5.2" />
-<meta property="og:description" content="Highlighting for type casts `as` and `as!` and snippets for `extern` declarations
+<title>No global variables - please. | Blech</title><meta property="og:title" content="No global variables - please." />
+<meta property="og:description" content="This article motivates and explains, why and how Blech avoids the use of global variables.
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/blog/2020/04/20/blech-vs-code-extension-0.5.2/" />
-<meta property="article:published_time" content="2020-04-20T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-04-23T12:18:54+02:00" /><meta property="og:site_name" content="Blech" />
-<meta itemprop="name" content="Blech VS Code Extension 0.5.2">
-<meta itemprop="description" content="Highlighting for type casts `as` and `as!` and snippets for `extern` declarations
+<meta property="og:url" content="https://www.blech-lang.org/blog/2021/01/03/no-global-variables-please./" />
+<meta property="article:published_time" content="2021-01-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-01-05T09:50:23+01:00" /><meta property="og:site_name" content="Blech" />
+<meta itemprop="name" content="No global variables - please.">
+<meta itemprop="description" content="This article motivates and explains, why and how Blech avoids the use of global variables.
 ">
-<meta itemprop="datePublished" content="2020-04-20T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-04-23T12:18:54+02:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="datePublished" content="2021-01-03T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-01-05T09:50:23+01:00" />
+<meta itemprop="wordCount" content="529">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Blech VS Code Extension 0.5.2"/>
-<meta name="twitter:description" content="Highlighting for type casts `as` and `as!` and snippets for `extern` declarations
+<meta name="twitter:title" content="No global variables - please."/>
+<meta name="twitter:description" content="This article motivates and explains, why and how Blech avoids the use of global variables.
 "/>
 
 
@@ -182,10 +182,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/blog/articles/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Articles</a>
+    <a  href="/blog/articles/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Articles</a>
   </li>
   <ul>
-    <li class="collapse " id="blogarticles">
+    <li class="collapse show" id="blogarticles">
       
       
       
@@ -193,7 +193,7 @@
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20210103no-global-variables-please" href="/blog/2021/01/03/no-global-variables-please./">No global variables</a>
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20210103no-global-variables-please" href="/blog/2021/01/03/no-global-variables-please./">No global variables</a>
         
       
       
@@ -255,10 +255,10 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="/blog/releases/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Releases</a>
+    <a  href="/blog/releases/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Releases</a>
   </li>
   <ul>
-    <li class="collapse show" id="blogreleases">
+    <li class="collapse " id="blogreleases">
       
       
       
@@ -282,7 +282,7 @@
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-blog20200420blech-vs-code-extension-052" href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">vsce 0.5.2</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-blog20200420blech-vs-code-extension-052" href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">vsce 0.5.2</a>
         
       
       
@@ -365,9 +365,9 @@
 
 
 
-<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/releases/vsce-0.5.2.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/blog/releases/vsce-0.5.2.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-<a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blech%20VS%20Code%20Extension%200.5.2" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/articles/no-globals/index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/blog/articles/no-globals/index.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+<a href="https://github.com/boschresearch/blech-doc/issues/new?title=No%20global%20variables%20-%20please." target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
 <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -383,30 +383,98 @@
 
 
 
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#global-variables-in-embedded-programming">Global variables in embedded programming</a></li>
+    <li><a href="#ways-to-avoid-or-reduce-the-risk-of-globals">Ways to avoid or reduce the risk of globals</a></li>
+    <li><a href="#singleton-reentrant-single-writer-multiple-reader">Singleton, Reentrant, Single Writer Multiple Reader</a></li>
+  </ul>
+</nav>
+
 
 
           </div>
           <main class="col-12 col-md-9 col-xl-8 pl-md-5 pr-md-4" role="main">
-            <a class="btn btn-sm -bg-secondary td-rss-button d-none d-lg-block" href="https://www.blech-lang.org/blog/releases/index.xml" target="_blank">
+            <a class="btn btn-sm -bg-secondary td-rss-button d-none d-lg-block" href="https://www.blech-lang.org/blog/articles/index.xml" target="_blank">
               RSS <i class="fa fa-rss ml-2 "></i>
             </a>
             
 <div class="td-content">
-	<h1>Blech VS Code Extension 0.5.2</h1>
-	<div class="lead">Highlighting for type casts <code>as</code> and <code>as!</code> and snippets for <code>extern</code> declarations</div>
+	<h1>No global variables - please.</h1>
+	<div class="lead">This article motivates and explains, why and how Blech avoids the use of global variables.</div>
 	<div class="td-byline mb-4">
-		
-		<time datetime="2020-04-20" class="text-muted">Monday, April 20, 2020</time>
+		By <b>Franz-Josef Grosch</b> |
+		<time datetime="2021-01-03" class="text-muted">Sunday, January 03, 2021</time>
 	</div>
 	
-	
+	<p>Much has be written about the problems with global variables.</p>
+<p>Exaggerating, by Steve McConnell, the author of <a href="https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670" target="_blank">Code Complete</a>
+:</p>
+<blockquote>
+<p>The road to programming hell is paved with global variables.</p>
+</blockquote>
+<!-- Ironically, by Jack Ganssle in his article [Mars ate my spacecraft!](https://www.embedded.com/mars-ate-my-spacecraft/)
+> Globals are responsible for all of the evil in the universe, from male pattern baldness to ozone depletion. -->
+<p>Metaphorically, by Jack Ganssle in his article <a href="https://www.embedded.com/a-pox-on-globals/" target="_blank">A pox on globals</a>
+</p>
+<blockquote>
+<p>Globals are the Sirens of embedded systems programming. Don&rsquo;t get sucked in if you don&rsquo;t want to lose your ship or your sanity.</p>
+</blockquote>
+<p>Substantiating, in the famous C2 wiki&rsquo;s section <a href="https://wiki.c2.com/?GlobalVariablesAreBad" target="_blank">Global Variables are Bad</a>
+</p>
+<blockquote>
+<p>Code is generally clearer and easier to maintain when it does not use globals, but there are exceptions.</p>
+</blockquote>
+<h2 id="global-variables-in-embedded-programming">Global variables in embedded programming</h2>
+<p>The requirements for embedded programming seem to justify exceptions to use globals in many situations.</p>
+<p>Embedded calculations are usually executed in loops, which are repeated</p>
+<ul>
+<li>periodicly after a regular time delta &ndash; a periodic timer;</li>
+<li>sporadicly on the arrival of an event &ndash; an interrupt, a one-shot timer or an incomming message; or even</li>
+<li>immediatly after the end of a calculation &ndash; a main loop.</li>
+</ul>
+<p>Between executions, calculations need to save their state. 
+This is often implemented with global variables.</p>
+<p>Communication with the environment uses inputs from sensors and interrupt service routines, and outputs to actuators and asynchronous function calls. 
+Often input and output data are represented as global variables.</p>
+<p>Dataflow between embedded calculations uses input and output ports. 
+Often implementations of ports are just global variables.</p>
+<p>Globals are so ubiquitous, that embedded developers do not even recognize when they begin to lose their ship and their mental sanity on their way into programming hell.</p>
+<p>We are convinced that embedded developers cannot be blamed for this.
+With todays embedded technology, the problems with globals can be mitigated but they cannot be eliminated.
+In the following we will sketch</p>
+<ul>
+<li>why the mitigating methods to handle globals in embedded programs are not sufficient,</li>
+<li>how concurrency in embedded programs - tasks and interrupts - increase the problems, and</li>
+<li>how Blech substitutes globals with local activity variables, synchronous concurrency and control-flow over time steps.</li>
+</ul>
+<h2 id="ways-to-avoid-or-reduce-the-risk-of-globals">Ways to avoid or reduce the risk of globals</h2>
+<p>Philip Koopman&rsquo;s book on <a href="http://www.koopman.us/" target="_blank">Better Embedded System Software</a>
+ explains in  <a href="http://www.koopman.us/bess/chap19_globals.pdf" target="_blank">Chapter 19, Global Variables Are Evil</a>
+ the problems with globals and gives pratical advice on how to avoid and reduce their risks:</p>
+<ol>
+<li>If optimization forces you to use globals, get a better compiler or a faster processor.</li>
+<li>Move the global inside the procedure that needs it.</li>
+<li>Make a shared variable quasi-global instead of global.</li>
+<li>Make the global an object, and provide access methods.</li>
+<li>If you still have to use a global, spend a lot of effort making it as clean and well documented as possible.</li>
+</ol>
+<p>In C, globals as well as static data declarations on file scope or procedure scope allocate storage at or before the beginning of program execution and the storage remains allocated until progam termination.</p>
+<p>The given advice mitigates problems with globals:</p>
+<ul>
+<li>Static data on procedure scope reduces coupling between procedures.</li>
+<li>Static data on file scope reduce coupling between source files</li>
+<li>Disciplined use of access methods to a global object prevents direct data access.</li>
+</ul>
+<h2 id="singleton-reentrant-single-writer-multiple-reader">Singleton, Reentrant, Single Writer Multiple Reader</h2>
+
 	
 
 	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
   <li>
-    <a  class="btn btn-primary  disabled"><span class="mr-1">←</span> Previous</a>
+    <a href="/blog/2020/11/23/a-module-system-for-blech/" class="btn btn-primary "><span class="mr-1">←</span> Previous</a>
   </li>
-    <a href="/blog/2020/04/21/blech-compiler-version-0.5.1/" class="btn btn-primary ">Next <span class="ml-1">→</span></a>
+    <a  class="btn btn-primary  disabled">Next <span class="ml-1">→</span></a>
   </li>
 </ul>
 

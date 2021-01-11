@@ -203,6 +203,11 @@
   </url>
   
   <url>
+    <loc>https://www.blech-lang.org/blog/2021/01/03/no-global-variables-please./</loc>
+    <lastmod>2021-01-05T09:50:23+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</loc>
     <lastmod>2020-12-21T16:31:09+01:00</lastmod>
   </url>
