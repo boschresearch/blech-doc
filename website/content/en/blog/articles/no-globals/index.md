@@ -1,5 +1,5 @@
 ---
-date: 2021-01-24    
+date: 2021-02-11    
 draft: true
 title: "No global variables - please."
 linkTitle: "No global variables"
@@ -8,18 +8,18 @@ description: >
 author: Franz-Josef Grosch
 ---
 
-Much has be written about the problems with global variables.
+Much has been written about the problems with global variables.
 
-Exaggerating, by Steve McConnell, the author of [Code Complete](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670):
+Steve McConnell, the author of [Code Complete](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670), warns us:
 > The road to programming hell is paved with global variables.
 
 <!-- Ironically, by Jack Ganssle in his article [Mars ate my spacecraft!](https://www.embedded.com/mars-ate-my-spacecraft/)
 > Globals are responsible for all of the evil in the universe, from male pattern baldness to ozone depletion. -->
 
-Metaphorically, by Jack Ganssle in his article [A pox on globals](https://www.embedded.com/a-pox-on-globals/)
+In his article [A pox on globals](https://www.embedded.com/a-pox-on-globals/) Jack Ganssle refers to greek mythology to advise against globals:
 > Globals are the Sirens of embedded systems programming. Don't get sucked in if you don't want to lose your ship or your sanity.
 
-Substantiating, in the famous C2 wiki's section [Global Variables are Bad](https://wiki.c2.com/?GlobalVariablesAreBad)
+The famous C2 wiki's explains why [Global Variables are Bad](https://wiki.c2.com/?GlobalVariablesAreBad):
 > Code is generally clearer and easier to maintain when it does not use globals, but there are exceptions.
 
 ## Global variables in embedded programming
@@ -60,7 +60,7 @@ Philip Koopman's book on [Better Embedded System Software](http://www.koopman.us
 5. If you still have to use a global, spend a lot of effort making it as clean and well documented as possible.
 
 
-In C, globals as well as static data declarations on file scope or procedure scope allocate storage at or before the beginning of program execution and the storage remains allocated until progam termination.
+In C, globals as well as static data declarations on file scope or procedure scope allocate storage at or before the beginning of program execution and the storage remains allocated until program termination.
 
 The given advice mitigates problems with globals:
 * Static data on procedure scope reduces coupling between procedures.
@@ -68,13 +68,11 @@ The given advice mitigates problems with globals:
 * Disciplined use of access methods to a global object prevents direct data access.
 
 In general it helps to prevent
-* Non-locality, where any part of a program can read or modify global data.
-* Namespace pollution, which creates the need to coordinate variable naming between independent components.
-* Implicit coupling, which makes it difficult to test or separate those otherwise independent components.
+* non-locality, where any part of a program can read or modify global data,
+* namespace pollution, which creates the need to coordinate variable naming between independent components, and
+* implicit coupling, which makes it difficult to test or separate those otherwise independent components.
 
-Despite its undoubted benefit, the advice mainly recommends *hidden globals*, as C2 wiki section calls them, which still can create serious problems when it comes to data flow, concurrency, modularization and testing. 
-
-## Singleton, Reentrant, Single Writer Multiple Reader
+Despite its undoubted benefit, this advice mainly recommends *hidden globals*, as C2 wiki section calls them, which still can create serious problems when it comes to data flow, concurrency, modularization and testing. 
 
 
 ## Saving state between activations
@@ -126,26 +124,17 @@ In Blech, the state is exclusive to every instance of `activity AllSteps`.
 Running `AllSteps` in different contexts is just reuse:
 
 ```blech
-struct Inputs
-    let aIn: int32
-    let bIn: int32
-end
-
-struct Outputs
-    var aOut: int32
-    var bOut: int32
-end
-
-activity TwoContexts (inputs: Inputs) (output: Outputs)    
+activity TwoContexts (aIn: int32, bIn: int32) 
+                     (aOut: int32, bOut: int32)    
     cobegin
-        run AllSteps(inputs.aIn)(outputs.aOut)
+        run AllSteps(aIn)(aOut)
     with
-        run AllSteps(inputs.bIn)(outputs.bOut)
+        run AllSteps(bIn)(bOut)
     end
 end
 ```
 
-Shortly explain Blech code.
+Explain Blech code.
 
 Since every activity lives for subsequent activations the compiler allocates the state for every instance in hidden global memory.
 
@@ -156,8 +145,7 @@ This brings us to the next problem of globals when implementing dataflow between
 ## Dataflow between different functions
 
 Assume a second embedded function `prepare_step` that prepares the input for function `step`.
-For this calculation it uses the previous value of parameter `output` and the `input`.
-
+For this calculation it uses the previous value of parameter `output` and the current `input`.
 To simplify the example, we assume it does not need to save internal state from one activation to the next.
 
 ```C
@@ -176,8 +164,9 @@ void integrated_step (int input, int *output) {
     step(data_flow, output);
 }
 ```
-Nevertheless, `function integrated_step` cannot be reused in different contexts because it calls `function step`, that internally uses a hidden global and cannot be used in more than one context.
-We also cannot omit the hidden global `data_flow` because function `prepare_step` assumes exclusiv write access and uses the previous value of `data_flow` in its calculation.
+
+Nevertheless, function `integrated_step` cannot be used in different contexts because it calls function `step`, that internally uses a hidden global and cannot be used in more than one context.
+We also cannot omit the hidden global `data_flow` because function `prepare_step` assumes exclusive write access and uses the previous value of `data_flow` in its calculation.
 Variable `data_flow` is misused to store a state between subsequent activations.
 
 <!-- Therefore, we might as well use a `static int data_flow` variable and allocate it in hidden global memory. -->
@@ -207,47 +196,100 @@ Flexibly combine both functions
 activity IntegratedSteps (input: int32) (output: int32)
     var data_flow: int32 = 0
     cobegin
-        run AllSteps(data_flow)(output)
-    with
         run PrepareAllSteps(input)(data_flow)
+    with
+        run AllSteps(data_flow)(output)
     end
 end
 ```
 
 The Blech compiler 
-* creates a fresh memory location - as a pre-determined hidden global - for every local variable in an actity.
-* guarantess the single-writer principle. A second activity trying to write to `data_flow` would be detected by the compiler.
-* determines the write-before-read order, which always guarantes a causal data flow.
+* creates a fresh memory location - as a pre-determined hidden global - for every local variable in an actity,
+* guarantess the single-writer principle. A second activity trying to write to `data_flow` would be detected by the compiler,
+* determines the write-before-read order, which always guarantees a causal data flow, and
 * distinguishes input and output parameter lists, where inputs a read-only while only outputs can be written.
 
-Blech does not need hidden globals. While hidden globals are an improvement compared to normal globals, they create non-reentrant code,
-which my cause problems when it comes to concurrency, modularization and testing.
+## The problem with hidden globals
 
+While hidden globals are an improvement compared to normal globals, functions that use them still change the program state.
+This may cause additional problems when it comes to concurrency, modularization and testing.
 
-## Concurrency
+### Concurrency
 
-## Modularization
+<!-- Concurrency and parallelism are obviously related, but actually separate ideas. -->
 
-## Testing
+Following the Go blog post [Concurrency is not parallelism](https://blog.golang.org/waza-talk), 
+concurrency is about structuring a program into independent computations, so that you *maybe* can use parallelism to do a better job by executing it with separate hardware, on parallel cores, or distributed control units. 
+<!-- explains the differences: 
 
+* *Concurrency* is the *composition* of independent computations. It's about structure and *dealing* with a lot of things at once.
 
+* *Parallelism* is the simultaneous *execution* of (possibly related) computations. Its about execution and *doing* a lot of things at once.
+ -->
+<!-- concurrency is about structuring a program, so that you *maybe* can use parallelism to do a better job by executing it with separate hardware, on parallel cores, or distributed control units.  -->
+
+<!-- Parallelism is not the goal of concurrency, the goal is a good structure.
+Concurrency allows to break a program into independent pieces. 
+Communication is the means to coordinate the execution of those pieces.  -->
+
+In this sense, embedded software usually contains a lot of computations that are developed independently and composed concurrently.
+Often, these computations are scheduled periodicly or sporadicly by an execution framework and communicate via dataflow.
+
+Functions that implement dataflow via globals are implicitly coupled and cannot be regarded as independent computations, that are easily composed concurrently.
+
+Even if the the dataflow dependencies are injected via hidden globals, an in-depth knowledge about the use of these globals is required in order to coordinate the schedule.
+
+Functions that use hidden globals internally are implicitly coupled in every call. 
+To prevent unpredictable or even corrupted state they usually must not be called more than once sequentially, concurrently or in parallel during a periodic, sporadic or main-loop activation.
+
+If functions are scheduled with different rates maintaining a consistent state becomes even more difficult.
+
+Blech simplifies all this ...
+
+### Modularization
+
+Modularization decomposes a large program into modules that logically group related code.
+Modules usually have a narrow interface with clear semantics
+and can be reused (imported) -- in different contexts.
+
+If a module exports functions that directly or indirectly use hidden globals it might loose these benefits.
+
+* The module's interface is not only defined by the exported functions but also by it's hidden state.
+* The reuse (import) might be limited to a single context.
+
+Blech simplifies this ...
+
+### Testing
+
+When it comes to testing functions that use hidden globals,
+we have to make sure, that every test case sets up the correct internal state.
+
+Large programs that mix globals and hidden globals - which happens more often then you might imagine - tend to become tightly coupled.
+In extrem cases it might become impossible to separately test a unit without setting up the state of the whole system.
+
+Blech help with activities ...
+
+<!-- 
 
 Causality analysis, instance memory, cycle must be broken with prev.
 
-Situation becomes even worse
+Situation becomes even worse -->
 
 <!-- Move this to a concurrency example -->
-Furthermore we have to make sure, that we do not write to variable `data_flow` from two different functions.
+<!-- Furthermore we have to make sure, that we do not write to variable `data_flow` from two different functions.
 The following integration does something completely different
 ```C
 void one_integrated_step(int input, int *output) {
     int data_flow;
-    one_prepare_step(input)(*data_flow)
+    one_prepare_step(input, *data_flow)
     one_other_step(data_flow, *dataflow)
     *output = *data_flow
 }
 ```
+ -->
 
+Blech helps
 
+## One more thing
 
-Again 
+Communication with the environment and singletons.
