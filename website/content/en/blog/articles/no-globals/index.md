@@ -19,7 +19,7 @@ Steve McConnell, the author of [Code Complete](https://www.amazon.com/Code-Compl
 In his article [A pox on globals](https://www.embedded.com/a-pox-on-globals/) Jack Ganssle refers to greek mythology to advise against globals:
 > Globals are the Sirens of embedded systems programming. Don't get sucked in if you don't want to lose your ship or your sanity.
 
-The famous C2 wiki's explains why [Global Variables are Bad](https://wiki.c2.com/?GlobalVariablesAreBad):
+The famous C2 wiki explains why [Global Variables are Bad](https://wiki.c2.com/?GlobalVariablesAreBad):
 > Code is generally clearer and easier to maintain when it does not use globals, but there are exceptions.
 
 ## Global variables in embedded programming
@@ -34,11 +34,12 @@ Embedded calculations are usually activated in loops, which are repeated
 Between executions, calculations need to save their state. 
 This is often implemented with global variables.
 
-Communication with the environment uses inputs from sensors and interrupt service routines, and outputs to actuators and asynchronous function calls. 
-Often input and output data are represented as global variables.
-
 Dataflow between embedded calculations uses input and output ports. 
 Often implementations of ports are just global variables.
+
+Communication with the environment uses inputs from sensors and interrupt service routines, 
+as well as outputs to actuators and asynchronous function calls. 
+Often input and output data are represented as global variables.
 
 Globals are so ubiquitous, that embedded developers do not even recognize when they begin to lose their ship and their mental sanity on their way into programming hell.
 
@@ -82,7 +83,7 @@ Lets start with the problem of saving state between activations.
 Typically the activation steps in embedded applications are triggered by the environment and need to save their state from one activation to the next.
 
 This is typically handled with the help of a hidden global variable.
-The following function `ìnit` is called once in order to initialize the state.
+The following function `init` is called once in order to initialize the state.
 Function `step` is meant to be called unconditionally in every activation.
 It uses the `input` and the `state` from the previous activation, 
 and updates the `output` and the `state`.
@@ -99,7 +100,8 @@ void step (int input, int *output) {
     state = next_state(input, *output, state);
 }
 ``` 
-Explain C code.
+
+In Blech, all activation steps are expressed in the control flow of an `activity`.
 
 ```blech
 activity AllSteps (input: int32) (output: int32)
@@ -112,15 +114,19 @@ activity AllSteps (input: int32) (output: int32)
     end
 end
 ```
-Explain Blech code
+
+Variable `state` becomes a local variable in activity `AllSteps`.
+First the state is initialized.  
+Then the step calculation is repeated in every activation starting with the first immediately after initialization.
+The step calculation is repeated unconditionally in every activation.
 
 
-Functions `init` and `step` cannot be reused in a different contexts, because both functions and all instances share the same hidden global `state`.
+The functions `init` and `step` cannot be reused in a different contexts, because both functions and all instances share the same hidden global `state`.
 
 If the need for reuse occurs either code duplication or macros - templates in the case of C++ - are the easiest way to cope with this. 
 Both need a code rewrite and further test effort and need to introduce manually a separate instance of hidden global `state`.
 
-In Blech, the state is exclusive to every instance of `activity AllSteps`.
+In Blech, the state is exclusive to every instance of activity `AllSteps`.
 Running `AllSteps` in different contexts is just reuse:
 
 ```blech
@@ -134,13 +140,13 @@ activity TwoContexts (aIn: int32, bIn: int32)
 end
 ```
 
-Explain Blech code.
+Activity `AllSteps` is instantiated twice with separate local memory.
+Both instances run concurrently (`cobegin`) starting with `initialize` and repeatedly calculating one step.
 
 Since every activity lives for subsequent activations the compiler allocates the state for every instance in hidden global memory.
+Both instances are completely independent and do not exchange any data.
 
-In this example both instances of `activity AllSteps` live concurrently with each other, without having any data flow between them.
-
-This brings us to the next problem of globals when implementing dataflow between different functionality in an embedded application.
+This brings us to the next problem of globals when implementing dataflow between different computations in an embedded application.
 
 ## Dataflow between different functions
 
@@ -149,13 +155,12 @@ For this calculation it uses the previous value of parameter `output` and the cu
 To simplify the example, we assume it does not need to save internal state from one activation to the next.
 
 ```C
-
 void prepare_step (int input, int *output) {
     *output = prepare_calculate(input, *output);
 }
 ```
 
-In order to integrate both functions we need a dataflow variable that can be allocated on the stack.
+In order to integrate both functions we need a dataflow variable.
 
 ```C
 void integrated_step (int input, int *output) {
@@ -165,22 +170,19 @@ void integrated_step (int input, int *output) {
 }
 ```
 
-Nevertheless, function `integrated_step` cannot be used in different contexts because it calls function `step`, that internally uses a hidden global and cannot be used in more than one context.
-We also cannot omit the hidden global `data_flow` because function `prepare_step` assumes exclusive write access and uses the previous value of `data_flow` in its calculation.
-Variable `data_flow` is misused to store a state between subsequent activations.
+Allocating variable `data_flow` on the stack would not be correct.
+Function `prepare_step` misuses variable `data_flow` to store the `output` between subsequent activations.
+We need variable `data_flow` as a hidden global because function `prepare_step` assumes exclusive write access and uses the previous value of `data_flow` in its calculation.
 
-<!-- Therefore, we might as well use a `static int data_flow` variable and allocate it in hidden global memory. -->
-
-Furthermore, we have to be careful not write to variable `data_flow`, from another function.
+Furthermore, we have to be careful not to write variable `data_flow` from any other function.
 This would destroy the saved state.
-
-Function `prepare_step` assumes exclusive write access to variable `data_flow`, because it uses the previous value in it's calculation.
 
 <!-- Data flows from function `prepare_step` to function `step` in every activation step. 
 Calling both functions sequentially expresses this. -->
 
 In Blech the situation is much more relaxed for the programmer.
 
+Activity `PrepareAllSteps` repeats the the calculation in every activation. 
 ```blech 
 activity PrepareAllSteps (input: int32) (output: int32)
     repeat
@@ -190,7 +192,7 @@ activity PrepareAllSteps (input: int32) (output: int32)
 end
 ```
 
-Flexibly combine both functions
+Both independent activities are concurrently composed using `cobegin` and a variable for data flow between both activities.
 
 ```blech
 activity IntegratedSteps (input: int32) (output: int32)
@@ -203,11 +205,15 @@ activity IntegratedSteps (input: int32) (output: int32)
 end
 ```
 
-The Blech compiler 
-* creates a fresh memory location - as a pre-determined hidden global - for every local variable in an actity,
-* guarantess the single-writer principle. A second activity trying to write to `data_flow` would be detected by the compiler,
-* determines the write-before-read order, which always guarantees a causal data flow, and
-* distinguishes input and output parameter lists, where inputs a read-only while only outputs can be written.
+Both activities are activated synchronously.
+Data flows from the output of `PrepareAllSteps` to the input of `AllSteps` in every activation.
+
+The Blech compiler does all the magic.
+* It creates a fresh memory location - as a pre-determined hidden global - for every local variable in an actity.
+* It guarantess the single-writer principle - a second activity trying to write to `data_flow` would be detected by the compiler.
+* It determines the write-before-read order, which always guarantees a causal data flow.
+* It distinguishes input and output parameter lists, where inputs a read-only while only outputs can be written.
+
 
 ## The problem with hidden globals
 
@@ -236,28 +242,34 @@ In this sense, embedded software usually contains a lot of computations that are
 Often, these computations are scheduled periodicly or sporadicly by an execution framework and communicate via dataflow.
 
 Functions that implement dataflow via globals are implicitly coupled and cannot be regarded as independent computations, that are easily composed concurrently.
-
 Even if the the dataflow dependencies are injected via hidden globals, an in-depth knowledge about the use of these globals is required in order to coordinate the schedule.
 
 Functions that use hidden globals internally are implicitly coupled in every call. 
 To prevent unpredictable or even corrupted state they usually must not be called more than once sequentially, concurrently or in parallel during a periodic, sporadic or main-loop activation.
-
 If functions are scheduled with different rates maintaining a consistent state becomes even more difficult.
 
-Blech simplifies all this ...
+In Blech an `activity` is used to structure an independent computation. 
+An `activity` represents a potentially infinite sequence of reactions and therefore can save its state in local variables.
+There is no need for global variables and Blech does not have them.
+Activities are truely independent and dataflow dependencies are injected when activities are called using the `run` statement.
+
+Activities are concurrently composed using the `cobegin` control flow statement.
+The compiler generates a causal data flow through all concurrent activities.
+If the data flow within one reaction contains a cycle, the compiler detects this and the programmer has to break that cycle by accessing the value of the previous computation with the `prev` operator.
 
 ### Modularization
 
 Modularization decomposes a large program into modules that logically group related code.
 Modules usually have a narrow interface with clear semantics
-and can be reused (imported) -- in different contexts.
+and can be reused (imported) in different contexts.
 
 If a module exports functions that directly or indirectly use hidden globals it might loose these benefits.
 
 * The module's interface is not only defined by the exported functions but also by it's hidden state.
 * The reuse (import) might be limited to a single context.
 
-Blech simplifies this ...
+In Blech, the absence of globals allows to modularize a large program, according to the principles of high cohesion and low coupling.
+Blech modules are usually separately testable and reusable in different contexts.
 
 ### Testing
 
@@ -265,31 +277,32 @@ When it comes to testing functions that use hidden globals,
 we have to make sure, that every test case sets up the correct internal state.
 
 Large programs that mix globals and hidden globals - which happens more often then you might imagine - tend to become tightly coupled.
-In extrem cases it might become impossible to separately test a unit without setting up the state of the whole system.
+In extreme cases it might become impossible to separately test a unit without setting up the state of the whole system.
 
-Blech help with activities ...
+In Blech, the absence of globals and concurrent composition of activities make testing of independent computations easy.
+Typically a test looks like the following:
 
-<!-- 
-
-Causality analysis, instance memory, cycle must be broken with prev.
-
-Situation becomes even worse -->
-
-<!-- Move this to a concurrency example -->
-<!-- Furthermore we have to make sure, that we do not write to variable `data_flow` from two different functions.
-The following integration does something completely different
-```C
-void one_integrated_step(int input, int *output) {
-    int data_flow;
-    one_prepare_step(input, *data_flow)
-    one_other_step(data_flow, *dataflow)
-    *output = *data_flow
-}
+```blech
+activity Test ()
+    var input
+    var output
+    cobegin
+        run CreateInputs()(input)
+    with
+        run ActivityUnderTest(input)(output)
+    with
+        run TestAgainstExpectedOutput(output)
+    end
+end
 ```
- -->
-
-Blech helps
 
 ## One more thing
 
-Communication with the environment and singletons.
+In general Blech has no global variables and does not need them.
+
+As soon as a Blech program communicates with its environment by using inputs from sensors and interrupt service routines, 
+as well as creating outputs to actuators and asynchronous function calls, Blech makes an exception and allows for external globals.
+Nevertheless, these only sum up to a few, well-documented globals.
+
+Furthermore the compiler can detect and prevent concurrent accesses to globals via *singleton inference* - but this is a topic for another article.
+
