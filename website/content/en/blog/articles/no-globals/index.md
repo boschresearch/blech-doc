@@ -29,7 +29,7 @@ The requirements for embedded programming seem to justify exceptions to use glob
 Embedded calculations are usually activated in loops, which are repeated 
 * periodicly after a regular time delta -- a periodic timer; 
 * sporadicly on the arrival of an event -- an interrupt, a one-shot timer or an incomming message; or even 
-* immediatly after the end of a calculation -- a main loop.
+* immediately after the end of a calculation -- a main loop.
 
 Between executions, calculations need to save their state. 
 This is often implemented with global variables.
