@@ -211,7 +211,7 @@ This an advantage for loosely coupled system design. But it is a disadvantage fo
 > White-box testing (also known as clear box testing, glass box testing, transparent box testing, and structural testing) is a method of software testing that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). [[3]](#WhiteBoxTesting)
 
 In order to enable white-box testing, Blech allows to import all the implementation details of a module by using keyword `internal`.
-An `internal import` makes all elements in a module detectable - nothing is hidden.
+An `import internal ..."` makes all elements in the imported module detectable - nothing is hidden.
 
 In the following example, it is not enough to use the signature `ringbuffer.blh` to compile the white-box test program.
 In fact the compiler needs the source code of the module implementation `ringbuffer.blc` in order to detect the hidden implementation details.
@@ -219,7 +219,7 @@ In fact the compiler needs the source code of the module implementation `ringbuf
 ```blech
 import n8 "box:base/nat8"  // base library for nat8-related stuff
 
-internal import rb "ringbuffer"
+import internal rb "ringbuffer"
 
 @[EntryPoint]
 activity TestPush ()
@@ -320,7 +320,7 @@ This can only be done within the same box, since it requires the source of the m
 As an example, we would like to use `param Threshold` from module `slidingaverage` - which is not exposed - in a new module `slidingaveragewithreset`.
 
 ```blech
-internal import sa "slidingaverage"
+import internal sa "slidingaverage"
 
 module exposes SlidingAverageWithReset
 
@@ -335,7 +335,7 @@ Since the interface does not leak any implementation details from the white-box 
 
 There are two simple rules:
 * a module that leaks details of an imported `internal module` in its signature becomes an `internal module`,
-* a module that leaks details of an `internal import` in its signature becomes an `internal module`, too.
+* a module that leaks details of an `import internal` in its signature becomes an `internal module`, too.
 
 
 ## Importing inside and outside a box
@@ -374,14 +374,14 @@ The compiler searches for the signature file `module.blh` in the box named `libr
 
 When importing from another box, the compiler prevents:
 * the import of an `internal module` from the box, and
-* the `internal import` of a detectable module from the box.
+* the `import internal ...` of a detectable module from the box.
 
 Such imports are flagged as an error, even if module implementations and `internal signature`s are part of the box.
 This is helpful, when developing different boxes at the same time.
 The detectability between boxes is the same during development and after deployment.
 
-Since `internal imports` from other boxes are not allowed, there is no need to deliver the module's implementation file `module.blc` with the box `library`.
-Since imports of `internal modules` of a box are also forbidden, there is also no need to deliver `internal signature`s.
+Since `import internal ...` from other boxes are not allowed, there is no need to deliver the module's implementation file `module.blc` with the box `library`.
+Since imports of `internal module`s of a box are also forbidden, there is also no need to deliver `internal signature`s.
 
 This brings us to the last question: How are Blech files organized on the file system?
 
@@ -486,187 +486,5 @@ We hope to release Blech with modules early next year. Stay tuned.
 [C++20: The advantages of modules](https://www.modernescpp.com/index.php/cpp20-modules)
 [Low Coupling, High Cohesion](https://medium.com/clarityhub/low-coupling-high-cohesion-3610e35ac4a6)
 [How To Write Large Programs](https://medium.com/@olegalexander/how-to-write-large-programs-628c90a70615)
-# Steinbruch
-
-
-> Often modules form a directed acyclic graph (DAG); in this case a cyclic dependency between modules is seen as indicating that these should be a single module. In the case where modules do form a DAG they can be arranged as a hierarchy, where the lowest-level modules are independent, depending on no other modules, and higher-level modules depend on lower-level ones. A particular program or library is a top-level module of its own hierarchy, but can in turn be seen as a lower-level module of a higher-level program, library, or system. 
-
-```blech
-module exposes initialise, push, average
-
-const Size: nat8 = 10
-
-struct RingBuffer
-    var buffer: [Size]nat32
-    var nextIndex: nat8
-    var count: nat8
-end
-
-function initialise () returns RingBuffer
-    return { nextIndex = 0, count = 0 }
-end
-
-function push (value: nat32) (rb: RingBuffer)
-    rb.buffer[rb.nextIndex] = value
-    rb.nextIndex = rb.nextIndex + 1
-    if rb.count = Size then // ringbuffer ist completely filled
-        rb.nextIndex = rb.nextIndex % Size
-    else
-        rb.count = rb.count + 1
-    end
-end
-
-function average (rb: RingBuffer) returns nat32
-    var idx: nat8 = 0
-    var avg: nat32 = 0
-    while idx < rb.count do
-        avg = avg + rb.buffer[idx]
-    end
-    return avg / rb.count
-end
-```
-
-```blech
-signature
-
-type RingBuffer
-
-function initialise () returns RingBuffer
-function push (value: nat32) (rb: RingBuffer)
-function average (rb: RingBuffer) returns nat32
-```
-
-
-```blech
-import rb "ringbuffer"
-
-module exposes SlidingAverage 
-
-activity SlidingAverage (value: nat32) (average: nat32)
-    var buf: rb.RingBuffer = rb.initialise() 
-    repeat
-        rb.push(value)(buf)
-        average = rb.average(buf)
-        await true
-    end
-end
-```
-
-``` blech
-signature
-
-activity SlidingAverage (value: nat32) (average: nat32)
-```
-
-```blech
-import sa "slidingaverage"
-
-@[EntryPoint]
-activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
-    run sa.SlidingAverage(sensor)(sensorAverage)    
-end
-```
-
-
-Bad design.
-
-``` blech
-import rb "ringbuffer"
-
-module exposes SlidingAverage 
-
-activity SlidingAverage (value: nat32) 
-                        (ringbuffer: rb.RingBuffer, average: nat32)
-    repeat
-        rb.push(value)(ringBuffer)
-        average = rb.average(ringBuffer)
-        await true
-    end
-end
-```
-
-``` blech
-import rb "ringbuffer"
-
-signature
-
-activity SlidingAverage (value: nat32) 
-                        (ringbuffer: rb.RingBuffer, average: nat32)
-```
-
-```blech
-import r "ringbuffer"
-import s "slidingaverage"
-
-@[EntryPoint]
-activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
-    var ringBuffer: r.RingBuffer = r.initialise()
-    run s.SlidingAverage(sensor)(ringBuffer, sensorAverage)    
-end
-```
-
-
-
-### Using internal import to access internal details.
-
-A module that uses an `internal import` becomes itself an `internal module` if it leaks details of the `internal import` in its interface. 
-Assume the following module in file `countobserver.blc`-
-``` blech
-internal import rb "ringbuffer"
-
-internal module exposes MaxCount, count
-
-const MaxCount: nat8 = rb.Size
-
-function count (buf: rb.RingBuffer) returns nat8
-    return buf.count
-end
-```
-
-It is a compiler error not to classify the module as `internal`.
-
-It is also not possible to create a module interface that is independent of the module implementation file  `ringbuffer.blc`.
-Compilation completely relies on implementation files.
-Therefore we never create the following a signature file.
-
-``` blech
-internal import rb "ringbuffer"
-
-signature
-const MaxCount: nat8 = rb.Size
-function count (buf: rb.RingBuffer) returns nat8
-```
-
-On the other hand, we can classify a module as `internal` to prevent exposing it in a package.
-This means internal modules are hidden inside a package, because they do not generate a signature.
-An `internal import` or the import of an `internal module` always needs the source code of the module implementation file.
-
-In order to create a signature for a module that uses an `internal import` or imports an `internal module`, the details of those imports must not leak through its interface.
-
-``` blech
-import rb "ringbuffer"
-
-module exposes ObserveFilledBuffer
-
-const MaxCount: nat8 = rb.Size
-
-function count (buf: rb.RingBuffer) returns nat8
-    return buf.count
-end
-
-activity ObserveFilledBuffer (value: nat32) (filled: bool)
-    var buf: rb.RingBuffer = rb.initialise()
-    repeat
-        rb.push(value)(buf)
-        filled = count(buf) == MaxCount
-        await true
-    end
-end
-```
-
-``` blech
-signature
-activity ObserveFilledBuffer (value: nat32) (filled: bool)
-```
 
  -->
