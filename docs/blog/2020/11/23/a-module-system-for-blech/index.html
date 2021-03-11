@@ -23,12 +23,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/" />
 <meta property="article:published_time" content="2020-11-23T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-12-21T16:31:09+01:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2021-03-03T09:58:39+01:00" /><meta property="og:site_name" content="Blech" />
 <meta itemprop="name" content="A module system for Blech">
 <meta itemprop="description" content="This article motivates and explains the Blech module system
 ">
 <meta itemprop="datePublished" content="2020-11-23T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-12-21T16:31:09+01:00" />
+<meta itemprop="dateModified" content="2021-03-03T09:58:39+01:00" />
 <meta itemprop="wordCount" content="3414">
 
 
@@ -700,10 +700,10 @@ Note, that a recompilation of <code>localmodule.blc</code> is also necessary, if
 <li>absolutely from the top of the box.</li>
 </ul>
 <p>Here are some examples for an import inside a box:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import ma &#34;../module_A&#34;            // relative path, one directory up
-import mb &#34;./sub_dir/module_B&#34;     // relative path one directory down
-import mb2 &#34;sub_dir/module_B&#34;      // as before with a different local name 
-import mc  &#34;/top_level/module_C&#34;   // absolute path inside the box
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import ma &#34;../moduleA&#34;           // relative path, one directory up
+import mb &#34;./subdir/moduleB&#34;     // relative path one directory down
+import mb2 &#34;subdir/moduleB&#34;      // as before with a different local name 
+import mc  &#34;/toplevel/moduleC&#34;   // absolute path inside the box
 </code></pre></div><p>In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.
 The import declaration has the following form</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">import m &#34;box:library/module&#34;

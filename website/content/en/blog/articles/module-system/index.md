@@ -357,10 +357,10 @@ In general, the imported file name for an import inside a box, can be adressed
 
 Here are some examples for an import inside a box:
 ```blech
-import ma "../module_A"            // relative path, one directory up
-import mb "./sub_dir/module_B"     // relative path one directory down
-import mb2 "sub_dir/module_B"      // as before with a different local name 
-import mc  "/top_level/module_C"   // absolute path inside the box
+import ma "../moduleA"           // relative path, one directory up
+import mb "./subdir/moduleB"     // relative path one directory down
+import mb2 "subdir/moduleB"      // as before with a different local name 
+import mc  "/toplevel/moduleC"   // absolute path inside the box
 ```
 
 In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.

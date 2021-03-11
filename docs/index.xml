@@ -313,10 +313,10 @@ Note, that a recompilation of &lt;code&gt;localmodule.blc&lt;/code&gt; is also n
 &lt;li&gt;absolutely from the top of the box.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Here are some examples for an import inside a box:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import ma &amp;#34;../module_A&amp;#34;            // relative path, one directory up
-import mb &amp;#34;./sub_dir/module_B&amp;#34;     // relative path one directory down
-import mb2 &amp;#34;sub_dir/module_B&amp;#34;      // as before with a different local name 
-import mc  &amp;#34;/top_level/module_C&amp;#34;   // absolute path inside the box
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import ma &amp;#34;../moduleA&amp;#34;           // relative path, one directory up
+import mb &amp;#34;./subdir/moduleB&amp;#34;     // relative path one directory down
+import mb2 &amp;#34;subdir/moduleB&amp;#34;      // as before with a different local name 
+import mc  &amp;#34;/toplevel/moduleC&amp;#34;   // absolute path inside the box
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.
 The import declaration has the following form&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;box:library/module&amp;#34;
