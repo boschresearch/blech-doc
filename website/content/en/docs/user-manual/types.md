@@ -117,7 +117,7 @@ let x = a[1][1]          // copy 3.4 to x
 
 ## Structure types
 
-Structure declarations introduce a new type identifier.
+A structure declaration introduces a new type identifier.
 A structure contains a fixed number of _fields_.
 Each field has an access capability (`let` or `var`), a name, some data type and possibly a default value initialiser.
 
@@ -126,7 +126,7 @@ StructDeclaration ::= "struct" Identifier Field+ "end"
 Field            ::= ("var" | "let") Identifier ":" Type ["=" Expr]
 ```
 
-If an initialiser is given for a field this value is taken as the default value when constructing an instance of this structure.
+If an initialiser is given for a field this value is taken as the default value when constructing a new instance of this structure.
 The initialisation expression must be a compile time value.
 Of course, this default value may be overruled by the initialiser given at the instantiation.
 
@@ -145,25 +145,23 @@ s1.a = 42    // ok, now s1 == {a = 42, b = 17}
 s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
 
 let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
-s2.b = 17                     // error! Cannot change the let variable s2
+s2.b = 17                     // error! Cannot change the read-only variable s2
+s2 = {}                       // error! Cannot change the read-only variable s2
 ```
 
 Structure `s1` is declared using a `var` access qualifier.
 The fields may be overwritten as well as the structure as a whole.
 By contrast, `s2` is declared using `let`.
-It cannot be changed after initialisation.
+It cannot be changed after initialisation in any way.
 
 The above example illustrates all operations available on structures.
 The dot `.` is used to access a field value inside a structure.
 If the value of a field again is a structure it may be further "dotted into".
-Structures may be assigned using a struct literal or a name of another struct of the same data type.
+Structures may be assigned using a struct literal or a name of another struct of the same type.
 Assigning the empty literal `{}` means that all default values are restored.
 
-`let` fields cannot be changed once the structure is instantiated.
-Assignment on structures as a whole is only permitted if all (sub-)field have `var` access qualifiers (and the struct itself has been declared using `var`).
-
 ### Immutable fields in structures
-
+`let` fields cannot be changed once the structure is instantiated.
 ```blech
 struct T
     let a: int32
@@ -178,24 +176,13 @@ end
 /* usage in local scope */
 var s: S = {x.a = 7} // ok, s == {x = {a = 7, b = 0}, y = 0}
 s.x.b = 42           // ok, s == {x = {a = 7, b = 42}, y = 0}
-s = {}               // error! s contains immutable fields
+s.x.a = 8            // error! read-only field s.x.a cannot be changed after initialisation
+s.x = {}               // ok, s.x is reset as a whole, now s == {x = {a = 0, b = 0}, y = 0}
 ```
 
-Assignments to the struct `s` are prohibited because `s.x.a` is immutable.
-You need to individually specify which fields you want to update.
-It may be helpful to implement a helper function for this specific data type as shown below.
+Note that in the example above the field `a` of type `T` is protected against mutation after initialisation.
+However the struct `s` that holds an instance of `T` in its mutable field `x` may replace the value of that field.
 
-```blech
-function resetS()(s: S)
-    s.x.b = 0
-    s.y = 0
-end
-
-/* usage in local scope */
-var s: S
-/* ... */
-resetS()(s)
-```
 
 ## blechconf.h
 
