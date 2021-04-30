@@ -32,7 +32,7 @@ Operator precedence low to high:
 | `&` | Bitwise AND 
 | `>>`, `<<`, `<>>`, `<<>`, `+>>` | Shifts, rotations and signed right shift
 | `+`, `-` | Addition and subtraction
-| `*`, `/`, `+` | Multiplication, division and remainder
+| `*`, `/`, `%` | Multiplication, division and remainder
 | `not` x, ``-``x, ``~``x | Negation, unary minus, bit inversion
 
 
