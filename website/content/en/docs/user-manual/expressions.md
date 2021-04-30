@@ -427,7 +427,7 @@ Therefore we allow to implicitly lift `x` to `int16` and carry out the compariso
 This makes sense because the result of all comparison operators is always a Boolean value.
 There are no "surprises" about the outcome.
 
-### Logical operatorions
+### Logical operators
 
 The operators `and` and `or` may only be applied to Boolean typed arguments.
 
