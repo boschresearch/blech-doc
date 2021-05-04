@@ -93,7 +93,7 @@ This is because the value of `input` is determined at *runtime* but `x` must be 
 The other two qualifiers `let` and `var` indicate local data and may *only* be used inside functions or activities.
 
 `let` declares immutable data in the control flow of a program.
-Finally, 'var' declares the usual mutable variable.
+Finally, `var` declares the usual mutable variable.
 Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type's default value.
 The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.
 
@@ -181,8 +181,8 @@ The example above is a valid Blech program that sums all inputs over all time st
 Note that `add` omits an output list and `A` does not declare any return type.
 We call functions or activities that do not return anything "void" but unlike C we do not have a void type in the language.
 
-The `@[EntryPoint]` annotation tells the compiler that `A` is the main program of this file. Every Blech file must have precisely one entry point activity.
-_(That is until we have a module system that allows to write libraries that may have no single entry point at all)._
+The `@[EntryPoint]` annotation tells the compiler that `A` is the main program. Every Blech program must have precisely one entry point activity. 
+Note however, that a Blech program may consist of several files, one program file and several (sub-)modules. See the [modules chapter](../modules/#compilation-units) for details.
 
 The `singleton` keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
 For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.

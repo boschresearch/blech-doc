@@ -73,7 +73,7 @@ end
 function push (value: nat32) (rb: RingBuffer)
     rb.buffer[rb.nextIndex] = value
     rb.nextIndex = rb.nextIndex + 1
-    if rb.count = Size then // ringbuffer ist completely filled
+    if rb.count == Size then // ringbuffer is completely filled
         rb.nextIndex = rb.nextIndex % Size
     else
         rb.count = rb.count + 1
@@ -84,7 +84,7 @@ end
 function average (rb: RingBuffer) returns nat32
     var idx: nat8 = 0
     var avg: nat32 = 0
-    while idx < rb.count do
+    while idx < rb.count repeat
         avg = avg + rb.buffer[idx]
     end
     return avg / rb.count
