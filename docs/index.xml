@@ -21,9 +21,9 @@
       <description>
         
         
-        &lt;p&gt;The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
-With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
-This is difficult and error prone. 
+        &lt;p&gt;The Blech module system supports modular programming for reactive, embedded, safety-critical applications.
+With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way.
+This is difficult and error prone.
 As a consequence today&amp;rsquo;s systems are often more monolithic than modular.&lt;/p&gt;
 &lt;p&gt;Blech&amp;rsquo;s synchronous paradigm together with the upcoming module system enables and supports modular programming.
 It has the following properties:&lt;/p&gt;
@@ -60,7 +60,7 @@ It has the following properties:&lt;/p&gt;
 &lt;p&gt;To keep things simple, every Blech file can be compiled separately and is either a program or a module.
 A module file groups closely related Blech entities - constants, types, functions, activities, etc. - into a compilation unit, that can be used (imported) by other modules or programs.
 The keyword &lt;code&gt;module&lt;/code&gt; classifies the content of a Blech file as a module.
-Different to modules, a program file requires an &lt;code&gt;@[EntryPoint]&lt;/code&gt; activity which serves as the main activity of a Blech program. 
+Different to modules, a program file requires an &lt;code&gt;@[EntryPoint]&lt;/code&gt; activity which serves as the main activity of a Blech program.
 A program file cannot be imported by other modules or programs.&lt;/p&gt;
 &lt;p&gt;Assume the following module implementation in file &lt;code&gt;ringbuffer.blc&lt;/code&gt;.
 In order to make an entity accessible it needs to be exposed.
@@ -85,7 +85,7 @@ end
 function push (value: nat32) (rb: RingBuffer)
     rb.buffer[rb.nextIndex] = value
     rb.nextIndex = rb.nextIndex + 1
-    if rb.count = Size then // ringbuffer ist completely filled
+    if rb.count == Size then // ringbuffer is completely filled
         rb.nextIndex = rb.nextIndex % Size
     else
         rb.count = rb.count + 1
@@ -96,7 +96,7 @@ end
 function average (rb: RingBuffer) returns nat32
     var idx: nat8 = 0
     var avg: nat32 = 0
-    while idx &amp;lt; rb.count do
+    while idx &amp;lt; rb.count repeat
         avg = avg + rb.buffer[idx]
     end
     return avg / rb.count
@@ -126,10 +126,10 @@ function average (rb: RingBuffer) returns nat32
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The exposed functions additionally need the type &lt;code&gt;RingBuffer&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Since &lt;code&gt;struct RingBuffer&lt;/code&gt; is not exposed in the module it is made available as an opaque &lt;code&gt;type RingBuffer&lt;/code&gt; in the signature.
 While the implementation remains hidden, the opaque type can be used to define variables and assign values of this type.
-This allows to change the internal representation, while any code the uses the module remains unchanged. 
+This allows to change the internal representation, while any code the uses the module remains unchanged.
 Opaque types are sometimes also called abstract types, and are a simple form of the theoretical concept of existential types.&lt;/p&gt;
-&lt;p&gt;Signatures carry all information necessary to compile any code that uses this module. 
-This enables to package Blech modules into libraries. 
+&lt;p&gt;Signatures carry all information necessary to compile any code that uses this module.
+This enables to package Blech modules into libraries.
 There is no need to deliver module implementations.
 It is enough to deliver compiled libraries with:&lt;/p&gt;
 &lt;ul&gt;
@@ -164,7 +164,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This module imports a module from file &lt;code&gt;ringbuffer.blc&lt;/code&gt; with the local name &lt;code&gt;rb&lt;/code&gt;.
 It implements and exposes a single activity &lt;code&gt;SlidingAverage&lt;/code&gt;, with a local variable of type &lt;code&gt;rb.RingBuffer&lt;/code&gt;.
 The module completely hides its internal implementation, which uses the abstract type &lt;code&gt;RingBuffer&lt;/code&gt; and functions &lt;code&gt;initialise&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt; and &lt;code&gt;average&lt;/code&gt; from module &lt;code&gt;rb&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The generated signature in file &lt;code&gt;slidingaverage.blh&lt;/code&gt; is simple. 
+&lt;p&gt;The generated signature in file &lt;code&gt;slidingaverage.blh&lt;/code&gt; is simple.
 The implementations details are completely hidden.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
@@ -184,7 +184,7 @@ end
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;em&gt;No dependency cycles between modules&lt;/em&gt; is an important rule for a good system design:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This design rule will prevent your code from turning into a big ball of mud. 
+&lt;p&gt;This design rule will prevent your code from turning into a big ball of mud.
 [&amp;hellip;] Dependency cycles are bad because they increase coupling [&amp;hellip;] and [&amp;hellip;] can’t be tested in isolation. &lt;a href=&#34;#LargePrograms&#34;&gt;[2]&lt;/a&gt;
 &lt;/p&gt;
 &lt;/blockquote&gt;
@@ -239,7 +239,7 @@ end
 &lt;p&gt;A particular library is a [&amp;hellip;] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [&amp;hellip;] to be used by a higher-level program, library, or system. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
 &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;In Blech we call a library a &lt;em&gt;Blech box&lt;/em&gt; or a &lt;em&gt;box&lt;/em&gt; for short. 
+&lt;p&gt;In Blech we call a library a &lt;em&gt;Blech box&lt;/em&gt; or a &lt;em&gt;box&lt;/em&gt; for short.
 A box is a collection of modules and programs.
 Typically some modules of a box are supposed to be used from those higher levels, while others remain internally hidden and only serve implementation purposes.&lt;/p&gt;
 &lt;p&gt;By default every module in a box can be imported from a higher-level program or module.
@@ -260,7 +260,7 @@ type RingBuffer
 function initialise () returns RingBuffer
 function push (value: nat32) (rb: RingBuffer)
 function average (rb: RingBuffer) returns nat32
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If we package this module together with module &lt;code&gt;slidingaverage&lt;/code&gt; from above into a box, 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If we package this module together with module &lt;code&gt;slidingaverage&lt;/code&gt; from above into a box,
 only the signature for &lt;code&gt;slidingaverage&lt;/code&gt; should be detectable, the signatures of internal modules are hidden.&lt;/p&gt;
 &lt;p&gt;In order to write a non-internal module that imports an &lt;code&gt;internal module&lt;/code&gt;, the details of those imports must not leak through its interface.
 For example, the following module &lt;code&gt;ringbufferaverage&lt;/code&gt; implicitly exposes the opaque type &lt;code&gt;RingBuffer&lt;/code&gt; from the imported internal module &lt;code&gt;ringbuffer&lt;/code&gt;.
@@ -306,7 +306,7 @@ end
 &lt;p&gt;Imports inside a box just adress the imported file.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;localmodule&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The compiler searches for file &lt;code&gt;localmodule.blc&lt;/code&gt; to compile it, or uses &lt;code&gt;localmodule.blh&lt;/code&gt; if nothing has changed and &lt;code&gt;localmodule.blc&lt;/code&gt; has been compiled before.
-Note, that a recompilation of &lt;code&gt;localmodule.blc&lt;/code&gt; is also necessary, if any of &lt;code&gt;localmodule&lt;/code&gt;&#39;s imports have changed.&lt;/p&gt;
+Note, that a recompilation of &lt;code&gt;localmodule.blc&lt;/code&gt; is also necessary, if any of &lt;code&gt;localmodule&lt;/code&gt;&amp;rsquo;s imports have changed.&lt;/p&gt;
 &lt;p&gt;In general, the imported file name for an import inside a box, can be adressed&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;relatively to the importing module, or&lt;/li&gt;
@@ -320,7 +320,7 @@ import mc  &amp;#34;/toplevel/moduleC&amp;#34;   // absolute path inside the box
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.
 The import declaration has the following form&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;box:library/module&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This tells the compiler to import a module &lt;code&gt;module&lt;/code&gt; from box &lt;code&gt;box:library&lt;/code&gt; and name it &lt;code&gt;m&lt;/code&gt; locally. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This tells the compiler to import a module &lt;code&gt;module&lt;/code&gt; from box &lt;code&gt;box:library&lt;/code&gt; and name it &lt;code&gt;m&lt;/code&gt; locally.
 The compiler searches for the signature file &lt;code&gt;module.blh&lt;/code&gt; in the box named &lt;code&gt;library&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;When importing from another box, the compiler prevents:&lt;/p&gt;
 &lt;ul&gt;
@@ -338,13 +338,13 @@ Since imports of &lt;code&gt;internal module&lt;/code&gt;s of a box are also for
 &lt;p&gt;When developing a box, the program and module implementation files are placed beneath a top-level directory - the Blech project.
 The top-level directory can have sub-directories that contain further implementation files.
 The file structure corresponds to the import paths used in the import declaration.&lt;/p&gt;
-&lt;p&gt;Note, that the choice of directory and file names is restricted for simpler name mangling. 
+&lt;p&gt;Note, that the choice of directory and file names is restricted for simpler name mangling.
 The compiler checks this.&lt;/p&gt;
 &lt;p&gt;The file structure of the Blech source code translates to the file structure of compilation artefacts: signatures, .h-files and .c-files.
 It is possible to work on more than one box at a time, you just need 2 or more Blech projects in independent directories.&lt;/p&gt;
 &lt;h2 id=&#34;tricks-of-trade&#34;&gt;Tricks of trade&lt;/h2&gt;
 &lt;p&gt;As you might have noticed, every imported entity is qualified by the local module name in the examples.
-Sometimes you don&amp;rsquo;t want qualification and address an entity directly. 
+Sometimes you don&amp;rsquo;t want qualification and address an entity directly.
 The &lt;code&gt;import&lt;/code&gt; declaration optionally &lt;code&gt;exposes&lt;/code&gt; selected entities for this purpose.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Make selected entities directly accessible&lt;/li&gt;
@@ -366,7 +366,7 @@ If two imports expose the same name, the second will create an error because it 
 &lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Of course it is a natural wish, to have the &lt;code&gt;ringbuffer&lt;/code&gt; module parameterized by its size (here: &lt;code&gt;const Size&lt;/code&gt;) and its element type (here: &lt;code&gt;nat32&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;But, in Blech we keep the module system simple. 
+&lt;p&gt;But, in Blech we keep the module system simple.
 Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
 Then, modules also might contain generic types and generic interface implementations.&lt;/p&gt;
 &lt;p&gt;The concept of type-safe generics is in an early stage, and different to other languages follows our embedded requirements.
@@ -482,7 +482,7 @@ It will definitely need some more Blech releases before we can adress generics.&
                          &amp;quot;&amp;quot;&amp;quot;)]
   extern function doStuff(a: nat8)(b: nat8)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C. 
+&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C.
 &lt;code&gt;$1&lt;/code&gt; is input parameter &lt;code&gt;a: nat8&lt;/code&gt; which is passed by value because it has a simple type.
 &lt;code&gt;$2&lt;/code&gt; is output parameter &lt;code&gt;b: nat8&lt;/code&gt; which is passed by reference as a pointer.&lt;/p&gt;
 &lt;/li&gt;
@@ -1897,7 +1897,7 @@ end
         
         
         &lt;h2 id=&#34;why-blech&#34;&gt;Why Blech?&lt;/h2&gt;
-&lt;p&gt;There is a huge difference between the environments of a desktop, a server, or a mobile application 
+&lt;p&gt;There is a huge difference between the environments of a desktop, a server, or a mobile application
 and a typical application in the embedded domain.
 Moreover, the embedded industry is itself huge &amp;ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.&lt;/p&gt;
 &lt;!-- Just because it&#39;s &#34;huge&#34; doesn&#39;t of itself motivate anything yet - how about the following? --&gt; 
@@ -1907,43 +1907,43 @@ of academic circles or highly proprietary walled garden approaches.&lt;/p&gt;
 &lt;p&gt;We want to change that.&lt;/p&gt;
 &lt;h3 id=&#34;the-embedded-domain-is-tough&#34;&gt;The embedded domain is tough&lt;/h3&gt;
 &lt;p&gt;Embedded applications usually run on dedicated hardware to interact with a specific physical environment.
-More often than not, the hardware is resource-constrained in terms of memory and processing power. 
+More often than not, the hardware is resource-constrained in terms of memory and processing power.
 To fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
 Applications must be reactive because of realtime requirements, and deterministic to make reactions predictable and repeatable under test.&lt;/p&gt;
 &lt;p&gt;This mix of requirements imposes severe constraints on developers in terms of how to program their application.&lt;/p&gt;
 &lt;p&gt;In principle, there are two ways to organize the code: event-driven or threaded.&lt;/p&gt;
-&lt;p&gt;Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
+&lt;p&gt;Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task.
 The programmer has to maintain the state across multiple events, and to manually combine these events into the required flow of control.
 Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
 The disadvantage is that they are hard to write and even harder to read and reason about.&lt;/p&gt;
 &lt;p&gt;Threaded functions are easier to write and comprehend, since the program can be expressed as a sequence of actions, waiting for asynchronous input if needed.
 The state between steps is preserved on the stack.
-The big disadvantage is that each threaded function needs to allocate its maximum possible required stack during its existence, 
+The big disadvantage is that each threaded function needs to allocate its maximum possible required stack during its existence,
 and the composition of threaded functions creates the need for pre-emptive or cooperative scheduling at run-time, which either is non-deterministic or non-reactive.&lt;/p&gt;
 &lt;p&gt;As a consequence, applications are often written in an event-driven style.&lt;/p&gt;
 &lt;h3 id=&#34;c-programming-is-like-defusing-a-bomb&#34;&gt;C programming is like defusing a bomb&lt;/h3&gt;
-&lt;p&gt;Many areas in software development have benefitted from improvements made to programming languages. 
-Embedded systems are an exception to this. 
+&lt;p&gt;Many areas in software development have benefitted from improvements made to programming languages.
+Embedded systems are an exception to this.
 C remains the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.&lt;/p&gt;
 &lt;p&gt;Of course, there are several languages like Ada, C++, or Rust that have the potential to improve certain aspects of embedded development.
 Due to its backwards compatability with C and its maturity, C++ is often preferred and used in many embedded projects.
 Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general-purpose languages, which only improve certain programming aspects and do not really reduce the complexity of embedded applications.&lt;/p&gt;
 &lt;p&gt;Blech is different.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-blech&#34;&gt;What is Blech?&lt;/h2&gt;
-&lt;p&gt;Blech is a language that is specifically designed for safety- and realtime-critical, reactive, embedded programming. 
+&lt;p&gt;Blech is a language that is specifically designed for safety- and realtime-critical, reactive, embedded programming.
 The cornerstones of Blech are its model of computation (MoC) and its simple integration with C.
-Being a new language, it benefits from the progress in programming languages over the past 4 decades. 
+Being a new language, it benefits from the progress in programming languages over the past 4 decades.
 With its domain focus, it is designed to guarantee important properties via the compiler.&lt;/p&gt;
 &lt;h3 id=&#34;the-blech-model-of-computation&#34;&gt;The Blech model of computation&lt;/h3&gt;
 &lt;p&gt;Blech is a synchronous language.&lt;/p&gt;
 &lt;p&gt;In a nutshell, the synchronous model of computation allows us to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
 For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.&lt;/p&gt;
 &lt;p&gt;Blech allows us to write subprograms, called &lt;em&gt;activities&lt;/em&gt;, that execute in &lt;em&gt;steps&lt;/em&gt;, as a sequence of actions which pause once a step is finished.
-A synchronous language regards the trigger events that initiate these steps as the &lt;em&gt;ticks&lt;/em&gt; of a clock. 
+A synchronous language regards the trigger events that initiate these steps as the &lt;em&gt;ticks&lt;/em&gt; of a clock.
 The ticks can either be periodically triggered by time, or aperiodically triggered by events.
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.&lt;/p&gt;
-&lt;p&gt;A Blech activity is a sequential control flow of statements that finishes a step by pausing at an &lt;em&gt;await&lt;/em&gt; statement. 
+&lt;p&gt;A Blech activity is a sequential control flow of statements that finishes a step by pausing at an &lt;em&gt;await&lt;/em&gt; statement.
 The await statement guards the continuation of the control flow with a condition, which is evaluated as soon as the next step is triggered by a tick.
 These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.&lt;/p&gt;
@@ -2010,13 +2010,13 @@ With its domain focus and the synchronous MoC, we restrict the language to:&lt;/
 &lt;p&gt;These properties are guaranteed by the type system and several further compile-time analyses.
 Virtually anything that is usually required by embedded, realtime, or safety-oriented coding-conventions like MISRA C/C++ can be handled by the compiler.&lt;/p&gt;
 &lt;h3 id=&#34;the-future&#34;&gt;The future&lt;/h3&gt;
-&lt;p&gt;Blech, as currently released, is a working first step. 
+&lt;p&gt;Blech, as currently released, is a working first step.
 The new mechanisms and the semantics for synchronous imperative programming are fully implemented.
 The compiler generates clean C code.&lt;/p&gt;
-&lt;p&gt;However, some of the syntactic elements are not yet translated. 
-Also, a few of the above safety checks are still missing. 
-Filling these gaps is a matter of effort and is done bit by bit. 
-Furthermore, there is a longer roadmap to enrich the language itself. 
+&lt;p&gt;However, some of the syntactic elements are not yet translated.
+Also, a few of the above safety checks are still missing.
+Filling these gaps is a matter of effort and is done bit by bit.
+Furthermore, there is a longer roadmap to enrich the language itself.
 This requires more research and design.&lt;/p&gt;
 &lt;p&gt;Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
 The module system will support information hiding, black-box reuse and white-box testing.

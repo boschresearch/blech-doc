@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.74.3" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.81.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -21,18 +21,16 @@
 <meta property="og:description" content="Reactive execution Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself. It interacts with a so-called environment that triggers a reaction of the Blech program.
 Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/moc/" />
-<meta property="article:modified_time" content="2020-08-26T17:28:03+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/moc/" /><meta property="article:section" content="docs" />
+
+<meta property="article:modified_time" content="2021-05-04T16:47:05&#43;02:00" /><meta property="og:site_name" content="Blech" />
+
 <meta itemprop="name" content="Model of execution">
 <meta itemprop="description" content="Reactive execution Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself. It interacts with a so-called environment that triggers a reaction of the Blech program.
 Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs.">
-<meta itemprop="dateModified" content="2020-08-26T17:28:03+02:00" />
+<meta itemprop="dateModified" content="2021-05-04T16:47:05&#43;02:00" />
 <meta itemprop="wordCount" content="792">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Model of execution"/>
 <meta name="twitter:description" content="Reactive execution Unlike classical desktop applications that solve a given task, a Blech application does not run in isolation by itself. It interacts with a so-called environment that triggers a reaction of the Blech program.
 Typically, the environment provides a set of inputs to a Blech program. These inputs may, for example, be sensor readings. The environment then expects the Blech program to perform some computations and finally return a set of updated outputs."/>
@@ -43,8 +41,8 @@ Typically, the environment provides a set of inputs to a Blech program. These in
 
 
 
-<link rel="preload" href="/scss/main.min.187a24f7ee26acffccbff823ed206f6c3e2b0ed9153bddf5df3717d752c727be.css" as="style">
-<link href="/scss/main.min.187a24f7ee26acffccbff823ed206f6c3e2b0ed9153bddf5df3717d752c727be.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.b28f0d93971f1a91419fdc4f43a71821043768f8c22350afbdb4465e670a49f5.css" as="style">
+<link href="/scss/main.min.b28f0d93971f1a91419fdc4f43a71821043768f8c22350afbdb4465e670a49f5.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -281,6 +279,14 @@ Typically, the environment provides a set of inputs to a Blech program. These in
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualexpressions" href="/docs/user-manual/expressions/">Expressions</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualmodules" href="/docs/user-manual/modules/">Modules</a>
         
       
       
@@ -625,7 +631,7 @@ Typically, the environment provides a set of inputs to a Blech program. These in
 
 
 <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/moc.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/user-manual/moc.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+<a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/user-manual/moc.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
 <a href="https://github.com/boschresearch/blech-doc/issues/new?title=Model%20of%20execution" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
@@ -702,7 +708,7 @@ It interacts with a so-called <em>environment</em> that triggers a <em>reaction<
 <p>Typically, the environment provides a set of <em>inputs</em> to a Blech program. These inputs may, for example, be sensor readings.
 The environment then expects the Blech program to perform some computations and finally return a set of updated <em>outputs</em>.
 Outputs can be interpreted by the environment, for example, as set points for actuators.</p>
-<p>We deliberately use the generic word &ldquo;environment&rdquo; because depending on the use case it may have a different form. 
+<p>We deliberately use the generic word &ldquo;environment&rdquo; because depending on the use case it may have a different form.
 It ranges from just a loop that calls the Blech application as soon as the last reaction has finished to a sophisticated real-time operating system which manages several tasks, timers and event queues.</p>
 <p>The Blech program maintains its state from one reaction to the next.
 Thus a reaction does not merely depend on the given inputs but also on the state of the program itself.</p>
@@ -725,7 +731,7 @@ It is the single most crucial distinctive feature of synchronous programming lan
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
 the distinction of individual reactions; and the distinction of a thread-local view and a global view on shared memory.</p>
-<p>Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
+<p>Synchronous languages differ in what programs they admit such that strict consistency is guaranteed.
 Such programs are called causally correct or simply <em>causal</em>.
 The next section explains what this means for Blech.</p>
 <h2 id="causality">Causality</h2>
@@ -754,7 +760,7 @@ There is at most one writer per shared variable. The writer must finish its last
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified August 26, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/ff9bbc326011c87701e26d41e81aa815c28bd8fc">Docu updated to match 0.5.4 (ff9bbc3)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 4, 2021: <a  href="https://github.com/boschresearch/blech-doc/commit/fa3db018d2c65d0c91d73c796807be02cb8f10f4">drafting the module chapter (fa3db01)</a>
 </div>
 </div>
 
@@ -870,7 +876,7 @@ There is at most one writer per shared variable. The writer must finish its last
 
 
 
-<script src="/js/main.min.a32adfb87bac1df43460a53743ce4dfe0b7a43e336ca93eba6ddf692c877ce7c.js" integrity="sha256-oyrfuHusHfQ0YKU3Q85N/gt6Q&#43;M2ypPrpt32ksh3znw=" crossorigin="anonymous"></script>
+<script src="/js/main.min.818666e7663fda58c21752d2396632d7ec7c6e5b6347645d50c56e7cfa8a0252.js" integrity="sha256-gYZm52Y/2ljCF1LSOWYy1&#43;x8bltjR2RdUMVufPqKAlI=" crossorigin="anonymous"></script>
 
 
 

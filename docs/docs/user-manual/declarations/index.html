@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.74.3" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.81.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -22,19 +22,17 @@
  activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
 Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/declarations/" />
-<meta property="article:modified_time" content="2020-09-03T09:25:57+02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/declarations/" /><meta property="article:section" content="docs" />
+
+<meta property="article:modified_time" content="2021-05-04T16:47:05&#43;02:00" /><meta property="og:site_name" content="Blech" />
+
 <meta itemprop="name" content="Declarations">
 <meta itemprop="description" content="Declarations introduce new names for entities in the program. Declarable entities include
  activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
 Every declaration exists in a lexical scope. Scopes define the visibility of a name. The top-level or file scope is the most global scope in Blech. Functions, activities and types are defined here.">
-<meta itemprop="dateModified" content="2020-09-03T09:25:57+02:00" />
-<meta itemprop="wordCount" content="3102">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="dateModified" content="2021-05-04T16:47:05&#43;02:00" />
+<meta itemprop="wordCount" content="3100">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Declarations"/>
 <meta name="twitter:description" content="Declarations introduce new names for entities in the program. Declarable entities include
  activities functions types data storage  In the future more of such entities may be added to the language such as clocks and physical units.
@@ -46,8 +44,8 @@ Every declaration exists in a lexical scope. Scopes define the visibility of a n
 
 
 
-<link rel="preload" href="/scss/main.min.187a24f7ee26acffccbff823ed206f6c3e2b0ed9153bddf5df3717d752c727be.css" as="style">
-<link href="/scss/main.min.187a24f7ee26acffccbff823ed206f6c3e2b0ed9153bddf5df3717d752c727be.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.b28f0d93971f1a91419fdc4f43a71821043768f8c22350afbdb4465e670a49f5.css" as="style">
+<link href="/scss/main.min.b28f0d93971f1a91419fdc4f43a71821043768f8c22350afbdb4465e670a49f5.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -284,6 +282,14 @@ Every declaration exists in a lexical scope. Scopes define the visibility of a n
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualexpressions" href="/docs/user-manual/expressions/">Expressions</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsuser-manualmodules" href="/docs/user-manual/modules/">Modules</a>
         
       
       
@@ -628,7 +634,7 @@ Every declaration exists in a lexical scope. Scopes define the visibility of a n
 
 
 <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/declarations.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/user-manual/declarations.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+<a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/user-manual/declarations.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
 <a href="https://github.com/boschresearch/blech-doc/issues/new?title=Declarations" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 
 
@@ -762,8 +768,8 @@ Type declarations are discussed <a href="#user-defined-types">below</a>
 <h3 id="qualifiers">Qualifiers</h3>
 <p>There are four possible qualifiers.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Qualifier</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;const&#34;</span> | <span style="color:#000">&#34;param&#34;</span> | <span style="color:#000">&#34;let&#34;</span> | <span style="color:#000">&#34;var&#34;</span>
-</code></pre></div><p><code>const</code> qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
-Typical use cases for <code>const</code> are sizes of data structures, addresses in memory, &hellip; 
+</code></pre></div><p><code>const</code> qualified data is relevant for the compilation phase only and does not have any representation in memory at run time.
+Typical use cases for <code>const</code> are sizes of data structures, addresses in memory, &hellip;
 In C, these are represented by <code>#define</code> macros, which, too, have no representation after the preprocessor finishes.
 Hence <em>using const on arrays (or structs containing arrays), albeit possible, is not advisable</em> and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
 Instead consider <code>param</code>.</p>
@@ -780,7 +786,7 @@ end
 <p><code>const</code> and <code>param</code> data may be declared at top level as well as inside functions or activities.
 The other two qualifiers <code>let</code> and <code>var</code> indicate local data and may <em>only</em> be used inside functions or activities.</p>
 <p><code>let</code> declares immutable data in the control flow of a program.
-Finally, &lsquo;var&rsquo; declares the usual mutable variable.
+Finally, <code>var</code> declares the usual mutable variable.
 Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type&rsquo;s default value.
 The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.</p>
 <p>Example:</p>
@@ -843,7 +849,7 @@ From a syntactic declaration point of view there is hardly any difference.</p>
 <span style="color:#000">ProgramType</span>        ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;function&#34;</span> | <span style="color:#000">&#34;activity&#34;</span>
 <span style="color:#000">ParamList</span>          ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;()&#34;</span> | <span style="color:#000">&#34;(&#34;</span> <span style="color:#000">ParamDeclaration</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">&#34;,&#34;</span> <span style="color:#000">ParamDeclaration</span><span style="color:#000;font-weight:bold">)</span><span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">&#34;)&#34;</span>
 <span style="color:#000">ParamDeclaration</span>   ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000">&#34;:&#34;</span> <span style="color:#000">Type</span>
-</code></pre></div><p>There are two parameter lists. 
+</code></pre></div><p>There are two parameter lists.
 The first lists declares formal parameters that may only be read (like <code>let</code> variables), the second list declares formal parameters that may be both read and written (like <code>var</code> variables).
 In particular the two lists are useful for activities which, in every reaction, receive a list of read-only <em>inputs</em>, perform some calculation and set the list of read-write <em>outputs</em>.
 We will therefore often refer to these two parameter lists as &ldquo;input list&rdquo; and &ldquo;output list&rdquo;.</p>
@@ -863,9 +869,10 @@ end
 </code></pre></div><p>The example above is a valid Blech program that sums all inputs over all time steps.
 Note that <code>add</code> omits an output list and <code>A</code> does not declare any return type.
 We call functions or activities that do not return anything &ldquo;void&rdquo; but unlike C we do not have a void type in the language.</p>
-<p>The <code>@[EntryPoint]</code> annotation tells the compiler that <code>A</code> is the main program of this file. Every Blech file must have precisely one entry point activity.
-<em>(That is until we have a module system that allows to write libraries that may have no single entry point at all).</em></p>
-<p>The <code>singleton</code> keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
+<p>The <code>@[EntryPoint]</code> annotation tells the compiler that <code>A</code> is the main program. Every Blech program must have precisely one entry point activity.
+Note however, that a Blech program may consist of several files, one program file and several (sub-)modules. See the <a href="../modules/#compilation-units">modules chapter</a>
+ for details.</p>
+<p>The <code>singleton</code> keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context.
 For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.
 The caller of a singleton callee automatically becomes a singleton, too.</p>
 <h2 id="external-declarations">External Declarations</h2>
@@ -972,8 +979,8 @@ extern function myCFunction(i: float64) returns float64
 <h4 id="types">Types</h4>
 <p>Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types then a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.</p>
 <h4 id="parameter-lists">Parameter lists</h4>
-<p>In Blech, functions have two parameter lists as explained above. 
-The Blech compiler ensures that inputs will only be read. 
+<p>In Blech, functions have two parameter lists as explained above.
+The Blech compiler ensures that inputs will only be read.
 However the Blech compiler has no chance to check that the external code adheres to this contract.</p>
 <p>For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:</p>
@@ -1008,7 +1015,7 @@ Furthermore unicode characters may be used given by <code>\u{codepoint}</code> w
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified September 3, 2020: <a  href="https://github.com/boschresearch/blech-doc/commit/0c22de333ff9b3b6e6ac2f1584d8c855ed6758c1">removed todo (0c22de3)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 4, 2021: <a  href="https://github.com/boschresearch/blech-doc/commit/fa3db018d2c65d0c91d73c796807be02cb8f10f4">drafting the module chapter (fa3db01)</a>
 </div>
 </div>
 
@@ -1124,7 +1131,7 @@ Furthermore unicode characters may be used given by <code>\u{codepoint}</code> w
 
 
 
-<script src="/js/main.min.a32adfb87bac1df43460a53743ce4dfe0b7a43e336ca93eba6ddf692c877ce7c.js" integrity="sha256-oyrfuHusHfQ0YKU3Q85N/gt6Q&#43;M2ypPrpt32ksh3znw=" crossorigin="anonymous"></script>
+<script src="/js/main.min.818666e7663fda58c21752d2396632d7ec7c6e5b6347645d50c56e7cfa8a0252.js" integrity="sha256-gYZm52Y/2ljCF1LSOWYy1&#43;x8bltjR2RdUMVufPqKAlI=" crossorigin="anonymous"></script>
 
 
 

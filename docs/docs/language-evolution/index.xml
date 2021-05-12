@@ -53,8 +53,8 @@ A good argument for this change is given by the &lt;a href=&#34;https://devblogs
 &lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
 The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
 Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
-Those types occur only in 4 different sizes. 
+&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;.
+Those types occur only in 4 different sizes.
 The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
 Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word&#34; target=&#34;_blank&#34;&gt;word&lt;/a&gt;
  is a unit of data of a defined bit length.
@@ -113,11 +113,11 @@ shift right: &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 left rotate: &lt;code&gt;&amp;lt;&amp;lt;&amp;gt;&lt;/code&gt;
 right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;These operators can be defined as Macros. 
+&lt;p&gt;These operators can be defined as Macros.
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
 C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts&#34; target=&#34;_blank&#34;&gt;circular shift idiom&lt;/a&gt;
 .&lt;/p&gt;
-&lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
+&lt;p&gt;The shift and rotate amount is a general unsigned integer type.
 It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
 &lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
@@ -169,7 +169,7 @@ Bitwise and arithmetic operations can only be applied to values of type &lt;code
 let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight&#34; target=&#34;_blank&#34;&gt;Hacker’s Delight&lt;/a&gt;
- is the definitive source of bitwise programming algorithms. 
+ is the definitive source of bitwise programming algorithms.
 It should be possible to use these hacks in Blech.&lt;/p&gt;
 &lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: bits8
@@ -433,7 +433,7 @@ Every imported module only needs to be loaded once.&lt;/p&gt;
 &lt;p&gt;The Blech signature file contains all static information for name checking, type checking and causality analysis.
 The C header and implementations files are used to compile a Blech program.&lt;/p&gt;
 &lt;h3 id=&#34;compiling-a-blech-program&#34;&gt;Compiling a Blech program&lt;/h3&gt;
-&lt;p&gt;A Blech program file is not a module. Therefore, it cannot be imported. 
+&lt;p&gt;A Blech program file is not a module. Therefore, it cannot be imported.
 The compilation of a Blech program file, for example &lt;code&gt;program.blc&lt;/code&gt;, generates only&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A C header file &lt;code&gt;program.h&lt;/code&gt;, and&lt;/li&gt;
