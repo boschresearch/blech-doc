@@ -73,7 +73,9 @@ Note that this deliberately excludes programs where threads are mutually (cyclic
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
+
+    There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
+
 &lt;/div&gt;
 
 &lt;p&gt;The compiler phase that statically ensures a given Blech program is causal is called &lt;em&gt;causality analysis&lt;/em&gt;.&lt;/p&gt;
@@ -360,7 +362,9 @@ The code generator will actually sequentialise the code in a causally correct or
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
+
+    In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
+
 &lt;/div&gt;
 
 &lt;h4 id=&#34;example-concurrent-composition&#34;&gt;Example: Concurrent composition&lt;/h4&gt;
@@ -478,9 +482,11 @@ In this case the preemption is irrelevant for the flow of control.&lt;/p&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The preemption condition is &lt;em&gt;not&lt;/em&gt; checked when the control flow enters the body.
+
+    The preemption condition is &lt;em&gt;not&lt;/em&gt; checked when the control flow enters the body.
 The &lt;code&gt;when&lt;/code&gt; condition is only checked when control flow resumes from within the body.
 Wrap the preemption inside an &lt;code&gt;if&lt;/code&gt; statement in case you want to check the condition before entering the body.
+
 &lt;/div&gt;
 
 &lt;h4 id=&#34;example-abort-and-reset&#34;&gt;Example: Abort and Reset&lt;/h4&gt;
@@ -684,7 +690,9 @@ Composite statements, such as the &lt;code&gt;repeat&lt;/code&gt; loop introduce
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
+
+    Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
+
 &lt;/div&gt;
 
 &lt;p&gt;In Blech, declarations not only introduce a name but also &lt;em&gt;define&lt;/em&gt; what this name represents. For example, a function declaration will specify a function body.
@@ -694,7 +702,9 @@ The definition may refer to names that were previously declared.&lt;/p&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
+
+    Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
+
 &lt;/div&gt;
 
 &lt;p&gt;In the following we discuss the various entities that can be defined in a Blech program.&lt;/p&gt;
@@ -747,31 +757,37 @@ end
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-No global variables in Blech!
+
+    No global variables in Blech!
 We deliberately prohibit the use of &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; outside subprogram scopes because we believe this leads to better understandable, easier to integrate and unit-testable programs.
+
 &lt;/div&gt;
 
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-Confusion may arise about the difference between &lt;code&gt;param&lt;/code&gt; and &lt;code&gt;let&lt;/code&gt;.
+
+    Confusion may arise about the difference between &lt;code&gt;param&lt;/code&gt; and &lt;code&gt;let&lt;/code&gt;.
 They both qualify immutable data in memory.
 They could be even stored in the same way which however is a compiler implementation detail and none of the concerns of the programmer.
 The crucial difference is that &lt;code&gt;let&lt;/code&gt; takes values at runtime.
 It is immutable throughout the scope where it has been declared.
 Once the scope is left and re-entered, the value of that &lt;code&gt;let&lt;/code&gt; variable may be re-initialised. (In the literature this is sometimes dramatically referred to as &amp;ldquo;re-incarnation&amp;rdquo;.)
 As stated above, &lt;code&gt;param&lt;/code&gt; data cannot be changed by the running program at all, it is completely static.
+
 &lt;/div&gt;
 
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The word &amp;ldquo;parameter&amp;rdquo; appears in two notions. One is the &amp;ldquo;formal parameter&amp;rdquo; of a function or activity.
+
+    The word &amp;ldquo;parameter&amp;rdquo; appears in two notions. One is the &amp;ldquo;formal parameter&amp;rdquo; of a function or activity.
 The other is the &amp;ldquo;param&amp;rdquo; qualifier for immutable data.
 The first parametrises a function (ar activity), the second parametrises a whole binary.
 We try to make clear which one we mean throughout this document. Usually it should be apparent from context however.
+
 &lt;/div&gt;
 
 &lt;h2 id=&#34;user-defined-types&#34;&gt;User defined types&lt;/h2&gt;
@@ -782,7 +798,9 @@ See the chapter on &lt;a href=&#34;../types/#structure-types&#34;&gt;struct type
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Info&lt;/h4&gt;
-As the implementation of the compiler progresses there will be more user definable types.
+
+    As the implementation of the compiler progresses there will be more user definable types.
+
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;h2 id=&#34;subprograms&#34;&gt;Subprograms&lt;/h2&gt;
@@ -835,7 +853,9 @@ As before, external functions may be characterised as &lt;code&gt;singleton&lt;/
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&amp;rsquo;ll point out a few caveats below.
+
+    Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&amp;rsquo;ll point out a few caveats below.
+
 &lt;/div&gt;
 
 &lt;h3 id=&#34;external-constants&#34;&gt;External constants&lt;/h3&gt;
@@ -862,7 +882,9 @@ Additionally, local Blech variables that link to external global variables may b
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Info&lt;/h4&gt;
-There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.
+
+    There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.
+
 &lt;/div&gt;
 
 &lt;p&gt;Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
@@ -1387,7 +1409,9 @@ Otherwise the program will crash in debug build mode and saturate to array index
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.
+
+    The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.
+
 &lt;/div&gt;
 
 &lt;h2 id=&#34;calls&#34;&gt;Calls&lt;/h2&gt;
@@ -1476,7 +1500,9 @@ Either &lt;code&gt;a&lt;/code&gt; or &lt;code&gt;b&lt;/code&gt; need to be expli
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 
-// TODO
+
+    // TODO
+
 &lt;/div&gt;
 
 &lt;h3 id=&#34;comparison-operations&#34;&gt;Comparison operations&lt;/h3&gt;
@@ -1530,7 +1556,9 @@ For example, it is not possible to interpret a floating point as a bits type and
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 
-// TODO is the description of &lt;code&gt;as&lt;/code&gt; correct? Are there restrictions, bugs, features?
+
+    // TODO is the description of &lt;code&gt;as&lt;/code&gt; correct? Are there restrictions, bugs, features?
+
 &lt;/div&gt;
 
 &lt;h3 id=&#34;evaluation-order&#34;&gt;Evaluation order&lt;/h3&gt;

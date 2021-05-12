@@ -77,8 +77,9 @@ npm install -D postcss
 
 The Hugo Docsy theme is frequently updated. From time to time update the Docsy theme submodule.
 
+From the root of your repository run:
 ```
-git submodule update --init --recursive
+git submodule update --remote
 ```
 
 #### Preview the website

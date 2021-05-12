@@ -99,15 +99,19 @@ The activity context of a single-threaded activity will only have a flat pc tree
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-A pc tree corresponds to one activity only.
+
+    A pc tree corresponds to one activity only.
 Subactivities which are possibly called have their own activity context with their own pc trees.
+
 &lt;/div&gt;
 
 
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-The pc tree will be flattened to a list during the generation of C code. This is because the tree structure is helpful &lt;em&gt;during&lt;/em&gt; code generation but the generated C code itself does not benefit from a nested tree structure and would only clutter type definitions.
+
+    The pc tree will be flattened to a list during the generation of C code. This is because the tree structure is helpful &lt;em&gt;during&lt;/em&gt; code generation but the generated C code itself does not benefit from a nested tree structure and would only clutter type definitions.
+
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;h2 id=&#34;constructing-the-tree&#34;&gt;Constructing the tree&lt;/h2&gt;
@@ -332,8 +336,10 @@ This is basically the same reasoning as with auto variables. However we need the
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 
-TODO: at the moment all constants and params in local scopes are lifted to the top level.
+
+    TODO: at the moment all constants and params in local scopes are lifted to the top level.
 Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the declaration remain inside the function?
+
 &lt;/div&gt;
 
 
