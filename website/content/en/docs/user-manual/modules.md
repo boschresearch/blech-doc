@@ -23,24 +23,6 @@ Additionally, the compilation result of a Blech program will also contain a *con
 A Blech module, by contrast, is supposed to be *used* by some Blech program or another module.
 Therefore all its activities reply on context information passed on from the caller.
 
-Module implementations encapsulate code.
-- Modules are namespaces for code entities.
-- Module interfaces are automatically generated from implementations and their import/export declarations.
-- Module interfaces hide implementation details.
-- The import hierarchy is always a directed acyclic graph, supporting a layered modular software structure.
-- Every layer is separately testable and reusable.
-- The compiler recursively compiles programs and modules along the dependency hierarchy.
-- Optionally importing all implementation details allows for white-box testing.
-- Modules can be packaged to libraries - called *boxes*.
-- Boxes are namespaces for modules.
-- Boxes can hide internal implementation modules.
-- The syntax for modules is light-weight.
-- Reasoning about the modular structure is easy.
-- Modules and boxes map to files and directories.
-- All static analysis is designed to work with separate compilation.
-
-Files: Programs have an entry point vs modules
-
 ## Modules
 
 A Blech module is a `.blc` file.
@@ -50,6 +32,8 @@ All declarations *within* a module are visible.
 In particular, implementations details such as the fields of a structure are visible.
 
 By contrast, no declaration is visible *outside* the module unless it is explicitly *exposed*.
+
+Thus modules are a mechanism to encapsulate code, provide an API for it and hide implementation details from client code.
 
 ```abnf
 Module ::= "module" ["exposes" IdentifierList] DeclarationList
@@ -215,23 +199,48 @@ Here we assume that in the root `/` of the current project there is a `data_stru
 In order to use its exposed members the local name `rb` is introduced.
 Now we can refer to the opaque data type `rb.RingBuffer` or the functions `rb.initialise` etc...
 
+
 Formally, the import declaration is as follows:
 ```abnf
 Import ::= "import" ["internal"] Identifier QUOTE ImportPath QUOTE ["exposes" IdentifierList] 
-ImportPath ::= ["/" | ".."] Path
+ImportPath ::= ["/" | "../"+] Path
 Path ::= Identifier ["/" Identifier]*
 ```
 
-local name
+### Import paths
+There are three kinds of import paths according to this grammar:
+  1. the path starts with an identifier
+  2. the path starts with ../
+  3. the path starts with /
 
-path formats (indicate box packaging is future work)
-explain project path, relative imports, remark it is not fully supported by IDE yet
+In the example above we have see case 3. 
+The slash indicates the root of the project. 
+It is set by the `--project-dir` compiler flag.
 
-exposes
+Case 1 is a path that starts in the same directory as the file that contains this code.
 
-Rules:
+Case 2 refers to a module which is a parent or sibling in the file system. Note that the path may start several levels above the current file `"../"+` but must not leave the project directory.
+
+In the future there will be a possibility to import (pre-compiled) packages. Ideas can be found in our [blog](https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/).
+**Note: the current IDE implementation assumes that the open file being edited is located in the project root. This is a simplification that will be corrected in the future. This means that the IDE does not support ../ paths.**
+
+### Exposing imported names
+The import statement may *expose* some names directly to the client code. This makes those names available in the same namespace as the client code without using the given local name prefix.
+
+Example:
+```blech
+import Math "libs/utils/math" exposes pi
+```
+
+Assuming `pi` is a name declared in the referenced module, the client code can access this name not only as `Math.pi` but also as `pi` directly.
+
+### Whitebox imports
+Finally, an import can be declared as `internal`.
+Internal imports behave as if all declarations were exposed by the imported module. Of course, this only works if the original Blech source code is available.
+This breaks the information hiding mechanisms and should not be used to circumvent them. Instead this feature is useful for writing unit tests that rely on implementation details not visible outside the tested module. Internal imports allow to separate test code from production code without the need to expose implementation details merely for testing purposes.
+
+
+All import statements adhere to three simple rules:
 - no self import
 - no circular import
 - no double import
-
-## Whitebox import
