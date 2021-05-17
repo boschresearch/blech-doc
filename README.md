@@ -46,7 +46,7 @@ The Blech documentation already contains the Docsy theme as a git submodule. For
 Therefore clone in the following way:
 
 ```
-git clone --recurse-submodules --shallow-submodules https://github.com/boschresearch/blech-doc.git
+git clone --recurse-submodules --depth 1 https://github.com/boschresearch/blech-doc.git
 ```
 
 #### Install local npm modules
@@ -65,19 +65,21 @@ To install the necessary npm modules go to the `website` subfolder in your clone
 cd blech-doc/website
 ```
 
-Locally install the npm modules `autoprefixer` and `postcss-cli`.
+Locally install the npm modules `autoprefixer`, `postcss-cli` and `postcss`.
 
 ```
-npm install -D --save autoprefixer
-npm install -D --save postcss-cli
+npm install -D autoprefixer
+npm install -D postcss-cli
+npm install -D postcss
 ```
 
 #### Update the Docsy theme
 
 The Hugo Docsy theme is frequently updated. From time to time update the Docsy theme submodule.
 
+From the root of your repository run:
 ```
-git submodule update --init --recursive
+git submodule update --remote
 ```
 
 #### Preview the website
@@ -91,8 +93,14 @@ cd website
 Run the website without static site generation
 
 ```
-hugo serve
+hugo server
 ```
+
+Use options `-D` and  `-F` to preview draft and future content:
+
+```
+hugo -D -F server
+````
 
 Open the Blech site preview: http://localhost:1313/
 

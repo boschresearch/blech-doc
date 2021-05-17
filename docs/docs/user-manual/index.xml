@@ -28,7 +28,7 @@ It interacts with a so-called &lt;em&gt;environment&lt;/em&gt; that triggers a &
 &lt;p&gt;Typically, the environment provides a set of &lt;em&gt;inputs&lt;/em&gt; to a Blech program. These inputs may, for example, be sensor readings.
 The environment then expects the Blech program to perform some computations and finally return a set of updated &lt;em&gt;outputs&lt;/em&gt;.
 Outputs can be interpreted by the environment, for example, as set points for actuators.&lt;/p&gt;
-&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form. 
+&lt;p&gt;We deliberately use the generic word &amp;ldquo;environment&amp;rdquo; because depending on the use case it may have a different form.
 It ranges from just a loop that calls the Blech application as soon as the last reaction has finished to a sophisticated real-time operating system which manages several tasks, timers and event queues.&lt;/p&gt;
 &lt;p&gt;The Blech program maintains its state from one reaction to the next.
 Thus a reaction does not merely depend on the given inputs but also on the state of the program itself.&lt;/p&gt;
@@ -51,7 +51,7 @@ It is the single most crucial distinctive feature of synchronous programming lan
 Usually in asynchronous, thread-based programming this strict consistency notion is impossible to achieve in practice.
 However strict consistency becomes possible in our setting because of two ingredients usually not present in asynchronous concurrent programming:
 the distinction of individual reactions; and the distinction of a thread-local view and a global view on shared memory.&lt;/p&gt;
-&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed. 
+&lt;p&gt;Synchronous languages differ in what programs they admit such that strict consistency is guaranteed.
 Such programs are called causally correct or simply &lt;em&gt;causal&lt;/em&gt;.
 The next section explains what this means for Blech.&lt;/p&gt;
 &lt;h2 id=&#34;causality&#34;&gt;Causality&lt;/h2&gt;
@@ -73,7 +73,9 @@ Note that this deliberately excludes programs where threads are mutually (cyclic
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
+
+    There is at most one writer per shared variable. The writer must finish its last writing operation to a shared variable in the current reaction before concurrent readers may read it.
+
 &lt;/div&gt;
 
 &lt;p&gt;The compiler phase that statically ensures a given Blech program is causal is called &lt;em&gt;causality analysis&lt;/em&gt;.&lt;/p&gt;
@@ -117,7 +119,7 @@ lc_&lt;span style=&#34;color:#000&#34;&gt;letter&lt;/span&gt; ::&lt;span style=&
         
         &lt;h2 id=&#34;comments&#34;&gt;Comments&lt;/h2&gt;
 &lt;p&gt;Single line comments are C++ style. They begin with &lt;code&gt;//&lt;/code&gt; and end with the end of line.&lt;/p&gt;
-&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;. 
+&lt;p&gt;Multi-line comments are C style. They begin with &lt;code&gt;/*&lt;/code&gt; and end with &lt;code&gt;*/&lt;/code&gt;.
 Comment nesting is supported.&lt;/p&gt;
 &lt;h3 id=&#34;declaration-comments&#34;&gt;Declaration Comments&lt;/h3&gt;
 &lt;p&gt;A special comment syntax allows to write comments for declarations (functions, activities, types, variables, &amp;hellip;) which will be transported over to the generated C code.
@@ -144,7 +146,7 @@ Java style multi-line comments &lt;code&gt;/** */&lt;/code&gt; and .Net style si
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Bitwise operators&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;~&lt;/code&gt; &lt;code&gt;&amp;amp;&lt;/code&gt; &lt;code&gt;|&lt;/code&gt; &lt;code&gt;^&lt;/code&gt; &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt; &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;~&lt;/code&gt; &lt;code&gt;&amp;amp;&lt;/code&gt; `&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Relational operators&lt;/td&gt;
@@ -164,10 +166,10 @@ Java style multi-line comments &lt;code&gt;/** */&lt;/code&gt; and .Net style si
 &lt;p&gt;&lt;code&gt;abort&lt;/code&gt;
 &lt;code&gt;activity&lt;/code&gt;
 &lt;code&gt;and&lt;/code&gt;
-&lt;code&gt;as&lt;/code&gt; 
+&lt;code&gt;as&lt;/code&gt;
 &lt;code&gt;await&lt;/code&gt;
 &lt;code&gt;bits8&lt;/code&gt;
-&lt;code&gt;bits16&lt;/code&gt; 
+&lt;code&gt;bits16&lt;/code&gt;
 &lt;code&gt;bits32&lt;/code&gt;
 &lt;code&gt;bits64&lt;/code&gt;
 &lt;code&gt;blech&lt;/code&gt;
@@ -360,7 +362,9 @@ The code generator will actually sequentialise the code in a causally correct or
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
+
+    In the future there will be the possibility to specify truly parallel executions in Blech which can be carried out independently.
+
 &lt;/div&gt;
 
 &lt;h4 id=&#34;example-concurrent-composition&#34;&gt;Example: Concurrent composition&lt;/h4&gt;
@@ -478,9 +482,11 @@ In this case the preemption is irrelevant for the flow of control.&lt;/p&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The preemption condition is &lt;em&gt;not&lt;/em&gt; checked when the control flow enters the body.
+
+    The preemption condition is &lt;em&gt;not&lt;/em&gt; checked when the control flow enters the body.
 The &lt;code&gt;when&lt;/code&gt; condition is only checked when control flow resumes from within the body.
 Wrap the preemption inside an &lt;code&gt;if&lt;/code&gt; statement in case you want to check the condition before entering the body.
+
 &lt;/div&gt;
 
 &lt;h4 id=&#34;example-abort-and-reset&#34;&gt;Example: Abort and Reset&lt;/h4&gt;
@@ -684,7 +690,9 @@ Composite statements, such as the &lt;code&gt;repeat&lt;/code&gt; loop introduce
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
+
+    Once we implement a module system for Blech, the mechanisms for controlling visibility will need to be elaborated in more detail.
+
 &lt;/div&gt;
 
 &lt;p&gt;In Blech, declarations not only introduce a name but also &lt;em&gt;define&lt;/em&gt; what this name represents. For example, a function declaration will specify a function body.
@@ -694,7 +702,9 @@ The definition may refer to names that were previously declared.&lt;/p&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
+
+    Declare before use! Even if, for example, functions are defined on the same scope, a function can only call other functions that have been declared before.
+
 &lt;/div&gt;
 
 &lt;p&gt;In the following we discuss the various entities that can be defined in a Blech program.&lt;/p&gt;
@@ -713,8 +723,8 @@ Type declarations are discussed &lt;a href=&#34;#user-defined-types&#34;&gt;belo
 &lt;h3 id=&#34;qualifiers&#34;&gt;Qualifiers&lt;/h3&gt;
 &lt;p&gt;There are four possible qualifiers.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Qualifier&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;const&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;param&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time. 
-Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt; qualified data is relevant for the compilation phase only and does not have any representation in memory at run time.
+Typical use cases for &lt;code&gt;const&lt;/code&gt; are sizes of data structures, addresses in memory, &amp;hellip;
 In C, these are represented by &lt;code&gt;#define&lt;/code&gt; macros, which, too, have no representation after the preprocessor finishes.
 Hence &lt;em&gt;using const on arrays (or structs containing arrays), albeit possible, is not advisable&lt;/em&gt; and produces inefficient code because temporary variables have to be created (and filled) at runtime for every (non-constant) access to these arrays.
 Instead consider &lt;code&gt;param&lt;/code&gt;.&lt;/p&gt;
@@ -731,7 +741,7 @@ end
 &lt;p&gt;&lt;code&gt;const&lt;/code&gt; and &lt;code&gt;param&lt;/code&gt; data may be declared at top level as well as inside functions or activities.
 The other two qualifiers &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; indicate local data and may &lt;em&gt;only&lt;/em&gt; be used inside functions or activities.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;let&lt;/code&gt; declares immutable data in the control flow of a program.
-Finally, &amp;lsquo;var&amp;rsquo; declares the usual mutable variable.
+Finally, &lt;code&gt;var&lt;/code&gt; declares the usual mutable variable.
 Initialisation may be omitted for mutable variables. In this case the Blech compiler will automatically initialise the variable with its type&amp;rsquo;s default value.
 The type annotation may be omitted if the type can be unambiguously determined from the initialisation expression.&lt;/p&gt;
 &lt;p&gt;Example:&lt;/p&gt;
@@ -747,31 +757,37 @@ end
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;
-No global variables in Blech!
+
+    No global variables in Blech!
 We deliberately prohibit the use of &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; outside subprogram scopes because we believe this leads to better understandable, easier to integrate and unit-testable programs.
+
 &lt;/div&gt;
 
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-Confusion may arise about the difference between &lt;code&gt;param&lt;/code&gt; and &lt;code&gt;let&lt;/code&gt;.
+
+    Confusion may arise about the difference between &lt;code&gt;param&lt;/code&gt; and &lt;code&gt;let&lt;/code&gt;.
 They both qualify immutable data in memory.
 They could be even stored in the same way which however is a compiler implementation detail and none of the concerns of the programmer.
 The crucial difference is that &lt;code&gt;let&lt;/code&gt; takes values at runtime.
 It is immutable throughout the scope where it has been declared.
 Once the scope is left and re-entered, the value of that &lt;code&gt;let&lt;/code&gt; variable may be re-initialised. (In the literature this is sometimes dramatically referred to as &amp;ldquo;re-incarnation&amp;rdquo;.)
 As stated above, &lt;code&gt;param&lt;/code&gt; data cannot be changed by the running program at all, it is completely static.
+
 &lt;/div&gt;
 
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The word &amp;ldquo;parameter&amp;rdquo; appears in two notions. One is the &amp;ldquo;formal parameter&amp;rdquo; of a function or activity.
+
+    The word &amp;ldquo;parameter&amp;rdquo; appears in two notions. One is the &amp;ldquo;formal parameter&amp;rdquo; of a function or activity.
 The other is the &amp;ldquo;param&amp;rdquo; qualifier for immutable data.
 The first parametrises a function (ar activity), the second parametrises a whole binary.
 We try to make clear which one we mean throughout this document. Usually it should be apparent from context however.
+
 &lt;/div&gt;
 
 &lt;h2 id=&#34;user-defined-types&#34;&gt;User defined types&lt;/h2&gt;
@@ -782,7 +798,9 @@ See the chapter on &lt;a href=&#34;../types/#structure-types&#34;&gt;struct type
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Info&lt;/h4&gt;
-As the implementation of the compiler progresses there will be more user definable types.
+
+    As the implementation of the compiler progresses there will be more user definable types.
+
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;h2 id=&#34;subprograms&#34;&gt;Subprograms&lt;/h2&gt;
@@ -794,7 +812,7 @@ From a syntactic declaration point of view there is hardly any difference.&lt;/p
 &lt;span style=&#34;color:#000&#34;&gt;ProgramType&lt;/span&gt;        ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;function&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;activity&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamList&lt;/span&gt;          ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;()&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;(&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;)&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ParamDeclaration&lt;/span&gt;   ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There are two parameter lists.
 The first lists declares formal parameters that may only be read (like &lt;code&gt;let&lt;/code&gt; variables), the second list declares formal parameters that may be both read and written (like &lt;code&gt;var&lt;/code&gt; variables).
 In particular the two lists are useful for activities which, in every reaction, receive a list of read-only &lt;em&gt;inputs&lt;/em&gt;, perform some calculation and set the list of read-write &lt;em&gt;outputs&lt;/em&gt;.
 We will therefore often refer to these two parameter lists as &amp;ldquo;input list&amp;rdquo; and &amp;ldquo;output list&amp;rdquo;.&lt;/p&gt;
@@ -814,9 +832,10 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The example above is a valid Blech program that sums all inputs over all time steps.
 Note that &lt;code&gt;add&lt;/code&gt; omits an output list and &lt;code&gt;A&lt;/code&gt; does not declare any return type.
 We call functions or activities that do not return anything &amp;ldquo;void&amp;rdquo; but unlike C we do not have a void type in the language.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;@[EntryPoint]&lt;/code&gt; annotation tells the compiler that &lt;code&gt;A&lt;/code&gt; is the main program of this file. Every Blech file must have precisely one entry point activity.
-&lt;em&gt;(That is until we have a module system that allows to write libraries that may have no single entry point at all).&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context. 
+&lt;p&gt;The &lt;code&gt;@[EntryPoint]&lt;/code&gt; annotation tells the compiler that &lt;code&gt;A&lt;/code&gt; is the main program. Every Blech program must have precisely one entry point activity.
+Note however, that a Blech program may consist of several files, one program file and several (sub-)modules. See the &lt;a href=&#34;../modules/#compilation-units&#34;&gt;modules chapter&lt;/a&gt;
+ for details.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;singleton&lt;/code&gt; keyword is optional and may be used to indicate that there may exist only one instance of this subprogram in a concurrent context.
 For example, this is useful to indicate early on in the development phase that an activity will have some interaction with the external environment.
 The caller of a singleton callee automatically becomes a singleton, too.&lt;/p&gt;
 &lt;h2 id=&#34;external-declarations&#34;&gt;External Declarations&lt;/h2&gt;
@@ -834,7 +853,9 @@ As before, external functions may be characterised as &lt;code&gt;singleton&lt;/
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&amp;rsquo;ll point out a few caveats below.
+
+    Note that the type-safety and causality guarantees of Blech vanish once you interact with an external C implementation. That means the Blech compiler relies on the assumption that the specified annotations and interfaces are correct. We&amp;rsquo;ll point out a few caveats below.
+
 &lt;/div&gt;
 
 &lt;h3 id=&#34;external-constants&#34;&gt;External constants&lt;/h3&gt;
@@ -861,7 +882,9 @@ Additionally, local Blech variables that link to external global variables may b
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Info&lt;/h4&gt;
-There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.
+
+    There is no semantical reason why external variables cannot be declared inside functions. It is simply due to compiler implementation pragmatics that we exclude this possibility as of now.
+
 &lt;/div&gt;
 
 &lt;p&gt;Access to external variables is useful to keep interfaces slim. That is you do not need to pass all data into the entry point activity and down the call chain to the piece of code that actually needs this data and then propagate the results back up this chain to the entry point to communicate the updated values to the environment.
@@ -923,8 +946,8 @@ extern function myCFunction(i: float64) returns float64
 &lt;h4 id=&#34;types&#34;&gt;Types&lt;/h4&gt;
 &lt;p&gt;Blech has no representation of C types. It requires that the C implementation matches the Blech types. This is usually straightforward for simple types. If there is no one-to-one correspondence between types then a wrapper has to be implemented in C that marshals the data between Blech and the actual C function to be called.&lt;/p&gt;
 &lt;h4 id=&#34;parameter-lists&#34;&gt;Parameter lists&lt;/h4&gt;
-&lt;p&gt;In Blech, functions have two parameter lists as explained above. 
-The Blech compiler ensures that inputs will only be read. 
+&lt;p&gt;In Blech, functions have two parameter lists as explained above.
+The Blech compiler ensures that inputs will only be read.
 However the Blech compiler has no chance to check that the external code adheres to this contract.&lt;/p&gt;
 &lt;p&gt;For example, say we have an external function that takes an array of length 10 and sorts it in-place.
 The correct binding would look something like this:&lt;/p&gt;
@@ -1021,7 +1044,7 @@ Each one exist in four sizes that indicate the number of bits needed in a machin
 &lt;p&gt;The distinction of three integral types has the following motivation.
 As usual, we would like to distinguish non-negative numbers of the length &lt;code&gt;N&lt;/code&gt; with a range of &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;2^N -1&lt;/code&gt; from integer numbers centred around 0 with a range of &lt;code&gt;2^(N-1)&lt;/code&gt; to &lt;code&gt;2^(N-1) -1&lt;/code&gt;.
 However, by design, the operations on both kinds of numbers prohibit overflows.
-Computations must stay within the representable domain. 
+Computations must stay within the representable domain.
 &lt;em&gt;In a future implementation an overflow either causes the program to crash or to mitigate it using saturation arithmetic depending on the build mode.&lt;/em&gt;
 In order to allow writing algorithms that do rely on overflowing non-negative integers as in C, as well as bit-masking and bit-shifting the &lt;code&gt;bitsX&lt;/code&gt; type is introduced.
 The bits types of length &lt;code&gt;N&lt;/code&gt; have the same value range as the natural numbers of the same length.&lt;/p&gt;
@@ -1066,12 +1089,12 @@ let r: [2]float32 = a[1] // copy 2nd row of a into r
 let x = a[1][1]          // copy 3.4 to x
                          // x is deduced to have type float32
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;structure-types&#34;&gt;Structure types&lt;/h2&gt;
-&lt;p&gt;Structure declarations introduce a new type identifier.
+&lt;p&gt;A structure declaration introduces a new type identifier.
 A structure contains a fixed number of &lt;em&gt;fields&lt;/em&gt;.
 Each field has an access capability (&lt;code&gt;let&lt;/code&gt; or &lt;code&gt;var&lt;/code&gt;), a name, some data type and possibly a default value initialiser.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;StructDeclaration&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;struct&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Field&lt;/span&gt;+ &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;end&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;Field&lt;/span&gt;            ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;var&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;let&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Type&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;=&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Expr&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If an initialiser is given for a field this value is taken as the default value when constructing an instance of this structure.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If an initialiser is given for a field this value is taken as the default value when constructing a new instance of this structure.
 The initialisation expression must be a compile time value.
 Of course, this default value may be overruled by the initialiser given at the instantiation.&lt;/p&gt;
 &lt;h3 id=&#34;mutable-and-immutable-structures&#34;&gt;Mutable and immutable structures&lt;/h3&gt;
@@ -1087,19 +1110,19 @@ s1.a = 42    // ok, now s1 == {a = 42, b = 17}
 s1 = {}      // ok, reset to default, now s1 == {a = 7, b = 0}
 
 let s2: S = {a = -10, b = 10} // s2 == {a = -10, b = 10}
-s2.b = 17                     // error! Cannot change the let variable s2
+s2.b = 17                     // error! Cannot change the read-only variable s2
+s2 = {}                       // error! Cannot change the read-only variable s2
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Structure &lt;code&gt;s1&lt;/code&gt; is declared using a &lt;code&gt;var&lt;/code&gt; access qualifier.
 The fields may be overwritten as well as the structure as a whole.
 By contrast, &lt;code&gt;s2&lt;/code&gt; is declared using &lt;code&gt;let&lt;/code&gt;.
-It cannot be changed after initialisation.&lt;/p&gt;
+It cannot be changed after initialisation in any way.&lt;/p&gt;
 &lt;p&gt;The above example illustrates all operations available on structures.
 The dot &lt;code&gt;.&lt;/code&gt; is used to access a field value inside a structure.
 If the value of a field again is a structure it may be further &amp;ldquo;dotted into&amp;rdquo;.
-Structures may be assigned using a struct literal or a name of another struct of the same data type.
+Structures may be assigned using a struct literal or a name of another struct of the same type.
 Assigning the empty literal &lt;code&gt;{}&lt;/code&gt; means that all default values are restored.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;let&lt;/code&gt; fields cannot be changed once the structure is instantiated.
-Assignment on structures as a whole is only permitted if all (sub-)field have &lt;code&gt;var&lt;/code&gt; access qualifiers (and the struct itself has been declared using &lt;code&gt;var&lt;/code&gt;).&lt;/p&gt;
 &lt;h3 id=&#34;immutable-fields-in-structures&#34;&gt;Immutable fields in structures&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;let&lt;/code&gt; fields cannot be changed once the structure is instantiated.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct T
     let a: int32
     var b: int32
@@ -1113,20 +1136,11 @@ end
 /* usage in local scope */
 var s: S = {x.a = 7} // ok, s == {x = {a = 7, b = 0}, y = 0}
 s.x.b = 42           // ok, s == {x = {a = 7, b = 42}, y = 0}
-s = {}               // error! s contains immutable fields
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Assignments to the struct &lt;code&gt;s&lt;/code&gt; are prohibited because &lt;code&gt;s.x.a&lt;/code&gt; is immutable.
-You need to individually specify which fields you want to update.
-It may be helpful to implement a helper function for this specific data type as shown below.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function resetS()(s: S)
-    s.x.b = 0
-    s.y = 0
-end
-
-/* usage in local scope */
-var s: S
-/* ... */
-resetS()(s)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;blechconfh&#34;&gt;blechconf.h&lt;/h2&gt;
+s.x.a = 8            // error! read-only field s.x.a cannot be changed after initialisation
+s.x = {}               // ok, s.x is reset as a whole, now s == {x = {a = 0, b = 0}, y = 0}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that in the example above the field &lt;code&gt;a&lt;/code&gt; of type &lt;code&gt;T&lt;/code&gt; is protected against mutation after initialisation.
+However the struct &lt;code&gt;s&lt;/code&gt; that holds an instance of &lt;code&gt;T&lt;/code&gt; in its mutable field &lt;code&gt;x&lt;/code&gt; may replace the value of that field.&lt;/p&gt;
+&lt;h2 id=&#34;blechconfh&#34;&gt;blechconf.h&lt;/h2&gt;
 &lt;p&gt;Blech compiles to C.
 Hence code generation has to map Blech types to C types.
 The file &lt;code&gt;blechconf.h&lt;/code&gt; specifies this mapping.
@@ -1142,10 +1156,10 @@ It is up to the system integrator to ensure that this mapping is valid for the C
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_INT32 signed long
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_INT64 signed long long
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_UINT8 unsigned char
-&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_UINT16 unsigned short
-&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_UINT32 unsigned long
-&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_UINT64 unsigned long long
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_NAT8 unsigned char
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_NAT16 unsigned short
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_NAT32 unsigned long
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_NAT64 unsigned long long
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_BITS8 unsigned char
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#define BLC_BITS16 unsigned short
@@ -1203,8 +1217,8 @@ The following table summarizes the operator precedence in Blech, from lowest pre
 &lt;td&gt;Comparisons&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;|&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Bitwise OR&lt;/td&gt;
+&lt;td&gt;`&lt;/td&gt;
+&lt;td&gt;`&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;^&lt;/code&gt;&lt;/td&gt;
@@ -1223,7 +1237,7 @@ The following table summarizes the operator precedence in Blech, from lowest pre
 &lt;td&gt;Addition and subtraction&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;, &lt;code&gt;+&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;*&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;, &lt;code&gt;%&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Multiplication, division and remainder&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1395,7 +1409,9 @@ Otherwise the program will crash in debug build mode and saturate to array index
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.
+
+    The current implementation relies on C semantics and has no build modes. It will not necessarily crash, since C may read any addressable memory.
+
 &lt;/div&gt;
 
 &lt;h2 id=&#34;calls&#34;&gt;Calls&lt;/h2&gt;
@@ -1431,7 +1447,7 @@ It cannot be applied to a literal without a type annotation.&lt;/p&gt;
 &lt;p&gt;The arithmetic operations work as expected on all arithmetic types.
 See the sections on &lt;a href=&#34;../types/#integer-types&#34;&gt;arithmetic types&lt;/a&gt;
  for details regarding overflow handling.&lt;/p&gt;
-&lt;p&gt;The arguments&amp;rsquo; types may differ only in size.
+&lt;p&gt;The arguments&#39; types may differ only in size.
 When they differ, the smaller size value is lifted implicitly to the larger size.
 The operation is then carried out on (possibly lifted) arguments of the same type.&lt;/p&gt;
 &lt;h4 id=&#34;lifting-types&#34;&gt;Lifting types&lt;/h4&gt;
@@ -1484,7 +1500,9 @@ Either &lt;code&gt;a&lt;/code&gt; or &lt;code&gt;b&lt;/code&gt; need to be expli
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 
-// TODO
+
+    // TODO
+
 &lt;/div&gt;
 
 &lt;h3 id=&#34;comparison-operations&#34;&gt;Comparison operations&lt;/h3&gt;
@@ -1507,7 +1525,7 @@ var y = x &amp;lt; 1000
 Therefore we allow to implicitly lift &lt;code&gt;x&lt;/code&gt; to &lt;code&gt;int16&lt;/code&gt; and carry out the comparison.
 This makes sense because the result of all comparison operators is always a Boolean value.
 There are no &amp;ldquo;surprises&amp;rdquo; about the outcome.&lt;/p&gt;
-&lt;h3 id=&#34;logical-operatorions&#34;&gt;Logical operatorions&lt;/h3&gt;
+&lt;h3 id=&#34;logical-operators&#34;&gt;Logical operators&lt;/h3&gt;
 &lt;p&gt;The operators &lt;code&gt;and&lt;/code&gt; and &lt;code&gt;or&lt;/code&gt; may only be applied to Boolean typed arguments.&lt;/p&gt;
 &lt;p&gt;The expression &lt;code&gt;a and b&lt;/code&gt; is true if and only if &lt;code&gt;a&lt;/code&gt; is true and &lt;code&gt;b&lt;/code&gt; is true.
 The evaluation is performed lazily: first &lt;code&gt;a&lt;/code&gt; is evaluated. If it is false, the expression returns &lt;code&gt;false&lt;/code&gt; without evaluating &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
@@ -1538,11 +1556,157 @@ For example, it is not possible to interpret a floating point as a bits type and
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 
-// TODO is the description of &lt;code&gt;as&lt;/code&gt; correct? Are there restrictions, bugs, features?
+
+    // TODO is the description of &lt;code&gt;as&lt;/code&gt; correct? Are there restrictions, bugs, features?
+
 &lt;/div&gt;
 
 &lt;h3 id=&#34;evaluation-order&#34;&gt;Evaluation order&lt;/h3&gt;
 &lt;p&gt;Undefined at the moment. Evaluated by the C compiler.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Modules</title>
+      <link>https://www.blech-lang.org/docs/user-manual/modules/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/docs/user-manual/modules/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;compilation-units&#34;&gt;Compilation units&lt;/h2&gt;
+&lt;p&gt;A Blech program may be split into multiple files: a program file and so-called &lt;em&gt;module&lt;/em&gt; files.
+The purpose of modules is to encapsulate the implementation of a certain aspect (functionality) in a given software project.&lt;/p&gt;
+&lt;p&gt;Both a program file and a module file have the &lt;code&gt;.blc&lt;/code&gt; extension.
+However a file representing the program must contain an &lt;a href=&#34;../declarations/#subprograms&#34;&gt;entry point activity&lt;/a&gt;
+.
+There must not be a &lt;a href=&#34;#modules&#34;&gt;module declaration&lt;/a&gt;
+ in a program file.&lt;/p&gt;
+&lt;p&gt;Vice versa, a module file will declare a module (see below) and must not contain an entry point.&lt;/p&gt;
+&lt;p&gt;This difference is best understood when looking at the compilation results.
+The compilation of the &lt;em&gt;program file&lt;/em&gt; produces C code with an &lt;em&gt;init&lt;/em&gt; and a &lt;em&gt;tick&lt;/em&gt; function which form the API towards the environment.
+Additionally, the compilation result of a Blech program will also contain a &lt;em&gt;context&lt;/em&gt; data structure which contains all program counters and local variables of that program.&lt;/p&gt;
+&lt;p&gt;A Blech module, by contrast, is supposed to be &lt;em&gt;used&lt;/em&gt; by some Blech program or another module.
+Therefore all its activities reply on context information passed on from the caller.&lt;/p&gt;
+&lt;p&gt;Module implementations encapsulate code.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Modules are namespaces for code entities.&lt;/li&gt;
+&lt;li&gt;Module interfaces are automatically generated from implementations and their import/export declarations.&lt;/li&gt;
+&lt;li&gt;Module interfaces hide implementation details.&lt;/li&gt;
+&lt;li&gt;The import hierarchy is always a directed acyclic graph, supporting a layered modular software structure.&lt;/li&gt;
+&lt;li&gt;Every layer is separately testable and reusable.&lt;/li&gt;
+&lt;li&gt;The compiler recursively compiles programs and modules along the dependency hierarchy.&lt;/li&gt;
+&lt;li&gt;Optionally importing all implementation details allows for white-box testing.&lt;/li&gt;
+&lt;li&gt;Modules can be packaged to libraries - called &lt;em&gt;boxes&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Boxes are namespaces for modules.&lt;/li&gt;
+&lt;li&gt;Boxes can hide internal implementation modules.&lt;/li&gt;
+&lt;li&gt;The syntax for modules is light-weight.&lt;/li&gt;
+&lt;li&gt;Reasoning about the modular structure is easy.&lt;/li&gt;
+&lt;li&gt;Modules and boxes map to files and directories.&lt;/li&gt;
+&lt;li&gt;All static analysis is designed to work with separate compilation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Files: Programs have an entry point vs modules&lt;/p&gt;
+&lt;h2 id=&#34;modules&#34;&gt;Modules&lt;/h2&gt;
+&lt;p&gt;A Blech module is a &lt;code&gt;.blc&lt;/code&gt; file.
+Modules cannot span several files nor can a file contain several modules.
+A module constitutes a name space within which various &lt;a href=&#34;../declarations&#34;&gt;declarations&lt;/a&gt;
+ may appear.
+All declarations &lt;em&gt;within&lt;/em&gt; a module are visible.
+In particular, implementations details such as the fields of a structure are visible.&lt;/p&gt;
+&lt;p&gt;By contrast, no declaration is visible &lt;em&gt;outside&lt;/em&gt; the module unless it is explicitly &lt;em&gt;exposed&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-abnf&#34; data-lang=&#34;abnf&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;Module&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;module&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;exposes&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;IdentifierList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;DeclarationList&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;IdentifierList&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Identifier&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;#34;,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;IdentifierList&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;DeclarationList&lt;/span&gt; ::&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;StructDeclaration&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;DataDeclaration&lt;/span&gt; | &lt;span style=&#34;color:#000&#34;&gt;ProgramDeclaration&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that the module itself has no identifier. Client code which uses this module will &lt;em&gt;find&lt;/em&gt; it by its file name and &lt;em&gt;give&lt;/em&gt; it some local name when &lt;a href=&#34;#Imports&#34;&gt;importing&lt;/a&gt;
+ the module.&lt;/p&gt;
+&lt;p&gt;Also, remember that the &lt;a href=&#34;../declarations/#qualifiers&#34;&gt;qualifiers&lt;/a&gt;
+ &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; must not appear on the top-level scope - no globals in Blech.&lt;/p&gt;
+&lt;p&gt;Example of a module:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes initialise, push, average
+
+const Size: nat8 = 10
+
+struct RingBuffer
+    var buffer: [Size]nat32
+    var nextIndex: nat8
+    var count: nat8
+end
+
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+    return { nextIndex = 0, count = 0 }
+end
+
+/// pushes a new value to the ring buffer
+/// displaces the &amp;#34;oldest&amp;#34; value if the ring buffer is full
+function push (value: nat32) (rb: RingBuffer)
+    rb.buffer[rb.nextIndex] = value
+    rb.nextIndex = rb.nextIndex + 1
+    if rb.count == Size then // ringbuffer is completely filled
+        rb.nextIndex = rb.nextIndex % Size
+    else
+        rb.count = rb.count + 1
+    end
+end
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+    var idx: nat8 = 0
+    var avg: nat32 = 0
+    while idx &amp;lt; rb.count repeat
+        avg = avg + rb.buffer[idx]
+    end
+    return avg / rb.count
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This module encapsulates the implementation of a ring buffer.
+The ring buffer is represented by the &lt;code&gt;RingBuffer&lt;/code&gt; structure that holds a buffer of fixed size.
+Three functions are implemented to initialise the buffer, add values to it, and calculate the average over all values currently stored in the ring buffer.
+The module exposes the functions &lt;code&gt;initialise&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt; and &lt;code&gt;average&lt;/code&gt; to client code that will use this module.
+However it hides the size of the buffer and the details of its data structure because &lt;code&gt;Size&lt;/code&gt; and &lt;code&gt;RingBuffer&lt;/code&gt; do not appear in the list of exposed names.
+The name &lt;code&gt;RingBuffer&lt;/code&gt; is implicitly visible outside as the name of an opaque type, see below.&lt;/p&gt;
+&lt;h2 id=&#34;signatures&#34;&gt;Signatures&lt;/h2&gt;
+&lt;p&gt;The compiler translates a Blech module into C code.
+But it also automatically generates a &lt;em&gt;signature&lt;/em&gt; which is saved under the same name but with a &lt;code&gt;.blh&lt;/code&gt; extension.&lt;/p&gt;
+&lt;p&gt;A signature describes the API of the module.
+It contains the explicitly exposed constants, types and procedure prototypes.
+Furthermore implicitly exported names of types, singletons or procedures are listed.
+Finally, imports that are necessary to use the exposed procedures also appear in the signature.&lt;/p&gt;
+&lt;p&gt;TODO: explicit exposing vs implicit
+opaque / abstract types, functions&lt;/p&gt;
+&lt;p&gt;Example of a generated signature for the module in the previous section:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+
+@[StructType]
+type RingBuffer
+
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+
+/// pushes a new value to the ring buffer
+/// displaces the &amp;#34;oldest&amp;#34; value if the ring buffer is full
+function push (value: nat32) (rb: RingBuffer)
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Signatures are used by the compiler when compiling client code.
+The compiler in principle does not need to have the sources of imported sub-modules, instead all semantic checks can done using the signatures only.
+In the future, this allows to pre-compile modules into object files for a target platform and ship those object files together with the signature files to the customer.
+Since Blech programs cannot be imported in other &lt;code&gt;.blc&lt;/code&gt; files, no signatures are generated for them.&lt;/p&gt;
+&lt;h2 id=&#34;imports&#34;&gt;Imports&lt;/h2&gt;
+&lt;p&gt;import declaration&lt;/p&gt;
+&lt;p&gt;local name&lt;/p&gt;
+&lt;p&gt;path formats (indicate box packaging is future work)
+explain project path, relative imports, remark it is not fully supported by IDE yet&lt;/p&gt;
+&lt;p&gt;exposes&lt;/p&gt;
+&lt;p&gt;Rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;no self import&lt;/li&gt;
+&lt;li&gt;no circular import&lt;/li&gt;
+&lt;li&gt;no double import&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;whitebox-import&#34;&gt;Whitebox import&lt;/h2&gt;
 
       </description>
     </item>

@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.81.0" /><link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/docs/language-evolution/borrowing/index.xml">
-<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.81.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -18,19 +17,24 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>References, borrowing and causality | Blech</title>
-<meta name="description" content="The Blech language site"><meta property="og:title" content="References, borrowing and causality" />
-<meta property="og:description" content="Evolution proposals for the Blech language.
-" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/" /><meta property="og:site_name" content="Blech" />
+<title>Modules | Blech</title>
+<meta name="description" content="The Blech language site"><meta property="og:title" content="Modules" />
+<meta property="og:description" content="Compilation units A Blech program may be split into multiple files: a program file and so-called module files. The purpose of modules is to encapsulate the implementation of a certain aspect (functionality) in a given software project.
+Both a program file and a module file have the .blc extension. However a file representing the program must contain an entry point activity . There must not be a module declaration in a program file." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.blech-lang.org/docs/user-manual/modules/" /><meta property="article:section" content="docs" />
 
-<meta itemprop="name" content="References, borrowing and causality">
-<meta itemprop="description" content="Evolution proposals for the Blech language.
-"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="References, borrowing and causality"/>
-<meta name="twitter:description" content="Evolution proposals for the Blech language.
-"/>
+<meta property="article:modified_time" content="2021-05-04T16:47:05&#43;02:00" /><meta property="og:site_name" content="Blech" />
+
+<meta itemprop="name" content="Modules">
+<meta itemprop="description" content="Compilation units A Blech program may be split into multiple files: a program file and so-called module files. The purpose of modules is to encapsulate the implementation of a certain aspect (functionality) in a given software project.
+Both a program file and a module file have the .blc extension. However a file representing the program must contain an entry point activity . There must not be a module declaration in a program file.">
+<meta itemprop="dateModified" content="2021-05-04T16:47:05&#43;02:00" />
+<meta itemprop="wordCount" content="984">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Modules"/>
+<meta name="twitter:description" content="Compilation units A Blech program may be split into multiple files: a program file and so-called module files. The purpose of modules is to encapsulate the implementation of a certain aspect (functionality) in a given software project.
+Both a program file and a module file have the .blc extension. However a file representing the program must contain an entry point activity . There must not be a module declaration in a program file."/>
 
 
 
@@ -53,7 +57,7 @@
 
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -286,7 +290,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsuser-manual-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsuser-manual-li">
     <a href="/docs/user-manual/" title="The Blech language - user manual" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docsuser-manual"><span class="">User manual</span></a>
     
       
@@ -310,7 +314,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualmoc-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manualmoc-li">
     <a href="/docs/user-manual/moc/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualmoc"><span class="">Model of execution</span></a>
     
   </li>
@@ -335,7 +339,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualnotation-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manualnotation-li">
     <a href="/docs/user-manual/notation/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualnotation"><span class="">Notation</span></a>
     
   </li>
@@ -360,7 +364,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manuallexical-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manuallexical-li">
     <a href="/docs/user-manual/lexical/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manuallexical"><span class="">Lexical elements</span></a>
     
   </li>
@@ -385,7 +389,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualstatements-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manualstatements-li">
     <a href="/docs/user-manual/statements/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualstatements"><span class="">Statements</span></a>
     
   </li>
@@ -410,7 +414,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualdeclarations-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manualdeclarations-li">
     <a href="/docs/user-manual/declarations/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualdeclarations"><span class="">Declarations</span></a>
     
   </li>
@@ -435,7 +439,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualtypes-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manualtypes-li">
     <a href="/docs/user-manual/types/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualtypes"><span class="">Types</span></a>
     
   </li>
@@ -460,7 +464,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualexpressions-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsuser-manualexpressions-li">
     <a href="/docs/user-manual/expressions/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualexpressions"><span class="">Expressions</span></a>
     
   </li>
@@ -485,8 +489,8 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualmodules-li">
-    <a href="/docs/user-manual/modules/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualmodules"><span class="">Modules</span></a>
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsuser-manualmodules-li">
+    <a href="/docs/user-manual/modules/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualmodules"><span class="td-sidebar-nav-active-item">Modules</span></a>
     
   </li>
 
@@ -516,7 +520,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docslanguage-evolution-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslanguage-evolution-li">
     <a href="/docs/language-evolution/" title="Blech language evolution" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolution"><span class="">Language Evolution</span></a>
     
       
@@ -540,7 +544,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslanguage-evolutionblech-c-interface-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docslanguage-evolutionblech-c-interface-li">
     <a href="/docs/language-evolution/blech-c-interface/" title="Blech&#39;s interface to C" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolutionblech-c-interface"><span class="">Blech-C interface</span></a>
     
       
@@ -620,7 +624,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionbits-and-bytes-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionbits-and-bytes-li">
     <a href="/docs/language-evolution/bits-and-bytes/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionbits-and-bytes"><span class="">Bits and bytes</span></a>
     
   </li>
@@ -645,8 +649,8 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docslanguage-evolutionborrowing-li">
-    <a href="/docs/language-evolution/borrowing/" title="References, borrowing and causality" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolutionborrowing"><span class="td-sidebar-nav-active-item">Borrowing</span></a>
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docslanguage-evolutionborrowing-li">
+    <a href="/docs/language-evolution/borrowing/" title="References, borrowing and causality" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolutionborrowing"><span class="">Borrowing</span></a>
     
       
       <ul class="pr-md-3 ul-3">
@@ -669,7 +673,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing10_references-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionborrowing10_references-li">
     <a href="/docs/language-evolution/borrowing/10_references/" title="References in Blech" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing10_references"><span class="">References</span></a>
     
   </li>
@@ -694,7 +698,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing20_borrowing-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionborrowing20_borrowing-li">
     <a href="/docs/language-evolution/borrowing/20_borrowing/" title="Borrowing for references" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing20_borrowing"><span class="">Borrowing</span></a>
     
   </li>
@@ -719,7 +723,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing30_let-ref-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionborrowing30_let-ref-li">
     <a href="/docs/language-evolution/borrowing/30_let-ref/" title="Immutable references - `let ref`" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing30_let-ref"><span class="">Immutable references</span></a>
     
   </li>
@@ -744,7 +748,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing40_partials-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionborrowing40_partials-li">
     <a href="/docs/language-evolution/borrowing/40_partials/" title="Partial borrowing and borrowed parts" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing40_partials"><span class="">Partials</span></a>
     
   </li>
@@ -775,7 +779,7 @@
   
   
   
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionmodules-li">
+  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionmodules-li">
     <a href="/docs/language-evolution/modules/" title="Programs and modules - the Blech compilation units" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionmodules"><span class="">Modules</span></a>
     
   </li>
@@ -1180,9 +1184,9 @@
     
     
 
-    <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-    <a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/language-evolution/borrowing/_index.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-    <a href="https://github.com/boschresearch/blech-doc/issues/new?title=References,%20borrowing%20and%20causality" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+    <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/user-manual/modules.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+    <a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/user-manual/modules.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+    <a href="https://github.com/boschresearch/blech-doc/issues/new?title=Modules" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
     
       
       <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
@@ -1195,6 +1199,16 @@
 
 
 
+
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#compilation-units">Compilation units</a></li>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#signatures">Signatures</a></li>
+    <li><a href="#imports">Imports</a></li>
+    <li><a href="#whitebox-import">Whitebox import</a></li>
+  </ul>
+</nav>
 
 
 
@@ -1224,14 +1238,14 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="https://www.blech-lang.org/docs/language-evolution/">Language Evolution</a>
+	<a href="https://www.blech-lang.org/docs/user-manual/">User manual</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/">Borrowing</a>
+	<a href="https://www.blech-lang.org/docs/user-manual/modules/">Modules</a>
 </li>
 
 	</ol>
@@ -1239,141 +1253,147 @@
 
             
 <div class="td-content">
-	<h1>References, borrowing and causality</h1>
-        <div class="lead">Evolution proposals for the Blech language.</div>
-	
-	
+	<h1>Modules</h1>
+    
+	       
+	<h2 id="compilation-units">Compilation units</h2>
+<p>A Blech program may be split into multiple files: a program file and so-called <em>module</em> files.
+The purpose of modules is to encapsulate the implementation of a certain aspect (functionality) in a given software project.</p>
+<p>Both a program file and a module file have the <code>.blc</code> extension.
+However a file representing the program must contain an <a href="../declarations/#subprograms">entry point activity</a>
+.
+There must not be a <a href="#modules">module declaration</a>
+ in a program file.</p>
+<p>Vice versa, a module file will declare a module (see below) and must not contain an entry point.</p>
+<p>This difference is best understood when looking at the compilation results.
+The compilation of the <em>program file</em> produces C code with an <em>init</em> and a <em>tick</em> function which form the API towards the environment.
+Additionally, the compilation result of a Blech program will also contain a <em>context</em> data structure which contains all program counters and local variables of that program.</p>
+<p>A Blech module, by contrast, is supposed to be <em>used</em> by some Blech program or another module.
+Therefore all its activities reply on context information passed on from the caller.</p>
+<p>Module implementations encapsulate code.</p>
+<ul>
+<li>Modules are namespaces for code entities.</li>
+<li>Module interfaces are automatically generated from implementations and their import/export declarations.</li>
+<li>Module interfaces hide implementation details.</li>
+<li>The import hierarchy is always a directed acyclic graph, supporting a layered modular software structure.</li>
+<li>Every layer is separately testable and reusable.</li>
+<li>The compiler recursively compiles programs and modules along the dependency hierarchy.</li>
+<li>Optionally importing all implementation details allows for white-box testing.</li>
+<li>Modules can be packaged to libraries - called <em>boxes</em>.</li>
+<li>Boxes are namespaces for modules.</li>
+<li>Boxes can hide internal implementation modules.</li>
+<li>The syntax for modules is light-weight.</li>
+<li>Reasoning about the modular structure is easy.</li>
+<li>Modules and boxes map to files and directories.</li>
+<li>All static analysis is designed to work with separate compilation.</li>
+</ul>
+<p>Files: Programs have an entry point vs modules</p>
+<h2 id="modules">Modules</h2>
+<p>A Blech module is a <code>.blc</code> file.
+Modules cannot span several files nor can a file contain several modules.
+A module constitutes a name space within which various <a href="../declarations">declarations</a>
+ may appear.
+All declarations <em>within</em> a module are visible.
+In particular, implementations details such as the fields of a structure are visible.</p>
+<p>By contrast, no declaration is visible <em>outside</em> the module unless it is explicitly <em>exposed</em>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-abnf" data-lang="abnf"><span style="color:#000">Module</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;module&#34;</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;exposes&#34;</span> <span style="color:#000">IdentifierList</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000">DeclarationList</span>
+<span style="color:#000">IdentifierList</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Identifier</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">&#34;,&#34;</span> <span style="color:#000">IdentifierList</span><span style="color:#000;font-weight:bold">]</span>
+<span style="color:#000">DeclarationList</span> ::<span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">&#34;&#34;</span> | <span style="color:#000">StructDeclaration</span> | <span style="color:#000">DataDeclaration</span> | <span style="color:#000">ProgramDeclaration</span>
+</code></pre></div><p>Note that the module itself has no identifier. Client code which uses this module will <em>find</em> it by its file name and <em>give</em> it some local name when <a href="#Imports">importing</a>
+ the module.</p>
+<p>Also, remember that the <a href="../declarations/#qualifiers">qualifiers</a>
+ <code>let</code> and <code>var</code> must not appear on the top-level scope - no globals in Blech.</p>
+<p>Example of a module:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">module exposes initialise, push, average
 
-<div class="pageinfo pageinfo-primary">
-<p>The borrowing proposal is work in progress.</p>
+const Size: nat8 = 10
 
-</div>
+struct RingBuffer
+    var buffer: [Size]nat32
+    var nextIndex: nat8
+    var count: nat8
+end
 
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+    return { nextIndex = 0, count = 0 }
+end
 
-        <div class="section-index">
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/borrowing/10_references/">References in Blech</a>
-                    </h5>
-                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/borrowing/20_borrowing/">Borrowing for references</a>
-                    </h5>
-                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/borrowing/30_let-ref/">Immutable references - `let ref`</a>
-                    </h5>
-                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                
-                <div class="entry">
-                    <h5>
-                        <a href="/docs/language-evolution/borrowing/40_partials/">Partial borrowing and borrowed parts</a>
-                    </h5>
-                    <p>Adopt the ideas of borrowing in Rust to Blech</p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
-</div>
+/// pushes a new value to the ring buffer
+/// displaces the &#34;oldest&#34; value if the ring buffer is full
+function push (value: nat32) (rb: RingBuffer)
+    rb.buffer[rb.nextIndex] = value
+    rb.nextIndex = rb.nextIndex + 1
+    if rb.count == Size then // ringbuffer is completely filled
+        rb.nextIndex = rb.nextIndex % Size
+    else
+        rb.count = rb.count + 1
+    end
+end
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+    var idx: nat8 = 0
+    var avg: nat32 = 0
+    while idx &lt; rb.count repeat
+        avg = avg + rb.buffer[idx]
+    end
+    return avg / rb.count
+end
+</code></pre></div><p>This module encapsulates the implementation of a ring buffer.
+The ring buffer is represented by the <code>RingBuffer</code> structure that holds a buffer of fixed size.
+Three functions are implemented to initialise the buffer, add values to it, and calculate the average over all values currently stored in the ring buffer.
+The module exposes the functions <code>initialise</code>, <code>push</code> and <code>average</code> to client code that will use this module.
+However it hides the size of the buffer and the details of its data structure because <code>Size</code> and <code>RingBuffer</code> do not appear in the list of exposed names.
+The name <code>RingBuffer</code> is implicitly visible outside as the name of an opaque type, see below.</p>
+<h2 id="signatures">Signatures</h2>
+<p>The compiler translates a Blech module into C code.
+But it also automatically generates a <em>signature</em> which is saved under the same name but with a <code>.blh</code> extension.</p>
+<p>A signature describes the API of the module.
+It contains the explicitly exposed constants, types and procedure prototypes.
+Furthermore implicitly exported names of types, singletons or procedures are listed.
+Finally, imports that are necessary to use the exposed procedures also appear in the signature.</p>
+<p>TODO: explicit exposing vs implicit
+opaque / abstract types, functions</p>
+<p>Example of a generated signature for the module in the previous section:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">signature
+
+@[StructType]
+type RingBuffer
+
+/// returns an initialisation value for a ring buffer
+function initialise () returns RingBuffer
+
+/// pushes a new value to the ring buffer
+/// displaces the &#34;oldest&#34; value if the ring buffer is full
+function push (value: nat32) (rb: RingBuffer)
+
+/// calculates the average value of all values stored in the ring buffer
+function average (rb: RingBuffer) returns nat32
+</code></pre></div><p>Signatures are used by the compiler when compiling client code.
+The compiler in principle does not need to have the sources of imported sub-modules, instead all semantic checks can done using the signatures only.
+In the future, this allows to pre-compile modules into object files for a target platform and ship those object files together with the signature files to the customer.
+Since Blech programs cannot be imported in other <code>.blc</code> files, no signatures are generated for them.</p>
+<h2 id="imports">Imports</h2>
+<p>import declaration</p>
+<p>local name</p>
+<p>path formats (indicate box packaging is future work)
+explain project path, relative imports, remark it is not fully supported by IDE yet</p>
+<p>exposes</p>
+<p>Rules:</p>
+<ul>
+<li>no self import</li>
+<li>no circular import</li>
+<li>no double import</li>
+</ul>
+<h2 id="whitebox-import">Whitebox import</h2>
 
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">Last modified May 4, 2021: <a  href="https://github.com/boschresearch/blech-doc/commit/fa3db018d2c65d0c91d73c796807be02cb8f10f4">drafting the module chapter (fa3db01)</a>
 </div>
 </div>
+
 
           </main>
         </div>

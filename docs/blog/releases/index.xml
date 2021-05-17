@@ -60,7 +60,7 @@
                          &amp;quot;&amp;quot;&amp;quot;)]
   extern function doStuff(a: nat8)(b: nat8)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C. 
+&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C.
 &lt;code&gt;$1&lt;/code&gt; is input parameter &lt;code&gt;a: nat8&lt;/code&gt; which is passed by value because it has a simple type.
 &lt;code&gt;$2&lt;/code&gt; is output parameter &lt;code&gt;b: nat8&lt;/code&gt; which is passed by reference as a pointer.&lt;/p&gt;
 &lt;/li&gt;
