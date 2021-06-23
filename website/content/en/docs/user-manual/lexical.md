@@ -53,17 +53,21 @@ Note that using declaration comments before something that is not a declaration,
 `else`
 `elseif`
 `end`
+`exposes`
 `extern`
 `false`
 `float32`
 `float64`
 `function`
 `if`
+`import`
 `int8`
 `int16`
 `int32`
 `int64`
+`internal`
 `let`
+`module`
 `nat8`
 `nat16`
 `nat32`
@@ -77,10 +81,12 @@ Note that using declaration comments before something that is not a declaration,
 `reset`
 `return`
 `returns`
+`signature`
 `singleton`
 `struct`
 `then`
 `true`
+`type`
 `until`
 `var`
 `weak`
@@ -88,8 +94,28 @@ Note that using declaration comments before something that is not a declaration,
 `while`
 `with`
 
-Note that the current compiler implementation may reserve more keywords than listed here.
-This is because the language is still growing and there are concepts that are yet to be fully implemented but already exist on the syntactical level.
+Additionally, the current compiler implementation reserves keywords for concepts that were designed into the language but not yet implemented. Reserved keywords include:
+`assert`
+`assume`
+`default`
+`emit`
+`enum`
+`error`
+`extension`
+`in`
+`next`
+`of`
+`past`
+`print`
+`ref`
+`shares`
+`signal`
+`suspend`
+`throw`
+`throws`
+`try`
+`typealias`
+`unit`
 
 ## Identifiers
 An identifier is any token that is not a keyword and starts with a letter or underscore and continues with an arbitrary number of letters, digits or underscores.
