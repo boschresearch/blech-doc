@@ -53,8 +53,8 @@ A good argument for this change is given by the &lt;a href=&#34;https://devblogs
 &lt;p&gt;Reason: &lt;code&gt;uint&lt;/code&gt; is not allowed to overflow and saturates in release code or panics in debug code.
 The name &lt;code&gt;uint&lt;/code&gt; addresses the wrong association.
 Therefore we should rename &lt;code&gt;uint&lt;/code&gt; to &lt;code&gt;nat&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;.
-Those types occur only in 4 different sizes.
+&lt;p&gt;NOTE: Maybe we should rename &lt;code&gt;bitsN&lt;/code&gt; to &lt;code&gt;wordN&lt;/code&gt;. 
+Those types occur only in 4 different sizes. 
 The name &lt;code&gt;bits&lt;/code&gt; might be associated with an arbitrary number.
 Additional inspiration, a &lt;a href=&#34;https://whatis.techtarget.com/definition/word&#34; target=&#34;_blank&#34;&gt;word&lt;/a&gt;
  is a unit of data of a defined bit length.
@@ -74,7 +74,7 @@ NOTE: Maybe the default should be &lt;code&gt;float32&lt;/code&gt; for embedded 
 &lt;p&gt;Any &lt;code&gt;natLiteral&lt;/code&gt; can be annotated with a float type.
 The range is checked, to get a precise float representation.&lt;/p&gt;
 &lt;p&gt;The following are all valid float literals.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
 (42: float64)
 (42: float32)
 
@@ -113,11 +113,11 @@ shift right: &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 left rotate: &lt;code&gt;&amp;lt;&amp;lt;&amp;gt;&lt;/code&gt;
 right rotate: &lt;code&gt;&amp;lt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Type: &lt;code&gt;function (bitsN, AnyNat) returns bitsN&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;These operators can be defined as Macros.
+&lt;p&gt;These operators can be defined as Macros. 
 If the macro has a suitable form, C compilers can translate circular shifts into one machine instruction.
 C compilers recognize the &lt;a href=&#34;https://en.wikipedia.org/wiki/Circular_shift#Implementing_circular_shifts&#34; target=&#34;_blank&#34;&gt;circular shift idiom&lt;/a&gt;
 .&lt;/p&gt;
-&lt;p&gt;The shift and rotate amount is a general unsigned integer type.
+&lt;p&gt;The shift and rotate amount is a general unsigned integer type. 
 It is considered modulo the &lt;code&gt;bitsN&lt;/code&gt; width &lt;code&gt;N&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;arithmetic-operators&#34;&gt;Arithmetic operators&lt;/h4&gt;
 &lt;p&gt;As arithmetic types, &lt;code&gt;bitsN&lt;/code&gt; types implement numeric wrap-around (modulo &lt;code&gt;2**N&lt;/code&gt;).&lt;/p&gt;
@@ -153,7 +153,7 @@ Decimal literals have type &lt;code&gt;AnyInteger&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;A type annotation can be ommited if an assignment determines the type.&lt;/p&gt;
 &lt;p&gt;For negative values of type &lt;code&gt;AnyInteger&lt;/code&gt; the two&amp;rsquo;s-complement representation is used to create the bits.&lt;/p&gt;
 &lt;p&gt;IMPORTANT: The two&amp;rsquo;s-complement representation for &lt;code&gt;intN&lt;/code&gt; is not mandatory in C.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let b1: bits8 = 0x1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let b1: bits8 = 0x1
 let b2 = 0x1 : bits8
 let b3 = (0x1 : bits8) &amp;lt;&amp;lt; 2  // 0x4 as bits8
 let b32 = 0x1A4: bits8   // type error not representable in bits8
@@ -165,19 +165,19 @@ let b8 = (-50 - 150): bits8 // compile time error, not representable as 2-comple
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;use-of-operations&#34;&gt;Use of operations&lt;/h3&gt;
 &lt;p&gt;Bitwise operatorions and arithmetic operations cannot be applied to values of type &lt;code&gt;AnyBits&lt;/code&gt;.
 Bitwise and arithmetic operations can only be applied to values of type &lt;code&gt;bitsN&lt;/code&gt;, that means the size has to be fixed before any operation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let x: bits8 = -0x1 // type error size of `0x1` not known, for a suitable unary minus
 let x = -(0x1: bits8) // ok, is (0xFF: bits8), by wrap around
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;hackers-delight-translated-to-blech&#34;&gt;Hacker&amp;rsquo;s Delight translated to Blech&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Hacker%27s_Delight&#34; target=&#34;_blank&#34;&gt;Hacker’s Delight&lt;/a&gt;
- is the definitive source of bitwise programming algorithms.
+ is the definitive source of bitwise programming algorithms. 
 It should be possible to use these hacks in Blech.&lt;/p&gt;
 &lt;p&gt;Turn off the rightmost 1-bit in a byte, producing 0 if none (e.g. 0b_0101_1000 =&amp;gt; 0b_0101_0000, 0x_00 =&amp;gt; 0x_00).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: bits8
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: bits8
 x = x &amp;amp; (x - (1: bits8))
 // or
 x = x &amp;amp; (x - 0x_01)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Turn on the rightmost 0-bit in a word, producing all 1&amp;rsquo;s if none (e.g. 0x7AF3 =&amp;gt; 0x7AF4, 0xFFFF =&amp;gt; 0xFFFF).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: bits32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var x: bits32
 x = x | (x + (1: bits32))
 // or
 x = x | (x + 0b_1)
@@ -237,11 +237,11 @@ A program is always a top-level file of a Blech application.&lt;/p&gt;
 In order to become a module, a Blech code file must be marked as a &lt;code&gt;module&lt;/code&gt; and export at least one top-level declaration or a wildcard, see below. TODO: Add a relref here, how?.&lt;/p&gt;
 &lt;p&gt;Different to other languages we do not use accessibility modifiers in front of declarations.
 Instead, we require an explicit declaration of exported top-level declarations.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes TopLevelIdentifier
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes TopLevelIdentifier
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Every top-level declaration inside a module file can be exported to be used by another module or program file.
 All neccessary declared identifiers must also be exported.
 Optionally, the exported identifiers can be classified for readability.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes T, MyActivity
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes T, MyActivity
 
 type T = int32
 
@@ -255,7 +255,7 @@ end
 The compiler checks the correctness of exports.
 It is a compiler error, if type &lt;code&gt;T&lt;/code&gt; is not exported.
 For a correct module file an interface file is created that contains all compile-time information that is necessary to compile a Blech file that uses this module file.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
 type T = int32
 
@@ -266,7 +266,7 @@ Only exported entities can be used.
 The internal - non-exposed - entities are hidden.&lt;/p&gt;
 &lt;h3 id=&#34;importing-a-blech-module-file-for-use-in-a-program-or-another-module&#34;&gt;Importing a Blech module file for use in a program or another module&lt;/h3&gt;
 &lt;p&gt;In order to use a module file it needs to be imported by another compilation unit, for example a Blech program.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m = &amp;#34;mymodule&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m = &amp;#34;mymodule&amp;#34;
 
 @[EntryPoint]
 activity MyMain()
@@ -277,7 +277,7 @@ In order order to use it we declare a Blech identifier for the module.
 It is fine to use any valid identifier, here &lt;code&gt;m&lt;/code&gt;.
 By default all imports are qualified with this module name.
 In order to use an imported name without qualification is must be exposed at the import.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m = &amp;#34;mymodule&amp;#34; exposes MyActivity
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m = &amp;#34;mymodule&amp;#34; exposes MyActivity
 
 @[EntryPoint]
 activity MyMain()
@@ -286,7 +286,7 @@ activity MyMain()
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note: The other exported entity &amp;ndash; type &lt;code&gt;T&lt;/code&gt; &amp;ndash; can only be used, when qualifed with the module name.&lt;/p&gt;
 &lt;p&gt;For exposing everything from an imported module, which is usually neither necessary nor recommended, you can use the short cut &lt;code&gt;...&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ = &amp;#34;mymodule&amp;#34; exposes ...
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ = &amp;#34;mymodule&amp;#34; exposes ...
 
 @[EntryPoint]
 activity MyMain()
@@ -308,7 +308,7 @@ Therefore, use unqualified exposed imports sparingly.
 &lt;h3 id=&#34;no-implicit-export-for-imported-modules&#34;&gt;No implicit export for imported modules&lt;/h3&gt;
 &lt;p&gt;Assume the following two modules.&lt;/p&gt;
 &lt;p&gt;Module file &lt;code&gt;pair.blc&lt;/code&gt; only exports type alias &lt;code&gt;Pair&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes Pair
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes Pair
 
 type Pair = [2]int32
 
@@ -320,7 +320,7 @@ function snd(p: Pair) returns int32
     return p[1]
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Module file &lt;code&gt;usepair.blc&lt;/code&gt; imports modul &lt;code&gt;pair&lt;/code&gt;, but cannot access hidden functions &lt;code&gt;fst&lt;/code&gt; and &lt;code&gt;snd&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import pair = &amp;#34;pair&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import pair = &amp;#34;pair&amp;#34;
 
 module exposes sum
 
@@ -332,17 +332,17 @@ function sum(p: pair.Pair) returns int32
     return p[0] + snd(p)
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;On successful compilation the compiler generates the following signature - the interface of a module - in file &lt;code&gt;pair.blh&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
 type Pair = [2]int32
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Module &lt;code&gt;&amp;quot;usepair&amp;quot;&lt;/code&gt; requires an &lt;code&gt;import&lt;/code&gt; of module &lt;code&gt;&amp;quot;pair&amp;quot;&lt;/code&gt; and exports function &lt;code&gt;sum&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import pair = &amp;#34;pair&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import pair = &amp;#34;pair&amp;#34;
 
 signature
 
 function sum(p: pair.Pair) returns int32
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For reuse, a program that imports module file &lt;code&gt;&amp;quot;usepair&amp;quot;&lt;/code&gt; also needs to import module file &lt;code&gt;&amp;quot;pair&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import up = &amp;#34;usepair&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import up = &amp;#34;usepair&amp;#34;
 import p = &amp;#34;pair&amp;#34;
 
 @[EntryPoint]
@@ -353,7 +353,7 @@ activity Main()
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note: Module &lt;code&gt;&amp;quot;pair&amp;quot;&lt;/code&gt; is &lt;strong&gt;not&lt;/strong&gt; exported indirectly via the import of module &lt;code&gt;&amp;quot;usepair&amp;quot;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The following program cannot be compiled.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import up = &amp;#34;usepair&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import up = &amp;#34;usepair&amp;#34;
 
 @[EntryPoint]
 activity Main()
@@ -365,7 +365,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;exporting-nothing&#34;&gt;Exporting nothing&lt;/h3&gt;
 &lt;p&gt;For development purposes it might be useful to expose nothing until a module can be used.
 A wildcard &lt;code&gt;_&lt;/code&gt; can be used for this purpose.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes _
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes _
 
 type Pair = [2]int32
 
@@ -379,7 +379,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;exporting-everything&#34;&gt;Exporting everything&lt;/h3&gt;
 &lt;p&gt;Sometimes it might be useful to expose everything in a module.
 There is a shortcut &lt;code&gt;...&lt;/code&gt; for this.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes ...
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes ...
 
 type Pair = [2]int32
 
@@ -393,7 +393,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;exporting-abstract-types-as-new-types&#34;&gt;Exporting abstract types as new types&lt;/h3&gt;
 &lt;p&gt;Sometimes it is useful to hide the implementation of a type, from its importers.
 You can create a &lt;code&gt;newtype&lt;/code&gt; for this purpose.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes Pair, set, fst, snd
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes Pair, set, fst, snd
 
 newtype Pair = [2]int32
 
@@ -410,7 +410,7 @@ function snd(p: Pair) returns int32
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Since the internal structure is unknown additional functions must be exposed.
 The module&amp;rsquo;s signature does not expose the internal type structure.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
 newtype Pair
 
@@ -435,7 +435,7 @@ Every imported module only needs to be loaded once.&lt;/p&gt;
 &lt;p&gt;The Blech signature file contains all static information for name checking, type checking and causality analysis.
 The C header and implementations files are used to compile a Blech program.&lt;/p&gt;
 &lt;h3 id=&#34;compiling-a-blech-program&#34;&gt;Compiling a Blech program&lt;/h3&gt;
-&lt;p&gt;A Blech program file is not a module. Therefore, it cannot be imported.
+&lt;p&gt;A Blech program file is not a module. Therefore, it cannot be imported. 
 The compilation of a Blech program file, for example &lt;code&gt;program.blc&lt;/code&gt;, generates only&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A C header file &lt;code&gt;program.h&lt;/code&gt;, and&lt;/li&gt;

@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.81.0" /><link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/blog/index.xml">
-<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.90.0" />
+<link rel="alternate" type="application/rss&#43;xml" href="https://www.blech-lang.org/blog/index.xml">
+<meta name="robots" content="index, follow">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -19,7 +20,9 @@
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
 <title>Blech Blog | Blech</title>
-<meta name="description" content="The Blech language site"><meta property="og:title" content="Blech Blog" />
+<meta name="description" content="{{ partial &ldquo;blogwelcome.html&rdquo; . }}
+">
+<meta property="og:title" content="Blech Blog" />
 <meta property="og:description" content="The Blech language site" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/" /><meta property="og:site_name" content="Blech" />
@@ -32,21 +35,14 @@
 
 
 
-<link rel="preload" href="/scss/main.min.17476f9ace11c810eaccf3db35eaa354c8ef7fd828342dcb81d684a9795df713.css" as="style">
-<link href="/scss/main.min.17476f9ace11c810eaccf3db35eaa354c8ef7fd828342dcb81d684a9795df713.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/scss/main.min.318fb6d17b9dffb9129999e99f34641f72dd9196c75bd16f7292bd046086a9a7.css" as="style">
+<link href="/scss/main.min.318fb6d17b9dffb9129999e99f34641f72dd9196c75bd16f7292bd046086a9a7.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.5.1.min.js"
   integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
-
-
 <script src=https://www.blech-lang.org/js/opt-in.js></script>
-
-
-
-
 
 
   </head>
@@ -55,7 +51,7 @@
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
         <a class="navbar-brand" href="/">
-		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="font-weight-bold ">Blech</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
 		<ul class="navbar-nav mt-2 mt-lg-0">
@@ -125,9 +121,7 @@
 			
 		</ul>
 	</div>
-	<div class="navbar-nav d-none d-lg-block">
-<input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
-
+	<div class="navbar-nav d-none d-lg-block"><input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
 </div>
 </nav>
 
@@ -137,440 +131,73 @@
         <div class="row flex-xl-nowrap">
           <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
             
-
-
-
-
-  
-
-
 <div id="td-sidebar-menu" class="td-sidebar__inner">
-  
   <form class="td-sidebar__search d-flex align-items-center">
-    
-<input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
-
+    <input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
 
     <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
-  
   <nav class="collapse td-sidebar-nav" id="td-section-nav">
-    
-    
-    
-    
-    
     <ul class="td-sidebar-nav__section pr-md-3 ul-0">
-      
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blog-li">
-    <a href="/blog/" title="Blech Blog" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="td-sidebar-nav-active-item">Blog</span></a>
-    
-      
-      <ul class="pr-md-3 ul-1">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogarticles-li">
-    <a href="/blog/articles/" title="Articles about the Blech language, tools, and releated topics" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-blogarticles"><span class="">Articles</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20201123a-module-system-for-blech-li">
-    <a href="/blog/2020/11/23/a-module-system-for-blech/" title="A module system for Blech" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20201123a-module-system-for-blech"><span class="">Modules for Blech</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200812push-button-handling-li">
-    <a href="/blog/2020/08/12/push-button-handling/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200812push-button-handling"><span class="">Push button handling</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view-li">
-    <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" title="The basic idea behind Blech – A practitioner&#39;s point of view" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view"><span class="">The basic idea behind Blech</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200615decoding-the-dcf77-signal-with-blech-li">
-    <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" title="Decoding the DCF77 signal with Blech" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200615decoding-the-dcf77-signal-with-blech"><span class="">DCF77 decoding</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200527the-purpose-of-blech-li">
-    <a href="/blog/2020/05/27/the-purpose-of-blech/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200527the-purpose-of-blech"><span class="">The purpose of Blech</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogreleases-li">
-    <a href="/blog/releases/" title="Blech releases, concering language, compiler and tools." class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-blogreleases"><span class="">Releases</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200901blech-version-060-li">
-    <a href="/blog/2020/09/01/blech-version-0.6.0/" title="Blech version 0.6.0" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200901blech-version-060"><span class="">Blech 0.6.0</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200421blech-compiler-version-051-li">
-    <a href="/blog/2020/04/21/blech-compiler-version-0.5.1/" title="Blech compiler version 0.5.1" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200421blech-compiler-version-051"><span class="">blechc 0.5.1</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200420blech-vs-code-extension-052-li">
-    <a href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/" title="Blech VS Code Extension 0.5.2" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200420blech-vs-code-extension-052"><span class="">vsce 0.5.2</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogevents-li">
-    <a href="/blog/events/" title="Future and past Blech events" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-blogevents"><span class="">Events</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20191201synchron-2019-li">
-    <a href="/blog/2019/12/01/synchron-2019/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20191201synchron-2019"><span class="">Synchron 2019</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20190710wcet-2019-keynote-li">
-    <a href="/blog/2019/07/10/wcet-2019-keynote/" title="WCET 2019 Keynote" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20190710wcet-2019-keynote"><span class="">WCET 2019</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blog-li">
+  <a href="/blog/" title="Blech Blog" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="td-sidebar-nav-active-item">Blog</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogarticles-li">
+  <a href="/blog/articles/" title="Articles about the Blech language, tools, and releated topics" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogarticles"><span class="">Articles</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20201123a-module-system-for-blech-li">
+  <a href="/blog/2020/11/23/a-module-system-for-blech/" title="A module system for Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20201123a-module-system-for-blech"><span class="">Modules for Blech</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200812push-button-handling-li">
+  <a href="/blog/2020/08/12/push-button-handling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200812push-button-handling"><span class="">Push button handling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view-li">
+  <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" title="The basic idea behind Blech – A practitioner&#39;s point of view" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view"><span class="">The basic idea behind Blech</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200615decoding-the-dcf77-signal-with-blech-li">
+  <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" title="Decoding the DCF77 signal with Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200615decoding-the-dcf77-signal-with-blech"><span class="">DCF77 decoding</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200527the-purpose-of-blech-li">
+  <a href="/blog/2020/05/27/the-purpose-of-blech/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200527the-purpose-of-blech"><span class="">The purpose of Blech</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogreleases-li">
+  <a href="/blog/releases/" title="Blech releases, concering language, compiler and tools." class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogreleases"><span class="">Releases</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211210blech-version-070-li">
+  <a href="/blog/2021/12/10/blech-version-0.7.0/" title="Blech version 0.7.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210blech-version-070"><span class="">Blech 0.7.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200901blech-version-060-li">
+  <a href="/blog/2020/09/01/blech-version-0.6.0/" title="Blech version 0.6.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200901blech-version-060"><span class="">Blech 0.6.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200421blech-compiler-version-051-li">
+  <a href="/blog/2020/04/21/blech-compiler-version-0.5.1/" title="Blech compiler version 0.5.1" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200421blech-compiler-version-051"><span class="">blechc 0.5.1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200420blech-vs-code-extension-052-li">
+  <a href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/" title="Blech VS Code Extension 0.5.2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200420blech-vs-code-extension-052"><span class="">vsce 0.5.2</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogevents-li">
+  <a href="/blog/events/" title="Future and past Blech events" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogevents"><span class="">Events</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211210synchron-2021-li">
+  <a href="/blog/2021/12/10/synchron-2021/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210synchron-2021"><span class="">Synchron 2021</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211209synchron-2020-li">
+  <a href="/blog/2021/12/09/synchron-2020/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211209synchron-2020"><span class="">Synchron 2020</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211208fdl-2018-li">
+  <a href="/blog/2021/12/08/fdl-2018/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211208fdl-2018"><span class="">FDL 2018</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211207memocode-2017-li">
+  <a href="/blog/2021/12/07/memocode-2017/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211207memocode-2017"><span class="">Memocode 2017</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20191201synchron-2019-li">
+  <a href="/blog/2019/12/01/synchron-2019/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20191201synchron-2019"><span class="">Synchron 2019</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20190710wcet-2019-keynote-li">
+  <a href="/blog/2019/07/10/wcet-2019-keynote/" title="WCET 2019 Keynote" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190710wcet-2019-keynote"><span class="">WCET 2019</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
     </ul>
   </nav>
 </div>
 
-
-
-
           </div>
           <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
             
-  
-  
-  
-  
-  
-  <div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
-  
-    
-    
-      
-    
-    
-    
-    
-    
-    
-    
-
-    <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-    <a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/blog/_index.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-    <a href="https://github.com/boschresearch/blech-doc/issues/new?title=Blech%20Blog" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
-    
-      
-      <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
-    
-
-  
-  
-  </div>
-
-
-
 
 
 
@@ -597,34 +224,107 @@
 
 <h1>Welcome to the Blech blog</h1>
 
-<p>Follow this blog to keep up-to-date on Blech.</p>
-<ul>
-<li><a href="./releases"><b>Release and feature announcements</b></a>: <br>
 
 
- Learn about Blech releases, what is new and what has changed. 
-
-</li>
-<li><a href="./articles"><b>Blech posts</b></a>: <br>
 
 
- Read about Blech features, tools, and related topics. 
-
-</li>
-<li><a href="./events"><b>Future and past social events</b></a>: <br> 
 
 
- Find out where Blech has been and will be presented.
 
-</li>
-</ul>
+
+
+
+
+
 <hr>
-<p><b>Browse all Blech blog posts by date:</b></p>
 
 </div>
 
 <div class="row">
   <div class="col-12">
+    
+    <h2>Posts in 2021</h2>
+    <ul class="list-unstyled mt-4">
+      
+      <li class="media mb-4">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1"><a href="/blog/2021/12/10/synchron-2021/">Synchron 2021</a></h5>
+          <p class="mb-2 mb-md-3"><small class="text-muted">Friday, December 10, 2021 in Events</small></p>
+          
+
+
+
+
+
+          <p class="pt-0 mt-0">A prototypical implementation for extracting and visualizing mode diagrams expressed in the synchronous control-flow of Blech activities has been presented at Synchron 2021the 27th International Open Workshop on Sychronous Programming held in La …</p>
+          <p class="pt-0"><a href="/blog/2021/12/10/synchron-2021/">Read more</a></p>
+        </div>
+      </li>
+      
+      <li class="media mb-4">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1"><a href="/blog/2021/12/10/blech-version-0.7.0/">Blech 0.7.0</a></h5>
+          <p class="mb-2 mb-md-3"><small class="text-muted">Friday, December 10, 2021 in Releases</small></p>
+          
+
+
+
+
+
+          <p class="pt-0 mt-0">Better late then never we announce the release version 0.7.0 of the Blech compilerand the language services for VS Code. The code has been released on GitHub already end of June 2021.
+Many small things have been fixed and a module system has been …</p>
+          <p class="pt-0"><a href="/blog/2021/12/10/blech-version-0.7.0/">Read more</a></p>
+        </div>
+      </li>
+      
+      <li class="media mb-4">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1"><a href="/blog/2021/12/09/synchron-2020/">Synchron 2020</a></h5>
+          <p class="mb-2 mb-md-3"><small class="text-muted">Thursday, December 09, 2021 in Events</small></p>
+          
+
+
+
+
+
+          <p class="pt-0 mt-0">The Blech modules system has been presented at Synchron 2020the 27th International Open Workshop on Synchronous Programming. Synchron 2020 has bee organized as a distributed synchronous systems (Online Workshop) on November 26-27 2020.
+On Thursday, …</p>
+          <p class="pt-0"><a href="/blog/2021/12/09/synchron-2020/">Read more</a></p>
+        </div>
+      </li>
+      
+      <li class="media mb-4">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1"><a href="/blog/2021/12/08/fdl-2018/">FDL 2018</a></h5>
+          <p class="mb-2 mb-md-3"><small class="text-muted">Wednesday, December 08, 2021 in Events</small></p>
+          
+
+
+
+
+
+          <p class="pt-0 mt-0">At FDL 2018, the Forum on specification &amp; Design Languages, in Munich, Germany, Blech has been presented to the public for the first time.
+In his keynote Blech - a safe synchronous language for embedded real-time programming, Franz-Josef Grosch …</p>
+          <p class="pt-0"><a href="/blog/2021/12/08/fdl-2018/">Read more</a></p>
+        </div>
+      </li>
+      
+      <li class="media mb-4">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1"><a href="/blog/2021/12/07/memocode-2017/">Memocode 2017</a></h5>
+          <p class="mb-2 mb-md-3"><small class="text-muted">Tuesday, December 07, 2021 in Events</small></p>
+          
+
+
+
+
+
+          <p class="pt-0 mt-0">At Memocode 2017the 15th ACM-IEEE International Conference on Formal Methods and Models for System Design held at Technische Universität Wien in Vienna, Austria, the ideas of an imperative synchronous language, later called Blech, have been …</p>
+          <p class="pt-0"><a href="/blog/2021/12/07/memocode-2017/">Read more</a></p>
+        </div>
+      </li>
+      
+    </ul>
     
     <h2>Posts in 2020</h2>
     <ul class="list-unstyled mt-4">
@@ -656,7 +356,7 @@
 
           <p class="pt-0 mt-0">We are happy to announce a new release of the Blech compiler and language services for VS Code.
 Language features are:
-  The syntax of the statement run has changed. It now allows local variable declarations. A return statement may now have an …</p>
+  The syntax of the statement runhas changed. It now allows local variable declarations. A return statementmay now have an …</p>
           <p class="pt-0"><a href="/blog/2020/09/01/blech-version-0.6.0/">Read more</a></p>
         </div>
       </li>
@@ -671,7 +371,7 @@ Language features are:
 
 
 
-          <p class="pt-0 mt-0">Application example: Push button handling In this example three push buttons, TOP, CENTER and BOTTOM, are connected to our embedded system for user input. Like in our previous blog post our hardware setup is based on a STM32F4DISCOVERY board. The …</p>
+          <p class="pt-0 mt-0">Application example: Push button handling In this example three push buttons, TOP, CENTER and BOTTOM, are connected to our embedded system for user input. Like in our previous blog postour hardware setup is based on a STM32F4DISCOVERYboard. The …</p>
           <p class="pt-0"><a href="/blog/2020/08/12/push-button-handling/">Read more</a></p>
         </div>
       </li>
@@ -686,7 +386,7 @@ Language features are:
 
 
 
-          <p class="pt-0 mt-0">Application example: UART communication Let us consider a simple embedded use case. We want to implement a UART communication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to …</p>
+          <p class="pt-0 mt-0">Application example: UART communication Let us consider a simple embedded use case. We want to implement a UARTcommunication. For the sake of simplicity, we focus on the data transmission only. Given a number of bytes in a data buffer, the job is to …</p>
           <p class="pt-0"><a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/">Read more</a></p>
         </div>
       </li>
@@ -706,88 +406,6 @@ Language features are:
         </div>
       </li>
       
-      <li class="media mb-4">
-        <div class="media-body">
-          <h5 class="mt-0 mb-1"><a href="/blog/2020/05/27/the-purpose-of-blech/">The purpose of Blech</a></h5>
-          <p class="mb-2 mb-md-3"><small class="text-muted">Wednesday, May 27, 2020 in Articles</small></p>
-          
-
-
-
-
-
-          <p class="pt-0 mt-0">Why Blech? There is a huge difference between the environments of a desktop, a server, or a mobile application and a typical application in the embedded domain. Moreover, the embedded industry is itself huge &ndash; including automotive, aerospace, …</p>
-          <p class="pt-0"><a href="/blog/2020/05/27/the-purpose-of-blech/">Read more</a></p>
-        </div>
-      </li>
-      
-      <li class="media mb-4">
-        <div class="media-body">
-          <h5 class="mt-0 mb-1"><a href="/blog/2020/04/21/blech-compiler-version-0.5.1/">blechc 0.5.1</a></h5>
-          <p class="mb-2 mb-md-3"><small class="text-muted">Tuesday, April 21, 2020 in Releases</small></p>
-          
-
-
-
-
-
-          <p class="pt-0 mt-0"></p>
-          <p class="pt-0"><a href="/blog/2020/04/21/blech-compiler-version-0.5.1/">Read more</a></p>
-        </div>
-      </li>
-      
-      <li class="media mb-4">
-        <div class="media-body">
-          <h5 class="mt-0 mb-1"><a href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">vsce 0.5.2</a></h5>
-          <p class="mb-2 mb-md-3"><small class="text-muted">Monday, April 20, 2020 in Releases</small></p>
-          
-
-
-
-
-
-          <p class="pt-0 mt-0"></p>
-          <p class="pt-0"><a href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/">Read more</a></p>
-        </div>
-      </li>
-      
-    </ul>
-    
-    <h2>Posts in 2019</h2>
-    <ul class="list-unstyled mt-4">
-      
-      <li class="media mb-4">
-        <div class="media-body">
-          <h5 class="mt-0 mb-1"><a href="/blog/2019/12/01/synchron-2019/">Synchron 2019</a></h5>
-          <p class="mb-2 mb-md-3"><small class="text-muted">Sunday, December 01, 2019 in Events</small></p>
-          
-
-
-
-
-
-          <p class="pt-0 mt-0">Blech has been presented at Synchron 2019 the 26th International Open Workshop on Synchronous Programming in Aussois, November 25-29 2019.
-On Tuesday, 2019-11-26 Friedrich Gretz talked about Programming Blech .
-</p>
-          <p class="pt-0"><a href="/blog/2019/12/01/synchron-2019/">Read more</a></p>
-        </div>
-      </li>
-      
-      <li class="media mb-4">
-        <div class="media-body">
-          <h5 class="mt-0 mb-1"><a href="/blog/2019/07/10/wcet-2019-keynote/">WCET 2019</a></h5>
-          <p class="mb-2 mb-md-3"><small class="text-muted">Wednesday, July 10, 2019 in Events</small></p>
-          
-
-
-
-
-
-          <p class="pt-0 mt-0">The keynote of WCET 2019 the 19th International Open Workshop on Worst-Case Execution Time Analysis, presented Blech - a synchronous language for embedded real-time programming The talk was given by Franz-Josef Grosch, abstract and slides are …</p>
-          <p class="pt-0"><a href="/blog/2019/07/10/wcet-2019-keynote/">Read more</a></p>
-        </div>
-      </li>
-      
     </ul>
     
   </div>
@@ -795,8 +413,26 @@ On Tuesday, 2019-11-26 Friedrich Gretz talked about Programming Blech .
 <div class="row pl-2 pt-2">
   <div class="col">
     
-
-
+    <ul class="pagination pagination-default">
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="First" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Previous" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item">
+        <a href="/blog/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item">
+        <a href="/blog/page/2/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/blog/page/2/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul>
   </div>
 </div>
 
@@ -899,15 +535,24 @@ On Tuesday, 2019-11-26 Friedrich Gretz talked about Programming Blech .
 
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+    crossorigin="anonymous"></script>
+
+
+
+
+
+<script src='/js/tabpane-persist.js'></script>
 
 
 
 
 
 
- 
 
 
 
@@ -919,7 +564,8 @@ On Tuesday, 2019-11-26 Friedrich Gretz talked about Programming Blech .
 
 
 
-<script src="/js/main.min.818666e7663fda58c21752d2396632d7ec7c6e5b6347645d50c56e7cfa8a0252.js" integrity="sha256-gYZm52Y/2ljCF1LSOWYy1&#43;x8bltjR2RdUMVufPqKAlI=" crossorigin="anonymous"></script>
+
+<script src="/js/main.min.d4852be3b12f7ba8ffeeb8acd8db4bb8c4dea2f1dfac3a72d3777445c1f673ea.js" integrity="sha256-1IUr47Eve6j/7ris2NtLuMTeovHfrDpy03d0RcH2c&#43;o=" crossorigin="anonymous"></script>
 
 
 

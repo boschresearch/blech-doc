@@ -3,180 +3,195 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.blech-lang.org/blog/articles/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/getting-started/blechc/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-30T16:58:30+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-28T17:56:50+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/about/corporate-information/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2021-01-11T08:41:03+01:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/env-variables/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-28T17:56:50+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/const-and-expr/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-16T18:22:07+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/getting-started/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-30T16:58:30+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/moc/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-08-26T17:28:03+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/notation/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-07-04T01:07:11+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/10_references/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-15T18:47:04+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/examples/virtuallock/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-18T20:06:36+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/bits-and-bytes/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-09-03T11:25:19+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/getting-started/vsce/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-06-12T00:27:00+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/examples/blinker/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-18T13:31:28+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/20_borrowing/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/blech-c-interface/c-bindings/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-28T17:56:50+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/lexical/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2021-06-23T09:43:48+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/pctree/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-08-26T17:28:03+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/about/privacy-policy/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-06-16T16:55:43+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/releases/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-08-26T17:28:03+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/external-vars/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-29T13:21:43+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/cpdata/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-15T18:47:04+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-05T18:25:12+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/events/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/git-workflow/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-07-23T13:15:19+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-15T18:47:04+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/statements/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-08-26T18:48:18+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/examples/stopwatch/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-18T20:06:36+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/declarations/</loc>
     <lastmod>2021-05-04T16:47:05+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/modules/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-09-14T14:56:03+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/language-evolution/borrowing/40_partials/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-15T18:47:04+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/examples/react/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-26T11:52:39+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/examples/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-18T13:31:28+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/examples/dcf77/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-06-15T16:02:53+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/types/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2021-04-30T12:40:46+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/contributing/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-21T20:26:37+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/expressions/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2021-04-30T12:40:46+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/user-manual/modules/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2021-05-17T13:44:14+02:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2021/12/10/blech-version-0.7.0/</loc>
+    <lastmod>2021-12-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2021/12/10/synchron-2021/</loc>
+    <lastmod>2021-12-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2021/12/09/synchron-2020/</loc>
+    <lastmod>2021-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2021/12/08/fdl-2018/</loc>
+    <lastmod>2021-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2021/12/07/memocode-2017/</loc>
+    <lastmod>2021-12-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</loc>
     <lastmod>2021-05-04T16:47:05+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/09/01/blech-version-0.6.0/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-09-01T11:59:24+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/08/12/push-button-handling/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-08-13T11:04:28+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-08-13T11:04:28+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-08-13T11:04:28+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/05/27/the-purpose-of-blech/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-06-24T13:05:19+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/04/21/blech-compiler-version-0.5.1/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/04/20/blech-vs-code-extension-0.5.2/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2019/12/01/synchron-2019/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-25T11:27:13+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2019/07/10/wcet-2019-keynote/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2019-07-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/traversals/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-29T13:21:43+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/about/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-06-16T17:57:17+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/community/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-23T12:18:54+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-05-15T18:47:04+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/research/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-09-14T14:56:03+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/search/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-04-16T18:22:07+02:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/</loc>
-    <lastmod>2021-05-04T16:47:05+02:00</lastmod>
+    <lastmod>2020-07-23T10:22:24+02:00</lastmod>
   </url>
 </urlset>

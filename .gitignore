@@ -11,3 +11,5 @@ temp/
 **/.ionide
 
 **/articles/*.pdf
+.fake
+.ionide

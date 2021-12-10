@@ -14,6 +14,24 @@
     
     
     <item>
+      <title>Blog: Blech version 0.7.0</title>
+      <link>https://www.blech-lang.org/blog/2021/12/10/blech-version-0.7.0/</link>
+      <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2021/12/10/blech-version-0.7.0/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Better late then never we announce the release version 0.7.0 of the &lt;a href=&#34;https://github.com/boschresearch/blech/releases/tag/v0.7.0&#34; target=&#34;_blank&#34;&gt;Blech compiler&lt;/a&gt;
+ and the &lt;a href=&#34;https://github.com/boschresearch/blech-tools/releases/tag/v0.7.0&#34; target=&#34;_blank&#34;&gt;language services for VS Code&lt;/a&gt;
+. The code has been released on GitHub already end of June 2021.&lt;/p&gt;
+&lt;p&gt;Many small things have been fixed and a module system has been added.
+Since modules rely on the directory structure of a Blech project, some more tool support is still necessary. Nevertheless modules are now supported by the compiler and the tooling.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: Blech version 0.6.0</title>
       <link>https://www.blech-lang.org/blog/2020/09/01/blech-version-0.6.0/</link>
       <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
@@ -60,7 +78,7 @@
                          &amp;quot;&amp;quot;&amp;quot;)]
   extern function doStuff(a: nat8)(b: nat8)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C.
+&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C. 
 &lt;code&gt;$1&lt;/code&gt; is input parameter &lt;code&gt;a: nat8&lt;/code&gt; which is passed by value because it has a simple type.
 &lt;code&gt;$2&lt;/code&gt; is output parameter &lt;code&gt;b: nat8&lt;/code&gt; which is passed by reference as a pointer.&lt;/p&gt;
 &lt;/li&gt;

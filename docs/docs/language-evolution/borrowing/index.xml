@@ -25,7 +25,7 @@
         &lt;h2 id=&#34;parameters-are-references&#34;&gt;Parameters are references&lt;/h2&gt;
 &lt;p&gt;Semantically, Blech passes parameters by reference.&lt;/p&gt;
 &lt;p&gt;Imagine the following Blech program&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function outIsInPlus1 (a: int32) (b: int32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function outIsInPlus1 (a: int32) (b: int32)
     b = 1
     b = a + b 
 end
@@ -38,7 +38,7 @@ activity godUsage ()
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So far so good, the program has the expected behaviour: &lt;code&gt;j&lt;/code&gt; gets &lt;code&gt;i + 1&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;But if we call the same function with the same &lt;code&gt;variable&lt;/code&gt; as input and output we get a strange behaviour.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity badUsage ()
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity badUsage ()
     var i = 42: int32
     outIsInPlus1(i)(i)
     await true
@@ -46,10 +46,10 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If Blech would allow this code and we assume call-by-reference semantics, &lt;code&gt;i&lt;/code&gt; has value &lt;code&gt;2&lt;/code&gt; after the execution of the function.&lt;/p&gt;
 &lt;p&gt;This would be an unexpected behavior both from the implementation and the usage point of view.&lt;/p&gt;
 &lt;p&gt;The implementation does not take into account that &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; may point to the same memory location.
-The point of usage we know nothing about the actual implementation.
+The point of usage we know nothing about the actual implementation. 
 The implicit assumption, input &lt;code&gt;a&lt;/code&gt; and output &lt;code&gt;b&lt;/code&gt; must no be the same memory location is not transparent.&lt;/p&gt;
 &lt;p&gt;In order to prevent such errors, Blech forbids this usage.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;error: Read-write conflict. i or an alias thereof occurs both in the input and output list of the sub program call.
   --&amp;gt; incr.blc:3:5 [causality]
 
 3  |     outIsInPlus1(i)(i)
@@ -57,14 +57,14 @@ The implicit assumption, input &lt;code&gt;a&lt;/code&gt; and output &lt;code&gt
 3  |     outIsInPlus1(i)(i)
    |                  ^ Input argument.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;One might wonder, why a simple increment is allowed&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    i = i + 1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    i = i + 1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;while the call of the function&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    outIsInPlus1(i)(i)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    outIsInPlus1(i)(i)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;is not.&lt;/p&gt;
 &lt;p&gt;The reason is, that parameters are passed by-reference.&lt;/p&gt;
 &lt;p&gt;The input &lt;code&gt;a&lt;/code&gt; takes a read-only reference to the actual input, the output &lt;code&gt;b&lt;/code&gt; takes a read-write reference to the actual input.&lt;/p&gt;
 &lt;p&gt;Semantically the function &lt;code&gt;outIsInPlus1&lt;/code&gt; has the following form&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function outIsInPlus1 (let ref a: int32) (var ref b: int32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function outIsInPlus1 (let ref a: int32) (var ref b: int32)
     b = 1
     b = a + b 
 end
@@ -79,7 +79,7 @@ Currently, simple types are passed by reference while composed types are passed 
 &lt;p&gt;Blech also allows references definitions. They are a restricted form of pointers for expressing aliases and associating data structures.&lt;/p&gt;
 &lt;h3 id=&#34;the-benefit-of-references&#34;&gt;The benefit of references&lt;/h3&gt;
 &lt;p&gt;References can be used to express aliases.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct S
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct S
     var buffer: [3]int32
 end
 
@@ -103,7 +103,7 @@ end
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This prevents repetition and make a program better readable.&lt;/p&gt;
 &lt;p&gt;References can also be used to associate data structures&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
 struct S
     var ref buffer: [3]int32
 end
@@ -131,7 +131,7 @@ It is an additional property of a memory location or a value.&lt;/p&gt;
 &lt;h3 id=&#34;the-problem-with-references&#34;&gt;The problem with references&lt;/h3&gt;
 &lt;p&gt;The use of references can make a program difficult to reason about.&lt;/p&gt;
 &lt;p&gt;If we do the same thing as above in sequential code,&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
 
 let ref a = i
 var ref b = i
@@ -141,7 +141,7 @@ b = a + b
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;we run into the same problems: &lt;code&gt;a&lt;/code&gt; is a read-only reference to &lt;code&gt;i&lt;/code&gt;, &lt;code&gt;b&lt;/code&gt; is a read-write reference to &lt;code&gt;i&lt;/code&gt;.
 When we change &lt;code&gt;i&lt;/code&gt; via &lt;code&gt;b&lt;/code&gt; we implicitly change the value we get from &lt;code&gt;a&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Even in the simple case&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
 
 let ref a = i
 
@@ -150,7 +150,7 @@ b = a + b
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;where we have a read-only reference to &lt;code&gt;i&lt;/code&gt; while at the same time we can change &lt;code&gt;i&lt;/code&gt; directly, we run into the same problems, when reasoning about a program.&lt;/p&gt;
 &lt;p&gt;Having a read-only access to a memory location, would not guarantee, that the underlying value does not change.&lt;/p&gt;
 &lt;p&gt;With references we need to be able to rule out calls like&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: integer
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: integer
     let ref a = i
     var ref b = i
 
@@ -193,7 +193,7 @@ In Rust this is called &lt;a href=&#34;../20_borrowing&#34;&gt;&lt;strong&gt;Bor
 &lt;h2 id=&#34;borrowing-in-rust&#34;&gt;Borrowing in Rust&lt;/h2&gt;
 &lt;p&gt;A Rust program very similar to the introductory example (../10_references/#parameters-are-references)
 looks like the following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;outIsInPlus1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;outIsInPlus1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -205,7 +205,7 @@ looks like the following&lt;/p&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Function &lt;code&gt;outIsInPlus1&lt;/code&gt; gets a read-only (immutable) reference &lt;code&gt;a&lt;/code&gt; and a read-write (mutable) reference &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Rust does not allow this call to &lt;code&gt;outIsInPlus1&lt;/code&gt;.
 The so-called borrow checker detects an error.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
  --&amp;gt; src/example.rs:9:11
   |
 9 |     outIsInPlus1(&amp;amp;i, &amp;amp;mut i);
@@ -219,14 +219,14 @@ The so-called borrow checker detects an error.&lt;/p&gt;
 &lt;h2 id=&#34;behaviour-of-the-rust-borrow-checker&#34;&gt;Behaviour of the Rust borrow checker&lt;/h2&gt;
 &lt;p&gt;A good overview of how borrowing restricts the usage of variables and references can be found in a &lt;a href=&#34;https://rufflewind.com/2017-02-15/rust-move-copy-borrow#comments&#34; target=&#34;_blank&#34;&gt;Graphical depiction of ownership and borrowing in Rust&lt;/a&gt;
 .&lt;/p&gt;
-&lt;p&gt;Move semantics can be neglected for the moment because it deals with memory management of heap allocated data.
+&lt;p&gt;Move semantics can be neglected for the moment because it deals with memory management of heap allocated data. 
 Currently Blech does not dynamically allocate heap data for safety and real-time reasons.&lt;/p&gt;
 &lt;p&gt;For borrowing it distinguishes between &lt;em&gt;frozen&lt;/em&gt; and &lt;em&gt;locked&lt;/em&gt; behaviour.&lt;/p&gt;
 &lt;p&gt;Mutable borrowing, &lt;em&gt;locks&lt;/em&gt; the original object for the duration of the borrow, rendering it unusable.&lt;/p&gt;
 &lt;p&gt;Non-mutable borrowing &lt;em&gt;freezes&lt;/em&gt; the original object, you can still take more non-mutable references, but you cannot move or take mutable references of it.&lt;/p&gt;
 &lt;h2 id=&#34;borrowing-in-blech&#34;&gt;Borrowing in Blech&lt;/h2&gt;
 &lt;p&gt;If we adopt borrow semantics in Blech, the compiler would reject the program, which has been discussed as problematic.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
 
 let ref a = i
 var ref b = i
@@ -234,7 +234,7 @@ var ref b = i
 b = 1
 b = a + b
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The analog program in Rust&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;()&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-rust&#34; data-lang=&#34;rust&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fn&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;()&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;: &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;i32&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;42&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -244,17 +244,17 @@ b = a + b
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;cannot be compiled due to a borrowing error&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;error[E0502]: cannot borrow `i` as mutable because it is also borrowed as immutable
- --&amp;gt; src/main.rs:5:13
-  |
-4 |     let a = &amp;amp;i;
-  |             -- immutable borrow occurs here
-5 |     let b = &amp;amp;mut i;
-  |             ^^^^^^ mutable borrow occurs here
-...
-8 |     *b = *a + *b;
-  |          -- immutable borrow later used here
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For Blech we should also implemented a borrowing check.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-mysql&#34; data-lang=&#34;mysql&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;error&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;E0502&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;]:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;cannot&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;borrow&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;as&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mutable&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;because&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;it&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;is&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;also&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;borrowed&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;as&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;immutable&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;--&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;src&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;rs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;     &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;             &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;-- immutable borrow occurs here
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;     &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;let&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mut&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;             &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;^^^^^^&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mutable&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;borrow&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;occurs&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;here&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;     &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;-- immutable borrow later used here
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For Blech we should also implemented a borrowing check.&lt;/p&gt;
 &lt;h2 id=&#34;intuitive-behaviour-of-the-borrow-checker&#34;&gt;Intuitive behaviour of the borrow checker.&lt;/h2&gt;
 &lt;p&gt;Borrow checking restricts the use borrowed references inside the same scope.&lt;/p&gt;
 &lt;p&gt;The scope is either a statement scope or the entrance of a subprogram.&lt;/p&gt;
@@ -265,9 +265,9 @@ b = a + b
 &lt;/ol&gt;
 &lt;p&gt;to a memory location.&lt;/p&gt;
 &lt;p&gt;In both cases the original name for the memory location is no longer accessible.
-If we switch to a separate scope we can take a mutable and after that an immutable borrowing.
+If we switch to a separate scope we can take a mutable and after that an immutable borrowing. 
 The reason is, that the borrow reference name is no longer visible if the scope is left.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var i: int32
 
 do  // increment i via b
     var ref b = i  // read-write (mutable) borrow
@@ -283,10 +283,10 @@ let ref a = i     // read-only (immutable) borrow
 All parameters are regarded borrows in the scope of the subprogram.&lt;/p&gt;
 &lt;p&gt;Therefore the following Blech code would also be rejected by a borrow checker.&lt;/p&gt;
 &lt;p&gt;The call takes a &lt;code&gt;let ref&lt;/code&gt; (immutable) borrow and a &lt;code&gt;var ref&lt;/code&gt; (mutable) borrow at the same time.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     outIsInPlus1(i)(i)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to correct this we need an additional memory location,&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     let j = i  // read-only j gets value from i
     outIsInPlus1(j)(i)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The implementor of function &lt;code&gt;outIsInPlus1&lt;/code&gt; can assume that the actual parameters never overlap in their memory location.&lt;/p&gt;
@@ -308,7 +308,7 @@ All parameters are regarded borrows in the scope of the subprogram.&lt;/p&gt;
 &lt;p&gt;Different to Rust, Blech takes references and de-references whenever it is necessary.&lt;/p&gt;
 &lt;p&gt;Althoug Blech semantically uses pass-by-reference it is possible to pass a complete right-hand-side expression for input parameters.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s take our example from the introduction&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     var j: int32
 
     outIsInPlus1(j + 1)(i)
@@ -316,7 +316,7 @@ All parameters are regarded borrows in the scope of the subprogram.&lt;/p&gt;
 Semantically Blech creates a auxiliary memory location from which the read-only reference can be taken.
 For a function on simple types the generated code can be optimized and the parameter can be passed by-value.&lt;/p&gt;
 &lt;p&gt;This is not true for an activity.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity outAlwaysIsInPlus1 (a: int32) (b: int32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity outAlwaysIsInPlus1 (a: int32) (b: int32)
     repeat 
         b = 1
         b = a + b 
@@ -326,7 +326,7 @@ For a function on simple types the generated code can be optimized and the param
         await true
     end
 end
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     var j: int32
 
     run outAlwaysIsInPlus1(j + 1)(i)
@@ -335,10 +335,10 @@ end
 &lt;p&gt;We imagine the new value is &lt;em&gt;pumped into&lt;/em&gt; the activity in every step.&lt;/p&gt;
 &lt;h2 id=&#34;immutable-borrowing-in-sub-expressions&#34;&gt;Immutable borrowing in sub-expressions&lt;/h2&gt;
 &lt;p&gt;Due to a causality error the Blech compiler rejects the following program.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     run outAlwaysIsInPlus1(i + 1)(i)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Furthermore the compiler rejects a similar function call&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     outIsInPlus1(i + 1)(i)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This is different to Rust, because Rust cannot take immutable (read-only) references to right-hand side expressions.&lt;/p&gt;
 &lt;p&gt;The borrow checker needs to check the occurence of read-only borrowing in right-hand side expressions.&lt;/p&gt;
@@ -349,7 +349,7 @@ end
 &lt;h2 id=&#34;read-only-references-1&#34;&gt;Read-only references&lt;/h2&gt;
 &lt;p&gt;Since we can pass a right-hand-side expression as an input parameter we should also be able to take a reference to a right-hand-side expression in sequential code.
 This makes sense in an activity and is called &lt;code&gt;bind&lt;/code&gt; in the language Quartz.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity a (i: int32) (j: int32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity a (i: int32) (j: int32)
     let ref double = i * 2
     repeat
         j = double
@@ -358,7 +358,7 @@ This makes sense in an activity and is called &lt;code&gt;bind&lt;/code&gt; in t
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to take a reference to a right-hand-side expression the compiler would generate an additional memory location.&lt;/p&gt;
 &lt;p&gt;This has roughly the following semantics:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity a (i: int32) (j: int32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity a (i: int32) (j: int32)
     var aux_double: int32  // not subject to borrow checking
     let ref double = internal_aux_double
     cobegin weak
@@ -375,7 +375,7 @@ end
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For the declaration &lt;code&gt;let ref double = i * 2&lt;/code&gt; we need to apply the borrowing rules for the sub-expression &lt;code&gt;i&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;For example in the following code would then be rejected.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     var z: int32
     let ref double = i * 2  // immutable borrow of i
     repeat
@@ -385,7 +385,7 @@ end
     i = i + 1 // i is no longer accessible here 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The read-only reference &lt;code&gt;double&lt;/code&gt; immutable borrows &lt;code&gt;i&lt;/code&gt;, which locks &lt;code&gt;i&lt;/code&gt; for further usage.&lt;/p&gt;
 &lt;p&gt;As usual a separate scope can solve the problem:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;    var i: int32
     var z: int32
     do
         let ref double = i * 2
@@ -412,7 +412,7 @@ end
         
         &lt;h2 id=&#34;partial-borrow-from-a-struct&#34;&gt;Partial borrow from a struct&lt;/h2&gt;
 &lt;p&gt;Imagine the following&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
 struct From 
     var a: int32
     var b: int32
@@ -427,7 +427,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The compiler can statically decide on partial borrowing for structs.
 But not for arrays.&lt;/p&gt;
 &lt;p&gt;The following code would be rejected&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity main (i: int32)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;activity main (i: int32)
     var f: [2]int43
     run outIsPlus1(f[1])(f[i])
     await true
@@ -437,12 +437,12 @@ That means borrowing form arrays borrows the whole array.&lt;/p&gt;
 &lt;h2 id=&#34;structs-with-references&#34;&gt;Structs with references&lt;/h2&gt;
 &lt;p&gt;A struct may contain a field that is a reference in order to define an alias or an associated data type.&lt;/p&gt;
 &lt;p&gt;Structs with references contain borrowed fields.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct RefStruct
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;struct RefStruct
     var a: int32
     let ref b: int32
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Return a struct with references requires to define which references a borrowed by the struct.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct (refb: int32) returns RefStruct shares refb
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct (refb: int32) returns RefStruct shares refb
     return {a = 42, b = refb}
 end
 
@@ -453,13 +453,13 @@ var result = initRefStruct(b)
 As a consequence &lt;code&gt;result&lt;/code&gt; immutably borrows &lt;code&gt;b&lt;/code&gt;.
 Consequently &lt;code&gt;b&lt;/code&gt; is frozen after &lt;code&gt;result&lt;/code&gt; is iniatialized.&lt;/p&gt;
 &lt;p&gt;We could also write &lt;code&gt;initRefers&lt;/code&gt; in the following way.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct (refb: int32) returns RefStruct shares refb
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct (refb: int32) returns RefStruct shares refb
     var r: RefStruct = {a = 42, b = refB}
     return r
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The return value is a shallow copy of the struct.&lt;/p&gt;
 &lt;p&gt;The borrow checker conservatively overestimates all possible borrowing if the return value is constructed through different control path.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct (refb: int32, refother: int32) returns RefStruct shares refb, refother
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct (refb: int32, refother: int32) returns RefStruct shares refb, refother
     if aB &amp;lt; aB2 then
         return {a = 42, b = refb}
     else
@@ -467,7 +467,7 @@ end
     end
 end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It also overestimates the sharing if the &lt;code&gt;shares&lt;/code&gt; refers to an output, although the &lt;code&gt;RefStruct&lt;/code&gt; value immutably borrows &lt;code&gt;refb&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct () (refb: int32) returns RefStruct shares refb
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;function initRefStruct () (refb: int32) returns RefStruct shares refb
     refB = refB + 1
     return {a = 42, b = refB}
 end
@@ -477,7 +477,7 @@ var rs: RefStruct = initRefStruct()(b)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Overestimation is necessary for a rather simple signature.&lt;/p&gt;
 &lt;p&gt;For separate compilation borrowing in the result must become part of the signature of a function without inspection of the actual code.&lt;/p&gt;
 &lt;p&gt;The three variants have of &lt;code&gt;initRefStruct&lt;/code&gt; have the following signatures&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;
 function initRefStruct (refb: int32) returns RefStruct shares refb
 
 function initRefStruct (refb: int32, refOther: int32) returns RefStruct shares refb, refother

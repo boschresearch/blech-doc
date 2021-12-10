@@ -1,8 +1,8 @@
 ---
-date: 2021-03-03 
+date: 2030-03-03 
 draft: true
 title: "Blech - Language design in the service of embedded software engineering"
-linkTitle: "No global variables"
+linkTitle: "Language design for embedded software engineering"
 description: >
     
 author: Franz-Josef Grosch

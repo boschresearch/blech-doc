@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.81.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.90.0" />
+<meta name="robots" content="index, follow">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -18,18 +19,20 @@
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
 <title>Immutable references - `let ref` | Blech</title>
-<meta name="description" content="The Blech language site"><meta property="og:title" content="Immutable references - `let ref`" />
+<meta name="description" content="Adopt the ideas of borrowing in Rust to Blech
+">
+<meta property="og:title" content="Immutable references - `let ref`" />
 <meta property="og:description" content="Adopt the ideas of borrowing in Rust to Blech
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2021-05-04T16:47:05&#43;02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:modified_time" content="2020-05-15T18:47:04+02:00" /><meta property="og:site_name" content="Blech" />
 
 <meta itemprop="name" content="Immutable references - `let ref`">
 <meta itemprop="description" content="Adopt the ideas of borrowing in Rust to Blech
 ">
-<meta itemprop="dateModified" content="2021-05-04T16:47:05&#43;02:00" />
+<meta itemprop="dateModified" content="2020-05-15T18:47:04+02:00" />
 <meta itemprop="wordCount" content="564">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Immutable references - `let ref`"/>
@@ -39,21 +42,14 @@
 
 
 
-<link rel="preload" href="/scss/main.min.17476f9ace11c810eaccf3db35eaa354c8ef7fd828342dcb81d684a9795df713.css" as="style">
-<link href="/scss/main.min.17476f9ace11c810eaccf3db35eaa354c8ef7fd828342dcb81d684a9795df713.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/scss/main.min.318fb6d17b9dffb9129999e99f34641f72dd9196c75bd16f7292bd046086a9a7.css" as="style">
+<link href="/scss/main.min.318fb6d17b9dffb9129999e99f34641f72dd9196c75bd16f7292bd046086a9a7.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.5.1.min.js"
   integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
-
-
 <script src=https://www.blech-lang.org/js/opt-in.js></script>
-
-
-
-
 
 
   </head>
@@ -62,7 +58,7 @@
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
         <a class="navbar-brand" href="/">
-		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="font-weight-bold ">Blech</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
 		<ul class="navbar-nav mt-2 mt-lg-0">
@@ -132,9 +128,7 @@
 			
 		</ul>
 	</div>
-	<div class="navbar-nav d-none d-lg-block">
-<input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
-
+	<div class="navbar-nav d-none d-lg-block"><input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
 </div>
 </nav>
 
@@ -142,1134 +136,213 @@
     <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
             
-
-
-
-
-  
-
-
 <div id="td-sidebar-menu" class="td-sidebar__inner">
-  
   <form class="td-sidebar__search d-flex align-items-center">
-    
-<input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
-
+    <input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
 
     <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
-  
   <nav class="collapse td-sidebar-nav" id="td-section-nav">
-    
-    
-    
-    
-    
     <ul class="td-sidebar-nav__section pr-md-3 ul-0">
-      
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
-    <a href="/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Documentation</span></a>
-    
-      
-      <ul class="pr-md-3 ul-1">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsgetting-started-li">
-    <a href="/docs/getting-started/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docsgetting-started"><span class="">Getting Started</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsgetting-startedblechc-li">
-    <a href="/docs/getting-started/blechc/" title="The Blech compiler - blechc" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsgetting-startedblechc"><span class="">Blech compiler</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsgetting-startedvsce-li">
-    <a href="/docs/getting-started/vsce/" title="Blech Language Services - the VS Code extension" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsgetting-startedvsce"><span class="">Blech Language Services</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsuser-manual-li">
-    <a href="/docs/user-manual/" title="The Blech language - user manual" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docsuser-manual"><span class="">User manual</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualmoc-li">
-    <a href="/docs/user-manual/moc/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualmoc"><span class="">Model of execution</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualnotation-li">
-    <a href="/docs/user-manual/notation/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualnotation"><span class="">Notation</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manuallexical-li">
-    <a href="/docs/user-manual/lexical/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manuallexical"><span class="">Lexical elements</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualstatements-li">
-    <a href="/docs/user-manual/statements/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualstatements"><span class="">Statements</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualdeclarations-li">
-    <a href="/docs/user-manual/declarations/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualdeclarations"><span class="">Declarations</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualtypes-li">
-    <a href="/docs/user-manual/types/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualtypes"><span class="">Types</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualexpressions-li">
-    <a href="/docs/user-manual/expressions/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualexpressions"><span class="">Expressions</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualmodules-li">
-    <a href="/docs/user-manual/modules/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualmodules"><span class="">Modules</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docslanguage-evolution-li">
-    <a href="/docs/language-evolution/" title="Blech language evolution" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolution"><span class="">Language Evolution</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docslanguage-evolutionblech-c-interface-li">
-    <a href="/docs/language-evolution/blech-c-interface/" title="Blech&#39;s interface to C" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolutionblech-c-interface"><span class="">Blech-C interface</span></a>
-    
-      
-      <ul class="pr-md-3 ul-3">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionblech-c-interfaceenv-variables-li">
-    <a href="/docs/language-evolution/blech-c-interface/env-variables/" title="Accessing variables in the Blech environment" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionblech-c-interfaceenv-variables"><span class="">Environment variables</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionblech-c-interfacec-bindings-li">
-    <a href="/docs/language-evolution/blech-c-interface/c-bindings/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionblech-c-interfacec-bindings"><span class="">C bindings</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionbits-and-bytes-li">
-    <a href="/docs/language-evolution/bits-and-bytes/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionbits-and-bytes"><span class="">Bits and bytes</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docslanguage-evolutionborrowing-li">
-    <a href="/docs/language-evolution/borrowing/" title="References, borrowing and causality" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolutionborrowing"><span class="">Borrowing</span></a>
-    
-      
-      <ul class="pr-md-3 ul-3">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing10_references-li">
-    <a href="/docs/language-evolution/borrowing/10_references/" title="References in Blech" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing10_references"><span class="">References</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing20_borrowing-li">
-    <a href="/docs/language-evolution/borrowing/20_borrowing/" title="Borrowing for references" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing20_borrowing"><span class="">Borrowing</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docslanguage-evolutionborrowing30_let-ref-li">
-    <a href="/docs/language-evolution/borrowing/30_let-ref/" title="Immutable references - `let ref`" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing30_let-ref"><span class="td-sidebar-nav-active-item">Immutable references</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing40_partials-li">
-    <a href="/docs/language-evolution/borrowing/40_partials/" title="Partial borrowing and borrowed parts" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing40_partials"><span class="">Partials</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionmodules-li">
-    <a href="/docs/language-evolution/modules/" title="Programs and modules - the Blech compilation units" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionmodules"><span class="">Modules</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsblechc-development-li">
-    <a href="/docs/blechc-development/" title="Guide to blechc development" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docsblechc-development"><span class="">Blechc development</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentconst-and-expr-li">
-    <a href="/docs/blechc-development/const-and-expr/" title="Expressions, conditions, initialisers, constants" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentconst-and-expr"><span class="">Expressions</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentpctree-li">
-    <a href="/docs/blechc-development/pctree/" title="Program counter trees" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentpctree"><span class="">PC trees</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentexternal-vars-li">
-    <a href="/docs/blechc-development/external-vars/" title="Local and external variables" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentexternal-vars"><span class="">Variables</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentcpdata-li">
-    <a href="/docs/blechc-development/cpdata/" title="Translating Blech variable names to C" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentcpdata"><span class="">Variable Translation</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentgit-workflow-li">
-    <a href="/docs/blechc-development/git-workflow/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentgit-workflow"><span class="">Git workflow</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmenttraversals-li">
-    <a href="/docs/blechc-development/traversals/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmenttraversals"><span class=""></span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsexamples-li">
-    <a href="/docs/examples/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docsexamples"><span class="">Blech examples</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesvirtuallock-li">
-    <a href="/docs/examples/virtuallock/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesvirtuallock"><span class="">Virtual Safe Lock</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesblinker-li">
-    <a href="/docs/examples/blinker/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesblinker"><span class="">Blinker</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesstopwatch-li">
-    <a href="/docs/examples/stopwatch/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesstopwatch"><span class="">Stopwatch</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesreact-li">
-    <a href="/docs/examples/react/" title="React - a reaction test game" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesreact"><span class="">React</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesdcf77-li">
-    <a href="/docs/examples/dcf77/" title="Decoding the DCF77 longwave time signal" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesdcf77"><span class="">DCF77 decoding</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscontributing-li">
-    <a href="/docs/contributing/" title="Contributing to Blech development" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-docscontributing"><span class="">Contributing</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+  <a href="/docs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Documentation</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsgetting-started-li">
+  <a href="/docs/getting-started/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsgetting-started"><span class="">Getting Started</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsgetting-startedblechc-li">
+  <a href="/docs/getting-started/blechc/" title="The Blech compiler - blechc" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsgetting-startedblechc"><span class="">Blech compiler</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsgetting-startedvsce-li">
+  <a href="/docs/getting-started/vsce/" title="Blech Language Services - the VS Code extension" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsgetting-startedvsce"><span class="">Blech Language Services</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsuser-manual-li">
+  <a href="/docs/user-manual/" title="The Blech language - user manual" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuser-manual"><span class="">User manual</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualmoc-li">
+  <a href="/docs/user-manual/moc/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualmoc"><span class="">Model of execution</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualnotation-li">
+  <a href="/docs/user-manual/notation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualnotation"><span class="">Notation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manuallexical-li">
+  <a href="/docs/user-manual/lexical/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manuallexical"><span class="">Lexical elements</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualstatements-li">
+  <a href="/docs/user-manual/statements/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualstatements"><span class="">Statements</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualdeclarations-li">
+  <a href="/docs/user-manual/declarations/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualdeclarations"><span class="">Declarations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualtypes-li">
+  <a href="/docs/user-manual/types/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualtypes"><span class="">Types</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualexpressions-li">
+  <a href="/docs/user-manual/expressions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualexpressions"><span class="">Expressions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuser-manualmodules-li">
+  <a href="/docs/user-manual/modules/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuser-manualmodules"><span class="">Modules</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docslanguage-evolution-li">
+  <a href="/docs/language-evolution/" title="Blech language evolution" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolution"><span class="">Language Evolution</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslanguage-evolutionblech-c-interface-li">
+  <a href="/docs/language-evolution/blech-c-interface/" title="Blech&#39;s interface to C" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolutionblech-c-interface"><span class="">Blech-C interface</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionblech-c-interfaceenv-variables-li">
+  <a href="/docs/language-evolution/blech-c-interface/env-variables/" title="Accessing variables in the Blech environment" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionblech-c-interfaceenv-variables"><span class="">Environment variables</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docslanguage-evolutionblech-c-interfacec-bindings-li">
+  <a href="/docs/language-evolution/blech-c-interface/c-bindings/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionblech-c-interfacec-bindings"><span class="">C bindings</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionbits-and-bytes-li">
+  <a href="/docs/language-evolution/bits-and-bytes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionbits-and-bytes"><span class="">Bits and bytes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docslanguage-evolutionborrowing-li">
+  <a href="/docs/language-evolution/borrowing/" title="References, borrowing and causality" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docslanguage-evolutionborrowing"><span class="">Borrowing</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing10_references-li">
+  <a href="/docs/language-evolution/borrowing/10_references/" title="References in Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing10_references"><span class="">References</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing20_borrowing-li">
+  <a href="/docs/language-evolution/borrowing/20_borrowing/" title="Borrowing for references" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing20_borrowing"><span class="">Borrowing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docslanguage-evolutionborrowing30_let-ref-li">
+  <a href="/docs/language-evolution/borrowing/30_let-ref/" title="Immutable references - `let ref`" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing30_let-ref"><span class="td-sidebar-nav-active-item">Immutable references</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionborrowing40_partials-li">
+  <a href="/docs/language-evolution/borrowing/40_partials/" title="Partial borrowing and borrowed parts" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionborrowing40_partials"><span class="">Partials</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslanguage-evolutionmodules-li">
+  <a href="/docs/language-evolution/modules/" title="Programs and modules - the Blech compilation units" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docslanguage-evolutionmodules"><span class="">Modules</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsblechc-development-li">
+  <a href="/docs/blechc-development/" title="Guide to blechc development" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsblechc-development"><span class="">Blechc development</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentconst-and-expr-li">
+  <a href="/docs/blechc-development/const-and-expr/" title="Expressions, conditions, initialisers, constants" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentconst-and-expr"><span class="">Expressions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentpctree-li">
+  <a href="/docs/blechc-development/pctree/" title="Program counter trees" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentpctree"><span class="">PC trees</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentexternal-vars-li">
+  <a href="/docs/blechc-development/external-vars/" title="Local and external variables" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentexternal-vars"><span class="">Variables</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentcpdata-li">
+  <a href="/docs/blechc-development/cpdata/" title="Translating Blech variable names to C" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentcpdata"><span class="">Variable Translation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmentgit-workflow-li">
+  <a href="/docs/blechc-development/git-workflow/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmentgit-workflow"><span class="">Git workflow</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsblechc-developmenttraversals-li">
+  <a href="/docs/blechc-development/traversals/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsblechc-developmenttraversals"><span class=""></span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsexamples-li">
+  <a href="/docs/examples/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsexamples"><span class="">Blech examples</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesvirtuallock-li">
+  <a href="/docs/examples/virtuallock/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesvirtuallock"><span class="">Virtual Safe Lock</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesblinker-li">
+  <a href="/docs/examples/blinker/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesblinker"><span class="">Blinker</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesstopwatch-li">
+  <a href="/docs/examples/stopwatch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesstopwatch"><span class="">Stopwatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesreact-li">
+  <a href="/docs/examples/react/" title="React - a reaction test game" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesreact"><span class="">React</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsexamplesdcf77-li">
+  <a href="/docs/examples/dcf77/" title="Decoding the DCF77 longwave time signal" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesdcf77"><span class="">DCF77 decoding</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscontributing-li">
+  <a href="/docs/contributing/" title="Contributing to Blech development" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docscontributing"><span class="">Contributing</span></a>
+</li>
+  </ul>
+</li>
     </ul>
   </nav>
 </div>
 
-
-
-
-          </div>
-          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
             
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/boschresearch/blech-doc/tree/master/website/content/en/docs/language-evolution/borrowing/30_let-ref.md" class="td-page-meta--view" target="_blank" rel="noopener"><i class="fa fa-file-alt fa-fw"></i> View page source</a>
+  <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/30_let-ref.md" class="td-page-meta--edit" target="_blank" rel="noopener"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/language-evolution/borrowing/30_let-ref.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" class="td-page-meta--child" target="_blank" rel="noopener"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+  <a href="https://github.com/boschresearch/blech-doc/issues/new?title=Immutable%20references%20-%20%60let%20ref%60" class="td-page-meta--issue" target="_blank" rel="noopener"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/boschresearch/blech/issues/new" class="td-page-meta--project-issue" target="_blank" rel="noopener"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
   
-  
-  
-  
-  
-  <div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
-  
-    
-    
-      
-    
-    
-    
-    
-    
-    
-    
+</div>
 
-    <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/docs/language-evolution/borrowing/30_let-ref.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-    <a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/docs/language-evolution/borrowing/30_let-ref.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-    <a href="https://github.com/boschresearch/blech-doc/issues/new?title=Immutable%20references%20-%20%60let%20ref%60" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
-    
-      
-      <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
-    
-
-  
-  
-  </div>
+            
 
 
-
-
-
-<nav id="TableOfContents">
+<div class="td-toc"><nav id="TableOfContents">
   <ul>
     <li><a href="#read-only-references">Read-only references</a></li>
     <li><a href="#immutable-borrowing-in-sub-expressions">Immutable borrowing in sub-expressions</a></li>
     <li><a href="#pure-functions">Pure functions</a></li>
     <li><a href="#read-only-references-1">Read-only references</a></li>
   </ul>
-</nav>
+</nav></div>
 
 
 
-          </div>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
             
-  
 
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
-	<ol class="breadcrumb spb-1">
+	
 		
 
 
 
+  
+  
+
+	
+		
 
 
 
+  
+  
 
+	
 
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
 
-
-
-
-
-<li class="breadcrumb-item" >
-	<a href="https://www.blech-lang.org/docs/">Documentation</a>
-</li>
-
-
-
-
-<li class="breadcrumb-item" >
-	<a href="https://www.blech-lang.org/docs/language-evolution/">Language Evolution</a>
-</li>
-
-
-
-
-<li class="breadcrumb-item" >
-	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/">Borrowing</a>
-</li>
-
-
-
-
-<li class="breadcrumb-item active" aria-current="page">
-	<a href="https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/">Immutable references</a>
-</li>
-
-	</ol>
-</nav	>
-
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="https://www.blech-lang.org/docs/">Documentation</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="https://www.blech-lang.org/docs/language-evolution/">Language Evolution</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="https://www.blech-lang.org/docs/language-evolution/borrowing/">Borrowing</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="https://www.blech-lang.org/docs/language-evolution/borrowing/30_let-ref/">Immutable references</a>
+  </li>
+  </ol>
+</nav>
             
 <div class="td-content">
 	<h1>Immutable references - `let ref`</h1>
-    <div class="lead">Adopt the ideas of borrowing in Rust to Blech</div>
-	       
+	<div class="lead">Adopt the ideas of borrowing in Rust to Blech</div>
+	<header class="article-meta">
+		
+		
+			
+				
+
+
+			
+				
+
+
+			
+		
+		
+	</header>    
 	<h2 id="read-only-references">Read-only references</h2>
 <p>Different to Rust, Blech takes references and de-references whenever it is necessary.</p>
 <p>Althoug Blech semantically uses pass-by-reference it is possible to pass a complete right-hand-side expression for input parameters.</p>
 <p>Let&rsquo;s take our example from the introduction</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     var j: int32
 
     outIsInPlus1(j + 1)(i)
@@ -1277,7 +350,7 @@
 Semantically Blech creates a auxiliary memory location from which the read-only reference can be taken.
 For a function on simple types the generated code can be optimized and the parameter can be passed by-value.</p>
 <p>This is not true for an activity.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity outAlwaysIsInPlus1 (a: int32) (b: int32)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity outAlwaysIsInPlus1 (a: int32) (b: int32)
     repeat 
         b = 1
         b = a + b 
@@ -1287,7 +360,7 @@ For a function on simple types the generated code can be optimized and the param
         await true
     end
 end
-</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     var j: int32
 
     run outAlwaysIsInPlus1(j + 1)(i)
@@ -1296,10 +369,10 @@ end
 <p>We imagine the new value is <em>pumped into</em> the activity in every step.</p>
 <h2 id="immutable-borrowing-in-sub-expressions">Immutable borrowing in sub-expressions</h2>
 <p>Due to a causality error the Blech compiler rejects the following program.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     run outAlwaysIsInPlus1(i + 1)(i)
 </code></pre></div><p>Furthermore the compiler rejects a similar function call</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     outIsInPlus1(i + 1)(i)
 </code></pre></div><p>This is different to Rust, because Rust cannot take immutable (read-only) references to right-hand side expressions.</p>
 <p>The borrow checker needs to check the occurence of read-only borrowing in right-hand side expressions.</p>
@@ -1310,7 +383,7 @@ end
 <h2 id="read-only-references-1">Read-only references</h2>
 <p>Since we can pass a right-hand-side expression as an input parameter we should also be able to take a reference to a right-hand-side expression in sequential code.
 This makes sense in an activity and is called <code>bind</code> in the language Quartz.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity a (i: int32) (j: int32)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity a (i: int32) (j: int32)
     let ref double = i * 2
     repeat
         j = double
@@ -1319,7 +392,7 @@ This makes sense in an activity and is called <code>bind</code> in the language 
 end
 </code></pre></div><p>In order to take a reference to a right-hand-side expression the compiler would generate an additional memory location.</p>
 <p>This has roughly the following semantics:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity a (i: int32) (j: int32)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">activity a (i: int32) (j: int32)
     var aux_double: int32  // not subject to borrow checking
     let ref double = internal_aux_double
     cobegin weak
@@ -1336,7 +409,7 @@ end
 end
 </code></pre></div><p>For the declaration <code>let ref double = i * 2</code> we need to apply the borrowing rules for the sub-expression <code>i</code>.</p>
 <p>For example in the following code would then be rejected.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     var z: int32
     let ref double = i * 2  // immutable borrow of i
     repeat
@@ -1346,7 +419,7 @@ end
     i = i + 1 // i is no longer accessible here 
 </code></pre></div><p>The read-only reference <code>double</code> immutable borrows <code>i</code>, which locks <code>i</code> for further usage.</p>
 <p>As usual a separate scope can solve the problem:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">    var i: int32
     var z: int32
     do
         let ref double = i * 2
@@ -1361,8 +434,10 @@ end
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 4, 2021: <a  href="https://github.com/boschresearch/blech-doc/commit/fa3db018d2c65d0c91d73c796807be02cb8f10f4">drafting the module chapter (fa3db01)</a>
+	<div class="text-muted mt-5 pt-3 border-top">
+  Last modified May 15, 2020: <a href="https://github.com/boschresearch/blech-doc/commit/fe810959f54b4449ca2e97b2cd709608650c9a8e">Clean up Old material added. (fe81095)</a>
 </div>
+
 </div>
 
 
@@ -1463,15 +538,24 @@ end
 
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+    crossorigin="anonymous"></script>
+
+
+
+
+
+<script src='/js/tabpane-persist.js'></script>
 
 
 
 
 
 
- 
 
 
 
@@ -1483,7 +567,8 @@ end
 
 
 
-<script src="/js/main.min.818666e7663fda58c21752d2396632d7ec7c6e5b6347645d50c56e7cfa8a0252.js" integrity="sha256-gYZm52Y/2ljCF1LSOWYy1&#43;x8bltjR2RdUMVufPqKAlI=" crossorigin="anonymous"></script>
+
+<script src="/js/main.min.d4852be3b12f7ba8ffeeb8acd8db4bb8c4dea2f1dfac3a72d3777445c1f673ea.js" integrity="sha256-1IUr47Eve6j/7ris2NtLuMTeovHfrDpy03d0RcH2c&#43;o=" crossorigin="anonymous"></script>
 
 
 

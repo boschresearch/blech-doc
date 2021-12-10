@@ -23,38 +23,38 @@
         
         
         &lt;h2 id=&#34;equality-expressions&#34;&gt;Equality expressions&lt;/h2&gt;
-&lt;p&gt;Theoretically, every type supports some notion of equality (and inequality).
-This is straightforward for &lt;strong&gt;simple (or primitive) value types&lt;/strong&gt; that consist of one memory cell only (booleans and all numeric types of all sizes):
+&lt;p&gt;Theoretically, every type supports some notion of equality (and inequality). 
+This is straightforward for &lt;strong&gt;simple (or primitive) value types&lt;/strong&gt; that consist of one memory cell only (booleans and all numeric types of all sizes): 
 &lt;code&gt;a == b&lt;/code&gt; holds iff the value of &lt;code&gt;a&lt;/code&gt; is the same as the value of &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;For &lt;strong&gt;structured (complex) value types&lt;/strong&gt; we can decide equality by comparing every element of data structures recursively.
-At compile time the result of a comparison can be evaluated if the arguments are compile time constants.
+At compile time the result of a comparison can be evaluated if the arguments are compile time constants. 
 Thus it is technically no problem to compare compile time constants of any value type.&lt;/p&gt;
-&lt;p&gt;At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure.
+&lt;p&gt;At runtime a recursive comparison algorithm is too much of a runtime penalty and what looks like a constant time operation turns out to be growing with the dimension of the structure. 
 An optimisation of runtime - not changing the run-time complexity but providing better factors - could be achieved by comparing the data structures byte-wise (&lt;code&gt;memcmp&lt;/code&gt;).
-But this requires to fix padding in structs and then fails in special cases:
-floating point elements may use different bit representations for the same numerical value, e.g. &lt;code&gt;+0.0&lt;/code&gt; and &lt;code&gt;-0.0&lt;/code&gt;.
+But this requires to fix padding in structs and then fails in special cases: 
+floating point elements may use different bit representations for the same numerical value, e.g. &lt;code&gt;+0.0&lt;/code&gt; and &lt;code&gt;-0.0&lt;/code&gt;. 
 Consequently, the comparison operator for structured data may not be used at runtime (like in C) and results in a type check error.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Reference types are not implemented yet but in principle they will have the same behaviour: compare (dereferenced) values for simple types, and disallow comparison for complex types.&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id=&#34;using-constants&#34;&gt;Using constants&lt;/h2&gt;
-&lt;p&gt;In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent.
+&lt;p&gt;In order to make evaluation work for arbitrary constant expressions the names are resolved by the constant values (literals) they represent. 
 Thus at the end of the type check phase the declarations of the consts do exist and can be translated to C but all their usages disappear (being substituted by the value).
 This has the drawback of less readable C code but still allows to export constants as #defines and use them in foreign code by including the relevant &lt;code&gt;.h&lt;/code&gt; file.&lt;/p&gt;
-&lt;p&gt;In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals.
-The same is true for arrays in all versions of C.
-Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data.
-In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls.
+&lt;p&gt;In C89, structs can be initialised using structured literals but cannot be assigned new values using structured literals. 
+The same is true for arrays in all versions of C. 
+Additionally, when calling functions the arguments need to be pointers to memory locations that contain the (structured) data. 
+In all these cases, in the generated C code we create a stack local (automatic) temporary variable that is initialised using the literal and then use that variable (or its address) to perform assignments or function calls. 
 In summary, literals occur only on the right hand side of initialisation in the generated C code.&lt;/p&gt;
 &lt;h2 id=&#34;side-effects-in-conditions-are-not-allowed&#34;&gt;Side effects in conditions are not allowed&lt;/h2&gt;
-&lt;p&gt;It is obvious that testing an &lt;code&gt;await&lt;/code&gt; condition may not have any impact on the state to implement a synchronous program.
-Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements.
-This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation.
+&lt;p&gt;It is obvious that testing an &lt;code&gt;await&lt;/code&gt; condition may not have any impact on the state to implement a synchronous program. 
+Additionally, we forbid side effects in conditions of preemption and all standard, imperative statements. 
+This clearly seperates concerns of making decision about the current program state and (possibly) triggering other, (possibly) concurrent computation. 
 The common programming practice of C where conditions&#39; side effects are used to also advance computation is regarded as bad practice in Blech until proven otherwise.&lt;/p&gt;
 &lt;h2 id=&#34;side-effects-are-allowed-in-initialisers&#34;&gt;Side effects are allowed in initialisers&lt;/h2&gt;
-&lt;p&gt;Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable.
+&lt;p&gt;Despite the urge to restrict the wild programmer, we allow side effects when declaring and initialising a variable. 
 Otherwise the following code that declares an immutable variable cannot be written:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let status = f()(x)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let status = f()(x)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Instead, we would have to write&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var status: typeOfF
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;var status: typeOfF
 status = f()(x)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;which not only is longer and less readable but makes &lt;code&gt;status&lt;/code&gt; a mutable variable which is not the intention of the programmer.&lt;/p&gt;
 
@@ -74,10 +74,10 @@ status = f()(x)
 &lt;p&gt;An activity&amp;rsquo;s program state is given by the position(s) which control flow resides in and the evaluation of local variables and parameters.&lt;/p&gt;
 &lt;p&gt;This information is stored in a data structure which we call the &lt;em&gt;activity context&lt;/em&gt;.
 In particular, the control flow position(s) are given by those fields in the activity context which we call &lt;em&gt;program counters&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;Remember that the control flow of an activity is decomposed into a block graph after causality analysis.
+&lt;p&gt;Remember that the control flow of an activity is decomposed into a block graph after causality analysis. 
 The individual blocks are &lt;em&gt;scheduled&lt;/em&gt; (ordered) according to a topological sort algorithm. &lt;em&gt;(Details on the block graph are to be documented elsewhere)&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;The value of a program counter identifies the block that the control flow of an activity is currently in.
-For block number &lt;code&gt;i&lt;/code&gt; the corresponding program counter has value &lt;code&gt;2i&lt;/code&gt; if control flow is about to enter this block in the current reaction step.
+&lt;p&gt;The value of a program counter identifies the block that the control flow of an activity is currently in. 
+For block number &lt;code&gt;i&lt;/code&gt; the corresponding program counter has value &lt;code&gt;2i&lt;/code&gt; if control flow is about to enter this block in the current reaction step. 
 The program counter has value &lt;code&gt;2i + 1&lt;/code&gt; if block &lt;code&gt;i&lt;/code&gt; will be entered in the &lt;em&gt;next&lt;/em&gt; reaction.
 A program counter which is &lt;code&gt;0&lt;/code&gt; indicates that control flow has terminated (in the corresponding thread of execution, see below).&lt;/p&gt;
 &lt;p&gt;An activity may contain concurrent code (expressed by the &lt;code&gt;cobegin&lt;/code&gt; statement) and therefore control flow may be forked into several &lt;em&gt;threads of execution&lt;/em&gt;.
@@ -86,7 +86,7 @@ Each thread is represented by an individual program counter.
 Thus there is always at least one program counter for an activity&amp;rsquo;s &lt;em&gt;root thread&lt;/em&gt; and possibly more for subthreads which are forked by &lt;code&gt;cobegin&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;pc-tree&#34;&gt;PC tree&lt;/h2&gt;
 &lt;p&gt;The Blech compiler constructs a so-called program counter tree (pc tree) for every activity.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;
     &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
         &lt;span style=&#34;color:#000&#34;&gt;mainpc&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ParamDecl&lt;/span&gt;
         &lt;span style=&#34;color:#000&#34;&gt;thread&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Thread&lt;/span&gt;
@@ -117,7 +117,7 @@ Subactivities which are possibly called have their own activity context with the
 &lt;h2 id=&#34;constructing-the-tree&#34;&gt;Constructing the tree&lt;/h2&gt;
 &lt;p&gt;The only function for constructing pc trees which is used outside the &lt;code&gt;CodeGenContext.fs&lt;/code&gt; file is &lt;code&gt;Compilation.addPc&lt;/code&gt;.
 Every time a new block is translated in &lt;code&gt;ActivityTranslator.fs&lt;/code&gt; this function is called once:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;curComp&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Compilation&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;addPc&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curComp&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;block&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;pc&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;curComp&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Compilation&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;addPc&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;!&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curComp&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;block&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;pc&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The given &lt;code&gt;pc&lt;/code&gt; is a &lt;code&gt;ParamDecl&lt;/code&gt; which contains all info about the program counter variable itself.
 The given &lt;code&gt;block&lt;/code&gt; is a &lt;code&gt;Block&lt;/code&gt; instance corresponding to this program counter and contains all necessary thread information.
 &lt;code&gt;addPc&lt;/code&gt; returns a new &lt;code&gt;Compilation&lt;/code&gt; instance.&lt;/p&gt;
@@ -134,10 +134,10 @@ The given &lt;code&gt;block&lt;/code&gt; is a &lt;code&gt;Block&lt;/code&gt; ins
 &lt;/ul&gt;
 &lt;h2 id=&#34;using-the-pc-tree&#34;&gt;Using the pc tree&lt;/h2&gt;
 &lt;p&gt;In &lt;code&gt;ActivityTranslator.fs&lt;/code&gt; there is the function&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;findTreeFor&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;comp&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Compilation&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;node&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Node&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;findTreeFor&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;comp&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Compilation&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;node&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Node&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;PCtree&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;which is vital to work with program counters.&lt;/p&gt;
 &lt;p&gt;The tree structure is particularly exploited in&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;endThread&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;comp&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;node&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Doc&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fsharp&#34; data-lang=&#34;fsharp&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;endThread&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;comp&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;node&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Doc&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
@@ -162,7 +162,7 @@ The step-function itself will create the prev variables (where needed) and fill 
 &lt;p&gt;Special attention has to be given to the reaction in which the declaration of the local variable takes place.
 Here the local variable assumes its first value.
 This is defined to be the prev value and thus the prev variable has to be reset here once.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;...
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;...
 var x: int32 = 7 // prev x = 7
 cobegin
     run B(prev y)(x) // x may have changed
@@ -176,7 +176,7 @@ We do not need to store external variables in the static context which is passed
 Instead an external variable will be represented by an automatic variable which is set at the beginning of the reaction using the value of the actual external C-variable that it is bound to.
 At the end of the reaction, the final value is written back to the external C-variable (if it is a &lt;code&gt;var&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Previous values of external variables on the other hand must be persisted in static memory.
-This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with
+This is to guarantee synchronous semantics, i.e. the prev value really is the value that the last reaction ended with 
 (while the value of the external variable is volatile and may have changed arbitrarily between reactions).
 The code generator will create an extra local activity variable and add it to the list of local variables that are stored in the context.
 The value of the prev variable will be set &lt;em&gt;at the end&lt;/em&gt; of each reaction, so it can be used in the next reaction.&lt;/p&gt;
@@ -384,9 +384,9 @@ Why do we not use the &lt;code&gt;static&lt;/code&gt; keyword of C and let the d
 &lt;!-- ## Recursive traversals on typed Blech data structures --&gt;
 &lt;h3 id=&#34;typecheckingfs&#34;&gt;TypeChecking.fs&lt;/h3&gt;
 &lt;h4 id=&#34;traversing-statements-only&#34;&gt;Traversing statements only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Determine the return type of a statement
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Determine the return type of a statement
 let rec private stmtType stmt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// An activity must have some synchronous delay statement on every possible 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// An activity must have some synchronous delay statement on every possible 
 /// execution path through its body.
 /// This can be an await or a run statement.
 // This is partially double work with causality analysis, 
@@ -394,19 +394,19 @@ let rec private stmtType stmt
 // Here we throw an error if that is the only statement in the activity.
 // In causality analysis we throw an error any way.
 let private checkStmtsWillPause p name stmts
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let private determineGlobalOutputs lut bodyRes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let private determineGlobalOutputs lut bodyRes
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;traversing-expressions-and-statements&#34;&gt;Traversing expressions and statements&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Checks whether the lists of statements does not contain any synchronous
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Checks whether the lists of statements does not contain any synchronous
 /// statements. This check is required for function bodies.
 let private checkAbsenceOfSyncStmts stmts
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let private determineCalledSingletons lut bodyRes =
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let private determineCalledSingletons lut bodyRes =
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;tychkexpressionsfs&#34;&gt;TyChkExpressions.fs&lt;/h3&gt;
 &lt;h4 id=&#34;traversing-expressions-only&#34;&gt;Traversing expressions only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Returns true when the evaluation of expr does not change the program&amp;#39;s state
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Returns true when the evaluation of expr does not change the program&amp;#39;s state
 let rec private hasNoSideEffect expr
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// True if given expression contains only compile time or param values
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// True if given expression contains only compile time or param values
 let rec internal isStaticExpr lut expr
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Given a typed rhs expression, this function tries to evaluate this 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Given a typed rhs expression, this function tries to evaluate this 
 /// expression to a constant and return a new TypedRhs such that
 /// isLiteral returns true on that.
 /// However, it may return a non-constant expression if it cannot be
@@ -414,7 +414,7 @@ let rec internal isStaticExpr lut expr
 let rec internal tryEvalConst lut (checkedExpr: TypedRhs) : TypedRhs
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;tychkamendmentfs&#34;&gt;TyChkAmendment.fs&lt;/h3&gt;
 &lt;h4 id=&#34;traversing-expressions-only-1&#34;&gt;Traversing expressions only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Returns yes if the expression contains at least one name
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Returns yes if the expression contains at least one name
 /// This is useful for type checking where we want to make sure that
 /// in a variable declaration such as &amp;#34;var x = 8&amp;#34;, we do not merely
 /// look at the type of &amp;#34;8&amp;#34; which is int8 and falsely make x an int8
@@ -422,8 +422,8 @@ let rec internal tryEvalConst lut (checkedExpr: TypedRhs) : TypedRhs
 let rec private exprContainsName rhs
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;programgraphfs&#34;&gt;ProgramGraph.fs&lt;/h3&gt;
 &lt;h4 id=&#34;traversing-expressions-only-2&#34;&gt;Traversing expressions only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let rec internal addNameRead context node trhs =
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// This function is here temporarily. It solves the following problem:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;let rec internal addNameRead context node trhs =
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// This function is here temporarily. It solves the following problem:
 /// Since the abort conditions are pushed into the body of the abort statement
 /// conditions may become concurrent in the context of a cobegin in the body.
 /// This is a problem if the condition is modified in the body. The scheduler
@@ -440,11 +440,11 @@ let rec private exprContainsName rhs
 /// current implementation always works.
 let private tempPrevHelper context cond subPg
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;traversing-statements-only-1&#34;&gt;Traversing statements only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Generates a program graph for a given statement
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Generates a program graph for a given statement
 let rec private createPGofStmt context thread stmt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;cpdataaccessfs&#34;&gt;CPdataAccess.fs&lt;/h3&gt;
 &lt;h4 id=&#34;traversing-expressions-only-3&#34;&gt;Traversing expressions only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Convert expressions into Doc
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Convert expressions into Doc
 /// Ensures that function calls with struct literals in their input list are
 /// converted to function calls on precomputed structure variables.
 // The result propagates recursively.
@@ -454,14 +454,14 @@ let rec private createPGofStmt context thread stmt
 and private cpExpr inFunction ctx expr
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;activitytranslatorfs&#34;&gt;ActivityTranslator.fs&lt;/h3&gt;
 &lt;h4 id=&#34;traversing-expressions-only-4&#34;&gt;Traversing expressions only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Extract all QNames of variables that require a prev location in given code
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;/// Extract all QNames of variables that require a prev location in given code
 // runs on nodes and program graphs instead of statements
 // became necessary when strong abort was translated by introducing a prev on the condition and thus deviating from given source code
 // might change again
 let private collectVarsToPrev2 pg
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;functiontranslatorfs&#34;&gt;FunctionTranslator.fs&lt;/h3&gt;
 &lt;h4 id=&#34;traversing-statements-only-2&#34;&gt;Traversing statements only&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;and private translateFunctionStatement ctx curComp stmt
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;and private translateFunctionStatement ctx curComp stmt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>

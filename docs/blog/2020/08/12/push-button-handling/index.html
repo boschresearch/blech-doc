@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.81.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.90.0" />
+<meta name="robots" content="index, follow">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -18,18 +19,20 @@
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
 <title>Push button handling | Blech</title>
-<meta name="description" content="The Blech language site"><meta property="og:title" content="Push button handling" />
+<meta name="description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
+">
+<meta property="og:title" content="Push button handling" />
 <meta property="og:description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.blech-lang.org/blog/2020/08/12/push-button-handling/" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2020-08-12T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-05-04T16:47:05&#43;02:00" /><meta property="og:site_name" content="Blech" />
+<meta property="article:published_time" content="2020-08-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-13T11:04:28+02:00" /><meta property="og:site_name" content="Blech" />
 
 <meta itemprop="name" content="Push button handling">
 <meta itemprop="description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
-"><meta itemprop="datePublished" content="2020-08-12T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2021-05-04T16:47:05&#43;02:00" />
+"><meta itemprop="datePublished" content="2020-08-12T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-08-13T11:04:28+02:00" />
 <meta itemprop="wordCount" content="3642">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Push button handling"/>
@@ -39,21 +42,14 @@
 
 
 
-<link rel="preload" href="/scss/main.min.17476f9ace11c810eaccf3db35eaa354c8ef7fd828342dcb81d684a9795df713.css" as="style">
-<link href="/scss/main.min.17476f9ace11c810eaccf3db35eaa354c8ef7fd828342dcb81d684a9795df713.css" rel="stylesheet" integrity="">
-
+<link rel="preload" href="/scss/main.min.318fb6d17b9dffb9129999e99f34641f72dd9196c75bd16f7292bd046086a9a7.css" as="style">
+<link href="/scss/main.min.318fb6d17b9dffb9129999e99f34641f72dd9196c75bd16f7292bd046086a9a7.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.5.1.min.js"
   integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
-
-
 <script src=https://www.blech-lang.org/js/opt-in.js></script>
-
-
-
-
 
 
   </head>
@@ -62,7 +58,7 @@
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
         <a class="navbar-brand" href="/">
-		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="text-uppercase font-weight-bold">Blech</span>
+		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="font-weight-bold ">Blech</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
 		<ul class="navbar-nav mt-2 mt-lg-0">
@@ -132,9 +128,7 @@
 			
 		</ul>
 	</div>
-	<div class="navbar-nav d-none d-lg-block">
-<input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
-
+	<div class="navbar-nav d-none d-lg-block"><input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
 </div>
 </nav>
 
@@ -144,443 +138,76 @@
         <div class="row flex-xl-nowrap">
           <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
             
-
-
-
-
-  
-
-
 <div id="td-sidebar-menu" class="td-sidebar__inner">
-  
   <form class="td-sidebar__search d-flex align-items-center">
-    
-<input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
-
+    <input type="search" class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete="off">
 
     <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
-  
   <nav class="collapse td-sidebar-nav" id="td-section-nav">
-    
-    
-    
-    
-    
     <ul class="td-sidebar-nav__section pr-md-3 ul-0">
-      
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blog-li">
-    <a href="/blog/" title="Blech Blog" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="">Blog</span></a>
-    
-      
-      <ul class="pr-md-3 ul-1">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blogarticles-li">
-    <a href="/blog/articles/" title="Articles about the Blech language, tools, and releated topics" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-blogarticles"><span class="">Articles</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20201123a-module-system-for-blech-li">
-    <a href="/blog/2020/11/23/a-module-system-for-blech/" title="A module system for Blech" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20201123a-module-system-for-blech"><span class="">Modules for Blech</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-blog20200812push-button-handling-li">
-    <a href="/blog/2020/08/12/push-button-handling/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__page" id="m-blog20200812push-button-handling"><span class="td-sidebar-nav-active-item">Push button handling</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view-li">
-    <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" title="The basic idea behind Blech – A practitioner&#39;s point of view" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view"><span class="">The basic idea behind Blech</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200615decoding-the-dcf77-signal-with-blech-li">
-    <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" title="Decoding the DCF77 signal with Blech" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200615decoding-the-dcf77-signal-with-blech"><span class="">DCF77 decoding</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200527the-purpose-of-blech-li">
-    <a href="/blog/2020/05/27/the-purpose-of-blech/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200527the-purpose-of-blech"><span class="">The purpose of Blech</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogreleases-li">
-    <a href="/blog/releases/" title="Blech releases, concering language, compiler and tools." class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-blogreleases"><span class="">Releases</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200901blech-version-060-li">
-    <a href="/blog/2020/09/01/blech-version-0.6.0/" title="Blech version 0.6.0" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200901blech-version-060"><span class="">Blech 0.6.0</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200421blech-compiler-version-051-li">
-    <a href="/blog/2020/04/21/blech-compiler-version-0.5.1/" title="Blech compiler version 0.5.1" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200421blech-compiler-version-051"><span class="">blechc 0.5.1</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200420blech-vs-code-extension-052-li">
-    <a href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/" title="Blech VS Code Extension 0.5.2" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20200420blech-vs-code-extension-052"><span class="">vsce 0.5.2</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogevents-li">
-    <a href="/blog/events/" title="Future and past Blech events" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section" id="m-blogevents"><span class="">Events</span></a>
-    
-      
-      <ul class="pr-md-3 ul-2">
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20191201synchron-2019-li">
-    <a href="/blog/2019/12/01/synchron-2019/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20191201synchron-2019"><span class="">Synchron 2019</span></a>
-    
-  </li>
-
-          
-        
-          
-            
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20190710wcet-2019-keynote-li">
-    <a href="/blog/2019/07/10/wcet-2019-keynote/" title="WCET 2019 Keynote" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__page" id="m-blog20190710wcet-2019-keynote"><span class="">WCET 2019</span></a>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
-          
-        
-      </ul>
-    
-  </li>
-
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blog-li">
+  <a href="/blog/" title="Blech Blog" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="">Blog</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blogarticles-li">
+  <a href="/blog/articles/" title="Articles about the Blech language, tools, and releated topics" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogarticles"><span class="">Articles</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20201123a-module-system-for-blech-li">
+  <a href="/blog/2020/11/23/a-module-system-for-blech/" title="A module system for Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20201123a-module-system-for-blech"><span class="">Modules for Blech</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-blog20200812push-button-handling-li">
+  <a href="/blog/2020/08/12/push-button-handling/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-blog20200812push-button-handling"><span class="td-sidebar-nav-active-item">Push button handling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view-li">
+  <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" title="The basic idea behind Blech – A practitioner&#39;s point of view" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view"><span class="">The basic idea behind Blech</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200615decoding-the-dcf77-signal-with-blech-li">
+  <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" title="Decoding the DCF77 signal with Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200615decoding-the-dcf77-signal-with-blech"><span class="">DCF77 decoding</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200527the-purpose-of-blech-li">
+  <a href="/blog/2020/05/27/the-purpose-of-blech/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200527the-purpose-of-blech"><span class="">The purpose of Blech</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogreleases-li">
+  <a href="/blog/releases/" title="Blech releases, concering language, compiler and tools." class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogreleases"><span class="">Releases</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211210blech-version-070-li">
+  <a href="/blog/2021/12/10/blech-version-0.7.0/" title="Blech version 0.7.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210blech-version-070"><span class="">Blech 0.7.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200901blech-version-060-li">
+  <a href="/blog/2020/09/01/blech-version-0.6.0/" title="Blech version 0.6.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200901blech-version-060"><span class="">Blech 0.6.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200421blech-compiler-version-051-li">
+  <a href="/blog/2020/04/21/blech-compiler-version-0.5.1/" title="Blech compiler version 0.5.1" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200421blech-compiler-version-051"><span class="">blechc 0.5.1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200420blech-vs-code-extension-052-li">
+  <a href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/" title="Blech VS Code Extension 0.5.2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200420blech-vs-code-extension-052"><span class="">vsce 0.5.2</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogevents-li">
+  <a href="/blog/events/" title="Future and past Blech events" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogevents"><span class="">Events</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211210synchron-2021-li">
+  <a href="/blog/2021/12/10/synchron-2021/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210synchron-2021"><span class="">Synchron 2021</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211209synchron-2020-li">
+  <a href="/blog/2021/12/09/synchron-2020/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211209synchron-2020"><span class="">Synchron 2020</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211208fdl-2018-li">
+  <a href="/blog/2021/12/08/fdl-2018/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211208fdl-2018"><span class="">FDL 2018</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211207memocode-2017-li">
+  <a href="/blog/2021/12/07/memocode-2017/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211207memocode-2017"><span class="">Memocode 2017</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20191201synchron-2019-li">
+  <a href="/blog/2019/12/01/synchron-2019/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20191201synchron-2019"><span class="">Synchron 2019</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20190710wcet-2019-keynote-li">
+  <a href="/blog/2019/07/10/wcet-2019-keynote/" title="WCET 2019 Keynote" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190710wcet-2019-keynote"><span class="">WCET 2019</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
     </ul>
   </nav>
 </div>
 
-
-
-
           </div>
           <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
             
-  
-  
-  
-  
-  
-  <div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
-  
-    
-    
-      
-    
-    
-    
-    
-    
-    
-    
-
-    <a href="https://github.com/boschresearch/blech-doc/edit/master/website/content/en/blog/articles/button-handling/index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-    <a href="https://github.com/boschresearch/blech-doc/new/master/website/content/en/blog/articles/button-handling/index.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-    <a href="https://github.com/boschresearch/blech-doc/issues/new?title=Push%20button%20handling" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
-    
-      
-      <a href="https://github.com/boschresearch/blech/issues/new" target="_blank"><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
-    
-
-  
-  
-  </div>
 
 
-
-
-
-<nav id="TableOfContents">
+<div class="td-toc"><nav id="TableOfContents">
   <ul>
     <li><a href="#application-example-push-button-handling">Application example: Push button handling</a></li>
     <li><a href="#interlude-physical-time">Interlude: Physical time</a>
@@ -606,7 +233,7 @@
     </li>
     <li><a href="#conclusion">Conclusion</a></li>
   </ul>
-</nav>
+</nav></div>
 
 
 
@@ -623,7 +250,21 @@
 		By <b>Matthias Terber</b> |
 		<time datetime="2020-08-12" class="text-muted">Wednesday, August 12, 2020</time>
 	</div>
-	
+	<header class="article-meta">
+		
+		
+			
+				
+
+
+			
+				
+
+
+			
+		
+		
+	</header>
 	<h2 id="application-example-push-button-handling">Application example: Push button handling</h2>
 <p>In this example three push buttons, <code>TOP</code>, <code>CENTER</code> and <code>BOTTOM</code>, are connected to our embedded system for user input. Like in our <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">previous blog post</a>
  our hardware setup is based on a <a href="https://www.st.com/en/evaluation-tools/stm32f4discovery.html" target="_blank">STM32F4DISCOVERY</a>
@@ -638,7 +279,7 @@
 
 
 <div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
-	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_2.png" width="800" height="560">
+	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_3.png" width="800" height="560">
 	
 	<div class="card-body px-0 pt-2 pb-0">
 		<p class="card-text">
@@ -690,7 +331,7 @@ Hardware setup for the push button handling example.
  blog post. That is, the entire Blech code is <em>purely time-driven</em> based on a periodic system tick. Based on this, we can easily implement a small helper activity <code>AwaitMsec</code> in Blech for suspending the program for an arbitrary number of milliseconds. The maximal resolution is given by the period interval of the system tick which is set to <em>10 milliseconds</em> in this example.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
@@ -701,7 +342,7 @@ Hardware setup for the push button handling example.
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">const MSEC_PER_SYSTICK: nat16 = 10
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">const MSEC_PER_SYSTICK: nat16 = 10
 
 activity AwaitMsec (msec: nat16)
     var i: nat16 = msec / MSEC_PER_SYSTICK
@@ -719,12 +360,12 @@ end
 <p>For realizing a delay of 120 milliseconds between two function calls <code>funcA()</code> and <code>funcB()</code> for instance we can directly use <code>AwaitMsec</code> as follows:</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">funcA()
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">funcA()
 run AwaitMsec(120)
 funcB()
 </code></pre></td></tr></table>
@@ -734,7 +375,7 @@ funcB()
 <p>For applying a timeout of 120 milliseconds onto an activity <code>SomeActivity</code> for instance we can use <code>AwaitMsec</code> in a concurrent trail as follows:</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -746,7 +387,7 @@ funcB()
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">var done: bool = false
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">var done: bool = false
 var timeout: bool = false
 cobegin weak // Activity trail.
 	run SomeActivity()
@@ -841,7 +482,7 @@ out before we actually evaluate and consider the current button state in our sof
 <p>First, <code>AwaitStableLevel</code> is responsible for checking the stability of the button output signal. Input <code>lvl</code> is the signal level that shall be awaited until it is stable. Input <code>btnRaw</code> is the raw button signal as retrieved from the GPIO. For example, <code>run AwaitStableLevel(false, btns.top)</code> means we want to suspend execution until the logic level of button <code>TOP</code> is reliably <code>LOW</code>.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -856,7 +497,7 @@ out before we actually evaluate and consider the current button state in our sof
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">const DEBOUNCE: nat8 = 5
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">const DEBOUNCE: nat8 = 5
 
 activity AwaitStableLevel (lvl: bool, btnRaw: bool)
     var vote: nat8 = 0
@@ -881,7 +522,7 @@ end
 
 
 <div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
-	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_2.png" width="800" height="480">
+	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_3.png" width="800" height="480">
 	
 	<div class="card-body px-0 pt-2 pb-0">
 		<p class="card-text">
@@ -896,7 +537,7 @@ Oszilloscope capture of button sampling. CH1 shows the execution of the Blech co
 <p>Second, <code>FilterSignal</code> is responsible for filtering the signal of a <em>single</em> button. Input <code>btnRaw</code> is a raw button signal, output <code>btn</code>is the filtered one. Based on a simple <code>repeat</code> loop (lines 2 &ndash; 10), this activity continuously alternates <code>btn</code> between the two possible button states <code>false</code> (not pressed, line 3) and <code>true</code> (pressed, line 7):</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -909,7 +550,7 @@ Oszilloscope capture of button sampling. CH1 shows the execution of the Blech co
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity FilterSignal (btnRaw: bool)(btn: bool)
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity FilterSignal (btnRaw: bool)(btn: bool)
     repeat
         btn = false
         // Await transition: false -&gt; true
@@ -936,7 +577,7 @@ end
 <p>Third, <code>FilterButtons</code> is responsible for filtering the signal of <em>all</em> buttons. It is the top level activity with respect to filtering. Input <code>btnsRaw</code> are the raw button signals as retrieved from the GPIOs, output <code>btns</code> are the filtered button signals. Internally, this activity runs a dedicated filter activity for each individual button &ndash; <code>TOP</code>, <code>CENTER</code> and <code>BOTTOM</code>. These activities are concurrently composed in the same <code>cobegin</code> block. So <code>FilterButtons</code> is basically a wrapper for comfortably running three instances of <code>FilterSignal</code> concurrently.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
@@ -947,7 +588,7 @@ end
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity FilterButtons (btnsRaw: ButtonStates)(btns: ButtonStates)
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity FilterButtons (btnsRaw: ButtonStates)(btns: ButtonStates)
     cobegin
         run FilterSignal(btnsRaw.top)(btns.top)
     with
@@ -961,7 +602,7 @@ end
 </div><p>Later, in the <code>Main</code> activity of our Blech program, we can concurrently run <code>FilterButtons</code> with respect to the remaining code (see line 7 below). In each reaction, the filtered button signals <code>btns</code> are automatically updated (written) by <code>FilterButtons</code> in the first trail and can be used (read) by other activities in concurrent trails. Activity <code>Visualize</code>, for example, uses the filtered button signals in order to reflect the current button states on the color LEDs (line 10 below).</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -975,7 +616,7 @@ end
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">@[EntryPoint]
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">@[EntryPoint]
 activity Main (btnRaw: ButtonStates) (leds: LedStates)
     // ...
     var btns: ButtonStates
@@ -1005,7 +646,7 @@ end
 <p>In this example, the LED shall light up once <code>CENTER</code> has been pressed for at least two seconds. It shall stay on as long as the button is pressed and go off once it has been released.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
@@ -1016,7 +657,7 @@ end
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example01 (btns: ButtonStates) (led: bool)
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example01 (btns: ButtonStates) (led: bool)
     when not btns.center reset
         await btns.center
         run AwaitMsec(2000)
@@ -1033,7 +674,7 @@ end
 <p>In this example, the LED shall light up once <code>TOP</code> <em>and</em> <code>BOTTOM</code> are pressed. After that, it shall be turned off as soon as <em>both</em> buttons have been released.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
@@ -1041,7 +682,7 @@ end
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example02 (btns: ButtonStates) (led: bool)
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example02 (btns: ButtonStates) (led: bool)
     await btns.top and btns.bottom
     led = true
     await (not btns.top) and (not btns.bottom)
@@ -1057,7 +698,7 @@ end
 , here it is important that both buttons are pressed within a certain amount of time. For example, we only accept a double press if the time gap between the two button presses is one second at most.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -1083,7 +724,7 @@ end
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example03 (btns: ButtonStates) (led: bool)
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example03 (btns: ButtonStates) (led: bool)
     let acceptedDelay: nat16 = 1000 // in milliseconds.
     var success: bool
     repeat
@@ -1126,7 +767,7 @@ end
  in Blech. We want to know if the second button <code>btn2</code> is pressed within the given amount of milliseconds (<code>msec</code>) and while the first button <code>btn1</code> is still pressed. So there are actually two conditions to be checked &ndash; the timeout and the current state of <code>btn1</code>.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -1140,7 +781,7 @@ end
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity AwaitOtherButton (btn1: bool, btn2: bool, msec: nat16) returns bool
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity AwaitOtherButton (btn1: bool, btn2: bool, msec: nat16) returns bool
     var success: bool = false
     when not btn1 abort
         cobegin weak
@@ -1161,7 +802,7 @@ end
 <p>In this example, the LED shall light up if <code>CENTER</code> has been pressed between one and two seconds. After that, the LED shall be turned off once <code>TOP</code> has been pressed.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -1179,7 +820,7 @@ end
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example04 (btns: ButtonStates) (led: bool)
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">activity Example04 (btns: ButtonStates) (led: bool)
     var i: nat32 = 0
     repeat
         await btns.center
@@ -1211,7 +852,7 @@ end
 
 
 <div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
-	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_2.png" width="800" height="544">
+	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_3.png" width="800" height="544">
 	
 	<div class="card-body px-0 pt-2 pb-0">
 		<p class="card-text">
@@ -1226,9 +867,9 @@ Architecture of the Blech program as function blocks.
 
 	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
   <li>
-    <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/"aria-label="Previous - The basic idea behind Blech – A practitioner&#39;s point of view" class="btn btn-primary "><span class="mr-1">←</span> Previous</a>
+    <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" aria-label="Previous - The basic idea behind Blech – A practitioner&#39;s point of view" class="btn btn-primary"><span class="mr-1">←</span>Previous</a>
   </li>
-    <a href="/blog/2020/11/23/a-module-system-for-blech/"aria-label="Next - A module system for Blech" class="btn btn-primary ">Next <span class="ml-1">→</span></a>
+    <a href="/blog/2020/11/23/a-module-system-for-blech/" aria-label="Next - A module system for Blech" class="btn btn-primary">Next<span class="ml-1">→</span></a>
   </li>
 </ul>
 
@@ -1332,15 +973,24 @@ Architecture of the Blech program as function blocks.
 
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+    crossorigin="anonymous"></script>
+
+
+
+
+
+<script src='/js/tabpane-persist.js'></script>
 
 
 
 
 
 
- 
 
 
 
@@ -1352,7 +1002,8 @@ Architecture of the Blech program as function blocks.
 
 
 
-<script src="/js/main.min.818666e7663fda58c21752d2396632d7ec7c6e5b6347645d50c56e7cfa8a0252.js" integrity="sha256-gYZm52Y/2ljCF1LSOWYy1&#43;x8bltjR2RdUMVufPqKAlI=" crossorigin="anonymous"></script>
+
+<script src="/js/main.min.d4852be3b12f7ba8ffeeb8acd8db4bb8c4dea2f1dfac3a72d3777445c1f673ea.js" integrity="sha256-1IUr47Eve6j/7ris2NtLuMTeovHfrDpy03d0RcH2c&#43;o=" crossorigin="anonymous"></script>
 
 
 

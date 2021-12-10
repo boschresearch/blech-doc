@@ -14,6 +14,103 @@
     
     
     <item>
+      <title>Blog: Blech version 0.7.0</title>
+      <link>https://www.blech-lang.org/blog/2021/12/10/blech-version-0.7.0/</link>
+      <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2021/12/10/blech-version-0.7.0/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Better late then never we announce the release version 0.7.0 of the &lt;a href=&#34;https://github.com/boschresearch/blech/releases/tag/v0.7.0&#34; target=&#34;_blank&#34;&gt;Blech compiler&lt;/a&gt;
+ and the &lt;a href=&#34;https://github.com/boschresearch/blech-tools/releases/tag/v0.7.0&#34; target=&#34;_blank&#34;&gt;language services for VS Code&lt;/a&gt;
+. The code has been released on GitHub already end of June 2021.&lt;/p&gt;
+&lt;p&gt;Many small things have been fixed and a module system has been added.
+Since modules rely on the directory structure of a Blech project, some more tool support is still necessary. Nevertheless modules are now supported by the compiler and the tooling.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Blog: Synchron 2021</title>
+      <link>https://www.blech-lang.org/blog/2021/12/10/synchron-2021/</link>
+      <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2021/12/10/synchron-2021/</guid>
+      <description>
+        
+        
+        &lt;p&gt;A prototypical implementation for extracting and visualizing mode diagrams expressed in the synchronous control-flow of Blech activities has been presented at &lt;a href=&#34;http://synchron2021.inria.fr/index.html&#34; target=&#34;_blank&#34;&gt;Synchron 2021&lt;/a&gt;
+ the &lt;em&gt;27th International Open Workshop on Sychronous Programming&lt;/em&gt; held in La Rochette 45km south east of the centre of Paris, France.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://synchron2021.inria.fr/program.html&#34; target=&#34;_blank&#34;&gt;On Wednesday, 2021-11-24&lt;/a&gt;
+, &lt;a href=&#34;https://www.rtsys.informatik.uni-kiel.de/en/team/rvh&#34; target=&#34;_blank&#34;&gt;Reinhard von Hanxlden&lt;/a&gt;
+ talked about &lt;a href=&#34;http://synchron2021.inria.fr/slides/synchron2021-vonhanxleden.pdf&#34; target=&#34;_blank&#34;&gt;Extracting Mode Diagrams from Blech Code&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/boschresearch/blech/tree/feature/mode_diagrams&#34; target=&#34;_blank&#34;&gt;prototypical implementation&lt;/a&gt;
+ has been done by Daniel Lucas in &lt;a href=&#34;https://rtsys.informatik.uni-kiel.de/~biblio/downloads/theses/dalu-mt.pdf&#34; target=&#34;_blank&#34;&gt;his master thesis&lt;/a&gt;
+. A &lt;a href=&#34;https://ieeexplore.ieee.org/document/9568375&#34; target=&#34;_blank&#34;&gt;research paper on this topic&lt;/a&gt;
+ has been publish at the &lt;a href=&#34;https://ieeexplore.ieee.org/xpl/conhome/9568274/proceeding&#34; target=&#34;_blank&#34;&gt;2021 Forum on Specification, Verification and Design Languages&lt;/a&gt;
+&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Blog: Synchron 2020</title>
+      <link>https://www.blech-lang.org/blog/2021/12/09/synchron-2020/</link>
+      <pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2021/12/09/synchron-2020/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Blech modules system has been presented at &lt;a href=&#34;http://synchron2020.inria.fr/&#34; target=&#34;_blank&#34;&gt;Synchron 2020&lt;/a&gt;
+ the 27th International Open Workshop on Synchronous Programming. Synchron 2020 has bee organized as a distributed synchronous systems (Online Workshop) on November 26-27 2020.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://synchron2020.inria.fr/program.html&#34; target=&#34;_blank&#34;&gt;On Thursday, 11-26-2020, Friedrich Gretz&lt;/a&gt;
+ talked about &lt;a href=&#34;./Synchron2020.pdf&#34;&gt;Implementing true separate compilation - the Blech module system&lt;/a&gt;
+).&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Blog: FDL 2018</title>
+      <link>https://www.blech-lang.org/blog/2021/12/08/fdl-2018/</link>
+      <pubDate>Wed, 08 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2021/12/08/fdl-2018/</guid>
+      <description>
+        
+        
+        &lt;p&gt;At &lt;a href=&#34;http://fdl-conference.org/FDL2018/index.html&#34; target=&#34;_blank&#34;&gt;FDL 2018&lt;/a&gt;
+, the Forum on specification &amp;amp; Design Languages, in Munich, Germany, Blech has been presented to the public for the first time.&lt;/p&gt;
+&lt;p&gt;In his keynote &lt;a href=&#34;http://fdl-conference.org/FDL2018/program.html#key&#34; target=&#34;_blank&#34;&gt;Blech - a safe synchronous language for embedded real-time programming&lt;/a&gt;
+, Franz-Josef Grosch &lt;a href=&#34;./keynote-fdl-slides.pdf&#34;&gt;motivated and illustrated (slides)&lt;/a&gt;
+ the requirements and the - at that time planned - features of Blech to bridge the gap between model-based control engineering and modern software engineering.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Blog: Memocode 2017</title>
+      <link>https://www.blech-lang.org/blog/2021/12/07/memocode-2017/</link>
+      <pubDate>Tue, 07 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.blech-lang.org/blog/2021/12/07/memocode-2017/</guid>
+      <description>
+        
+        
+        &lt;p&gt;At &lt;a href=&#34;http://memocode.irisa.fr/2017/index.html&#34; target=&#34;_blank&#34;&gt;Memocode 2017&lt;/a&gt;
+ the 15th ACM-IEEE International Conference on Formal Methods and Models for System Design held at Technische Universität Wien in Vienna, Austria, the ideas of an imperative synchronous language, later called Blech, have been presented.&lt;/p&gt;
+&lt;p&gt;The motivation was and is to create an imperative synchronous language that bridges the gap between model-based control engineering and software engineering.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://memocode.irisa.fr/2017/keynotes.html&#34; target=&#34;_blank&#34;&gt;In his keynote&lt;/a&gt;
+, Franz-Josef Grosch showed how the Blech team intended to &lt;a href=&#34;http://memocode.irisa.fr/2017/images/Grosch.pdf&#34; target=&#34;_blank&#34;&gt;Elevate embedded real-time programming with a synchronous language&lt;/a&gt;
+.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Blog: A module system for Blech</title>
       <link>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</link>
       <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
@@ -22,9 +119,9 @@
       <description>
         
         
-        &lt;p&gt;The Blech module system supports modular programming for reactive, embedded, safety-critical applications.
-With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way.
-This is difficult and error prone.
+        &lt;p&gt;The Blech module system supports modular programming for reactive, embedded, safety-critical applications. 
+With the languages used in this domain today, we rely on coding conventions, programming idioms and the physical code structure to organize software in a modular way. 
+This is difficult and error prone. 
 As a consequence today&amp;rsquo;s systems are often more monolithic than modular.&lt;/p&gt;
 &lt;p&gt;Blech&amp;rsquo;s synchronous paradigm together with the upcoming module system enables and supports modular programming.
 It has the following properties:&lt;/p&gt;
@@ -61,12 +158,12 @@ It has the following properties:&lt;/p&gt;
 &lt;p&gt;To keep things simple, every Blech file can be compiled separately and is either a program or a module.
 A module file groups closely related Blech entities - constants, types, functions, activities, etc. - into a compilation unit, that can be used (imported) by other modules or programs.
 The keyword &lt;code&gt;module&lt;/code&gt; classifies the content of a Blech file as a module.
-Different to modules, a program file requires an &lt;code&gt;@[EntryPoint]&lt;/code&gt; activity which serves as the main activity of a Blech program.
+Different to modules, a program file requires an &lt;code&gt;@[EntryPoint]&lt;/code&gt; activity which serves as the main activity of a Blech program. 
 A program file cannot be imported by other modules or programs.&lt;/p&gt;
 &lt;p&gt;Assume the following module implementation in file &lt;code&gt;ringbuffer.blc&lt;/code&gt;.
 In order to make an entity accessible it needs to be exposed.
 Here, functions &lt;code&gt;initialise&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt;, and &lt;code&gt;average&lt;/code&gt; are exposed for usage, in any importing module or program.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes initialise, push, average
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;module exposes initialise, push, average
 
 const Size: nat8 = 10
 
@@ -111,7 +208,7 @@ end
 The signature is generated by the compiler from the module implementation and the &lt;code&gt;exposes&lt;/code&gt; declaration.
 A Blech programmer never writes a signature file.
 After compilation of file &lt;code&gt;ringbuffer.blc&lt;/code&gt; you will find the following module interface in file &lt;code&gt;ringbuffer.blh&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
 type RingBuffer
 
@@ -127,10 +224,10 @@ function average (rb: RingBuffer) returns nat32
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The exposed functions additionally need the type &lt;code&gt;RingBuffer&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Since &lt;code&gt;struct RingBuffer&lt;/code&gt; is not exposed in the module it is made available as an opaque &lt;code&gt;type RingBuffer&lt;/code&gt; in the signature.
 While the implementation remains hidden, the opaque type can be used to define variables and assign values of this type.
-This allows to change the internal representation, while any code the uses the module remains unchanged.
+This allows to change the internal representation, while any code the uses the module remains unchanged. 
 Opaque types are sometimes also called abstract types, and are a simple form of the theoretical concept of existential types.&lt;/p&gt;
-&lt;p&gt;Signatures carry all information necessary to compile any code that uses this module.
-This enables to package Blech modules into libraries.
+&lt;p&gt;Signatures carry all information necessary to compile any code that uses this module. 
+This enables to package Blech modules into libraries. 
 There is no need to deliver module implementations.
 It is enough to deliver compiled libraries with:&lt;/p&gt;
 &lt;ul&gt;
@@ -144,7 +241,7 @@ It is enough to deliver compiled libraries with:&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;In order to use a module it gets imported by another module or program.
 Assume the following use of the &lt;code&gt;ringbuffer&lt;/code&gt; module from a module implementation in file &lt;code&gt;slidingaverage.blc&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
 
 module exposes SlidingAverage 
 
@@ -165,14 +262,14 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This module imports a module from file &lt;code&gt;ringbuffer.blc&lt;/code&gt; with the local name &lt;code&gt;rb&lt;/code&gt;.
 It implements and exposes a single activity &lt;code&gt;SlidingAverage&lt;/code&gt;, with a local variable of type &lt;code&gt;rb.RingBuffer&lt;/code&gt;.
 The module completely hides its internal implementation, which uses the abstract type &lt;code&gt;RingBuffer&lt;/code&gt; and functions &lt;code&gt;initialise&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt; and &lt;code&gt;average&lt;/code&gt; from module &lt;code&gt;rb&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The generated signature in file &lt;code&gt;slidingaverage.blh&lt;/code&gt; is simple.
+&lt;p&gt;The generated signature in file &lt;code&gt;slidingaverage.blh&lt;/code&gt; is simple. 
 The implementations details are completely hidden.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;signature
 
 /// Calculates the average of the latest values in every tick
 activity SlidingAverage (value: nat32) (average: nat32)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using this module in a Blech program file &lt;code&gt;main.blc&lt;/code&gt; is straight forward.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import sa &amp;#34;slidingaverage&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import sa &amp;#34;slidingaverage&amp;#34;
 
 @[EntryPoint]
 activity SlidingAverage (sensor: nat32) (sensorAverage: nat32)
@@ -185,7 +282,7 @@ end
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;em&gt;No dependency cycles between modules&lt;/em&gt; is an important rule for a good system design:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This design rule will prevent your code from turning into a big ball of mud.
+&lt;p&gt;This design rule will prevent your code from turning into a big ball of mud. 
 [&amp;hellip;] Dependency cycles are bad because they increase coupling [&amp;hellip;] and [&amp;hellip;] can’t be tested in isolation. &lt;a href=&#34;#LargePrograms&#34;&gt;[2]&lt;/a&gt;
 &lt;/p&gt;
 &lt;/blockquote&gt;
@@ -209,7 +306,7 @@ A layered and cylce-free module hierarchy is always guaranteed.&lt;/p&gt;
 An &lt;code&gt;import internal ...&amp;quot;&lt;/code&gt; makes all elements in the imported module detectable - nothing is hidden.&lt;/p&gt;
 &lt;p&gt;In the following example, it is not enough to use the signature &lt;code&gt;ringbuffer.blh&lt;/code&gt; to compile the white-box test program.
 In fact the compiler needs the source code of the module implementation &lt;code&gt;ringbuffer.blc&lt;/code&gt; in order to detect the hidden implementation details.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import n8 &amp;#34;box:base/nat8&amp;#34;  // base library for nat8-related stuff
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import n8 &amp;#34;box:base/nat8&amp;#34;  // base library for nat8-related stuff
 
 import internal rb &amp;#34;ringbuffer&amp;#34;
 
@@ -240,14 +337,14 @@ end
 &lt;p&gt;A particular library is a [&amp;hellip;] collection of modules of its own hierarchy, but can in turn be seen as a lower-level module collection [&amp;hellip;] to be used by a higher-level program, library, or system. &lt;a href=&#34;#ModularProgramming&#34;&gt;[1]&lt;/a&gt;
 &lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;In Blech we call a library a &lt;em&gt;Blech box&lt;/em&gt; or a &lt;em&gt;box&lt;/em&gt; for short.
+&lt;p&gt;In Blech we call a library a &lt;em&gt;Blech box&lt;/em&gt; or a &lt;em&gt;box&lt;/em&gt; for short. 
 A box is a collection of modules and programs.
 Typically some modules of a box are supposed to be used from those higher levels, while others remain internally hidden and only serve implementation purposes.&lt;/p&gt;
 &lt;p&gt;By default every module in a box can be imported from a higher-level program or module.
 In order to hide a module in a box it can be declared as an &lt;code&gt;internal module&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;In our running example, we could decide to make the module &lt;code&gt;ringbuffer&lt;/code&gt; an internal module.
 This can be done by declaring the module as &lt;code&gt;internal module&lt;/code&gt; - the rest remains unchanged.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internal module exposes initialise, push, average
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internal module exposes initialise, push, average
 
 const Size ...
 struct RingBuffer  ...
@@ -255,18 +352,18 @@ function initialise () returns RingBuffer ...
 function push (value: nat32) (rb: RingBuffer) ...
 function average (rb: RingBuffer) returns nat32 ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The signature becomes &lt;code&gt;internal&lt;/code&gt; as well.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internal signature
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;internal signature
 
 type RingBuffer
 function initialise () returns RingBuffer
 function push (value: nat32) (rb: RingBuffer)
 function average (rb: RingBuffer) returns nat32
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If we package this module together with module &lt;code&gt;slidingaverage&lt;/code&gt; from above into a box,
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If we package this module together with module &lt;code&gt;slidingaverage&lt;/code&gt; from above into a box, 
 only the signature for &lt;code&gt;slidingaverage&lt;/code&gt; should be detectable, the signatures of internal modules are hidden.&lt;/p&gt;
 &lt;p&gt;In order to write a non-internal module that imports an &lt;code&gt;internal module&lt;/code&gt;, the details of those imports must not leak through its interface.
 For example, the following module &lt;code&gt;ringbufferaverage&lt;/code&gt; implicitly exposes the opaque type &lt;code&gt;RingBuffer&lt;/code&gt; from the imported internal module &lt;code&gt;ringbuffer&lt;/code&gt;.
 The internal implementation leaks through its interface and therefore the module becomes itself an &lt;code&gt;internal module&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
 
 internal module exposes RingBufferAverage
 
@@ -279,7 +376,7 @@ end
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This means, module &lt;code&gt;ringbufferaverage&lt;/code&gt; is not accessible outside of its box.
 The compiler checks this, and it is an error to omit the the classification &lt;code&gt;internal&lt;/code&gt; for the module.&lt;/p&gt;
 &lt;p&gt;The signature of module &lt;code&gt;ringbufferaverage&lt;/code&gt; looks as follows.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34;
 
 internal signature
 
@@ -287,7 +384,7 @@ activity RingBufferAverage (buf: rb.RingBuffer) (average: nat32)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For pragmatic reasons it might be necessary to circumvent the black-box interface of a module and use a white-box import instead.
 This can only be done within the same box, since it requires the source of the module implementation.
 As an example, we would like to use &lt;code&gt;param Threshold&lt;/code&gt; from module &lt;code&gt;slidingaverage&lt;/code&gt; - which is not exposed - in a new module &lt;code&gt;slidingaveragewithreset&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import internal sa &amp;#34;slidingaverage&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import internal sa &amp;#34;slidingaverage&amp;#34;
 
 module exposes SlidingAverageWithReset
 
@@ -305,7 +402,7 @@ end
 &lt;h2 id=&#34;importing-inside-and-outside-a-box&#34;&gt;Importing inside and outside a box&lt;/h2&gt;
 &lt;p&gt;In order to distinguish between imports inside a box and imports from other boxes, Blech uses an URL-like import path.&lt;/p&gt;
 &lt;p&gt;Imports inside a box just adress the imported file.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;localmodule&amp;#34;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;localmodule&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The compiler searches for file &lt;code&gt;localmodule.blc&lt;/code&gt; to compile it, or uses &lt;code&gt;localmodule.blh&lt;/code&gt; if nothing has changed and &lt;code&gt;localmodule.blc&lt;/code&gt; has been compiled before.
 Note, that a recompilation of &lt;code&gt;localmodule.blc&lt;/code&gt; is also necessary, if any of &lt;code&gt;localmodule&lt;/code&gt;&amp;rsquo;s imports have changed.&lt;/p&gt;
 &lt;p&gt;In general, the imported file name for an import inside a box, can be adressed&lt;/p&gt;
@@ -314,14 +411,14 @@ Note, that a recompilation of &lt;code&gt;localmodule.blc&lt;/code&gt; is also n
 &lt;li&gt;absolutely from the top of the box.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Here are some examples for an import inside a box:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import ma &amp;#34;../moduleA&amp;#34;           // relative path, one directory up
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import ma &amp;#34;../moduleA&amp;#34;           // relative path, one directory up
 import mb &amp;#34;./subdir/moduleB&amp;#34;     // relative path one directory down
 import mb2 &amp;#34;subdir/moduleB&amp;#34;      // as before with a different local name 
 import mc  &amp;#34;/toplevel/moduleC&amp;#34;   // absolute path inside the box
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to import a module from another box, we need a prefix to address a box, the name of the box and the module inside the box.
 The import declaration has the following form&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;box:library/module&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This tells the compiler to import a module &lt;code&gt;module&lt;/code&gt; from box &lt;code&gt;box:library&lt;/code&gt; and name it &lt;code&gt;m&lt;/code&gt; locally.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import m &amp;#34;box:library/module&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This tells the compiler to import a module &lt;code&gt;module&lt;/code&gt; from box &lt;code&gt;box:library&lt;/code&gt; and name it &lt;code&gt;m&lt;/code&gt; locally. 
 The compiler searches for the signature file &lt;code&gt;module.blh&lt;/code&gt; in the box named &lt;code&gt;library&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;When importing from another box, the compiler prevents:&lt;/p&gt;
 &lt;ul&gt;
@@ -339,26 +436,26 @@ Since imports of &lt;code&gt;internal module&lt;/code&gt;s of a box are also for
 &lt;p&gt;When developing a box, the program and module implementation files are placed beneath a top-level directory - the Blech project.
 The top-level directory can have sub-directories that contain further implementation files.
 The file structure corresponds to the import paths used in the import declaration.&lt;/p&gt;
-&lt;p&gt;Note, that the choice of directory and file names is restricted for simpler name mangling.
+&lt;p&gt;Note, that the choice of directory and file names is restricted for simpler name mangling. 
 The compiler checks this.&lt;/p&gt;
 &lt;p&gt;The file structure of the Blech source code translates to the file structure of compilation artefacts: signatures, .h-files and .c-files.
 It is possible to work on more than one box at a time, you just need 2 or more Blech projects in independent directories.&lt;/p&gt;
 &lt;h2 id=&#34;tricks-of-trade&#34;&gt;Tricks of trade&lt;/h2&gt;
 &lt;p&gt;As you might have noticed, every imported entity is qualified by the local module name in the examples.
-Sometimes you don&amp;rsquo;t want qualification and address an entity directly.
+Sometimes you don&amp;rsquo;t want qualification and address an entity directly. 
 The &lt;code&gt;import&lt;/code&gt; declaration optionally &lt;code&gt;exposes&lt;/code&gt; selected entities for this purpose.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Make selected entities directly accessible&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes initialise, push
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import rb &amp;#34;ringbuffer&amp;#34; exposes initialise, push
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;Create an import dependency but do not use it right now in the current status of development&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; // no name for qualified access
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; // no name for qualified access
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;Omit the local module name&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; exposes RingBuffer, initialise, push
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;import _ &amp;#34;ringbuffer&amp;#34; exposes RingBuffer, initialise, push
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use these &amp;ldquo;tricks of trade&amp;rdquo; wisely, and only if necessary. Keep in mind, Blech implements a rigid no-shadowing strategy.
 If two imports expose the same name, the second will create an error because it shadows the first.&lt;/p&gt;
 &lt;h2 id=&#34;modules-are-not-generic&#34;&gt;Modules are not generic&lt;/h2&gt;
@@ -367,7 +464,7 @@ If two imports expose the same name, the second will create an error because it 
 &lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Of course it is a natural wish, to have the &lt;code&gt;ringbuffer&lt;/code&gt; module parameterized by its size (here: &lt;code&gt;const Size&lt;/code&gt;) and its element type (here: &lt;code&gt;nat32&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;But, in Blech we keep the module system simple.
+&lt;p&gt;But, in Blech we keep the module system simple. 
 Instead of having generic modules and generating code for every monomorphised instance, we decided to cope with generics on another language level, similar to interfaces or traits in other languages.
 Then, modules also might contain generic types and generic interface implementations.&lt;/p&gt;
 &lt;p&gt;The concept of type-safe generics is in an early stage, and different to other languages follows our embedded requirements.
@@ -483,7 +580,7 @@ It will definitely need some more Blech releases before we can adress generics.&
                          &amp;quot;&amp;quot;&amp;quot;)]
   extern function doStuff(a: nat8)(b: nat8)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C.
+&lt;p&gt;Note that you have to follow the Blech-C-interface when accessing Blech parameters from C. 
 &lt;code&gt;$1&lt;/code&gt; is input parameter &lt;code&gt;a: nat8&lt;/code&gt; which is passed by value because it has a simple type.
 &lt;code&gt;$2&lt;/code&gt; is output parameter &lt;code&gt;b: nat8&lt;/code&gt; which is passed by reference as a pointer.&lt;/p&gt;
 &lt;/li&gt;
@@ -519,7 +616,7 @@ This is a preparation for the upcoming module system.&lt;/p&gt;
 
 
 &lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;560&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_3.png&#34; width=&#34;800&#34; height=&#34;560&#34;&gt;
 	
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
@@ -571,7 +668,7 @@ Hardware setup for the push button handling example.
  blog post. That is, the entire Blech code is &lt;em&gt;purely time-driven&lt;/em&gt; based on a periodic system tick. Based on this, we can easily implement a small helper activity &lt;code&gt;AwaitMsec&lt;/code&gt; in Blech for suspending the program for an arbitrary number of milliseconds. The maximal resolution is given by the period interval of the system tick which is set to &lt;em&gt;10 milliseconds&lt;/em&gt; in this example.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
@@ -582,7 +679,7 @@ Hardware setup for the push button handling example.
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;9
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;const MSEC_PER_SYSTICK: nat16 = 10
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;const MSEC_PER_SYSTICK: nat16 = 10
 
 activity AwaitMsec (msec: nat16)
     var i: nat16 = msec / MSEC_PER_SYSTICK
@@ -600,12 +697,12 @@ end
 &lt;p&gt;For realizing a delay of 120 milliseconds between two function calls &lt;code&gt;funcA()&lt;/code&gt; and &lt;code&gt;funcB()&lt;/code&gt; for instance we can directly use &lt;code&gt;AwaitMsec&lt;/code&gt; as follows:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;funcA()
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;funcA()
 run AwaitMsec(120)
 funcB()
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
@@ -615,7 +712,7 @@ funcB()
 &lt;p&gt;For applying a timeout of 120 milliseconds onto an activity &lt;code&gt;SomeActivity&lt;/code&gt; for instance we can use &lt;code&gt;AwaitMsec&lt;/code&gt; in a concurrent trail as follows:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -627,7 +724,7 @@ funcB()
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;var done: bool = false
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;var done: bool = false
 var timeout: bool = false
 cobegin weak // Activity trail.
 	run SomeActivity()
@@ -722,7 +819,7 @@ out before we actually evaluate and consider the current button state in our sof
 &lt;p&gt;First, &lt;code&gt;AwaitStableLevel&lt;/code&gt; is responsible for checking the stability of the button output signal. Input &lt;code&gt;lvl&lt;/code&gt; is the signal level that shall be awaited until it is stable. Input &lt;code&gt;btnRaw&lt;/code&gt; is the raw button signal as retrieved from the GPIO. For example, &lt;code&gt;run AwaitStableLevel(false, btns.top)&lt;/code&gt; means we want to suspend execution until the logic level of button &lt;code&gt;TOP&lt;/code&gt; is reliably &lt;code&gt;LOW&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -737,7 +834,7 @@ out before we actually evaluate and consider the current button state in our sof
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;const DEBOUNCE: nat8 = 5
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;const DEBOUNCE: nat8 = 5
 
 activity AwaitStableLevel (lvl: bool, btnRaw: bool)
     var vote: nat8 = 0
@@ -762,7 +859,7 @@ end
 
 
 &lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;480&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_3.png&#34; width=&#34;800&#34; height=&#34;480&#34;&gt;
 	
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
@@ -777,7 +874,7 @@ Oszilloscope capture of button sampling. CH1 shows the execution of the Blech co
 &lt;p&gt;Second, &lt;code&gt;FilterSignal&lt;/code&gt; is responsible for filtering the signal of a &lt;em&gt;single&lt;/em&gt; button. Input &lt;code&gt;btnRaw&lt;/code&gt; is a raw button signal, output &lt;code&gt;btn&lt;/code&gt;is the filtered one. Based on a simple &lt;code&gt;repeat&lt;/code&gt; loop (lines 2 &amp;ndash; 10), this activity continuously alternates &lt;code&gt;btn&lt;/code&gt; between the two possible button states &lt;code&gt;false&lt;/code&gt; (not pressed, line 3) and &lt;code&gt;true&lt;/code&gt; (pressed, line 7):&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -790,7 +887,7 @@ Oszilloscope capture of button sampling. CH1 shows the execution of the Blech co
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity FilterSignal (btnRaw: bool)(btn: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity FilterSignal (btnRaw: bool)(btn: bool)
     repeat
         btn = false
         // Await transition: false -&amp;gt; true
@@ -817,7 +914,7 @@ end
 &lt;p&gt;Third, &lt;code&gt;FilterButtons&lt;/code&gt; is responsible for filtering the signal of &lt;em&gt;all&lt;/em&gt; buttons. It is the top level activity with respect to filtering. Input &lt;code&gt;btnsRaw&lt;/code&gt; are the raw button signals as retrieved from the GPIOs, output &lt;code&gt;btns&lt;/code&gt; are the filtered button signals. Internally, this activity runs a dedicated filter activity for each individual button &amp;ndash; &lt;code&gt;TOP&lt;/code&gt;, &lt;code&gt;CENTER&lt;/code&gt; and &lt;code&gt;BOTTOM&lt;/code&gt;. These activities are concurrently composed in the same &lt;code&gt;cobegin&lt;/code&gt; block. So &lt;code&gt;FilterButtons&lt;/code&gt; is basically a wrapper for comfortably running three instances of &lt;code&gt;FilterSignal&lt;/code&gt; concurrently.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
@@ -828,7 +925,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;9
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity FilterButtons (btnsRaw: ButtonStates)(btns: ButtonStates)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity FilterButtons (btnsRaw: ButtonStates)(btns: ButtonStates)
     cobegin
         run FilterSignal(btnsRaw.top)(btns.top)
     with
@@ -842,7 +939,7 @@ end
 &lt;/div&gt;&lt;p&gt;Later, in the &lt;code&gt;Main&lt;/code&gt; activity of our Blech program, we can concurrently run &lt;code&gt;FilterButtons&lt;/code&gt; with respect to the remaining code (see line 7 below). In each reaction, the filtered button signals &lt;code&gt;btns&lt;/code&gt; are automatically updated (written) by &lt;code&gt;FilterButtons&lt;/code&gt; in the first trail and can be used (read) by other activities in concurrent trails. Activity &lt;code&gt;Visualize&lt;/code&gt;, for example, uses the filtered button signals in order to reflect the current button states on the color LEDs (line 10 below).&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -856,7 +953,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[EntryPoint]
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[EntryPoint]
 activity Main (btnRaw: ButtonStates) (leds: LedStates)
     // ...
     var btns: ButtonStates
@@ -886,7 +983,7 @@ end
 &lt;p&gt;In this example, the LED shall light up once &lt;code&gt;CENTER&lt;/code&gt; has been pressed for at least two seconds. It shall stay on as long as the button is pressed and go off once it has been released.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
@@ -897,7 +994,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;9
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example01 (btns: ButtonStates) (led: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example01 (btns: ButtonStates) (led: bool)
     when not btns.center reset
         await btns.center
         run AwaitMsec(2000)
@@ -914,7 +1011,7 @@ end
 &lt;p&gt;In this example, the LED shall light up once &lt;code&gt;TOP&lt;/code&gt; &lt;em&gt;and&lt;/em&gt; &lt;code&gt;BOTTOM&lt;/code&gt; are pressed. After that, it shall be turned off as soon as &lt;em&gt;both&lt;/em&gt; buttons have been released.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
@@ -922,7 +1019,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example02 (btns: ButtonStates) (led: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example02 (btns: ButtonStates) (led: bool)
     await btns.top and btns.bottom
     led = true
     await (not btns.top) and (not btns.bottom)
@@ -938,7 +1035,7 @@ end
 , here it is important that both buttons are pressed within a certain amount of time. For example, we only accept a double press if the time gap between the two button presses is one second at most.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -964,7 +1061,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example03 (btns: ButtonStates) (led: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example03 (btns: ButtonStates) (led: bool)
     let acceptedDelay: nat16 = 1000 // in milliseconds.
     var success: bool
     repeat
@@ -1007,7 +1104,7 @@ end
  in Blech. We want to know if the second button &lt;code&gt;btn2&lt;/code&gt; is pressed within the given amount of milliseconds (&lt;code&gt;msec&lt;/code&gt;) and while the first button &lt;code&gt;btn1&lt;/code&gt; is still pressed. So there are actually two conditions to be checked &amp;ndash; the timeout and the current state of &lt;code&gt;btn1&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1021,7 +1118,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity AwaitOtherButton (btn1: bool, btn2: bool, msec: nat16) returns bool
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity AwaitOtherButton (btn1: bool, btn2: bool, msec: nat16) returns bool
     var success: bool = false
     when not btn1 abort
         cobegin weak
@@ -1042,7 +1139,7 @@ end
 &lt;p&gt;In this example, the LED shall light up if &lt;code&gt;CENTER&lt;/code&gt; has been pressed between one and two seconds. After that, the LED shall be turned off once &lt;code&gt;TOP&lt;/code&gt; has been pressed.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1060,7 +1157,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example04 (btns: ButtonStates) (led: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Example04 (btns: ButtonStates) (led: bool)
     var i: nat32 = 0
     repeat
         await btns.center
@@ -1092,7 +1189,7 @@ end
 
 
 &lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;544&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_3.png&#34; width=&#34;800&#34; height=&#34;544&#34;&gt;
 	
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
@@ -1127,7 +1224,7 @@ Architecture of the Blech program as function blocks.
 &lt;p&gt;Let us assume that we &amp;ndash; as software developers &amp;ndash; do not have any experience in writing embedded code and we do not know anything about the stringent constraints imposed by the embedded domain. We just (naively) start by implementing a function &lt;code&gt;send_buffer&lt;/code&gt; that encapsulates all the details required for data transmission. This approach is reasonable and natural because this is what we have been taught in school and at the university. Motivated by several fundamental software engineering principles such as abstraction, separation of concerns, encapsulation and so forth we develop the solution below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
@@ -1137,7 +1234,7 @@ Architecture of the Blech program as function blocks.
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;send_buffer&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;u8&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;send_buffer&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;u8&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
     &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;++&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
     &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
@@ -1158,7 +1255,7 @@ Architecture of the Blech program as function blocks.
 
 
 &lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_1_hu7a477f07b182b110426619a64863e79e_99242_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;217&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_1_hu7a477f07b182b110426619a64863e79e_99242_800x0_resize_catmullrom_3.png&#34; width=&#34;800&#34; height=&#34;217&#34;&gt;
 	
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
@@ -1198,7 +1295,7 @@ Exemplary scope capture of three byte transmission with software in polling mode
 &lt;p&gt;Event-driven behaviour, however, is not supported by C on language level. Typical workarounds rely on &lt;em&gt;statemachines&lt;/em&gt; and &lt;em&gt;callbacks&lt;/em&gt; that are executed in an asynchronous-concurrent fashion. See the example below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1219,7 +1316,7 @@ Exemplary scope capture of three byte transmission with software in polling mode
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u8&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u8&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_buf&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_len&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;u16&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;_tx&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
 
 &lt;span style=&#34;color:#000&#34;&gt;ISR&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;UART1_TX&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
@@ -1250,7 +1347,7 @@ Exemplary scope capture of three byte transmission with software in polling mode
 
 
 &lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 810px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_2_hue664559e19091397989b194e3be32ca9_97431_800x0_resize_catmullrom_2.png&#34; width=&#34;800&#34; height=&#34;217&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/oszi_2_hue664559e19091397989b194e3be32ca9_97431_800x0_resize_catmullrom_3.png&#34; width=&#34;800&#34; height=&#34;217&#34;&gt;
 	
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
@@ -1310,7 +1407,7 @@ Exemplary scope capture of three byte transmission with software in event-driven
 &lt;p&gt;The following code snippet shows how the buffer transmission can look like in Blech:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1327,7 +1424,7 @@ Exemplary scope capture of three byte transmission with software in event-driven
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[CFunction (binding = &amp;#34;UART_isReady&amp;#34;, header = &amp;#34;uart.h&amp;#34;)]
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[CFunction (binding = &amp;#34;UART_isReady&amp;#34;, header = &amp;#34;uart.h&amp;#34;)]
 extern singleton function uart_isReady() returns bool
 @[CFunction (binding = &amp;#34;UART_sendByte&amp;#34;, header = &amp;#34;uart.h&amp;#34;)]
 extern singleton function uart_sendByte(val: nat8)
@@ -1379,7 +1476,7 @@ end
 &lt;p&gt;Let us slightly extend above example. We want to make an LED blink on every system tick, e.g. every millisecond, while a buffer transmission is in progress. At this point, we are aware that blinking an LED with such a high frequency is generally not useful since it is not visible for the human eye. Here, we just use it for demonstration purpose to show how easy it is to express concurrent behaviour by taking advantage of Blech&amp;rsquo;s &lt;code&gt;cobegin&lt;/code&gt; statement:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1393,7 +1490,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity SendBufferBlinking (buf: [LEN]nat8, len: nat16, sysTick: bool)(led: bool)
     cobegin   // Buffer transmission.
         run SendBuffer(buf, len)
     with weak // LED flashing.
@@ -1511,7 +1608,7 @@ Hardware setup of the DCF77 decoder: Discovery board (top) and RF receiver modul
 
 
 &lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 610px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/scope_hub36a3150171d15fb70dc7d6eab6ef70f_1185503_600x0_resize_catmullrom_2.png&#34; width=&#34;600&#34; height=&#34;360&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/scope_hub36a3150171d15fb70dc7d6eab6ef70f_1185503_600x0_resize_catmullrom_3.png&#34; width=&#34;600&#34; height=&#34;360&#34;&gt;
 	
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
@@ -1541,14 +1638,14 @@ Oszilloscope capture of the DCF77 time signal on GPIO PB7.
 &lt;p&gt;The corresponding signature of the Blech entry point activity looks like this:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;// @param[in]   dcf77   The DCF77 signal level (true = &amp;#39;HIGH&amp;#39;).
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;// @param[in]   dcf77   The DCF77 signal level (true = &amp;#39;HIGH&amp;#39;).
 // @param[in]   btn     The user button state (true = &amp;#39;PRESSED&amp;#39;).
 // @param[out]  leds    The LED states (true = &amp;#39;ON&amp;#39;).
 @[EntryPoint]
@@ -1561,7 +1658,7 @@ activity Main (dcf77: bool, btn: bool) (leds: LedStates)
 &lt;p&gt;We follow this approach and execute the Blech application part every 10 milliseconds. This leads to a sample rate of 100Hz which is sufficiently fast in order to distinguish between a binary zero, a binary one and the synchronization mark. For the periodic execution, we take advantage of a simple delay function (&lt;code&gt;HAL_Delay&lt;/code&gt;) provided by the microcontroller&amp;rsquo;s driver library. An outline of &lt;code&gt;main.c&lt;/code&gt; is shown below.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1581,7 +1678,7 @@ activity Main (dcf77: bool, btn: bool) (leds: LedStates)
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&amp;#34;blech/control.h&amp;#34;      // Include C code generated from Blech.&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&amp;#34;blech/control.h&amp;#34;      // Include C code generated from Blech.&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;
 &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;
     &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// ... init system ...
@@ -1634,7 +1731,7 @@ activity Main (dcf77: bool, btn: bool) (leds: LedStates)
 
 
 &lt;div class=&#34;card rounded p-2 td-post-card mb-4 mt-4&#34; style=&#34;max-width: 410px&#34;&gt;
-	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/activity_tree_hu8eb9351a76627fa7002efdf26ac3730a_44992_400x0_resize_catmullrom_2.png&#34; width=&#34;400&#34; height=&#34;320&#34;&gt;
+	&lt;img class=&#34;card-img-top&#34; src=&#34;https://www.blech-lang.org/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/activity_tree_hu8eb9351a76627fa7002efdf26ac3730a_44992_400x0_resize_catmullrom_3.png&#34; width=&#34;400&#34; height=&#34;320&#34;&gt;
 	
 	&lt;div class=&#34;card-body px-0 pt-2 pb-0&#34;&gt;
 		&lt;p class=&#34;card-text&#34;&gt;
@@ -1658,7 +1755,7 @@ Hierarchical call structure of activities.
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1689,7 +1786,7 @@ Hierarchical call structure of activities.
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[EntryPoint]
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;@[EntryPoint]
 activity Main (dcf77: bool, btn: bool) (leds: LedStates)
     ledsAllOn()(leds)
     run AwaitStableSignal(dcf77)
@@ -1736,7 +1833,7 @@ end
 &lt;p&gt;Reflecting the time signal level on the LED is a pretty simple task in Blech. We establish an infinite loop which alternates between the signal levels. First, it awaits the high level for switching off the LED. Second, it awaits the low level for switching on the same LED. Third, the whole process repeats &amp;ndash; that&amp;rsquo;s it.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4
@@ -1746,7 +1843,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Visualize (dcf77: bool) (ledDcf77: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Visualize (dcf77: bool) (ledDcf77: bool)
     repeat
         await dcf77         // Await rising edge.
         ledDcf77 = false    // Turn off LED.
@@ -1763,7 +1860,7 @@ end
 &lt;p&gt;If the signal level goes &lt;code&gt;LOW&lt;/code&gt; during the measurement the process has to be resetted. For this, we use the &lt;code&gt;when ... reset&lt;/code&gt; block in Blech which causes the contained code to restart from the first line if the given condition is met. So in this case the code will jump back to &lt;code&gt;var len: nat16 = 0&lt;/code&gt; as soon as the level drops.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1775,7 +1872,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity CaptureSync (dcf77: bool)
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity CaptureSync (dcf77: bool)
     // Perform the measurement and restart if the level drops meanwhile.
     when not dcf77 reset
         var len: nat16 = 0
@@ -1792,7 +1889,7 @@ end
 &lt;p&gt;Implementing the time information capture based on &lt;code&gt;CaptureSync&lt;/code&gt; and &lt;code&gt;CaptureBit&lt;/code&gt; becomes a trivial task. First, we capture the synchronization mark. Before and after that we turn off and on the associated LED (orange) respectively. Second, we enter the &lt;code&gt;while&lt;/code&gt; loop in which we collect the 59 time code bits by repeatedly calling &lt;code&gt;CaptureBit&lt;/code&gt;. Each successfully received bit is passed to &lt;code&gt;processBit&lt;/code&gt; in order to update the gathered time information in &lt;code&gt;ti&lt;/code&gt;. This means that decoding the DCF77 signal actually happens bit-wise on-the-fly. Finally, &lt;code&gt;CaptureTimeInfo&lt;/code&gt; terminates, thereby returning the success status and the decoded time information to the caller.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1818,7 +1915,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity CaptureTimeInfo (dcf77: bool)(ti: TimeInfo, ledSync: bool) returns bool
     ledSync = false // Turn off LED.
     run CaptureSync(dcf77)
     ledSync = true  // Turn on LED.
@@ -1847,7 +1944,7 @@ end
 &lt;/div&gt;&lt;p&gt;The job of &lt;code&gt;Decode&lt;/code&gt; is to retrieve two consecutive time codes (&lt;code&gt;tmp&lt;/code&gt; and &lt;code&gt;ti&lt;/code&gt;) and apply a simple validity check by comparing them. A common approach is to check whether the second timestamp (&lt;code&gt;ti&lt;/code&gt;) is exactly one minute ahead of the first one (&lt;code&gt;tmp&lt;/code&gt;). If that is the case the second one is considered valid and returned to the caller &amp;ndash; the decoding is done.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;
 &lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4
@@ -1867,7 +1964,7 @@ end
 &lt;/span&gt;&lt;span style=&#34;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Decode (dcf77: bool) (ti: TimeInfo, ledSync: bool) returns bool
+&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;activity Decode (dcf77: bool) (ti: TimeInfo, ledSync: bool) returns bool
     var success: bool
     var tmp: TimeInfo
 
@@ -1922,7 +2019,7 @@ end
         
         
         &lt;h2 id=&#34;why-blech&#34;&gt;Why Blech?&lt;/h2&gt;
-&lt;p&gt;There is a huge difference between the environments of a desktop, a server, or a mobile application
+&lt;p&gt;There is a huge difference between the environments of a desktop, a server, or a mobile application 
 and a typical application in the embedded domain.
 Moreover, the embedded industry is itself huge &amp;ndash; including automotive, aerospace, robotics, medical technology, rail, IoT, home appliances, power tools.&lt;/p&gt;
 &lt;!-- Just because it&#39;s &#34;huge&#34; doesn&#39;t of itself motivate anything yet - how about the following? --&gt; 
@@ -1932,43 +2029,43 @@ of academic circles or highly proprietary walled garden approaches.&lt;/p&gt;
 &lt;p&gt;We want to change that.&lt;/p&gt;
 &lt;h3 id=&#34;the-embedded-domain-is-tough&#34;&gt;The embedded domain is tough&lt;/h3&gt;
 &lt;p&gt;Embedded applications usually run on dedicated hardware to interact with a specific physical environment.
-More often than not, the hardware is resource-constrained in terms of memory and processing power.
+More often than not, the hardware is resource-constrained in terms of memory and processing power. 
 To fulfill safety requirements, the code needs to be safe, secure, reliable, and portable.
 Applications must be reactive because of realtime requirements, and deterministic to make reactions predictable and repeatable under test.&lt;/p&gt;
 &lt;p&gt;This mix of requirements imposes severe constraints on developers in terms of how to program their application.&lt;/p&gt;
 &lt;p&gt;In principle, there are two ways to organize the code: event-driven or threaded.&lt;/p&gt;
-&lt;p&gt;Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task.
+&lt;p&gt;Event-driven functions cannot rely on a stack to maintain the state between consecutive events in a task. 
 The programmer has to maintain the state across multiple events, and to manually combine these events into the required flow of control.
 Therefore, event-driven programs can be very efficient in terms of memory footprint and they do not need scheduling.
 The disadvantage is that they are hard to write and even harder to read and reason about.&lt;/p&gt;
 &lt;p&gt;Threaded functions are easier to write and comprehend, since the program can be expressed as a sequence of actions, waiting for asynchronous input if needed.
 The state between steps is preserved on the stack.
-The big disadvantage is that each threaded function needs to allocate its maximum possible required stack during its existence,
+The big disadvantage is that each threaded function needs to allocate its maximum possible required stack during its existence, 
 and the composition of threaded functions creates the need for pre-emptive or cooperative scheduling at run-time, which either is non-deterministic or non-reactive.&lt;/p&gt;
 &lt;p&gt;As a consequence, applications are often written in an event-driven style.&lt;/p&gt;
 &lt;h3 id=&#34;c-programming-is-like-defusing-a-bomb&#34;&gt;C programming is like defusing a bomb&lt;/h3&gt;
-&lt;p&gt;Many areas in software development have benefitted from improvements made to programming languages.
-Embedded systems are an exception to this.
+&lt;p&gt;Many areas in software development have benefitted from improvements made to programming languages. 
+Embedded systems are an exception to this. 
 C remains the de-facto standard for development, although there are many flaws that need to be mitigated by tight coding conventions and static analysis tools.&lt;/p&gt;
 &lt;p&gt;Of course, there are several languages like Ada, C++, or Rust that have the potential to improve certain aspects of embedded development.
 Due to its backwards compatability with C and its maturity, C++ is often preferred and used in many embedded projects.
 Nevertheless, C++ as well as older (Ada) and newer (Rust) developments are all general-purpose languages, which only improve certain programming aspects and do not really reduce the complexity of embedded applications.&lt;/p&gt;
 &lt;p&gt;Blech is different.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-blech&#34;&gt;What is Blech?&lt;/h2&gt;
-&lt;p&gt;Blech is a language that is specifically designed for safety- and realtime-critical, reactive, embedded programming.
+&lt;p&gt;Blech is a language that is specifically designed for safety- and realtime-critical, reactive, embedded programming. 
 The cornerstones of Blech are its model of computation (MoC) and its simple integration with C.
-Being a new language, it benefits from the progress in programming languages over the past 4 decades.
+Being a new language, it benefits from the progress in programming languages over the past 4 decades. 
 With its domain focus, it is designed to guarantee important properties via the compiler.&lt;/p&gt;
 &lt;h3 id=&#34;the-blech-model-of-computation&#34;&gt;The Blech model of computation&lt;/h3&gt;
 &lt;p&gt;Blech is a synchronous language.&lt;/p&gt;
 &lt;p&gt;In a nutshell, the synchronous model of computation allows us to write threaded functions, which are compiled into an efficiently executable event-driven code that is deterministic.
 For this purpose, it incorporates the step-wise execution of typical realtime, reactive applications into the language.&lt;/p&gt;
 &lt;p&gt;Blech allows us to write subprograms, called &lt;em&gt;activities&lt;/em&gt;, that execute in &lt;em&gt;steps&lt;/em&gt;, as a sequence of actions which pause once a step is finished.
-A synchronous language regards the trigger events that initiate these steps as the &lt;em&gt;ticks&lt;/em&gt; of a clock.
+A synchronous language regards the trigger events that initiate these steps as the &lt;em&gt;ticks&lt;/em&gt; of a clock. 
 The ticks can either be periodically triggered by time, or aperiodically triggered by events.
 The synchronous model of computation (MoC) assumes a minimum inter-arrival time between ticks, which defines the maximum execution time in order to complete a step.
 Based on this assumption, which is very suitable for realtime-critical, reactive applications, the programming model can be abstracted to a perfect model, where every step is executed immediately and runs to completion, before the next tick occurs.&lt;/p&gt;
-&lt;p&gt;A Blech activity is a sequential control flow of statements that finishes a step by pausing at an &lt;em&gt;await&lt;/em&gt; statement.
+&lt;p&gt;A Blech activity is a sequential control flow of statements that finishes a step by pausing at an &lt;em&gt;await&lt;/em&gt; statement. 
 The await statement guards the continuation of the control flow with a condition, which is evaluated as soon as the next step is triggered by a tick.
 These subprograms can be composed sequentially via normal control flow and concurrently via synchronous parallel composition.
 The compiler guarantess deterministic execution of concurrently composed subprograms.&lt;/p&gt;
@@ -2035,13 +2132,13 @@ With its domain focus and the synchronous MoC, we restrict the language to:&lt;/
 &lt;p&gt;These properties are guaranteed by the type system and several further compile-time analyses.
 Virtually anything that is usually required by embedded, realtime, or safety-oriented coding-conventions like MISRA C/C++ can be handled by the compiler.&lt;/p&gt;
 &lt;h3 id=&#34;the-future&#34;&gt;The future&lt;/h3&gt;
-&lt;p&gt;Blech, as currently released, is a working first step.
+&lt;p&gt;Blech, as currently released, is a working first step. 
 The new mechanisms and the semantics for synchronous imperative programming are fully implemented.
 The compiler generates clean C code.&lt;/p&gt;
-&lt;p&gt;However, some of the syntactic elements are not yet translated.
-Also, a few of the above safety checks are still missing.
-Filling these gaps is a matter of effort and is done bit by bit.
-Furthermore, there is a longer roadmap to enrich the language itself.
+&lt;p&gt;However, some of the syntactic elements are not yet translated. 
+Also, a few of the above safety checks are still missing. 
+Filling these gaps is a matter of effort and is done bit by bit. 
+Furthermore, there is a longer roadmap to enrich the language itself. 
 This requires more research and design.&lt;/p&gt;
 &lt;p&gt;Currently we are working on the module system, that incorporates cycle-free dependency management of separately compilable modules into the language.
 The module system will support information hiding, black-box reuse and white-box testing.
@@ -2128,8 +2225,8 @@ The documentation, examples, and plans for the evolution of the language can be 
         &lt;p&gt;The keynote of &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wcet/&#34; target=&#34;_blank&#34;&gt;WCET 2019&lt;/a&gt;
  the 19th International Open Workshop on Worst-Case Execution Time Analysis, presented &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wcet/wcet-2019-program/index.html&#34; target=&#34;_blank&#34;&gt;Blech - a synchronous language for embedded real-time programming&lt;/a&gt;
 &lt;/p&gt;
-&lt;p&gt;The talk was given by Franz-Josef Grosch, &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wcet/&#34; target=&#34;_blank&#34;&gt;abstract&lt;/a&gt;
- and &lt;a href=&#34;https://www.ecrts.org/archives/fileadmin/WebsitesArchiv/ecrts2019/wp-content/uploads/2019/07/WCET19-Keynote.pdf&#34; target=&#34;_blank&#34;&gt;slides&lt;/a&gt;
+&lt;p&gt;The talk was given by Franz-Josef Grosch, &lt;a href=&#34;http://archives.ecrts.org/fileadmin/WebsitesArchiv/ecrts2019/wcet/index.html&#34; target=&#34;_blank&#34;&gt;abstract&lt;/a&gt;
+ and &lt;a href=&#34;./keynote-wcet-2019-final.pdf&#34;&gt;slides&lt;/a&gt;
  are available.&lt;/p&gt;
 
       </description>
