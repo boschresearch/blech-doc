@@ -1,7 +1,7 @@
 ---
 title: "Synchron 2020"
 linkTitle: "Synchron 2020"
-date: 2021-12-09
+date: 2021-12-10
 description: >
   Implementing true separate compilation - the Blech module system
 ---
