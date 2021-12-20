@@ -1,7 +1,7 @@
 ---
 title: "Memocode 2017"
 linkTitle: "Memocode 2017"
-date: 2021-12-10
+date: 2019-01-01
 description: >
   Keynote: Elevate embedded real-time programming with a synchronous language
 ---

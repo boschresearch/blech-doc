@@ -125,20 +125,17 @@
     <loc>https://www.blech-lang.org/docs/user-manual/modules/</loc>
     <lastmod>2021-05-17T13:44:14+02:00</lastmod>
   </url><url>
+    <loc>https://www.blech-lang.org/blog/2021/12/20/the-blech-abides/</loc>
+    <lastmod>2021-12-17T17:39:13+01:00</lastmod>
+  </url><url>
     <loc>https://www.blech-lang.org/blog/2021/12/10/blech-version-0.7.0/</loc>
     <lastmod>2021-12-10T13:52:33+01:00</lastmod>
   </url><url>
-    <loc>https://www.blech-lang.org/blog/2021/12/10/fdl-2018/</loc>
-    <lastmod>2021-12-10T13:52:33+01:00</lastmod>
-  </url><url>
-    <loc>https://www.blech-lang.org/blog/2021/12/10/memocode-2017/</loc>
-    <lastmod>2021-12-10T13:52:33+01:00</lastmod>
-  </url><url>
-    <loc>https://www.blech-lang.org/blog/2021/12/10/synchron-2020/</loc>
-    <lastmod>2021-12-10T19:49:58+01:00</lastmod>
-  </url><url>
     <loc>https://www.blech-lang.org/blog/2021/12/10/synchron-2021/</loc>
     <lastmod>2021-12-10T13:52:33+01:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2020/12/10/synchron-2020/</loc>
+    <lastmod>2021-12-15T10:30:16+01:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/blog/2020/11/23/a-module-system-for-blech/</loc>
     <lastmod>2021-05-04T16:47:05+02:00</lastmod>
@@ -169,6 +166,12 @@
   </url><url>
     <loc>https://www.blech-lang.org/blog/2019/07/10/wcet-2019-keynote/</loc>
     <lastmod>2021-12-10T13:52:33+01:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2019/01/02/fdl-2018/</loc>
+    <lastmod>2021-12-15T10:30:16+01:00</lastmod>
+  </url><url>
+    <loc>https://www.blech-lang.org/blog/2019/01/01/memocode-2017/</loc>
+    <lastmod>2021-12-15T10:30:16+01:00</lastmod>
   </url><url>
     <loc>https://www.blech-lang.org/docs/blechc-development/traversals/</loc>
     <lastmod>2020-04-29T13:21:43+02:00</lastmod>

@@ -1,28 +1,19 @@
 ---
-date: 2021-12-17
-draft: true
+date: 2021-12-20
 title: "The Blech abides"
 linkTitle: "The Blech abides"
 description: >
     Blech is no longer under active development at Bosch Research, but it found a new home.
-author: Franz-Josef Grosch
+author: Franz-Josef Grosch and Friedrich Gretz
 ---
 
-Although the Blech community is small, we want to send a message to all Blech users that explains why the Blech repositories saw almost no activities in the last 5 month. The cause for concern: Blech is no longer under active development at Bosch Research. The silver lining: Blech remains an open-source project now evolving in the GitHub [blech-lang](https://github.com/blech-lang) organisation.
-
-<!-- ## The current state -->
-<!-- 
-Blech started with the academic idea of synchronous programming which originated in the 80s and is most prominently represented by Esterel and Lustre. Only the invention of sequential constructiveness - first made usable in SCCharts - opened the door to create an imperative synchronous language that can easily be adopted by experienced embedded developers without the need to deny their C origin.
-
-After a careful search for existing alternatives, we started the endeavour to create a new language - now called Blech - with the focus on compile-time guarantees and the conviction that synchronous programming can simplify the life of embedded developers. From the beginning, we knew that a language can only be developed as a minimal viable product (MVP) that is a fully functional product - albeit a "minimal" one - that should not disappoint first users. Our plan was to get feedback, to iterate and evolve Blech into its full vision. We carefully chose our tools and practices, built a compiler that runs on all operating systems, did a lot of automated testing, and created a minimal development environment in the form of a language server plugin for Visual Studio Code. 
-
-When we started Blech we had no academic connections in the area of synchronous languages. Quickly we found friends of Blech in the academic synchronous language community. We have been invited for [conference keynotes](/blog/events) and participated in the annual [Open Synchron Workshops](/blog/events) - the traditional "family" meetings of the synchronous language researchers. Together we worked on Blech's semantics and the automated visualization of modes expressed in Blech programs. We found academic partners willing to use and promote Blech in their research and their teaching. -->
+Although the Blech community is small we want to send a message to all Blech users that explains why the Blech repositories saw almost no activities in the last 5 month. The cause for concern: Blech is no longer under active development at Bosch Research. The silver lining: Blech remains an open-source project now evolving in the GitHub [blech-lang](https://github.com/blech-lang) organisation.
 
 Initially, our work led us to study the academic ideas of synchronous programming, most prominently represented by Esterel and Lustre. The invention of sequential constructiveness - first made usable in SCCharts - opened the door for an imperative synchronous language that can easily be adopted by experienced embedded developers without the need to deny their C origin.
 
 After a careful search for existing alternatives, we started the endeavour to create a new language called Blech. The goal was – and still is – to make the work of embedded developers more productive and fun. For this, we envisioned a language that looks and feels like a modern imperative programming language and at the same time achieves a level of abstraction and compile-time guarantees that only a synchronous language can provide.
 
-The [latest release 0.7.0](https://github.com/boschresearch/blech/releases/tag/v0.7.0) was the first substantial evolution. It added a state-of-the-art module system to the language. The new release brought many big and small improvements and thus demonstrated the viability of the compiler.
+The [latest release 0.7.0](https://github.com/boschresearch/blech/releases/tag/v0.7.0) was the first substantial evolution. It added a state-of-the-art module system to the language. The release brought many big and small improvements and thus demonstrated the viability of the compiler.
 
 Sadly, the [development of Blech](https://github.com/boschresearch/blech) and its [accompanying tools](https://github.com/boschresearch/blech-tools) at [Bosch Research](https://github.com/boschresearch) is on hold. This means, we can no longer develop Blech during our working hours. Blech reached the state of a minimal viable product, but there are many things missing and there is still a long way to go before it can prove itself in industrial product development.
 
@@ -32,24 +23,6 @@ On the bright side, we like to thank Bosch Research for giving us the chance to 
 
 Therefore, we think it is to time to open a new chapter for Blech. Being open-source it has found a new home in the GitHub [blech-lang](https://github.com/blech-lang) organisation. There it can freely evolve driven only by the interest of an open community. 
 
-So spread the word, become a Blech developer or challenge Blech in your embedded projects, and remember to fork and download it form its [new home](https://github.com/blech-lang).
+So spread the word, become a Blech developer or challenge Blech in your embedded projects, and remember to fork and download it from its [new home](https://github.com/blech-lang).
 
 The Blech abides.
-
-
-<!-- 
-The [release of Blech 0.7.0](https://github.com/boschresearch/blech/releases/tag/v0.7.0) was the first substantial evolution of our initial minimal viable product. It added a state-of-the-art module system to the language. The new release brought many big and small improvements and thus demonstrates the viability of our compiler. -->
-
-<!-- ## The next chapter -->
-
-<!-- 
-Nevertheless, we think that Blech is helpful for many embedded programming problems. We are thankful, that Bosch gave us the chance to develop Blech into an MVP which we are still encouraged to maintain. -->
-<!-- First of all, we like to thank Bosch Research giving us the chance to develop Blech into its current state which we are still encouraged to maintain.
-
-Over the time we received quite some encouraging feedback from Blech users which reassured us that Blech is helpful for many embedded programming problems. 
-
-Therefore, we think, it is to time to open a new chapter for Blech. Being open-source it has found a new home in the GitHub [blech-lang](https://github.com/blech-lang) organisation. There it can freely evolve driven only by the interest of an open community. 
-
-So spread the word, become a Blech developer or challenge Blech in your embedded projects, and remember to fork and download it form its [new home](https://github.com/blech-lang).
-
-The Blech abides. -->
