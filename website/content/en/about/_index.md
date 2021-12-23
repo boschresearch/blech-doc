@@ -14,13 +14,7 @@ This website makes the Blech language documentation, the Blech compiler, and the
 * The GitHub project for this website is [`blech-doc`](https://github.com/boschresearch/blech-doc).
 * The website is hosted on GitHub's [`github.io`](https://github.io) domain.
 
-The website is accessible via
-1. the subdomain http://www.blech-lang.org,
-2. the apex domain http://blech-lang.org, and
-3. the GitHub pages site https://boschresearch.github.io/blech-doc.
-
-The apex domain and the GitHub pages site redirect to the subdomain.
-
+The website is accessible via the GitHub pages site https://boschresearch.github.io/blech-doc.
 
 The website uses 
 * [**GitHub**](https://github.com): for hosting and direct access to documentation and the Blech project repositories.
