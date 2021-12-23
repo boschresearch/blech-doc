@@ -1,7 +1,12 @@
 # Blech documentation
 
+[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive) 
+
+[![Project Status: Moved to http://github.com/blech-lang/blech-doc – The project has been moved to a new location, and the version at that location should be considered authoritative.](https://www.repostatus.org/badges/latest/moved.svg)](https://www.repostatus.org/#moved) to [development.blech-lang.org](http://development.blech-lang.org/blech-doc)
+
+
 Documentation for the Blech embedded programming language.
-[Read the documentation on our homepage.](https://boschresearch.github.io/blech-doc/)
+[Read the documentation on the homepage.](https://boschresearch.github.io/blech-doc/)
 
 If you want to change the contents of that website read the following to get started.
 
