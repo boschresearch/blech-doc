@@ -1,7 +1,10 @@
-baseURL = "https:/boschresearch.github.io/blech-doc/"  
-
+# Comment baseURL during local testing
+baseURL = "https://boschresearch.github.io/blech-doc/"
 # This is necessary because of the github projects page, for correct relative URLs
 canonifyURLs = true
+
+
+
 
 title = "The Blech language"
 
