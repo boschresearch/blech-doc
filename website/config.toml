@@ -2,7 +2,7 @@
 baseURL = "https://boschresearch.github.io/blech-doc/"
 # This is necessary because of the github projects page, for correct relative URLs
 # But it breaks the landing page background image, probably a bug in the docsy theme
-canonifyURLs = true
+#canonifyURLs = true
 
 
 
