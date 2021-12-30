@@ -16,7 +16,7 @@ Control flow is organised with two kinds of procedures: _activities_ and _functi
 Functions are used like in any other imperative language.
 In Blech they have two parameter lists to support causality analysis.
 
-See the section on [subprogram declarations](../../declarations/#subprograms) for more details.
+See the section on [subprogram declarations](../declarations/#subprograms) for more details.
 
 Functions must terminate within a reaction. Therefore they are said to be instantaneous.
 

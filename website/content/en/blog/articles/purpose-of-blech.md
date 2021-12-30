@@ -177,7 +177,7 @@ For example,
 - a time-travel debugger for concurrent and parallel programs, or
 - a deployment support tool.
 
-To follow upon and participate in the development visit the Blech homepage: [www.blech-lang.org](www.blech-lang.org).
+To follow upon and participate in the development visit the Blech homepage: [www.blech-lang.org](https://www.blech-lang.org).
 The documentation, examples, and plans for the evolution of the language can be found on the website.
 
 We are convinced that Blech can substantially boost productivity and the quality of safety- and realtime-critical, reactive, embedded applications.

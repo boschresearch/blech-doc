@@ -73,7 +73,7 @@ Learn how to manage cookies for:
 
 - [Apple Safari](https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac)
 
-- [Google Chrome](https://support.google.com/chrome/bin/answer.py?hl=en-GB&answer=95647&p=cpn_cookies)
+- [Google Chrome](https://support.google.com/chrome/answer/95647)
 
 - [Microsoft Edge](https://support.microsoft.com/help/4027947/microsoft-edge-delete-cookies)
 
