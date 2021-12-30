@@ -7,16 +7,16 @@
 <meta name="robots" content="index, follow">
 
 
-<link rel="shortcut icon" href="/favicons/favicon.ico" >
-<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
-<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
-<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
-<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
-<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
-<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
-<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
-<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+<link rel="shortcut icon" href="https:///boschresearch.github.io/blech-doc/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="https:///boschresearch.github.io/blech-doc/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="https:///boschresearch.github.io/blech-doc/favicons/android-192x192.png" sizes="192x192">
 
 <title>Push button handling | Blech</title>
 <meta name="description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
@@ -25,7 +25,7 @@
 <meta property="og:description" content="Push buttons are widely used in embedded systems for user input. While their look and feel come in different flavours, their operating principle is basically always the same: By opening or closing an electrical contact they change the voltage level of a signal line. In this article we show how these level changes can be processed and handled in a Blech program. 
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.blech-lang.org/blog/2020/08/12/push-button-handling/" /><meta property="article:section" content="blog" />
+<meta property="og:url" content="https:///boschresearch.github.io/blech-doc/blog/2020/08/12/push-button-handling/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2020-08-12T00:00:00+00:00" />
 <meta property="article:modified_time" content="2020-08-13T11:04:28+02:00" /><meta property="og:site_name" content="Blech" />
 
@@ -42,14 +42,14 @@
 
 
 
-<link rel="preload" href="/scss/main.min.d75c3d940bf0614613f22420ee723cee36dd4ebc30cdeaa13cb2b417438390a1.css" as="style">
-<link href="/scss/main.min.d75c3d940bf0614613f22420ee723cee36dd4ebc30cdeaa13cb2b417438390a1.css" rel="stylesheet" integrity="">
+<link rel="preload" href="https:///boschresearch.github.io/blech-doc/scss/main.min.d75c3d940bf0614613f22420ee723cee36dd4ebc30cdeaa13cb2b417438390a1.css" as="style">
+<link href="https:///boschresearch.github.io/blech-doc/scss/main.min.d75c3d940bf0614613f22420ee723cee36dd4ebc30cdeaa13cb2b417438390a1.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.5.1.min.js"
   integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
-<script src=https://www.blech-lang.org/js/opt-in.js></script>
+<script src=https:///boschresearch.github.io/blech-doc/js/opt-in.js></script>
 
 
   </head>
@@ -57,7 +57,7 @@
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="https:///boschresearch.github.io/blech-doc/">
 		<span class="navbar-logo"><svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 67.08 47.3"><defs><style>.cls-1{fill:#919392;stroke:#919392;stroke-linecap:round;stroke-linejoin:round}</style></defs><title>blech_grau_kontur</title><polygon class="cls-1" points="3.23 25.31 0.5 26.95 33.53 46.8 66.58 26.95 66.58 20.35 63.77 18.66 33.54 36.82 33.53 33.61 61.08 17.05 33.53 0.5 0.5 20.35 33.53 40.2 63.39 22.28 63.39 25.5 33.53 43.61 3.23 25.31"/></svg></span><span class="font-weight-bold ">Blech</span>
 	</a>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
@@ -73,7 +73,7 @@
 				
 				
 				
-				<a class="nav-link" href="/about/" ><span>About us</span></a>
+				<a class="nav-link" href="https:///boschresearch.github.io/blech-doc/about/" ><span>About us</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -85,7 +85,7 @@
 				
 				
 				
-				<a class="nav-link" href="/docs/" ><span>Documentation</span></a>
+				<a class="nav-link" href="https:///boschresearch.github.io/blech-doc/docs/" ><span>Documentation</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -97,7 +97,7 @@
 				
 				
 				
-				<a class="nav-link active" href="/blog/" ><span class="active">Blog</span></a>
+				<a class="nav-link active" href="https:///boschresearch.github.io/blech-doc/blog/" ><span class="active">Blog</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -109,7 +109,7 @@
 				
 				
 				
-				<a class="nav-link" href="/community/" ><span>Community</span></a>
+				<a class="nav-link" href="https:///boschresearch.github.io/blech-doc/community/" ><span>Community</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -121,7 +121,7 @@
 				
 				
 				
-				<a class="nav-link" href="/research/" ><span>Research</span></a>
+				<a class="nav-link" href="https:///boschresearch.github.io/blech-doc/research/" ><span>Research</span></a>
 			</li>
 			
 			
@@ -148,53 +148,53 @@
   <nav class="collapse td-sidebar-nav" id="td-section-nav">
     <ul class="td-sidebar-nav__section pr-md-3 ul-0">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blog-li">
-  <a href="/blog/" title="Blech Blog" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="">Blog</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/" title="Blech Blog" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="">Blog</span></a>
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blogarticles-li">
-  <a href="/blog/articles/" title="Articles about the Blech language, tools, and releated topics" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogarticles"><span class="">Articles</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/articles/" title="Articles about the Blech language, tools, and releated topics" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogarticles"><span class="">Articles</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20211220the-blech-abides-li">
-  <a href="/blog/2021/12/20/the-blech-abides/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211220the-blech-abides"><span class="">The Blech abides</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2021/12/20/the-blech-abides/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211220the-blech-abides"><span class="">The Blech abides</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20201123a-module-system-for-blech-li">
-  <a href="/blog/2020/11/23/a-module-system-for-blech/" title="A module system for Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20201123a-module-system-for-blech"><span class="">Modules for Blech</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/11/23/a-module-system-for-blech/" title="A module system for Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20201123a-module-system-for-blech"><span class="">Modules for Blech</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-blog20200812push-button-handling-li">
-  <a href="/blog/2020/08/12/push-button-handling/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-blog20200812push-button-handling"><span class="td-sidebar-nav-active-item">Push button handling</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/08/12/push-button-handling/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-blog20200812push-button-handling"><span class="td-sidebar-nav-active-item">Push button handling</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view-li">
-  <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" title="The basic idea behind Blech – A practitioner&#39;s point of view" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view"><span class="">The basic idea behind Blech</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" title="The basic idea behind Blech – A practitioner&#39;s point of view" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200722the-basic-idea-behind-blech-a-practitioners-point-of-view"><span class="">The basic idea behind Blech</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200615decoding-the-dcf77-signal-with-blech-li">
-  <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" title="Decoding the DCF77 signal with Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200615decoding-the-dcf77-signal-with-blech"><span class="">DCF77 decoding</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/" title="Decoding the DCF77 signal with Blech" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200615decoding-the-dcf77-signal-with-blech"><span class="">DCF77 decoding</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20200527the-purpose-of-blech-li">
-  <a href="/blog/2020/05/27/the-purpose-of-blech/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200527the-purpose-of-blech"><span class="">The purpose of Blech</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/05/27/the-purpose-of-blech/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200527the-purpose-of-blech"><span class="">The purpose of Blech</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogreleases-li">
-  <a href="/blog/releases/" title="Blech releases, concering language, compiler and tools." class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogreleases"><span class="">Releases</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/releases/" title="Blech releases, concering language, compiler and tools." class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogreleases"><span class="">Releases</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211210blech-version-070-li">
-  <a href="/blog/2021/12/10/blech-version-0.7.0/" title="Blech version 0.7.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210blech-version-070"><span class="">Blech 0.7.0</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2021/12/10/blech-version-0.7.0/" title="Blech version 0.7.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210blech-version-070"><span class="">Blech 0.7.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200901blech-version-060-li">
-  <a href="/blog/2020/09/01/blech-version-0.6.0/" title="Blech version 0.6.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200901blech-version-060"><span class="">Blech 0.6.0</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/09/01/blech-version-0.6.0/" title="Blech version 0.6.0" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200901blech-version-060"><span class="">Blech 0.6.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200421blech-compiler-version-051-li">
-  <a href="/blog/2020/04/21/blech-compiler-version-0.5.1/" title="Blech compiler version 0.5.1" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200421blech-compiler-version-051"><span class="">blechc 0.5.1</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/04/21/blech-compiler-version-0.5.1/" title="Blech compiler version 0.5.1" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200421blech-compiler-version-051"><span class="">blechc 0.5.1</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20200420blech-vs-code-extension-052-li">
-  <a href="/blog/2020/04/20/blech-vs-code-extension-0.5.2/" title="Blech VS Code Extension 0.5.2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200420blech-vs-code-extension-052"><span class="">vsce 0.5.2</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/04/20/blech-vs-code-extension-0.5.2/" title="Blech VS Code Extension 0.5.2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20200420blech-vs-code-extension-052"><span class="">vsce 0.5.2</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogevents-li">
-  <a href="/blog/events/" title="Future and past Blech events" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogevents"><span class="">Events</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/events/" title="Future and past Blech events" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-blogevents"><span class="">Events</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20211210synchron-2021-li">
-  <a href="/blog/2021/12/10/synchron-2021/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210synchron-2021"><span class="">Synchron 2021</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2021/12/10/synchron-2021/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20211210synchron-2021"><span class="">Synchron 2021</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20201210synchron-2020-li">
-  <a href="/blog/2020/12/10/synchron-2020/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20201210synchron-2020"><span class="">Synchron 2020</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2020/12/10/synchron-2020/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20201210synchron-2020"><span class="">Synchron 2020</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20191201synchron-2019-li">
-  <a href="/blog/2019/12/01/synchron-2019/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20191201synchron-2019"><span class="">Synchron 2019</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2019/12/01/synchron-2019/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20191201synchron-2019"><span class="">Synchron 2019</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20190710wcet-2019-keynote-li">
-  <a href="/blog/2019/07/10/wcet-2019-keynote/" title="WCET 2019 Keynote" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190710wcet-2019-keynote"><span class="">WCET 2019</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2019/07/10/wcet-2019-keynote/" title="WCET 2019 Keynote" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190710wcet-2019-keynote"><span class="">WCET 2019</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20190102fdl-2018-li">
-  <a href="/blog/2019/01/02/fdl-2018/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190102fdl-2018"><span class="">FDL 2018</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2019/01/02/fdl-2018/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190102fdl-2018"><span class="">FDL 2018</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-blog20190101memocode-2017-li">
-  <a href="/blog/2019/01/01/memocode-2017/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190101memocode-2017"><span class="">Memocode 2017</span></a>
+  <a href="https:///boschresearch.github.io/blech-doc/blog/2019/01/01/memocode-2017/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-blog20190101memocode-2017"><span class="">Memocode 2017</span></a>
 </li>
   </ul>
 </li>
@@ -295,7 +295,7 @@
 		
 	</header>
 	<h2 id="application-example-push-button-handling">Application example: Push button handling</h2>
-<p>In this example three push buttons, <code>TOP</code>, <code>CENTER</code> and <code>BOTTOM</code>, are connected to our embedded system for user input. Like in our <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">previous blog post</a>
+<p>In this example three push buttons, <code>TOP</code>, <code>CENTER</code> and <code>BOTTOM</code>, are connected to our embedded system for user input. Like in our <a href="https:///boschresearch.github.io/blech-doc/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/">previous blog post</a>
  our hardware setup is based on a <a href="https://www.st.com/en/evaluation-tools/stm32f4discovery.html" target="_blank">STM32F4DISCOVERY</a>
  board. The latter has four color LEDs, red, blue, green and orange, which we are going to use for showing the button states.</p>
 <p>Additionally, we connect a small breadboard with three general purpose push buttons. All buttons share a common electrical ground on the left-hand side of the breadboard. On the right-hand side, there is an individual signal wire for each button which is connected to a dedicated GPIO of the discovery board. The pull-up resistors of these GPIOs are active.</p>
@@ -308,7 +308,7 @@
 
 
 <div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
-	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_3.png" width="800" height="560">
+	<img class="card-img-top" src="https:///boschresearch.github.io/blech-doc/blog/2020/08/12/push-button-handling/hw_setup_hu23550f2f3ae8300fcffd20d487cc24a6_6311261_800x0_resize_catmullrom_3.png" width="800" height="560">
 	
 	<div class="card-body px-0 pt-2 pb-0">
 		<p class="card-text">
@@ -356,7 +356,7 @@ Hardware setup for the push button handling example.
 <p><em>Timeouts</em>: Sometimes we just need to know whether a certain event, or sequence of events, has happend before or after a certain amount of time &ndash; the <em>timeout time</em> &ndash; has been elapsed. Depending on that the embedded software is going to behave differently.</p>
 </li>
 </ol>
-<p>Both types require to express physical time in our code. For this, we establish the same execution scheme for Blech as described in <a href="/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/#execution-scheme-and-integration-of-blech">this</a>
+<p>Both types require to express physical time in our code. For this, we establish the same execution scheme for Blech as described in <a href="https:///boschresearch.github.io/blech-doc/blog/2020/06/15/decoding-the-dcf77-signal-with-blech/#execution-scheme-and-integration-of-blech">this</a>
  blog post. That is, the entire Blech code is <em>purely time-driven</em> based on a periodic system tick. Based on this, we can easily implement a small helper activity <code>AwaitMsec</code> in Blech for suspending the program for an arbitrary number of milliseconds. The maximal resolution is given by the period interval of the system tick which is set to <em>10 milliseconds</em> in this example.</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -551,7 +551,7 @@ end
 
 
 <div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
-	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_3.png" width="800" height="480">
+	<img class="card-img-top" src="https:///boschresearch.github.io/blech-doc/blog/2020/08/12/push-button-handling/oszi_sampling_stable_huc342981c798b1526a5beb30db2463e38_327713_800x0_resize_catmullrom_3.png" width="800" height="480">
 	
 	<div class="card-body px-0 pt-2 pb-0">
 		<p class="card-text">
@@ -881,7 +881,7 @@ end
 
 
 <div class="card rounded p-2 td-post-card mb-4 mt-4" style="max-width: 810px">
-	<img class="card-img-top" src="/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_3.png" width="800" height="544">
+	<img class="card-img-top" src="https:///boschresearch.github.io/blech-doc/blog/2020/08/12/push-button-handling/hw_blocks_hu64dc87d3761fbcee9634b55743ec1f87_37050_800x0_resize_catmullrom_3.png" width="800" height="544">
 	
 	<div class="card-body px-0 pt-2 pb-0">
 		<p class="card-text">
@@ -896,9 +896,9 @@ Architecture of the Blech program as function blocks.
 
 	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
   <li>
-    <a href="/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" aria-label="Previous - The basic idea behind Blech – A practitioner&#39;s point of view" class="btn btn-primary"><span class="mr-1">←</span>Previous</a>
+    <a href="https:///boschresearch.github.io/blech-doc/blog/2020/07/22/the-basic-idea-behind-blech-a-practitioners-point-of-view/" aria-label="Previous - The basic idea behind Blech – A practitioner&#39;s point of view" class="btn btn-primary"><span class="mr-1">←</span>Previous</a>
   </li>
-    <a href="/blog/2020/11/23/a-module-system-for-blech/" aria-label="Next - A module system for Blech" class="btn btn-primary">Next<span class="ml-1">→</span></a>
+    <a href="https:///boschresearch.github.io/blech-doc/blog/2020/11/23/a-module-system-for-blech/" aria-label="Next - A module system for Blech" class="btn btn-primary">Next<span class="ml-1">→</span></a>
   </li>
 </ul>
 
@@ -913,7 +913,7 @@ Architecture of the Blech program as function blocks.
 
 <div class="analytics-opt-in">
     <div class="text">
-        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="/about/">Find out more.</a>
+        <p>If you opt-in, we use cookies to improve your experience on our site. <a href="https:///boschresearch.github.io/blech-doc/about/">Find out more.</a>
         </p>
     </div>  
     <div class="buttons">
@@ -990,9 +990,9 @@ Architecture of the Blech program as function blocks.
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
         <small class="text-white">&copy; 2019-2021 The Blech contributors</small>
         
-        <small class="ml-1"><a href="/about/privacy-policy/" style="color: skyblue" target="_blank">Privacy Policy</a></small>
+        <small class="ml-1"><a href="https:///boschresearch.github.io/blech-doc/about/privacy-policy/" style="color: skyblue" target="_blank">Privacy Policy</a></small>
         
-          <p class="mt-2"><a href="/about/corporate-information/" style="color: skyblue">Corporate information</a></p>
+          <p class="mt-2"><a href="https:///boschresearch.github.io/blech-doc/about/corporate-information/" style="color: skyblue">Corporate information</a></p>
         
       </div>
       
@@ -1013,7 +1013,7 @@ Architecture of the Blech program as function blocks.
 
 
 
-<script src='/js/tabpane-persist.js'></script>
+<script src='https:///boschresearch.github.io/blech-doc/js/tabpane-persist.js'></script>
 
 
 
@@ -1032,7 +1032,7 @@ Architecture of the Blech program as function blocks.
 
 
 
-<script src="/js/main.min.d4852be3b12f7ba8ffeeb8acd8db4bb8c4dea2f1dfac3a72d3777445c1f673ea.js" integrity="sha256-1IUr47Eve6j/7ris2NtLuMTeovHfrDpy03d0RcH2c&#43;o=" crossorigin="anonymous"></script>
+<script src="https:///boschresearch.github.io/blech-doc/js/main.min.7fc4aa7774b4c4391ef8d87e08c8ef1939807007089bc424554a320d747503b5.js" integrity="sha256-f8Sqd3S0xDke&#43;Nh&#43;CMjvGTmAcAcIm8QkVUoyDXR1A7U=" crossorigin="anonymous"></script>
 
 
 
