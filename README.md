@@ -107,7 +107,7 @@ Use options `-D` and  `-F` to preview draft and future content:
 hugo -D -F server
 ````
 
-Open the Blech site preview: http://localhost:1313/
+Open the Blech site preview: http://localhost:1313/blech-doc
 
 #### Publish the static website content
 
@@ -133,11 +133,7 @@ The website is deployed as a [GitHub Project Page](https://gohugo.io/hosting-and
 For publishing just push the content of the `/docs` folder to the master branch.
 
 
-Give GitHub some time to deploy the content and open the Blech site on: 
-
-* https://blech-lang.org 
-* https://www.blech-lang.org
-* https://boschresearch.github.io/blech-doc
+Give GitHub some time to deploy the content and open the Blech site on https://boschresearch.github.io/blech-doc
 
 
 #### Check for broken links on the website
@@ -158,7 +154,7 @@ blc --help
 
 Check the whole Blech website with
 ```
-blc https://blech-lang.org -ro
+blc https://boschresearch.github.io/blech-doc -ro
 ```
 
 The last command only works in a network with commandline DNS access, i.e. without a proxy.
@@ -168,8 +164,6 @@ The last command only works in a network with commandline DNS access, i.e. witho
 The [documentation for the Docsy Theme](https://www.docsy.dev/docs/adding-content/) explains how to create content.
 
 Creating a blog post is easy. The [Docsy example site shows how to do this](https://example.docsy.dev/blog/2018/10/06/easy-documentation-with-docsy/).
-
-Additional information can be found in the [TechOS theme documentation](https://temp.bep.is/td/docs/theme-documentation/).
 
 
 
