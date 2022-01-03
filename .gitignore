@@ -5,8 +5,11 @@ resources/
 node_modules/
 
 website/static/asciidoc/
+website/.hugo_build.lock
 
 temp/
+
+
 
 **/.ionide
 
