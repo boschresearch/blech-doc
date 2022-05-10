@@ -6,7 +6,7 @@
 
 
 Documentation for the Blech embedded programming language.
-[Read the documentation on the homepage.](https://boschresearch.github.io/blech-doc/)
+[Read the documentation on the new homepage.](https://www.blech-lang.org)
 
 If you want to change the contents of that website read the following to get started.
 
